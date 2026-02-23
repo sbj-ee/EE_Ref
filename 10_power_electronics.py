@@ -19,7 +19,8 @@ def _(mo):
         # Chapter 10: Power Electronics — Example Visualizations
 
         Interactive graphs for selected example problems from Chapter 10,
-        covering rectifiers, DC-DC converters, inverters, and power losses.
+        covering rectifiers, DC-DC converters, inverters, power losses,
+        battery management systems, battery charging, and supercapacitors.
         """
     )
     return
@@ -1252,6 +1253,101 @@ def _(np, plt):
     return
 
 
+# ============================================================
+# 10.11 Supercapacitors
+# ============================================================
+
+# --- 10.11.1 EDLC Fundamentals: Energy vs Voltage ---
+
+@app.cell
+def _(mo):
+    mo.md(
+        """
+        ## 10.11.1 EDLC Fundamentals — Energy Storage vs Voltage
+
+        Energy stored in a supercapacitor (E = ½CV²) grows quadratically with
+        voltage — doubling V_max quadruples stored energy. For the Example 10.11.1
+        cell (C_cell = 750 F), organic electrolyte (V_max = 2.7 V) stores 5.06×
+        more energy than an equivalent aqueous cell (V_max = 1.2 V) despite identical
+        capacitance. Discharging from V_max to V_max/2 (shaded region) extracts
+        exactly 75% of stored energy; the remaining 25% is below the usable range.
+        """
+    )
+    return
+
+
+@app.cell
+def _(np, plt):
+    _C_edlc = 750.0   # F — cell from Example 10.11.1
+    _V_org  = 2.7     # V organic electrolyte max
+    _V_aq   = 1.2     # V aqueous electrolyte max
+    _V_std  = 2.5     # V organic standard
+
+    _v_sweep = np.linspace(0, _V_org, 500)
+    _E_sweep = 0.5 * _C_edlc * _v_sweep**2  # J
+
+    _E_org = 0.5 * _C_edlc * _V_org**2   # 2,733.75 J
+    _E_aq  = 0.5 * _C_edlc * _V_aq**2   # 540 J
+    _E_std = 0.5 * _C_edlc * _V_std**2  # 2,343.75 J
+
+    fig_edlc, (ax_ec, ax_eb) = plt.subplots(1, 2, figsize=(12, 5))
+
+    # Left: E vs V curve
+    ax_ec.plot(_v_sweep, _E_sweep, "b-", linewidth=2.5, label="E = ½CV²  (C = 750 F)")
+
+    # Shade usable 75% region (V_max/2 → V_max)
+    _v_use    = np.linspace(_V_org / 2, _V_org, 200)
+    _E_use    = 0.5 * _C_edlc * _v_use**2
+    ax_ec.fill_between(_v_use, _E_use, alpha=0.25, color="green",
+                        label="Usable 75%  (V_max/2 → V_max)")
+
+    # Shade stranded 25% region (0 → V_max/2)
+    _v_strand = np.linspace(0, _V_org / 2, 200)
+    _E_strand = 0.5 * _C_edlc * _v_strand**2
+    ax_ec.fill_between(_v_strand, _E_strand, alpha=0.12, color="red",
+                        label="Stranded 25%  (0 → V_max/2)")
+
+    ax_ec.axvline(x=_V_org / 2, color="gray", linestyle="--", alpha=0.5, linewidth=1.2)
+    ax_ec.plot(_V_org, _E_org, "bo", markersize=10, zorder=5)
+    ax_ec.plot(_V_aq,  _E_aq,  "rs", markersize=10, zorder=5)
+    ax_ec.annotate(f"Organic max\n{_E_org:.0f} J  ({_E_org/3600:.3f} Wh)",
+                   xy=(_V_org, _E_org), xytext=(1.85, _E_org - 280),
+                   fontsize=9, color="blue",
+                   arrowprops=dict(arrowstyle="->", color="blue"))
+    ax_ec.annotate(f"Aqueous max\n{_E_aq:.0f} J  ({_E_aq/3600:.4f} Wh)",
+                   xy=(_V_aq, _E_aq), xytext=(0.2, _E_aq + 350),
+                   fontsize=9, color="red",
+                   arrowprops=dict(arrowstyle="->", color="red"))
+    ax_ec.text(1.6, 1600, f"Ratio: {_E_org/_E_aq:.2f}×", fontsize=11,
+               fontweight="bold", color="purple")
+    ax_ec.set_xlabel("Cell Voltage (V)")
+    ax_ec.set_ylabel("Energy Stored (J)")
+    ax_ec.set_title(f"EDLC Energy vs Voltage  (C = {_C_edlc:.0f} F)")
+    ax_ec.legend(fontsize=9)
+    ax_ec.grid(True, alpha=0.3)
+    ax_ec.set_xlim(0, _V_org * 1.05)
+    ax_ec.set_ylim(0, _E_org * 1.18)
+
+    # Right: bar chart comparing aqueous / organic-std / organic-hi
+    _v_labels = ["Aqueous\n1.2 V", "Organic\n2.5 V", "Organic\n2.7 V"]
+    _energies  = [_E_aq, _E_std, _E_org]
+    _bar_cols  = ["#E74C3C", "#F39C12", "#2980B9"]
+    _bars_edlc = ax_eb.bar(_v_labels, _energies, color=_bar_cols,
+                            edgecolor="black", linewidth=0.8)
+    for _b, _ej in zip(_bars_edlc, _energies):
+        ax_eb.text(_b.get_x() + _b.get_width() / 2, _ej + 50,
+                   f"{_ej:.0f} J\n({_ej/3600*1000:.0f} mWh)",
+                   ha="center", fontsize=10, fontweight="bold")
+    ax_eb.set_ylabel("Energy Stored (J)")
+    ax_eb.set_title(f"Energy at Different V_max  (C = {_C_edlc:.0f} F)")
+    ax_eb.grid(True, alpha=0.3, axis="y")
+    ax_eb.set_ylim(0, _E_org * 1.22)
+
+    fig_edlc.tight_layout()
+    fig_edlc
+    return
+
+
 # --- 10.11.2 Ragone Plot — Energy Storage Technology Comparison ---
 
 @app.cell
@@ -1430,6 +1526,199 @@ def _(plt):
     fig_dis.tight_layout()
     fig_dis
     return fig_dis
+
+
+# --- 10.11.4 Series-Parallel Bank Design ---
+
+@app.cell
+def _(mo):
+    mo.md(
+        """
+        ## 10.11.4 Series-Parallel Bank Design
+
+        Adding cells in series raises V_bank = n_s × V_cell while reducing
+        C_bank = C_cell / n_s. Because E = ½C_bank × V_bank², these effects
+        cancel and then some: E_bank = n_s × n_p × E_cell — stored energy scales
+        linearly with total cell count, regardless of how series and parallel are
+        split. Adding n_p parallel strings multiplies capacitance and energy by n_p.
+        The chart uses cells from Example 10.11.4 (3,000 F, 2.7 V).
+        """
+    )
+    return
+
+
+@app.cell
+def _(np, plt):
+    _C_cell_b = 3000.0   # F
+    _V_cell_b = 2.7      # V
+    _E_cell_b = 0.5 * _C_cell_b * _V_cell_b**2   # J per cell (10,935 J = 3.04 Wh)
+
+    _ns = np.arange(1, 28)   # 1 to 27 series cells
+
+    def _bank(ns, np_):
+        V  = ns * _V_cell_b
+        C  = np_ * _C_cell_b / ns
+        E  = 0.5 * C * V**2   # J
+        return V, C, E
+
+    _V1, _C1, _E1 = _bank(_ns, 1)
+    _V2, _C2, _E2 = _bank(_ns, 2)
+
+    fig_bk, (ax_bv, ax_bc, ax_be) = plt.subplots(1, 3, figsize=(14, 5))
+
+    # Voltage
+    ax_bv.plot(_ns, _V1, "b-o", linewidth=2, markersize=5, label="n_p = 1")
+    ax_bv.plot(_ns, _V2, "r--s", linewidth=2, markersize=5, label="n_p = 2 (same V)")
+    ax_bv.set_xlabel("Series Cells (n_s)")
+    ax_bv.set_ylabel("Bank Voltage (V)")
+    ax_bv.set_title("Bank Voltage vs n_s")
+    ax_bv.legend(fontsize=9)
+    ax_bv.grid(True, alpha=0.3)
+
+    # Capacitance
+    ax_bc.plot(_ns, _C1, "b-o", linewidth=2, markersize=5, label="n_p = 1")
+    ax_bc.plot(_ns, _C2, "r--s", linewidth=2, markersize=5, label="n_p = 2")
+    ax_bc.set_xlabel("Series Cells (n_s)")
+    ax_bc.set_ylabel("Bank Capacitance (F)")
+    ax_bc.set_title("Bank Capacitance vs n_s")
+    ax_bc.legend(fontsize=9)
+    ax_bc.grid(True, alpha=0.3)
+
+    # Energy (scales linearly with n_s × n_p)
+    ax_be.plot(_ns, _E1 / 3600, "b-o", linewidth=2, markersize=5, label="n_p = 1")
+    ax_be.plot(_ns, _E2 / 3600, "r--s", linewidth=2, markersize=5, label="n_p = 2")
+    ax_be.axhline(y=_E_cell_b / 3600, color="gray", linestyle=":", alpha=0.5,
+                  label=f"1 cell = {_E_cell_b/3600:.2f} Wh")
+
+    # Annotate Example 10.11.4 design point (n_s=18, n_p=2 → 109.4 Wh at 48.6 V)
+    _ns_ex, _np_ex = 18, 2
+    _, _, _E_ex = _bank(_ns_ex, _np_ex)
+    ax_be.plot(_ns_ex, _E_ex / 3600, "g*", markersize=15, zorder=6,
+               label=f"Ex 10.11.4: n_s={_ns_ex}, n_p={_np_ex}\n{_E_ex/3600:.1f} Wh @ 48.6 V")
+    ax_be.set_xlabel("Series Cells (n_s)")
+    ax_be.set_ylabel("Bank Energy (Wh)")
+    ax_be.set_title("Bank Energy vs n_s\n(E = n_s × n_p × E_cell)")
+    ax_be.legend(fontsize=8, loc="upper left")
+    ax_be.grid(True, alpha=0.3)
+
+    fig_bk.suptitle(
+        f"Series-Parallel Bank Design  (C_cell = {_C_cell_b:.0f} F, V_cell = {_V_cell_b} V)",
+        fontsize=12, fontweight="bold"
+    )
+    fig_bk.tight_layout()
+    fig_bk
+    return
+
+
+# --- 10.11.5 Applications: Regenerative Braking Cycle ---
+
+@app.cell
+def _(mo):
+    mo.md(
+        """
+        ## 10.11.5 Applications — Regenerative Braking Cycle
+
+        A light rail tram captures 40 kJ in 5 seconds of braking (Example 10.11.5).
+        The supercapacitor bank (C = 2.67 F) charges from 100 V to 200 V at ~53 A
+        average, then returns that energy during subsequent acceleration. The
+        terminal voltage sweeps linearly through the full V_max/2 → V_max range,
+        so a DC-DC converter is required to maintain constant motor voltage.
+        Unlike batteries, supercapacitors complete this full charge/discharge cycle
+        in seconds with no chemistry-related wear.
+        """
+    )
+    return
+
+
+@app.cell
+def _(np, plt):
+    _C_r     = 2.67    # F  (from Example 10.11.5)
+    _Vmin_r  = 100.0   # V
+    _Vmax_r  = 200.0   # V
+    _E_r     = 40_000  # J
+    _t_brake = 5.0     # s
+    _t_hold  = 1.0     # s
+    _t_accel = 5.0     # s
+
+    # Average charging current: P_avg = E/t; I_avg = P_avg / V_avg
+    _I_r = _E_r / (_t_brake * (_Vmin_r + _Vmax_r) / 2)   # 53.33 A
+
+    _dt = 0.02   # s
+    _tb = np.arange(0, _t_brake, _dt)
+    _th = np.arange(0, _t_hold,  _dt)
+    _ta = np.arange(0, _t_accel, _dt)
+
+    _Vc_b = _Vmin_r + (_I_r / _C_r) * _tb       # linear rise during braking
+    _Vc_h = np.full_like(_th, _Vmax_r)            # hold at V_max
+    _Vc_a = _Vmax_r - (_I_r / _C_r) * _ta        # linear fall during acceleration
+
+    _I_b  = np.full_like(_tb,  _I_r)
+    _I_h  = np.zeros_like(_th)
+    _I_a  = np.full_like(_ta, -_I_r)
+
+    _P_b  = (_Vc_b * _I_r)  / 1000    # kW (positive = into SC)
+    _P_h  = np.zeros_like(_th)
+    _P_a  = -(_Vc_a * _I_r) / 1000   # kW (negative = from SC to traction)
+
+    _t_all  = np.concatenate([_tb, _t_brake + _th, _t_brake + _t_hold + _ta])
+    _Vc_all = np.concatenate([_Vc_b, _Vc_h, _Vc_a])
+    _I_all  = np.concatenate([_I_b,  _I_h,  _I_a])
+    _P_all  = np.concatenate([_P_b,  _P_h,  _P_a])
+
+    fig_rg, (ax_rv, ax_ri, ax_rp) = plt.subplots(3, 1, figsize=(10, 9), sharex=True)
+
+    # Phase shading on all subplots
+    for _ax_r in (ax_rv, ax_ri, ax_rp):
+        _ax_r.axvspan(0, _t_brake, alpha=0.06, color="green")
+        _ax_r.axvspan(_t_brake, _t_brake + _t_hold, alpha=0.06, color="gray")
+        _ax_r.axvspan(_t_brake + _t_hold, _t_brake + _t_hold + _t_accel, alpha=0.06, color="orange")
+
+    # Voltage
+    ax_rv.plot(_t_all, _Vc_all, "b-", linewidth=2.5)
+    ax_rv.axhline(y=_Vmax_r, color="red",  linestyle="--", alpha=0.4,
+                  label=f"V_max = {_Vmax_r:.0f} V")
+    ax_rv.axhline(y=_Vmin_r, color="gray", linestyle="--", alpha=0.4,
+                  label=f"V_min = {_Vmin_r:.0f} V")
+    ax_rv.set_ylabel("V_C (V)")
+    ax_rv.set_title(
+        f"Regenerative Braking Cycle — Light Rail Tram\n"
+        f"C = {_C_r} F,  V range = {_Vmin_r:.0f}–{_Vmax_r:.0f} V,  I_avg = {_I_r:.1f} A"
+    )
+    ax_rv.legend(fontsize=9)
+    ax_rv.grid(True, alpha=0.3)
+    ax_rv.set_ylim(_Vmin_r * 0.82, _Vmax_r * 1.12)
+    ax_rv.text(2.5, _Vmin_r + 5, "Braking\n(charging)", ha="center",
+               fontsize=10, color="darkgreen", fontweight="bold")
+    ax_rv.text(_t_brake + _t_hold / 2, _Vmax_r - 10, "Hold",
+               ha="center", fontsize=9, color="gray")
+    ax_rv.text(_t_brake + _t_hold + 2.5, _Vmin_r + 5, "Acceleration\n(discharging)",
+               ha="center", fontsize=10, color="darkorange", fontweight="bold")
+
+    # Current
+    ax_ri.plot(_t_all, _I_all, "r-", linewidth=2)
+    ax_ri.axhline(y=0, color="black", linewidth=0.8)
+    ax_ri.set_ylabel("Current (A)")
+    ax_ri.set_ylim(-_I_r * 1.4, _I_r * 1.4)
+    ax_ri.grid(True, alpha=0.3)
+    ax_ri.text(2.5,  _I_r * 0.45, f"+{_I_r:.1f} A", ha="center", fontsize=10, color="darkgreen")
+    ax_ri.text(_t_brake + _t_hold + 2.5, -_I_r * 0.45, f"−{_I_r:.1f} A",
+               ha="center", fontsize=10, color="darkorange")
+
+    # Power
+    ax_rp.fill_between(_t_all, _P_all, 0, where=(_P_all >= 0),
+                        alpha=0.3, color="green", label=f"Regen in ≈ {_E_r/1000:.0f} kJ")
+    ax_rp.fill_between(_t_all, _P_all, 0, where=(_P_all <= 0),
+                        alpha=0.3, color="orange", label="Traction assist")
+    ax_rp.plot(_t_all, _P_all, "k-", linewidth=2)
+    ax_rp.axhline(y=0, color="black", linewidth=0.8)
+    ax_rp.set_xlabel("Time (s)")
+    ax_rp.set_ylabel("Power (kW)")
+    ax_rp.legend(fontsize=9, loc="lower right")
+    ax_rp.grid(True, alpha=0.3)
+
+    fig_rg.tight_layout()
+    fig_rg
+    return
 
 
 if __name__ == "__main__":
