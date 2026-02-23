@@ -1721,5 +1721,79 @@ def _(np, plt):
     return
 
 
+@app.cell
+def _():
+    import marimo as mo
+    mo.md("## §10.12.1  PV Module I-V and P-V Curves — Effect of Irradiance")
+    return (mo,)
+
+
+@app.cell
+def _(mo):
+    irr_slider = mo.ui.slider(
+        start=100, stop=1000, step=50, value=1000,
+        label="Peak irradiance G (W/m²)"
+    )
+    irr_slider
+    return (irr_slider,)
+
+
+@app.cell
+def _(irr_slider):
+    import matplotlib.pyplot as _plt_pv
+    import numpy as _np_pv
+
+    # Single-diode model — 60-cell mono-Si module
+    _Isc_stc = 9.0       # A at STC
+    _Voc_stc = 45.0      # V at STC
+    _n_id    = 1.3       # diode ideality factor
+    _Ns      = 60        # cells in series
+    _Vt_mod  = 0.02585 * _Ns
+    _a_mod   = _n_id * _Vt_mod
+    _I0_stc  = _Isc_stc / _np_pv.exp(_Voc_stc / _a_mod)
+
+    _irrs   = [irr_slider.value, 750, 500, 250]
+    _colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]
+    _labels = [f"{irr_slider.value} W/m² (selected)", "750 W/m²", "500 W/m²", "250 W/m²"]
+
+    _fig_pv, (_ax_iv, _ax_pv) = _plt_pv.subplots(2, 1, figsize=(8, 7), sharex=True)
+    _fig_pv.suptitle(
+        "PV Module I-V and P-V Curves (60-cell mono-Si)\n"
+        "V_oc = 45 V, I_sc = 9.0 A at STC (1000 W/m², 25 °C)",
+        fontsize=12, fontweight="bold"
+    )
+
+    for _G, _c, _lb in zip(_irrs, _colors, _labels):
+        _Isc_g = _Isc_stc * (_G / 1000)
+        _Voc_g = _Voc_stc + _a_mod * _np_pv.log(_G / 1000) if _G < 1000 else _Voc_stc
+        _I0_g  = _Isc_g / _np_pv.exp(_Voc_g / _a_mod)
+        _Vv    = _np_pv.linspace(0, _Voc_g * 1.01, 600)
+        _Ii    = _np_pv.clip(_Isc_g - _I0_g * (_np_pv.exp(_Vv / _a_mod) - 1), 0, None)
+        _Pp    = _Vv * _Ii
+        _mi    = _np_pv.argmax(_Pp)
+        _ax_iv.plot(_Vv, _Ii, color=_c, linewidth=2, label=_lb)
+        _ax_iv.plot(_Vv[_mi], _Ii[_mi], "o", color=_c, markersize=7)
+        _ax_pv.plot(_Vv, _Pp, color=_c, linewidth=2,
+                    label=f"{_lb}  P_max={_Pp[_mi]:.0f} W")
+        _ax_pv.plot(_Vv[_mi], _Pp[_mi], "o", color=_c, markersize=7)
+
+    _ax_iv.set_ylabel("Current (A)", fontsize=11)
+    _ax_iv.set_title("I-V Curves  (● = MPP)", fontsize=11)
+    _ax_iv.legend(fontsize=9, loc="upper right")
+    _ax_iv.set_ylim(0, 10)
+    _ax_iv.grid(True, alpha=0.3)
+
+    _ax_pv.set_xlabel("Voltage (V)", fontsize=11)
+    _ax_pv.set_ylabel("Power (W)", fontsize=11)
+    _ax_pv.set_title("P-V Curves  (● = MPP)", fontsize=11)
+    _ax_pv.legend(fontsize=9, loc="upper left")
+    _ax_pv.set_ylim(0, 360)
+    _ax_pv.grid(True, alpha=0.3)
+
+    _fig_pv.tight_layout()
+    _fig_pv
+    return
+
+
 if __name__ == "__main__":
     app.run()

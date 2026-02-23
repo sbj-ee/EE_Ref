@@ -1997,6 +1997,64 @@ fig.tight_layout()
 save(fig, "ch10_supercap_regen.png")
 
 
+# --- §10.12.1 PV Module I-V and P-V Curves — Effect of Irradiance ---
+fig, (ax_iv, ax_pv) = plt.subplots(2, 1, figsize=(8, 7), sharex=True)
+fig.suptitle("PV Module I-V and P-V Curves — Effect of Irradiance at 25 °C\n"
+             "(60-cell mono-Si: V_oc = 45 V, I_sc = 9.0 A at STC)",
+             fontsize=12, fontweight="bold")
+
+# Single-diode model parameters at STC (G=1000 W/m²)
+_Isc_stc = 9.0       # A
+_Voc_stc = 45.0      # V
+_n_id    = 1.3       # ideality factor
+_Ns      = 60        # cells in series
+_Vt      = 0.02585 * _Ns          # module thermal voltage (V)
+_a       = _n_id * _Vt            # n·V_T for module
+_I0      = _Isc_stc / np.exp(_Voc_stc / _a)   # saturation current (A)
+
+_irradiances = [1000, 750, 500, 250]
+_colors      = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]
+_labels      = ["1000 W/m² (STC)", "750 W/m²", "500 W/m²", "250 W/m²"]
+
+for _G, _col, _lbl in zip(_irradiances, _colors, _labels):
+    _Isc_g = _Isc_stc * (_G / 1000)
+    _Voc_g = _Voc_stc + _a * np.log(_G / 1000) if _G < 1000 else _Voc_stc
+    _I0_g  = _Isc_g / np.exp(_Voc_g / _a)
+
+    _Vv = np.linspace(0, _Voc_g * 1.01, 500)
+    _Ii = _Isc_g - _I0_g * (np.exp(_Vv / _a) - 1)
+    _Ii = np.clip(_Ii, 0, None)
+    _Pp = _Vv * _Ii
+
+    # Find MPP
+    _idx_mpp = np.argmax(_Pp)
+    _Vmp_g   = _Vv[_idx_mpp]
+    _Imp_g   = _Ii[_idx_mpp]
+    _Pmp_g   = _Pp[_idx_mpp]
+
+    ax_iv.plot(_Vv, _Ii, color=_col, linewidth=2, label=_lbl)
+    ax_iv.plot(_Vmp_g, _Imp_g, "o", color=_col, markersize=7)
+
+    ax_pv.plot(_Vv, _Pp, color=_col, linewidth=2, label=f"{_lbl}  (P_max = {_Pmp_g:.0f} W)")
+    ax_pv.plot(_Vmp_g, _Pmp_g, "o", color=_col, markersize=7)
+
+ax_iv.set_ylabel("Current (A)", fontsize=11)
+ax_iv.set_title("I-V Curves (dots = MPP)", fontsize=11)
+ax_iv.legend(fontsize=9, loc="upper right")
+ax_iv.set_ylim(0, 10)
+ax_iv.grid(True, alpha=0.3)
+
+ax_pv.set_xlabel("Voltage (V)", fontsize=11)
+ax_pv.set_ylabel("Power (W)", fontsize=11)
+ax_pv.set_title("P-V Curves (dots = MPP)", fontsize=11)
+ax_pv.legend(fontsize=9, loc="upper left")
+ax_pv.set_ylim(0, 360)
+ax_pv.grid(True, alpha=0.3)
+
+fig.tight_layout()
+save(fig, "ch10_pv_iv_curves.png")
+
+
 # ============================================================
 # Chapter 12: Electric Motors
 # ============================================================
