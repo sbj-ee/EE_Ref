@@ -28873,44 +28873,49 @@ is applied at egress.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1447}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1447}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0658}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2763}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1974}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1711}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2200}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1200}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2600}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1800}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1200}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 QoS Class
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-DSCP Value
+DSCP
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 PHB
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Typical Application
+Application
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Latency Target
+Latency
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Loss Target
+Loss
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Voice & 46 (EF) & Expedited Forwarding & VoIP & \textless{} 150 ms &
+Voice & 46 (EF) & EF & VoIP & \textless{} 150 ms & \textless{} 1\% \\
+Video & 34 (AF41) & AF41 & Video conferencing & \textless{} 200 ms &
+\textless{} 2\% \\
+Signaling & 24 (CS3) & CS3 & Call setup, routing & \textless{} 500 ms &
 \textless{} 1\% \\
-Video & 34 (AF41) & Assured Forwarding 41 & Video conferencing &
-\textless{} 200 ms & \textless{} 2\% \\
-Signaling & 24 (CS3) & Class Selector 3 & Call setup, routing protocols
-& \textless{} 500 ms & \textless{} 1\% \\
-Business & 18 (AF21) & Assured Forwarding 21 & ERP, database,
-transactional & \textless{} 500 ms & \textless{} 3\% \\
-Best Effort & 0 (BE) & Default & Web, email, file transfer & No
-guarantee & No guarantee \\
-Scavenger & 8 (CS1) & Class Selector 1 & Backup, software updates & No
-guarantee & Higher drop \\
+Business & 18 (AF21) & AF21 & ERP, database & \textless{} 500 ms &
+\textless{} 3\% \\
+Best Effort & 0 (BE) & BE & Web, email, files & No guarantee & No
+guarantee \\
+Scavenger & 8 (CS1) & CS1 & Backup, updates & No guarantee & Higher
+drop \\
 \end{longtable}
 }
+
+\emph{PHB abbreviations: \textbf{EF} = Expedited Forwarding (strict
+priority, minimum latency); \textbf{AF} = Assured Forwarding (guaranteed
+delivery with drop-probability tiers, classes AF1x--AF4x); \textbf{CS} =
+Class Selector (backward-compatible with IP Precedence); \textbf{BE} =
+Best Effort (default, no guarantees).}
 
 \begin{examplebox}
 
