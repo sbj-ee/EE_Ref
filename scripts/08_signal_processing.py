@@ -338,12 +338,12 @@ def _(np, plt):
     # Shade full bandwidth
     mask_full = f_psd <= bw_full
     ax6.fill_between(f_psd[mask_full] / 1e3, psd_flat[mask_full] * 1e6, alpha=0.15, color="blue",
-                     label=f"10 kHz BW: P = {psd_val*bw_full*1e3:.0f} mV², Vrms = {np.sqrt(psd_val*bw_full)*1e3:.0f} mV")
+                     label=f"10 kHz BW: P = {psd_val*bw_full*1e6:.0f} μV², Vrms = {np.sqrt(psd_val*bw_full)*1e3:.0f} mV")
 
     # Shade reduced bandwidth
     mask_reduced = f_psd <= bw_reduced
     ax6.fill_between(f_psd[mask_reduced] / 1e3, psd_flat[mask_reduced] * 1e6, alpha=0.3, color="green",
-                     label=f"2 kHz BW: P = {psd_val*bw_reduced*1e3:.0f} mV², Vrms = {np.sqrt(psd_val*bw_reduced)*1e3:.0f} mV")
+                     label=f"2 kHz BW: P = {psd_val*bw_reduced*1e6:.0f} μV², Vrms = {np.sqrt(psd_val*bw_reduced)*1e3:.0f} mV")
 
     ax6.set_xlabel("Frequency (kHz)")
     ax6.set_ylabel("PSD (μV²/Hz)")

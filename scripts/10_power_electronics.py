@@ -1405,8 +1405,7 @@ def _(plt):
                      fontsize=8.5, color=_col, fontweight="bold",
                      bbox=dict(boxstyle="round,pad=0.2", facecolor="white", alpha=0.7, edgecolor="none"))
 
-    # Mark the Example 10.11.1 cell (750 F, 2.7 V, ~60 g → E≈7.5 Wh/kg)
-    _e_ex = 0.759 / 0.060 * 1e-3 * 1e3   # 12.65 Wh/kg (using 60 g cell from §10.11.2 example)
+    # Mark the Example 10.11.2 cell (350 F, 2.7 V, 60 g → E = 0.354 Wh → 5.9 Wh/kg)
     _e_ex = 5.9   # from Example 10.11.2
     _p_ex = 1312 / 0.060   # P_max from §10.11.3 example, ~22 kW/kg
     _p_ex = min(_p_ex, 8000)  # cap for visibility
