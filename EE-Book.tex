@@ -730,6 +730,18 @@ atan2}\label{appendix-b-arctangent-and-atan2}}
   \hyperlink{fig-c-4-1}{Figure C.4.1: Op-Amp Bode Plot}
 \end{itemize}
 
+\hypertarget{appendix-g-tclab-control-lab}{%
+\section{Appendix G: TCLab Control
+Lab}\label{appendix-g-tclab-control-lab}}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperlink{fig-g-4-1}{Figure G.4.1: TCLab Single Setpoint Step Response — 50 °C, IMC-Tuned PID}
+\item
+  \hyperlink{fig-g-4-2}{Figure G.4.2: TCLab Multi-Setpoint Schedule — 50 → 35 → 40 °C}
+\end{itemize}
+
 \hypertarget{chapter-1}{%
 \chapter{Chapter 1}\label{chapter-1}}
 
@@ -37520,8 +37532,8 @@ degrees Celsius over USB serial. The board's thermal dynamics are slow
 identifying a first-order plus dead-time (FOPDT) model and verifying a
 tuned PID controller against analytical predictions. This appendix
 documents the full identification-to-control workflow: step test, FOPDT
-fit, IMC tuning, and measured closed-loop results including a
-multi-setpoint schedule.
+fit, Internal Model Control (IMC) tuning, and measured closed-loop
+results including a multi-setpoint schedule.
 
 \hypertarget{g.1-hardware-and-software}{%
 \section{G.1 Hardware and Software}\label{g.1-hardware-and-software}}
@@ -37652,7 +37664,7 @@ ambient):\\
 - K = 0.694 °C/\% --- steady-state gain\\
 - τ = 142.9 s --- first-order time constant\\
 - θ = 19.9 s --- dead time (sensor and thermal lag)\\
-- RMSE = 0.43 °C
+- RMSE (root mean square error) = 0.43 °C
 
 The steady-state output required to hold any setpoint
 T\textsubscript{sp} from ambient T₀ is u\textsubscript{ss} =
@@ -37796,6 +37808,18 @@ first-order model.
 
 \end{examplebox}
 
+\begin{figure}[H]
+
+\hypertarget{fig-g-4-1}{}
+
+\centering
+
+\includegraphics[width=\linewidth,keepaspectratio]{images/G-4-1-tclab-step-response.png}
+
+\caption{Figure G.4.1: TCLab single setpoint step response — temperature T1 and heater output Q1 vs. time. Preheat at 80 \% drives the plant from ambient to 46 °C; the PID (with integral seeded at uss) takes over at the dotted boundary. The ±2 \% settling band (49–51 °C) is shaded; steady-state heater output of ≈ 38 \% matches the model prediction of uss = 38.9 \%.}
+
+\end{figure}
+
 \hypertarget{g.4.2-multi-setpoint-schedule}{%
 \subsection{G.4.2 Multi-Setpoint
 Schedule}\label{g.4.2-multi-setpoint-schedule}}
@@ -37844,6 +37868,18 @@ extending to 650 iterations (≈ 650 s) is sufficient per simulation. The
 50 °C and 40 °C segments track their setpoints within ±0.7 °C.
 
 \end{examplebox}
+
+\begin{figure}[H]
+
+\hypertarget{fig-g-4-2}{}
+
+\centering
+
+\includegraphics[width=\linewidth,keepaspectratio]{images/G-4-2-tclab-schedule.png}
+
+\caption{Figure G.4.2: TCLab multi-setpoint schedule — T1 and Q1 across all three segments. The heater cuts to near zero at the 35 °C transition (passive cooling only), then stabilises at ≈ 17 \% (uss for 35 °C). Bumpless transfer seeds the integral at each upward setpoint transition, eliminating the output dip described in §G.5.1.}
+
+\end{figure}
 
 \hypertarget{g.5-implementation-notes}{%
 \section{G.5 Implementation Notes}\label{g.5-implementation-notes}}
