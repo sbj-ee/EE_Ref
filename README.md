@@ -357,4 +357,4 @@ marimo edit 07_circuit_analysis.py
 
 ## Usage
 
-Navigate through the chapters starting with [0-Table-of-Contents.md](0-Table-of-Contents.md).
+Download [EE-Book.pdf](EE-Book.pdf) to read the full reference.
