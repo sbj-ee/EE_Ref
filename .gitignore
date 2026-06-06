@@ -3,3 +3,4 @@
 __marimo__/
 *.pyc
 __pycache__/
+.env
