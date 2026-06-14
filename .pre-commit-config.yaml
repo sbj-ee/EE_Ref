@@ -1,0 +1,19 @@
+# Secret scanning on every commit — managed via github.com/sbj-ee/tools
+#
+#   One-time per machine:  tools/secret-scan-bootstrap.sh   (installs pre-commit + gitleaks)
+#   Enable in this repo:    pre-commit install
+#   Bump hook versions:     pre-commit autoupdate
+#   Scan whole history:     gitleaks detect --source .
+#
+# gitleaks blocks a commit if it finds a token/key/secret in the staged diff —
+# exactly the kind of leak (an embedded ghp_ PAT) that prompted this.
+minimum_pre_commit_version: "3.0.0"
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key
