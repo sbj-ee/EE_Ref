@@ -357,4 +357,6 @@ marimo edit 07_circuit_analysis.py
 
 ## Usage
 
-Download [EE-Book.pdf](EE-Book.pdf) to read the full reference.
+Download the full reference as [PDF](EE-Book.pdf) or [EPUB](EE-Book.epub) (readable on Kindle, e-readers, and mobile devices).
+
+The companion problem sets are also available as [PDF](EE-Book-Problems.pdf) or [EPUB](EE-Book-Problems.epub).
