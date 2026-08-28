@@ -834,8 +834,9 @@ energy.
 
 \section{1.1 Power Generation}\label{power-generation}
 
-\textbf{Y2022 U.S. Electricity Net Generation}
-(\href{https://tinyurl.com/29eh55e3}{source})
+\textbf{Y2022 U.S. Electricity Net Generation} (U.S. Energy Information
+Administration, \emph{Electric Power Annual}, Table 3.1.A --- see
+References)
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}ll@{}}
@@ -37260,6 +37261,691 @@ confirming the prediction. Extending to 450 iterations (≈ 648 s) would
 approach full settling; for a demonstration run, −0.68 °C is acceptable.
 
 \end{examplebox}
+
+\chapter*{References}\label{references}
+\addcontentsline{toc}{chapter}{References}
+
+This reference is written to be self-contained: every equation used is
+stated, and every worked example is carried through in full. The sources
+below are the ones the text draws on --- the standards whose numerical
+requirements are quoted, the original papers behind the named results,
+and the textbooks that develop each subject at greater length than a
+reference of this size can.
+
+\textbf{On standards editions.} Standards are revised on fixed cycles,
+and the numbers in them change. Each entry below names the edition the
+text was written against; where a chapter quotes a specific table value,
+ampacity, limit, or correction factor, it is that edition's value.
+Adopted editions also vary by jurisdiction --- many U.S. states remain
+on an earlier National Electrical Code cycle than the one cited here.
+\textbf{Verify the edition in force with the authority having
+jurisdiction before applying any value from this book to a real
+installation.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Standards and Codes}\label{standards-and-codes}
+
+\subsection{NFPA}\label{nfpa}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{NFPA 70}, \emph{National Electrical Code®}, 2023 edition.
+  National Fire Protection Association. (Ch. 14 throughout; Ch. 1 §1.5,
+  Ch. 10 §10.12, Ch. 12 §12.5)
+\item
+  \textbf{NFPA 70B}, \emph{Standard for Electrical Equipment
+  Maintenance}, 2023 edition. (Ch. 14)
+\item
+  \textbf{NFPA 70E}, \emph{Standard for Electrical Safety in the
+  Workplace}, 2024 edition. Source of the PPE category definitions used
+  in Ch. 1 §1.5.4. (Ch. 1, Ch. 14)
+\item
+  \textbf{NFPA 110}, \emph{Standard for Emergency and Standby Power
+  Systems}, 2022 edition. (Ch. 14 §14.8)
+\end{itemize}
+
+\subsection{IEEE}\label{ieee}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{IEEE Std 80-2013}, \emph{IEEE Guide for Safety in AC
+  Substation Grounding}. (Ch. 1 §1.3, Ch. 14 §14.4)
+\item
+  \textbf{IEEE Std 488.1-2003} and \textbf{IEEE Std 488.2-1992},
+  \emph{Higher Performance Protocol for the Standard Digital Interface
+  for Programmable Instrumentation} (GPIB). (Ch. 11 §11.5.4)
+\item
+  \textbf{IEEE Std 519-2022}, \emph{IEEE Standard for Harmonic Control
+  in Electric Power Systems}. Source of the harmonic current distortion
+  limits at the point of common coupling. (Ch. 1 §1.5, Ch. 10 §10.2, Ch.
+  14 §14.6)
+\item
+  \textbf{IEEE Std 835-1994}, \emph{IEEE Standard Power Cable Ampacity
+  Tables}. (Ch. 1 §1.2.2)
+\item
+  \textbf{IEEE Std 1149.1-2013}, \emph{IEEE Standard for Test Access
+  Port and Boundary-Scan Architecture} (JTAG). (Ch. 5 §5.8)
+\item
+  \textbf{IEEE Std 1159-2019}, \emph{IEEE Recommended Practice for
+  Monitoring Electric Power Quality}. Source of the power quality event
+  categories and durations. (Ch. 1 §1.5)
+\item
+  \textbf{IEEE Std 1159.3-2019}, \emph{IEEE Recommended Practice for
+  Power Quality Data Interchange Format (PQDIF)}. (Ch. 1 §1.5)
+\item
+  \textbf{IEEE Std 1547-2018}, \emph{IEEE Standard for Interconnection
+  and Interoperability of Distributed Energy Resources with Associated
+  Electric Power Systems Interfaces}. (Ch. 1 §1.1.6, Ch. 10 §10.9,
+  §10.12)
+\item
+  \textbf{IEEE Std 1584-2002}, \emph{IEEE Guide for Performing Arc-Flash
+  Hazard Calculations}. The simplified incident-energy equation worked
+  in Ch. 1 §1.5.4 is from this edition; it remains in use for screening
+  estimates because it can be evaluated by hand.
+\item
+  \textbf{IEEE Std 1584-2018}, \emph{IEEE Guide for Performing Arc-Flash
+  Hazard Calculations}. The current model --- five electrode
+  configurations, voltage-dependent coefficient sets, and interpolation
+  across 600 V, 2.7 kV, and 14.3 kV --- normally evaluated in software.
+\item
+  \textbf{IEEE Std 1588-2019}, \emph{IEEE Standard for a Precision Clock
+  Synchronization Protocol for Networked Measurement and Control
+  Systems} (PTP). (Ch. 15 §15.10.4)
+\item
+  \textbf{IEEE Std 2030.5-2018}, \emph{IEEE Standard for Smart Energy
+  Profile Application Protocol}. (Ch. 1 §1.8, Ch. 10 §10.10)
+\item
+  \textbf{IEEE Std C57.110-2018}, \emph{IEEE Recommended Practice for
+  Establishing Liquid-Immersed and Dry-Type Power and Distribution
+  Transformer Capability When Supplying Nonsinusoidal Load Currents}.
+  Basis of the K-factor treatment in Ch. 14 §14.6.6.
+\item
+  \textbf{IEEE Std 802.3-2022}, \emph{IEEE Standard for Ethernet},
+  including the 802.3af/at/bt Power over Ethernet amendments and the
+  802.3ad link aggregation work now carried in 802.1AX. (Ch. 15 §15.5)
+\item
+  \textbf{IEEE Std 802.11-2020}, \emph{Wireless LAN Medium Access
+  Control and Physical Layer Specifications}, with the 802.11ax (Wi-Fi
+  6) and 802.11be (Wi-Fi 7) amendments. (Ch. 2 §2.5, Ch. 15 §15.8)
+\item
+  \textbf{IEEE Std 802.1Q-2022}, \emph{Bridges and Bridged Networks},
+  incorporating the priority (802.1p), rapid (802.1w) and multiple
+  (802.1s) spanning tree work. (Ch. 15 §15.5.4, §15.9.4)
+\item
+  \textbf{IEEE Std 802.1X-2020}, \emph{Port-Based Network Access
+  Control}. (Ch. 15 §15.8.3, §15.9.5)
+\end{itemize}
+
+\subsection{IEC, ISO, and CISPR}\label{iec-iso-and-cispr}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{CISPR 11} and \textbf{CISPR 32:2015}, radiated and conducted
+  emission limits for industrial and multimedia equipment. (Ch. 9 §9.7,
+  Ch. 10 §10.6.4)
+\item
+  \textbf{IEC 60034-1}, \emph{Rotating electrical machines --- Rating
+  and performance}; \textbf{IEC 60034-18-42}, qualification of
+  insulation systems for converter-fed machines; \textbf{IEC
+  60034-30-1:2014}, efficiency classes (IE1--IE4). (Ch. 12)
+\item
+  \textbf{IEC 60076} series, \emph{Power transformers}. (Ch. 1 §1.3.1)
+\item
+  \textbf{IEC 60287}, \emph{Electric cables --- Calculation of the
+  current rating}. (Ch. 1 §1.2.2)
+\item
+  \textbf{IEC 60825-1:2014}, \emph{Safety of laser products}. (Ch. 18
+  §18.3)
+\item
+  \textbf{IEC 60870-5-101 / -104}, telecontrol protocols for SCADA. (Ch.
+  1 §1.8)
+\item
+  \textbf{IEC 61000-3-2} and \textbf{IEC 61000-3-12}, harmonic current
+  emission limits; \textbf{IEC 61000-4-2}, ESD immunity; \textbf{IEC
+  61000-4-7}, harmonic measurement. (Ch. 9 §9.7, Ch. 10 §10.7)
+\item
+  \textbf{IEC 61508}, \emph{Functional safety of
+  electrical/electronic/programmable electronic safety-related systems}.
+  (Ch. 5 §5.8)
+\item
+  \textbf{IEC 61850}, \emph{Communication networks and systems for power
+  utility automation}. (Ch. 1 §1.8)
+\item
+  \textbf{IEC 62301}, \emph{Household electrical appliances ---
+  Measurement of standby power}. (Ch. 10 §10.7)
+\item
+  \textbf{IEC 62304}, \emph{Medical device software --- Software life
+  cycle processes}. (Ch. 5 §5.8)
+\item
+  \textbf{ISO/IEC Guide 98-3:2008}, \emph{Uncertainty of measurement ---
+  Part 3: Guide to the expression of uncertainty in measurement
+  (GUM:1995)}, published jointly as \textbf{JCGM 100:2008}. The Type A /
+  Type B framework and coverage factors used in Ch. 11 §11.1.4 are from
+  this document.
+\item
+  \textbf{JCGM 200:2012}, \emph{International vocabulary of metrology
+  --- Basic and general concepts and associated terms (VIM)}. (Ch. 11
+  §11.1)
+\item
+  \textbf{ISO/IEC 17025:2017}, \emph{General requirements for the
+  competence of testing and calibration laboratories}. (Ch. 11 §11.1.3)
+\item
+  \textbf{ISO/IEC 11801}, \emph{Information technology --- Generic
+  cabling for customer premises}. (Ch. 15 §15.2)
+\item
+  \textbf{ISO 10816} (superseded by the \textbf{ISO 20816} series),
+  \emph{Mechanical vibration --- Evaluation of machine vibration}. (Ch.
+  12 §12.5.5)
+\item
+  \textbf{ISO 26262}, \emph{Road vehicles --- Functional safety}. (Ch. 5
+  §5.8, Ch. 17 §17.4.6)
+\end{itemize}
+
+\subsection{ANSI, NEMA, TIA, UL, SAE, and
+MIL}\label{ansi-nema-tia-ul-sae-and-mil}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ANSI C84.1-2020}, \emph{Electric Power Systems and Equipment
+  --- Voltage Ratings (60 Hz)}. (Ch. 1 §1.3)
+\item
+  \textbf{ANSI O5.1}, \emph{Wood Poles --- Specifications and
+  Dimensions}. (Ch. 1 §1.3.2)
+\item
+  \textbf{ANSI Z136.1-2022}, \emph{Safe Use of Lasers}. (Ch. 18 §18.3)
+\item
+  \textbf{ANSI/TIA-568} series, \emph{Commercial Building
+  Telecommunications Cabling Standard}, including the category
+  performance and field-test requirements. (Ch. 15 §15.2)
+\item
+  \textbf{NEMA MG 1-2021}, \emph{Motors and Generators}. Source of the
+  design letter torque classes and the standard frame sizes. (Ch. 12)
+\item
+  \textbf{UL 1699}, \emph{Arc-Fault Circuit-Interrupters}. (Ch. 14
+  §14.3.5)
+\item
+  \textbf{UL 1741} and its SA/SB supplements, \emph{Inverters,
+  Converters, Controllers and Interconnection System Equipment for Use
+  With Distributed Energy Resources}. (Ch. 10 §10.9, §10.12)
+\item
+  \textbf{SAE J1772}, \emph{SAE Electric Vehicle and Plug-in Hybrid
+  Electric Vehicle Conductive Charge Coupler}; \textbf{SAE J2954},
+  wireless power transfer for light-duty vehicles; \textbf{SAE J3068},
+  three-phase AC charging; \textbf{SAE J3400}, the North American
+  Charging Standard connector. (Ch. 10 §10.10)
+\item
+  \textbf{MIL-STD-188-124B}, \emph{Grounding, Bonding and Shielding for
+  Common Long Haul/Tactical Communication Systems}. (Ch. 9 §9.7.5)
+\end{itemize}
+
+\subsection{NERC}\label{nerc}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{NERC CIP-002 through CIP-014}, \emph{Critical Infrastructure
+  Protection Reliability Standards}. North American Electric Reliability
+  Corporation. Source of the electronic security perimeter, access
+  management, and configuration change management requirements described
+  in Ch. 1 §1.8.2.
+\end{itemize}
+
+\subsection{Internet standards}\label{internet-standards}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{RFC 768}, \emph{User Datagram Protocol}; \textbf{RFC 791},
+  \emph{Internet Protocol}; \textbf{RFC 9293}, \emph{Transmission
+  Control Protocol} (obsoleting RFC 793). (Ch. 15 §15.7)
+\item
+  \textbf{RFC 1918}, \emph{Address Allocation for Private Internets};
+  \textbf{RFC 6598}, \emph{IANA-Reserved IPv4 Prefix for Shared Address
+  Space}. (Ch. 15 §15.6)
+\item
+  \textbf{RFC 2328}, \emph{OSPF Version 2}; \textbf{RFC 5340},
+  \emph{OSPF for IPv6}; \textbf{RFC 4271}, \emph{A Border Gateway
+  Protocol 4 (BGP-4)}. (Ch. 15 §15.6.3)
+\item
+  \textbf{RFC 2474}, \emph{Definition of the Differentiated Services
+  Field}. (Ch. 15 §15.10.5)
+\item
+  \textbf{RFC 3021}, \emph{Using 31-Bit Prefixes on IPv4 Point-to-Point
+  Links}; \textbf{RFC 4632}, \emph{Classless Inter-domain Routing
+  (CIDR)}; \textbf{RFC 6164}, \emph{Using 127-Bit IPv6 Prefixes on
+  Inter-Router Links}. (Ch. 15 §15.6.5)
+\item
+  \textbf{RFC 5517}, \emph{Cisco Systems' Private VLANs: Scalable
+  Security in a Multi-Client Environment}. (Ch. 15 §15.9.4)
+\item
+  \textbf{RFC 7323}, \emph{TCP Extensions for High Performance} (window
+  scaling, timestamps). (Ch. 15 §15.7.1)
+\item
+  \textbf{RFC 8200}, \emph{Internet Protocol, Version 6 (IPv6)
+  Specification}. (Ch. 15 §15.6.2)
+\item
+  \textbf{RFC 9000}, \emph{QUIC: A UDP-Based Multiplexed and Secure
+  Transport}; \textbf{RFC 9114}, \emph{HTTP/3}. (Ch. 15 §15.7.5)
+\item
+  \textbf{PEP 3333}, \emph{Python Web Server Gateway Interface v1.0.1}.
+  (Ch. 15 §15.7.4)
+\end{itemize}
+
+\subsection{ITU}\label{itu}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ITU-T G.652} and \textbf{G.655}, single-mode optical fibre and
+  cable characteristics. (Ch. 15 §15.3, Ch. 18 §18.5)
+\item
+  \textbf{ITU-T G.694.1}, \emph{Spectral grids for WDM applications:
+  DWDM frequency grid}. (Ch. 15 §15.4)
+\item
+  \textbf{ITU-R P.618}, \emph{Propagation data and prediction methods
+  required for the design of Earth-space telecommunication systems};
+  \textbf{ITU-R P.838}, specific attenuation model for rain. Basis of
+  the rain margin figures in Ch. 2 §2.7.3.
+\end{itemize}
+
+\subsection{Metrology}\label{metrology}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{BIPM}, \emph{The International System of Units (SI)}, 9th
+  edition, 2019. The 2019 redefinition fixing the elementary charge, and
+  the base and derived unit definitions used in App. D.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Foundational Papers}\label{foundational-papers}
+
+These are the original sources for results the text names but, for
+reasons of length, states rather than derives.
+
+\begin{itemize}
+\tightlist
+\item
+  Fortescue, C. L. ``Method of Symmetrical Co-ordinates Applied to the
+  Solution of Polyphase Networks.'' \emph{Transactions of the AIEE},
+  vol.~37, pt.~2, 1918, pp.~1027--1140. (Ch. 1 §1.4.4)
+\item
+  Nyquist, H. ``Certain Topics in Telegraph Transmission Theory.''
+  \emph{Transactions of the AIEE}, vol.~47, no. 2, 1928, pp.~617--644.
+  (Ch. 2 §2.2, Ch. 8 §8.1.5)
+\item
+  Nyquist, H. ``Thermal Agitation of Electric Charge in Conductors.''
+  \emph{Physical Review}, vol.~32, no. 1, 1928, pp.~110--113; and
+  Johnson, J. B. ``Thermal Agitation of Electricity in Conductors.''
+  \emph{Physical Review}, vol.~32, no. 1, 1928, pp.~97--109. (Ch. 11
+  §11.1, Ch. 13 §13.7.5)
+\item
+  Yagi, H. ``Beam Transmission of Ultra Short Waves.'' \emph{Proceedings
+  of the IRE}, vol.~16, no. 6, 1928, pp.~715--740. (Ch. 16 §16.2.4)
+\item
+  Nyquist, H. ``Regeneration Theory.'' \emph{Bell System Technical
+  Journal}, vol.~11, no. 1, 1932, pp.~126--147. The stability criterion
+  of Ch. 4 §4.8.3.
+\item
+  Smith, P. H. ``Transmission Line Calculator.'' \emph{Electronics},
+  vol.~12, no. 1, 1939, pp.~29--31. (Ch. 9 §9.5, Ch. 16 §16.6)
+\item
+  Ziegler, J. G., and N. B. Nichols. ``Optimum Settings for Automatic
+  Controllers.'' \emph{Transactions of the ASME}, vol.~64, 1942,
+  pp.~759--768. (Ch. 4 §4.7, App. G §G.3)
+\item
+  Friis, H. T. ``A Note on a Simple Transmission Formula.''
+  \emph{Proceedings of the IRE}, vol.~34, no. 5, 1946, pp.~254--256.
+  (Ch. 2 §2.8, Ch. 16 §16.1.3)
+\item
+  Shannon, C. E. ``A Mathematical Theory of Communication.'' \emph{Bell
+  System Technical Journal}, vol.~27, 1948, pp.~379--423 and 623--656.
+  The channel capacity result of Ch. 2 §2.6, and the −1.59 dB bound on
+  E\textsubscript{b}/N₀.
+\item
+  Hamming, R. W. ``Error Detecting and Error Correcting Codes.''
+  \emph{Bell System Technical Journal}, vol.~29, no. 2, 1950,
+  pp.~147--160. (Ch. 2 §2.4.2)
+\item
+  Huffman, D. A. ``A Method for the Construction of Minimum-Redundancy
+  Codes.'' \emph{Proceedings of the IRE}, vol.~40, no. 9, 1952,
+  pp.~1098--1101. (Ch. 2 §2.6)
+\item
+  Shockley, W. ``The Theory of p-n Junctions in Semiconductors and p-n
+  Junction Transistors.'' \emph{Bell System Technical Journal}, vol.~28,
+  no. 3, 1949, pp.~435--489. The diode equation of Ch. 3 §3.3.
+\item
+  Goertzel, G. ``An Algorithm for the Evaluation of Finite Trigonometric
+  Series.'' \emph{American Mathematical Monthly}, vol.~65, no. 1, 1958,
+  pp.~34--35. (Ch. 8 §8.2.7)
+\item
+  Kalman, R. E. ``A New Approach to Linear Filtering and Prediction
+  Problems.'' \emph{Journal of Basic Engineering}, vol.~82, no. 1, 1960,
+  pp.~35--45. (Ch. 8 §8.7, Ch. 4 §4.9.4)
+\item
+  Swerling, P. ``Probability of Detection for Fluctuating Targets.''
+  \emph{IRE Transactions on Information Theory}, vol.~6, no. 2, 1960,
+  pp.~269--308. The target fluctuation models of Ch. 17 §17.1.
+\item
+  Widrow, B., and M. E. Hoff. ``Adaptive Switching Circuits.'' \emph{IRE
+  WESCON Convention Record}, pt.~4, 1960, pp.~96--104. The LMS algorithm
+  of Ch. 8 §8.7.
+\item
+  Moore, G. E. ``Cramming More Components onto Integrated Circuits.''
+  \emph{Electronics}, vol.~38, no. 8, 1965, pp.~114--117. (Ch. 3 §3.7.6)
+\item
+  Cooley, J. W., and J. W. Tukey. ``An Algorithm for the Machine
+  Calculation of Complex Fourier Series.'' \emph{Mathematics of
+  Computation}, vol.~19, no. 90, 1965, pp.~297--301. The FFT of Ch. 8
+  §8.2.
+\item
+  Viterbi, A. J. ``Error Bounds for Convolutional Codes and an
+  Asymptotically Optimum Decoding Algorithm.'' \emph{IEEE Transactions
+  on Information Theory}, vol.~13, no. 2, 1967, pp.~260--269. (Ch. 2
+  §2.4.2)
+\item
+  Steinhart, J. S., and S. R. Hart. ``Calibration Curves for
+  Thermistors.'' \emph{Deep-Sea Research}, vol.~15, no. 4, 1968,
+  pp.~497--503. (Ch. 11 §11.2, §11.3.4)
+\item
+  Liu, C. L., and J. W. Layland. ``Scheduling Algorithms for
+  Multiprogramming in a Hard-Real-Time Environment.'' \emph{Journal of
+  the ACM}, vol.~20, no. 1, 1973, pp.~46--61. The rate-monotonic bound
+  of Ch. 5 §5.6.
+\item
+  Mallat, S. G. ``A Theory for Multiresolution Signal Decomposition: The
+  Wavelet Representation.'' \emph{IEEE Transactions on Pattern Analysis
+  and Machine Intelligence}, vol.~11, no. 7, 1989, pp.~674--693. (Ch. 8
+  §8.6.6)
+\item
+  Berrou, C., A. Glavieux, and P. Thitimajshima. ``Near Shannon Limit
+  Error-Correcting Coding and Decoding: Turbo-Codes.'' \emph{Proceedings
+  of ICC '93}, 1993, pp.~1064--1070. (Ch. 2 §2.4.2)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Textbooks and Handbooks}\label{textbooks-and-handbooks}
+
+Grouped by the chapter whose material they cover. Editions are omitted
+where a work is routinely reissued; any recent edition serves.
+
+\textbf{Circuit analysis and general foundations (Ch. 7, App. A, App.
+F)}
+
+\begin{itemize}
+\tightlist
+\item
+  Nilsson, J. W., and S. A. Riedel. \emph{Electric Circuits}. Pearson.
+\item
+  Irwin, J. D., and R. M. Nelms. \emph{Basic Engineering Circuit
+  Analysis}. Wiley.
+\item
+  Horowitz, P., and W. Hill. \emph{The Art of Electronics}. 3rd ed.,
+  Cambridge University Press, 2015.
+\item
+  Strang, G. \emph{Linear Algebra and Its Applications}. Cengage.
+\item
+  Kreyszig, E. \emph{Advanced Engineering Mathematics}. Wiley.
+\end{itemize}
+
+\textbf{Power engineering and the NEC (Ch. 1, Ch. 14)}
+
+\begin{itemize}
+\tightlist
+\item
+  Grainger, J. J., and W. D. Stevenson. \emph{Power System Analysis}.
+  McGraw-Hill.
+\item
+  Glover, J. D., T. J. Overbye, and M. S. Sarma. \emph{Power System
+  Analysis and Design}. Cengage.
+\item
+  Kersting, W. H. \emph{Distribution System Modeling and Analysis}. CRC
+  Press. The line drop compensator treatment of Ch. 1 §1.3.1.4 follows
+  this text.
+\item
+  Blackburn, J. L., and T. J. Domin. \emph{Protective Relaying:
+  Principles and Applications}. CRC Press.
+\item
+  Masters, G. M. \emph{Renewable and Efficient Electric Power Systems}.
+  Wiley.
+\item
+  Earley, M. W., et al., eds.~\emph{National Electrical Code Handbook}.
+  NFPA. The commentary edition of NFPA 70, keyed to the same article
+  numbers.
+\end{itemize}
+
+\textbf{Communications, networking, and antennas (Ch. 2, Ch. 15, Ch.
+16)}
+
+\begin{itemize}
+\tightlist
+\item
+  Proakis, J. G., and M. Salehi. \emph{Digital Communications}.
+  McGraw-Hill.
+\item
+  Sklar, B., and F. J. Harris. \emph{Digital Communications:
+  Fundamentals and Applications}. Pearson.
+\item
+  Kurose, J. F., and K. W. Ross. \emph{Computer Networking: A Top-Down
+  Approach}. Pearson.
+\item
+  Tanenbaum, A. S., N. Feamster, and D. Wetherall. \emph{Computer
+  Networks}. Pearson.
+\item
+  Stevens, W. R., et al.~\emph{TCP/IP Illustrated, Volume 1: The
+  Protocols}. Addison-Wesley.
+\item
+  Balanis, C. A. \emph{Antenna Theory: Analysis and Design}. Wiley.
+\item
+  Pozar, D. M. \emph{Microwave Engineering}. Wiley.
+\end{itemize}
+
+\textbf{Semiconductors and digital logic (Ch. 3, Ch. 6)}
+
+\begin{itemize}
+\tightlist
+\item
+  Sedra, A. S., and K. C. Smith. \emph{Microelectronic Circuits}. Oxford
+  University Press.
+\item
+  Streetman, B. G., and S. K. Banerjee. \emph{Solid State Electronic
+  Devices}. Pearson.
+\item
+  Sze, S. M., Y. Li, and K. K. Ng. \emph{Physics of Semiconductor
+  Devices}. Wiley.
+\item
+  Neamen, D. A. \emph{Semiconductor Physics and Devices}. McGraw-Hill.
+\item
+  Wakerly, J. F. \emph{Digital Design: Principles and Practices}.
+  Pearson.
+\item
+  Harris, S. L., and D. M. Harris. \emph{Digital Design and Computer
+  Architecture}. Morgan Kaufmann.
+\end{itemize}
+
+\textbf{Control systems and embedded systems (Ch. 4, Ch. 5, App. G)}
+
+\begin{itemize}
+\tightlist
+\item
+  Ogata, K. \emph{Modern Control Engineering}. Pearson.
+\item
+  Nise, N. S. \emph{Control Systems Engineering}. Wiley.
+\item
+  Franklin, G. F., J. D. Powell, and A. Emami-Naeini. \emph{Feedback
+  Control of Dynamic Systems}. Pearson.
+\item
+  Åström, K. J., and T. Hägglund. \emph{Advanced PID Control}. ISA,
+  2006. The IMC λ-tuning used in App. G §G.3.
+\item
+  Seborg, D. E., T. F. Edgar, D. A. Mellichamp, and F. J. Doyle III.
+  \emph{Process Dynamics and Control}. Wiley. Source of the FOPDT
+  identification method of App. G §G.2.
+\item
+  Yiu, J. \emph{The Definitive Guide to Arm® Cortex®-M23 and Cortex-M33
+  Processors}. Newnes.
+\item
+  Valvano, J. W. \emph{Embedded Systems: Introduction to Arm® Cortex™-M
+  Microcontrollers}. Self-published.
+\end{itemize}
+
+\textbf{Signal processing (Ch. 8)}
+
+\begin{itemize}
+\tightlist
+\item
+  Oppenheim, A. V., and R. W. Schafer. \emph{Discrete-Time Signal
+  Processing}. Pearson.
+\item
+  Oppenheim, A. V., A. S. Willsky, and S. H. Nawab. \emph{Signals and
+  Systems}. Pearson.
+\item
+  Proakis, J. G., and D. G. Manolakis. \emph{Digital Signal Processing:
+  Principles, Algorithms, and Applications}. Pearson.
+\item
+  Haykin, S. \emph{Adaptive Filter Theory}. Pearson.
+\item
+  Lyons, R. G. \emph{Understanding Digital Signal Processing}. Pearson.
+\end{itemize}
+
+\textbf{Electromagnetics and EMC (Ch. 9)}
+
+\begin{itemize}
+\tightlist
+\item
+  Hayt, W. H., and J. A. Buck. \emph{Engineering Electromagnetics}.
+  McGraw-Hill.
+\item
+  Ulaby, F. T., and U. Ravaioli. \emph{Fundamentals of Applied
+  Electromagnetics}. Pearson.
+\item
+  Ott, H. W. \emph{Electromagnetic Compatibility Engineering}. Wiley,
+  2009.
+\item
+  Paul, C. R. \emph{Introduction to Electromagnetic Compatibility}.
+  Wiley.
+\item
+  Johnson, H., and M. Graham. \emph{High-Speed Digital Design: A
+  Handbook of Black Magic}. Prentice Hall.
+\end{itemize}
+
+\textbf{Power electronics, batteries, and motors (Ch. 10, Ch. 12)}
+
+\begin{itemize}
+\tightlist
+\item
+  Erickson, R. W., and D. Maksimović. \emph{Fundamentals of Power
+  Electronics}. Springer.
+\item
+  Mohan, N., T. M. Undeland, and W. P. Robbins. \emph{Power Electronics:
+  Converters, Applications, and Design}. Wiley.
+\item
+  Rashid, M. H. \emph{Power Electronics: Devices, Circuits, and
+  Applications}. Pearson.
+\item
+  Reddy, T. B., ed.~\emph{Linden's Handbook of Batteries}. McGraw-Hill.
+\item
+  Plett, G. L. \emph{Battery Management Systems}, Volumes I and II.
+  Artech House.
+\item
+  Fitzgerald, A. E., C. Kingsley, and S. D. Umans. \emph{Electric
+  Machinery}. McGraw-Hill.
+\item
+  Chapman, S. J. \emph{Electric Machinery Fundamentals}. McGraw-Hill.
+\item
+  Krause, P. C., O. Wasynczuk, and S. D. Sudhoff. \emph{Analysis of
+  Electric Machinery and Drive Systems}. Wiley.
+\end{itemize}
+
+\textbf{Instrumentation and operational amplifiers (Ch. 11, Ch. 13)}
+
+\begin{itemize}
+\tightlist
+\item
+  Doebelin, E. O., and D. N. Manik. \emph{Measurement Systems:
+  Application and Design}. McGraw-Hill.
+\item
+  Northrop, R. B. \emph{Introduction to Instrumentation and
+  Measurements}. CRC Press.
+\item
+  Jung, W. G., ed.~\emph{Op Amp Applications Handbook}. Analog Devices /
+  Newnes, 2005.
+\item
+  Kester, W., ed.~\emph{Analog-Digital Conversion}. Analog Devices,
+  2004.
+\item
+  Franco, S. \emph{Design with Operational Amplifiers and Analog
+  Integrated Circuits}. McGraw-Hill.
+\end{itemize}
+
+\textbf{Radar and optics (Ch. 17, Ch. 18)}
+
+\begin{itemize}
+\tightlist
+\item
+  Skolnik, M. I. \emph{Introduction to Radar Systems}. McGraw-Hill.
+\item
+  Richards, M. A., J. A. Scheer, and W. A. Holm, eds.~\emph{Principles
+  of Modern Radar: Basic Principles}. SciTech.
+\item
+  Hecht, E. \emph{Optics}. Pearson.
+\item
+  Saleh, B. E. A., and M. C. Teich. \emph{Fundamentals of Photonics}.
+  Wiley.
+\item
+  Agrawal, G. P. \emph{Fiber-Optic Communication Systems}. Wiley.
+\end{itemize}
+
+\textbf{Engineering economics (Ch. 19)}
+
+\begin{itemize}
+\tightlist
+\item
+  Blank, L., and A. Tarquin. \emph{Engineering Economy}. McGraw-Hill.
+\item
+  Newnan, D. G., T. G. Eschenbach, and J. P. Lavelle. \emph{Engineering
+  Economic Analysis}. Oxford University Press.
+\item
+  Park, C. S. \emph{Contemporary Engineering Economics}. Pearson.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Data Sources and Software}\label{data-sources-and-software}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{U.S. Energy Information Administration.} \emph{Electric Power
+  Annual}, Table 3.1.A, net generation by energy source, 2022.
+  \url{https://www.eia.gov/electricity/annual/} --- the source of the
+  generation figures in Figure 1.1 and in
+  \texttt{scripts/01\_power\_engineering.py}.
+\item
+  \textbf{marimo.} Reactive Python notebook environment used for the
+  interactive scripts. \url{https://marimo.io} (App. E)
+\item
+  \textbf{NumPy}, \textbf{SciPy}, and \textbf{Matplotlib.} The numerical
+  and plotting libraries behind every figure in this book and every
+  script in \texttt{scripts/}.
+\item
+  \textbf{Hedengren, J. D., et al.} \emph{Temperature Control Lab
+  (TCLab)}. APMonitor / BYU Process Dynamics and Control.
+  \url{https://apmonitor.com/pdc/index.php/Main/ArduinoTemperatureControl}
+  --- the hardware and Python package used throughout App. G.
+\item
+  \textbf{Pandoc} and \textbf{XeLaTeX.} The typesetting pipeline that
+  produces this volume; see \texttt{build-pdf.sh} in the source
+  repository.
+\end{itemize}
 
 \chapter*{Dictionary of Terms}\label{dictionary-of-terms}
 \addcontentsline{toc}{chapter}{Dictionary of Terms}

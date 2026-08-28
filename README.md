@@ -34,6 +34,7 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Appendix on getting started with Python and marimo for interactive scripts
 - Appendix on matrix operations for circuit analysis and control systems
 - Appendix on the TCLab control laboratory: plant identification, IMC tuning, and measured closed-loop results
+- References: standards with pinned editions, foundational papers, textbooks by chapter, and data sources
 - Dictionary of 600+ technical terms with definitions and chapter cross-references
 
 ## Contents
@@ -271,6 +272,12 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Measured Results (single setpoint step response, multi-setpoint schedule)
 - Implementation Notes (bumpless transfer, model-hardware discrepancy)
 
+### References
+- Standards and codes cited in the text, with the edition each chapter was written against (NFPA, IEEE, IEC/ISO/CISPR, ANSI/NEMA/TIA/UL/SAE, NERC, IETF, ITU, BIPM)
+- The original papers behind the named results — Shannon, Nyquist, Friis, Fortescue, Kalman, Ziegler-Nichols, Cooley-Tukey, and others
+- Textbooks and handbooks grouped by the chapter whose material they cover
+- Data sources and software used to produce the figures
+
 ### Dictionary of Terms
 - Alphabetical glossary of 600+ technical terms, acronyms, and abbreviations with definitions and chapter references
 
@@ -310,6 +317,7 @@ EE-Book/
 ├── Appendix-E.md  # Getting Started with Python and marimo
 ├── Appendix-F.md  # Matrix Operations
 ├── Appendix-G.md  # TCLab Control Lab
+├── 0-References.md # Standards, papers, textbooks, data sources
 ├── Dictionary.md  # Dictionary of Terms
 ├── build-pdf.sh   # PDF/LaTeX build script (pandoc + XeLaTeX)
 ├── pdf-header.tex # LaTeX preamble for Unicode and fonts
