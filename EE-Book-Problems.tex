@@ -24247,8 +24247,10 @@ I\textsubscript{inrush} = V\textsubscript{peak} / R\textsubscript{cold}
 
 Without the NTC: I\textsubscript{inrush} would be limited only by source
 impedance and wiring resistance (typically 0.1-0.5 Ω), yielding
-650-3,253 A --- potentially destructive. The NTC reduces inrush by
-approximately 100×.
+650-3,253 A --- potentially destructive. The NTC reduces inrush by a
+factor of 20 to 100, depending on where the source impedance falls in
+that range (10 Ω of cold NTC against 0.5 Ω gives 20×; against 0.1 Ω
+gives 100×).
 
 (c) Steady-state input current: I\textsubscript{in(rms)} = P /
 (V\textsubscript{in} × PF). Without PFC, PF ≈ 0.60:\\
@@ -27313,11 +27315,15 @@ resolution (±10 Hz) is the limiting factor.\\
 Resolution (5 nHz) and timebase stability (10 nHz) are comparable.\\
 \textbf{1 PPS accuracy: ±10 nHz} (timebase-limited).
 
-\textbf{The reciprocal method provides 50,000x better resolution than
-direct counting for the 50 kHz measurement. Using reciprocal counting on
-the 50 kHz signal (measuring the period of 5,000 cycles in 100 ms with a
-200 MHz clock): resolution = 5 × 10⁻⁹, or Δf = 50,000 × 5 × 10⁻⁹ = 0.25
-mHz -- dramatically better than the ±10 Hz from direct counting.}
+\textbf{The reciprocal method provides 4,000× better resolution than
+direct counting for the 50 kHz measurement.} Using reciprocal counting
+on the 50 kHz signal (measuring 5,000 cycles in 100 ms with a 200 MHz
+clock), the 5 ns clock period is spread over the full 100 ms
+measurement, so the fractional resolution is Δf/f = ΔT/T = 5 × 10⁻⁹ /
+0.1 = 5 × 10⁻⁸ --- ten times coarser than the 5 × 10⁻⁹ of part (b),
+where the gate was a full second. Hence Δf = 50,000 × 5 × 10⁻⁸ =
+\textbf{2.5 mHz}, against ±10 Hz from direct counting: an improvement of
+10 / 0.0025 = \textbf{4,000×}.
 
 \subsection{Problem 11.4.8}\label{problem-11.4.8}
 
@@ -32791,25 +32797,28 @@ protocol overhead compared to full 1,500-byte payloads.
 
 \subsection{Problem 15.1.2}\label{problem-15.1.2}
 
-\textbf{Given:} A 25GBASE-T Ethernet link uses PAM-4 signaling (4
-amplitude levels) across four twisted pairs, each operating at a symbol
-rate of 3,200 Msymbols/s.
+\textbf{Given:} A 25GBASE-T Ethernet link (IEEE 802.3bq) uses PAM-16
+signaling (16 amplitude levels) across four twisted pairs, each
+operating at a symbol rate of 2,000 Msymbols/s.
 
-\textbf{Find:} (a) The bits per symbol for PAM-4, (b) the raw bit rate
+\textbf{Find:} (a) The bits per symbol for PAM-16, (b) the raw bit rate
 per pair, and (c) the total aggregate raw bit rate across all four
 pairs.
 
 \textbf{Solution:}
 
-(a) Bits per symbol = log₂(4) = \textbf{2 bits/symbol}
+(a) Bits per symbol = log₂(16) = \textbf{4 bits/symbol}
 
-(b) Bit rate per pair = 3,200 × 10⁶ × 2 = \textbf{6,400 Mbps = 6.4 Gbps}
+(b) Bit rate per pair = 2,000 × 10⁶ × 4 = \textbf{8,000 Mbps = 8 Gbps}
 
-(c) Total raw bit rate = 4 × 6.4 = \textbf{25.6 Gbps}
+(c) Total raw bit rate = 4 × 8 = \textbf{32 Gbps}
 
-The effective data rate of 25 Gbps is achieved after subtracting coding
-overhead. The raw rate of 25.6 Gbps allows for approximately 2.4\% FEC
-and framing overhead.
+The 25 Gbps payload rate is what remains after coding overhead: 25 / 32
+= 0.781, so about 22\% of the raw rate goes to LDPC forward error
+correction and 64B/65B framing. 10GBASE-T uses the same PAM-16 scheme
+and the same 0.781 ratio at one quarter the symbol rate (800 MBd, 12.8
+Gbps raw, 10 Gbps payload). Note that 3,200 MBd with PAM-16 is
+\textbf{40GBASE-T}, the other Cat 8 standard defined in 802.3bq.
 
 \subsection{Problem 15.1.3}\label{problem-15.1.3}
 
@@ -32860,14 +32869,16 @@ before being discarded.
 (b) Throughput = 25 × 10⁶ × 629.2 × 8 = 125,840,000,000 bps\\
 = \textbf{125.8 Gbps}
 
-(c) Maximum hops = \textbf{128} (TTL is decremented by 1 at each router;
-the packet is discarded when TTL reaches 0 at the 129th router).
+(c) Maximum hops = \textbf{127} successful router hops. Each router
+decrements the TTL and discards the packet if the result is zero (RFC
+1812 §5.3.1), so the 128th router receives TTL = 1, decrements it to 0,
+and drops the packet instead of forwarding it.
 
 \subsection{Problem 15.1.5}\label{problem-15.1.5}
 
 \textbf{Given:} A TCP connection operates over a satellite link with RTT
 = 600 ms. The receiver advertises a window size of 131,072 bytes (128
-KB) using the window scaling option (RFC 7323). The link capacity is 50
+KiB) using the window scaling option (RFC 7323). The link capacity is 50
 Mbps.
 
 \textbf{Find:} (a) The bandwidth-delay product of the link, (b) the
@@ -32877,7 +32888,7 @@ utilization, and (d) the window size required to fully utilize the link.
 \textbf{Solution:}
 
 (a) BDP = 50 × 10⁶ × 0.600 = 30,000,000 bits = \textbf{3,750,000 bytes =
-3.75 MB}
+3.75 MB} (3.58 MiB)
 
 (b) Throughput = Window / RTT = 131,072 / 0.600 = 218,453 bytes/s\\
 = 218,453 × 8 = 1,747,627 bps = \textbf{1.75 Mbps}
@@ -32887,7 +32898,7 @@ utilization, and (d) the window size required to fully utilize the link.
 The high-latency satellite link severely limits TCP throughput with a
 small window.
 
-(d) Window needed = BDP = \textbf{3,750,000 bytes ≈ 3.58 MB}
+(d) Window needed = BDP = \textbf{3,750,000 bytes = 3.75 MB}
 
 This requires window scaling with a scale factor of at least 6 (2⁶ = 64,
 allowing a window up to 65,535 × 64 = 4,194,240 bytes). TCP performance
@@ -34012,25 +34023,33 @@ needed for 2,000 RPS.
 
 (a) Total concurrent connections = 4 × 100 = \textbf{400 connections}
 
-(b) Each request takes 200 ms wall clock. During 120 ms (60\%) of I/O
-wait, the greenlet yields and other requests are processed. The
-effective CPU time per request is 80 ms.\\
-Per-worker throughput = 100 greenlets × (1 / 0.200 s) = \textbf{500 RPS
-per worker} (bounded by concurrency limit)
+(b) There are two ceilings, and the answer is the lower of them.
 
-Alternatively, CPU-limited: with 80 ms CPU per request, one CPU can
-process 1/0.080 = 12.5 sequential requests/s, but with 100 concurrent
-greenlets overlapping I/O, throughput = min(100/0.200, 1/0.080) ×
-concurrency factor.
+\emph{Concurrency ceiling.} Each request occupies a greenlet for 200 ms
+wall clock, so 100 greenlets could retire 100 / 0.200 = 500 RPS.
 
-The effective rate per worker: each greenlet completes in 200 ms, so 100
-greenlets produce 100/0.200 = \textbf{500 RPS} (assuming the CPU can
-keep up with 100 × 80 ms / 1000 ms = 8 concurrent CPU-active tasks).
+\emph{CPU ceiling.} Of the 200 ms, 120 ms is I/O wait and 80 ms is
+actual CPU work. A gevent worker is a \textbf{single OS process running
+one thread} --- greenlets are cooperatively scheduled within it, so
+their CPU time is serialised, not parallel. One worker therefore cannot
+exceed 1 / 0.080 = \textbf{12.5 RPS}.
 
-(c) Total RPS = 4 × 500 = \textbf{2,000 RPS}
+The CPU ceiling binds, and by a wide margin: sustaining 500 RPS would
+demand 500 × 0.080 = 40 CPU-seconds per second of wall time, i.e.~40
+cores inside a single-threaded process.
 
-(d) Workers needed = 2,000 / 500 = \textbf{4 workers} --- the current
-deployment already meets the target.
+Per-worker throughput = \textbf{12.5 RPS}.
+
+(c) Total RPS = 4 × 12.5 = \textbf{50 RPS} (and only if the host has at
+least 4 cores, one per worker).
+
+(d) Workers needed = 2,000 / 12.5 = \textbf{160 workers}, and therefore
+160 cores --- not a deployment that fits on one machine. The lesson is
+that gevent hides I/O latency, not CPU cost: it lets 400 connections
+wait concurrently, but it cannot create CPU time. Reaching 2,000 RPS
+requires cutting the 80 ms of per-request CPU (profiling, caching,
+cheaper serialisation) or moving that work out of the request path
+entirely.
 
 \subsection{Problem 15.7.5}\label{problem-15.7.5}
 
@@ -34607,7 +34626,12 @@ Mean time between errors = 1 / (4.0 × 10⁻⁵) = \textbf{25,000 seconds ≈
 (d) FEC coding gain:\\
 Pre-FEC BER = 10⁻⁴, Post-FEC BER = 10⁻¹⁵\\
 Improvement = 10⁻⁴ / 10⁻¹⁵ = 10¹¹\\
-Coding gain = \textbf{11 orders of magnitude}
+BER improvement = \textbf{11 orders of magnitude}
+
+Note the terminology: \emph{coding gain} is conventionally quoted in dB,
+as the reduction in the E\textsubscript{b}/N₀ needed to reach a target
+BER. The figure above is the ratio of the two bit error rates, which is
+what ``orders of magnitude'' refers to here.
 
 \subsection{Problem 15.10.4}\label{problem-15.10.4}
 
@@ -34660,21 +34684,29 @@ SNR (linear) = 10\textsuperscript{35/10} = 3,162\\
 C = B × log₂(1 + SNR) = 500 × 10⁶ × log₂(3,163) = 500 × 10⁶ × 11.627\\
 C = \textbf{5,813.5 Mbps ≈ 5.81 Gbps}
 
+The 500 MHz is the bandwidth of \textbf{one pair} --- Cat 6A is
+specified to 500 MHz per pair, and 10GBASE-T runs all four pairs over
+that same band simultaneously in both directions, separating them with
+echo and crosstalk cancellation. The capacity above is therefore a
+per-pair figure, and the cable as a whole offers 4 × 5.81 =
+\textbf{23.25 Gbps}.
+
 (b) Spectral efficiency of 10GBASE-T:\\
-η = 10,000 / 500 = \textbf{20.0 bps/Hz} (across all four pairs)
+10GBASE-T carries 10 Gbps over four pairs, so each pair carries 2,500
+Mbps in 500 MHz:\\
+η = 2,500 / 500 = \textbf{5.0 bps/Hz per pair}
 
-Per pair: η = 2,500 / 125 = \textbf{20.0 bps/Hz} (using 125 MHz per pair
-with PAM-16 encoding and DSP)
+(c) Margin to the Shannon limit:\\
+Per pair, 2,500 Mbps against a 5,814 Mbps limit uses \textbf{43\% of
+capacity}. Equivalently, 5 bps/Hz needs only SNR = 2⁵ − 1 = 31 = 14.9
+dB, against the 35 dB available --- a margin of \textbf{20.1 dB}.
 
-(c) Shannon limit per pair at 125 MHz with same SNR:\\
-C\textsubscript{pair} = 125 × 10⁶ × 11.627 = 1,453 Mbps
-
-Actual per pair = 2,500 Mbps, which exceeds the single-pair Shannon
-limit. This is because 10GBASE-T uses crosstalk cancellation (MIMO-like
-processing across all four pairs), effectively exploiting the full 500
-MHz × 4 channel. The total capacity of 10 Gbps vs.~Shannon limit of 5.81
-Gbps suggests the effective SNR with DSP processing is higher, or the
-system uses additional coding dimensions.
+That margin is not waste. It pays for the gap between the Shannon bound
+and a realisable PAM-16 constellation with LDPC coding, for the 22\% of
+the raw rate spent on that coding, and for the fact that the 35 dB
+figure is a best case: insertion loss and alien crosstalk both worsen
+with frequency and with cable length, so the SNR near the top of the 500
+MHz band on a 100 m channel is far below the value used here.
 
 \subsection{Problem 15.10.6}\label{problem-15.10.6}
 
