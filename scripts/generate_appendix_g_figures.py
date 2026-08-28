@@ -174,7 +174,7 @@ ax1.legend(h1 + h2, l1 + l2, loc='lower right', framealpha=0.9)
 
 fig1.tight_layout()
 p1 = OUT / 'G-4-1-tclab-step-response.png'
-fig1.savefig(p1, dpi=150, bbox_inches='tight')
+fig1.savefig(p1, dpi=300, bbox_inches='tight')
 plt.close(fig1)
 print(f'Saved {p1}')
 
@@ -239,6 +239,6 @@ ax2.legend(h3 + h4, l3 + l4, loc='center right', framealpha=0.9)
 
 fig2.tight_layout()
 p2 = OUT / 'G-4-2-tclab-schedule.png'
-fig2.savefig(p2, dpi=150, bbox_inches='tight')
+fig2.savefig(p2, dpi=300, bbox_inches='tight')
 plt.close(fig2)
 print(f'Saved {p2}')
