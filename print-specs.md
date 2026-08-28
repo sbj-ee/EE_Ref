@@ -37,7 +37,8 @@ The interior has **no bleed and needs none**: no figure, rule, table or panel in
 either volume runs to the trim edge, so there is nothing to bleed off. Every
 figure is placed within the text measure.
 
-Bleed applies only to the **cover wrap**, which is not yet produced — see below.
+Bleed applies only to the **cover wrap**, where the turn-in serves as the
+bleed — see below.
 
 ## Figures
 
@@ -82,19 +83,48 @@ board plus the leather and turn-in, so the finished spine is roughly
 `text-block spine + 0.25 in`. The printer will give an exact figure for their
 boards.
 
-## Cover wrap — not yet produced
+## Cover wrap
 
-`cover.svg` is a **front board only**, 620 × 800 px. A case-bound wrap needs a
-single artboard covering back board + spine + front board, plus bleed and
-hinge allowance:
+Produced by `scripts/generate_cover_wrap.py`, which carries over the visual
+language of `cover.svg` (green leather, gold rules and type, raised spine
+bands) and extends it across a full case wrap. `cover.svg` itself was a
+**front board only**, 620 × 800 px, with no spine and no back.
+
+Stock is **50# offset at 400 PPI**, which sets the text-block thickness:
 
 ```
-wrap width  = (2 × board width) + spine + (2 × turn-in)
+text block  = pages / PPI
+case spine  = text block + (2 × board thickness)
+board       = trim + square          (square = 0.125 in head, foot, fore-edge)
+wrap width  = (2 × turn-in) + (2 × board width) + (2 × joint) + case spine
 wrap height = board height + (2 × turn-in)
 ```
 
-with the boards each about 0.25 in larger than the trim on the head, foot and
-fore-edge. This needs the spine width, so it waits on the stock decision.
+with 98-point binder's board (0.098 in), a 0.25 in joint at each hinge and a
+0.75 in turn-in on all four sides.
+
+| | Reference | Problem sets |
+|---|---|---|
+| Interior pages | 865 | 961 |
+| Text block | 2.163 in | 2.403 in |
+| **Case spine** | **2.359 in** | **2.599 in** |
+| **Flat wrap** | **16.608 × 10.750 in** | **16.849 × 10.750 in** |
+
+The turn-in *is* the bleed — art runs the full flat size, and the outer 0.75 in
+on every side wraps to the inside of the board, so nothing critical may sit
+there. Output is `cover-wrap-{reference,problems}.pdf`, a single 400 dpi
+image placed at exact physical size (verify with `pdfimages -list`). Matching
+`-guides.svg` files overlay the board/fold line in red, the joints in blue and
+the safe area in yellow; those are for checking only and must not be sent to
+the binder.
+
+**Spine type runs bottom-to-top** (European convention), inherited from
+`cover.svg`. US and UK trade practice is top-to-bottom. Changing it is a
+one-line edit — the `rotate(-90)` in `spine_text()` becomes `rotate(90)` with
+the transform origin moved — but it has been left as the author drew it.
+
+Both spine widths depend on the page counts above, so any reflow of the
+interior invalidates the wrap. Regenerate it after every press build.
 
 ## Volume splitting
 
@@ -137,5 +167,4 @@ directory.
 ## What is not done
 
 - CMYK conversion (needs the printer's profile).
-- Cover wrap artwork (needs the spine width, which needs the stock).
 - A physical proof. Nothing here substitutes for one.

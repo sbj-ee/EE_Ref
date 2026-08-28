@@ -12,7 +12,10 @@ os.makedirs(IMG_DIR, exist_ok=True)
 
 def save(fig, name):
     path = os.path.join(IMG_DIR, name)
-    fig.savefig(path, dpi=150, bbox_inches="tight", facecolor="white")
+    # 300 dpi: the press edition places figures at the 4.25 in text width of a
+    # 6 x 9 trim, so 300 dpi there needs >= 1275 px of width. 150 dpi left 93 of
+    # the 98 figures below the 300 dpi floor commercial printing expects.
+    fig.savefig(path, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     print(f"  Saved {name}")
 
@@ -78,21 +81,24 @@ bars = ax.barh(range(len(sorted_sources)), sorted_values / 1000,
 
 ax.set_yticks(range(len(sorted_sources)))
 ax.set_yticklabels(sorted_sources, fontsize=9)
-ax.set_xlabel("Net Generation (Thousand GWh)")
+ax.set_xlabel("Net Generation (TWh)")
 ax.set_title("Y2022 U.S. Electricity Net Generation by Source")
 ax.grid(True, axis="x", alpha=0.3)
 
 for i, (val, bar) in enumerate(zip(sorted_values, bars)):
     if val >= 0:
-        ax.text(val / 1000 + 15, i, f"{val:,.0f}", va="center", fontsize=8)
+        ax.text(val / 1000 + 15, i, f"{val/1000:,.0f}", va="center", fontsize=8)
     else:
-        ax.text(val / 1000 - 15, i, f"{val:,.0f}", va="center", fontsize=8,
+        ax.text(val / 1000 - 15, i, f"{val/1000:,.0f}", va="center", fontsize=8,
                  ha="right")
 
 legend_elements = [
-    Patch(facecolor="#CC3333", label="Fossil Fuels"),
-    Patch(facecolor="#E68A00", label="Nuclear"),
-    Patch(facecolor="#33AA33", label="Renewable"),
+    Patch(facecolor="#CC3333", label="Fossil fuels (reds)"),
+    Patch(facecolor="#E68A00", label="Nuclear (orange)"),
+    Patch(facecolor="#33AA33", label="Wind and biomass (greens)"),
+    Patch(facecolor="#2288CC", label="Hydro and pumped storage (blues)"),
+    Patch(facecolor="#FFB833", label="Solar (gold)"),
+    Patch(facecolor="#44AA88", label="Geothermal (teal)"),
 ]
 ax.legend(handles=legend_elements, loc="lower right", fontsize=9)
 
@@ -442,15 +448,17 @@ spectral_eff = np.log2(1 + snr_linear)
 
 ax_eff.plot(snr_db, spectral_eff, "b-", linewidth=2, label="C/B = log2(1 + SNR)")
 
-shannon_limit_db = -1.59
-ax_eff.axvline(x=shannon_limit_db, color="red", linestyle="--", linewidth=1.5,
-               label=f"Shannon limit (Eb/N0 = {shannon_limit_db} dB)")
-ax_eff.annotate(f"Shannon Limit\nEb/N0 = -1.59 dB",
-                xy=(shannon_limit_db, 0.5),
-                xytext=(shannon_limit_db + 8, 1.0),
-                fontsize=10, color="red",
-                arrowprops=dict(arrowstyle="->", color="red"),
-                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8))
+# The -1.59 dB Shannon limit bounds Eb/N0, not SNR, so it must not be drawn as a
+# vertical line on this SNR axis: SNR = (Eb/N0) x (C/B), and as C/B approaches
+# zero the required Eb/N0 approaches ln(2) = -1.59 dB while the required SNR
+# approaches -infinity dB. Stated as a note instead.
+ax_eff.text(0.02, 0.97,
+            "Shannon bound on energy per bit: Eb/N0 $\\to$ ln 2 = $-$1.59 dB\n"
+            "as C/B $\\to$ 0. On this SNR axis that limit is at $-\\infty$ dB,\n"
+            "since SNR = (Eb/N0) $\\times$ (C/B).",
+            transform=ax_eff.transAxes, fontsize=9, color="darkred",
+            va="top", ha="left",
+            bbox=dict(boxstyle="round,pad=0.35", facecolor="lightyellow", alpha=0.85))
 
 mod_schemes = [
     ("BPSK", 1.0),
@@ -951,13 +959,13 @@ psd_val=2e-6; bw_full=10e3; bw_red=2e3
 f_psd=np.linspace(0, 15e3, 1000); psd_flat=np.full_like(f_psd, psd_val)
 
 fig, ax = plt.subplots(figsize=(10, 5))
-ax.plot(f_psd/1e3, psd_flat*1e6, "b-", linewidth=2, label="PSD = 2 μV²/Hz")
+ax.plot(f_psd/1e3, psd_flat*1e6, "b-", linewidth=2, label="PSD = 2 mV²/Hz  (2 × 10⁻⁶ V²/Hz)")
 m1=f_psd<=bw_full; m2=f_psd<=bw_red
 ax.fill_between(f_psd[m1]/1e3, psd_flat[m1]*1e6, alpha=0.15, color="blue",
                 label=f"10 kHz BW: Vrms = {np.sqrt(psd_val*bw_full)*1e3:.0f} mV")
 ax.fill_between(f_psd[m2]/1e3, psd_flat[m2]*1e6, alpha=0.3, color="green",
                 label=f"2 kHz BW: Vrms = {np.sqrt(psd_val*bw_red)*1e3:.0f} mV")
-ax.set_xlabel("Frequency (kHz)"); ax.set_ylabel("PSD (μV²/Hz)")
+ax.set_xlabel("Frequency (kHz)"); ax.set_ylabel("PSD (mV²/Hz)")
 ax.set_title("White Noise Power Spectral Density"); ax.set_ylim(0, 4); ax.legend(fontsize=9); ax.grid(True, alpha=0.3)
 fig.tight_layout()
 save(fig, "ch08_psd.png")
