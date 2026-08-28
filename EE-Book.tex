@@ -30445,12 +30445,16 @@ drones are difficult to detect with conventional surveillance radar.
 
 Radar cross section (RCS) quantifies how effectively a target reflects
 radar energy back toward the transmitter, defined as σ = 4πR² ×
-(P\textsubscript{reflected}/P\textsubscript{incident}), where the ratio
-represents the reflected power density at the target normalized to the
-incident power density. RCS depends on the target's size, shape,
-material, orientation relative to the radar, and the radar frequency.
-Common reference values include: a flat plate of area A has peak RCS of
-σ = 4πA²/λ² (when perpendicular to the beam), a sphere of radius a
+(S\textsubscript{r}/S\textsubscript{i}), where S\textsubscript{i} is the
+power density incident on the target and S\textsubscript{r} is the
+scattered power density measured back \textbf{at the radar}, a distance
+R away. The 4πR² restores what that scattered density lost spreading
+over the return path, so σ comes out as an area and is independent of R.
+Reading S\textsubscript{r} as a density at the target would make the
+definition circular. RCS depends on the target's size, shape, material,
+orientation relative to the radar, and the radar frequency. Common
+reference values include: a flat plate of area A has peak RCS of σ =
+4πA²/λ² (when perpendicular to the beam), a sphere of radius a
 \textgreater\textgreater{} λ has σ = πa² (independent of frequency), and
 a corner reflector with face dimension L has σ = 12πL⁴/λ² (very large
 for its size due to triple-bounce retroreflection).
@@ -30852,11 +30856,12 @@ basis of modern air traffic control radars like the ASR-9 and ASR-11.
 \begin{examplebox}
 
 \textbf{Example 17.3.1:} An S-band air surveillance radar operates at
-3.0 GHz with a PRF of 1,000 Hz and uses a 2-pulse MTI canceller.
-Determine (a) the first blind speed, (b) the second blind speed, (c) the
-improvement factor if the clutter-to-noise ratio (CNR) is 40 dB and the
-canceller provides 25 dB of improvement, and (d) a staggered PRF ratio
-to eliminate the first blind speed.
+3.0 GHz with a PRF of 1,000 Hz and uses a 2-pulse MTI canceller. The
+clutter-to-noise ratio is 40 dB and the canceller provides 25 dB of
+clutter improvement. Determine (a) the first blind speed, (b) the second
+blind speed, (c) the output signal-to-clutter ratio for a target whose
+echo sits at the noise floor, and (d) a staggered PRF ratio to eliminate
+the first blind speed.
 
 \textbf{Solution:}
 
@@ -30867,11 +30872,12 @@ to eliminate the first blind speed.
 v\textsubscript{blind1} = \textbf{100 m/s} (360 km/h). Aircraft at these
 speeds would be invisible to the MTI filter.
 
-(c) With 25 dB clutter improvement: output S/C = input S/C + 25 dB. If
-input CNR = 40 dB (clutter 40 dB above noise) and the target is at noise
-level (S/C = −40 dB input), then output S/C = −40 + 25 = \textbf{−15
-dB}. The target is still below clutter, requiring additional integration
-or MTD processing to detect.
+(c) The improvement factor is given, so what is asked for is what it
+buys. Take the target echo at the noise floor, the stated marginal case:
+with clutter 40 dB above noise, the input signal-to-clutter ratio is S/C
+= −40 dB. The canceller adds its 25 dB of improvement, so output S/C =
+−40 + 25 = \textbf{−15 dB}. The target is still below clutter, requiring
+additional integration or MTD processing to detect.
 
 (d) Using PRFs of 1,000 Hz and 1,250 Hz (ratio 4:5): The blind speeds of
 PRF₁ are 50, 100, 150\ldots{} m/s. The blind speeds of PRF₂ are 62.5,
@@ -30927,11 +30933,23 @@ window.
 (b) Threshold = 10 log₁₀(21.94) = \textbf{13.4 dB} above the estimated
 noise floor.
 
-(c) The CFAR loss (additional SNR required compared to a
-known-noise-level detector) is approximately 10 log₁₀(1 + 2/N) dB, which
-for N = 16 gives CFAR loss ≈ 10 log₁₀(1 + 2/16) = 10 log₁₀(1.125) =
-\textbf{0.51 dB}. This small loss is the penalty for estimating the
-noise level rather than knowing it exactly.
+(c) CFAR loss is the extra SNR needed because the noise level is
+estimated from N cells rather than known. Compare the two thresholds
+directly. A detector that knows the noise power sets its threshold at T
+= −ln(P\textsubscript{fa}) = −ln(10⁻⁶) = 13.82, or 11.4 dB; the CA-CFAR
+threshold from part (a) is α = 21.94, or 13.4 dB. The difference is the
+loss:
+
+CFAR loss = 10 log₁₀(21.94 / 13.82) = \textbf{2.0 dB}
+
+A word on the other formula in circulation. The approximation 10 log₁₀(1
++ 2/N) returns 10 log₁₀(1.125) = 0.51 dB here, and that is not the same
+quantity: it is an asymptotic result that holds for large N and
+undemanding P\textsubscript{fa}, and it understates the loss badly at
+the modest N and the 10⁻⁶ P\textsubscript{fa} of this example. At N = 16
+the honest figure is about 2 dB. The loss does fall as N grows --- that
+is the reason to use as many reference cells as the clutter homogeneity
+allows --- but 0.51 dB should not be quoted as the penalty here.
 
 (d) Total cells = 1 (CUT) + 4 (guard cells) + 16 (reference cells) =
 \textbf{21 range cells} in the sliding window.
@@ -31042,12 +31060,13 @@ over N consecutive scans (typically 3-of-5 or 4-of-7).
 \textbf{Example 17.3.4:} A surveillance radar tracks an aircraft at a
 range of 100 km with a range accuracy of σ\textsubscript{R} = 50 m and
 azimuth accuracy of σ\textsubscript{θ} = 0.3°. The scan interval is 5
-seconds and the aircraft velocity is 250 m/s. Determine (a) the
-cross-range position accuracy, (b) the predicted position uncertainty
-after one scan (assuming constant velocity), (c) the gate size for 99\%
-probability of containing the true target position, and (d) the number
-of false alarms expected in the gate if P\textsubscript{fa} = 10⁻⁶ per
-resolution cell.
+seconds and the aircraft velocity is 250 m/s. The radar's range
+resolution is ΔR = 150 m (1 μs pulse) and its azimuth beamwidth is
+θ\textsubscript{3dB} = 1.4°. Determine (a) the cross-range position
+accuracy, (b) the predicted position uncertainty after one scan
+(assuming constant velocity), (c) the gate size for 99\% probability of
+containing the true target position, and (d) the number of false alarms
+expected in the gate if P\textsubscript{fa} = 10⁻⁶ per resolution cell.
 
 \textbf{Solution:}
 
@@ -31058,8 +31077,12 @@ typical for surveillance radars.
 
 (b) During one scan interval, the aircraft moves Δx = v × T = 250 × 5 =
 1,250 m. The predicted position uncertainty grows due to velocity
-estimation error. If the velocity accuracy is σ\textsubscript{v} ≈
-σ\textsubscript{cr}/T = 524/5 = 105 m/s, then the position prediction
+estimation error. If the velocity accuracy is taken as
+σ\textsubscript{v} ≈ σ\textsubscript{cr}/T = 524/5 = 105 m/s --- a crude
+two-point slope across one scan, and optimistic at that, since
+differencing two independent positions actually gives √2
+σ\textsubscript{cr}/T ≈ 148 m/s, while a tracker that has settled does
+considerably better than either --- then the position prediction
 uncertainty after one scan is σ\textsubscript{pred} =
 √(σ\textsubscript{cr}² + (σ\textsubscript{v} × T)²) = √(524² + 525²) =
 \textbf{742 m} in cross-range. In range, σ\textsubscript{pred} ≈ √(50² +
@@ -31071,12 +31094,21 @@ Gate dimensions: range gate = 3.035 × 50 = 152 m; azimuth gate = 3.035 ×
 742 = \textbf{2,252 m}. The gate area is approximately π × 152 × 2,252 =
 \textbf{1.08 × 10⁶ m²}.
 
-(d) Number of resolution cells in gate: approximately 1.08 × 10⁶ / (150
-× 524) ≈ 13.7 cells. Expected false alarms per gate = 13.7 × 10⁻⁶ =
-\textbf{1.37 × 10⁻⁵} --- essentially zero, confirming that association
-is unambiguous in this scenario. In dense traffic or with higher false
-alarm rates, multiple detections within the gate require JPDA or
-multi-hypothesis tracking.
+(d) False alarms are counted per \emph{resolution cell}, whose size is
+set by the waveform and the beamwidth --- not by the measurement
+accuracies of part (a), which are much finer. The cell here is ΔR by
+Rθ\textsubscript{3dB}:
+
+Cross-range extent = R × θ\textsubscript{3dB} = 100,000 × (1.4 × π/180)
+= 2,443 m\\
+Cell area = 150 × 2,443 = 3.67 × 10⁵ m²
+
+Cells in gate = 1.08 × 10⁶ / 3.67 × 10⁵ ≈ \textbf{2.9 cells}
+
+Expected false alarms per gate = 2.9 × 10⁻⁶ = \textbf{2.9 × 10⁻⁶} ---
+essentially zero, confirming that association is unambiguous in this
+scenario. In dense traffic or with higher false alarm rates, multiple
+detections within the gate require JPDA or multi-hypothesis tracking.
 
 \end{examplebox}
 
@@ -31099,7 +31131,12 @@ echoes without requiring any onboard equipment, operating at S-band
 100--450 km, or at L-band (1.2--1.4 GHz) for long-range air defense.
 Secondary Surveillance Radar (SSR) interrogates aircraft transponders at
 1,030 MHz and receives coded replies at 1,090 MHz, providing aircraft
-identity (Mode A), altitude (Mode C), and full ADS-B data (Mode S).
+identity (Mode A), altitude (Mode C), and selective addressing with a
+datalink (Mode S). ADS-B is carried on the same 1,090 MHz downlink as
+Mode S Extended Squitter (1090ES), but the two are not the same thing:
+an ordinary Mode S reply answers an interrogation with identity and
+altitude, whereas ADS-B is broadcast unprompted and carries GPS-derived
+position, velocity and intent.
 
 Airport surveillance uses short-range S-band PSR (ASR-9, ASR-11) with 60
 nmi range and 4.8 s rotation period, combined with SSR for
@@ -31208,8 +31245,10 @@ good balance of range resolution (\textless{} 10 cm with 4 GHz
 bandwidth), compact antenna size (λ ≈ 3.9 mm), and regulatory
 availability. FMCW is the dominant waveform because it provides
 simultaneous range and velocity measurement with low transmit power
-(typically 10--13 dBm EIRP) and low-cost silicon germanium (SiGe) or
-CMOS integrated circuits.
+(typically 10--13 dBm \emph{conducted} at the MMIC output; with a 20 dBi
+transmit array that is roughly 30--33 dBm EIRP, well inside the
+regulatory ceiling) and low-cost silicon germanium (SiGe) or CMOS
+integrated circuits.
 
 Modern automotive radar systems use multiple operating modes on a single
 platform. Long-range radar (LRR) at 77 GHz covers 150--300 m with a
@@ -31244,8 +31283,8 @@ Short-Range (SRR)
 \endlastfoot
 Range & 150--300 m & 30--100 m & 0.2--30 m \\
 Azimuth FOV & ±8° & ±40° & ±75° \\
-Range resolution & 0.3--1.0 m & 0.1--0.5 m & 0.05--0.1 m \\
 Bandwidth & 500 MHz--1 GHz & 1--2 GHz & 4 GHz \\
+Range resolution = c/(2B) & 0.15--0.30 m & 0.075--0.15 m & 0.038 m \\
 Application & ACC, AEB & Cross-traffic, lane change & Parking, blind
 spot \\
 \end{longtable}
@@ -31364,15 +31403,19 @@ modules. In forward-based mode it provides early detection and tracking
 of ballistic missiles during boost phase at ranges exceeding 1,000 km;
 in terminal mode it provides fire-control quality tracks for THAAD
 interceptor guidance. The Space Fence (AN/FSY-3) at Kwajalein Atoll is
-an S-band phased array radar designed to detect and catalog small
-objects in low Earth orbit (LEO), tracking items as small as 5 cm at
-ranges up to 40,000 km to maintain the space debris catalog. These
-systems share common features: AESA architecture with thousands of
-solid-state T/R modules, digital beamforming for multiple simultaneous
-beams, wideband waveforms for high range resolution and target feature
-extraction, and sophisticated discrimination algorithms that analyze
-RCS, polarization, micro-Doppler, and ballistic trajectory to
-distinguish warheads from decoys and debris.
+an S-band phased array radar built to detect and catalogue small debris
+in low Earth orbit, where its sensitivity to objects of a few
+centimetres applies --- LEO being roughly 400--2,000 km altitude. It
+also tracks larger objects out to medium and geosynchronous altitudes,
+but the centimetre-class sensitivity and the 40,000 km reach are
+separate capabilities and do not hold together: the R⁴ law puts a 5 cm
+object at GEO range far below detection. These systems share common
+features: AESA architecture with thousands of solid-state T/R modules,
+digital beamforming for multiple simultaneous beams, wideband waveforms
+for high range resolution and target feature extraction, and
+sophisticated discrimination algorithms that analyze RCS, polarization,
+micro-Doppler, and ballistic trajectory to distinguish warheads from
+decoys and debris.
 
 \begin{examplebox}
 
@@ -31554,8 +31597,9 @@ X & 8--12 GHz & 2.5--3.75 cm & High resolution, moderate rain
 attenuation & Marine radar, airborne radar, fire control \\
 Ku & 12--18 GHz & 1.7--2.5 cm & Fine resolution, significant rain
 attenuation & Satellite altimetry, mapping \\
-K & 18--27 GHz & 1.1--1.7 cm & Water vapor absorption at 22.24 GHz &
-Rarely used (absorption band) \\
+K & 18--27 GHz & 1.1--1.7 cm & Water vapour absorption peaks at 22.24
+GHz & Avoided near 22 GHz; the 24 GHz ISM band is widely used (legacy
+automotive, industrial level and motion sensing) \\
 Ka & 27--40 GHz & 7.5--11 mm & Very fine resolution, high rain
 attenuation & Airport surface radar, cloud radar \\
 W & 75--110 GHz & 2.7--4 mm & Extremely fine resolution, compact &
@@ -31569,9 +31613,10 @@ makes this frequency ideal for automotive radar: it provides
 millimeter-wave resolution with acceptable atmospheric loss for ranges
 up to 300 m. Rain attenuation becomes significant above X-band --- at 10
 mm/h rainfall, the attenuation (per ITU-R P.838-3) is approximately
-0.002 dB/km at S-band, 0.22 dB/km at X-band, and \textasciitilde1.3
-dB/km at Ka-band, which is why weather radars use S-band or C-band to
-see through heavy precipitation.
+0.002 dB/km at S-band, 0.22 dB/km at X-band, and roughly 1.9--2.1 dB/km
+at Ka-band (ITU-R P.838-3 at 35 GHz gives 2.13 dB/km horizontal, 1.87
+dB/km vertical), which is why weather radars use S-band or C-band to see
+through heavy precipitation.
 
 \begin{examplebox}
 
@@ -31650,15 +31695,16 @@ GPR
 (UWB) \\
 \textbf{Peak power} & 25 kW & 750 kW & 25 kW & 10 mW & 100 mW & 10--100
 mW \\
-\textbf{Range} & 111 km & 460 km & 75 km & 300 m & 300 m & 0.1--50 m \\
-\textbf{Range resolution} & 150 m & 250 m & 75 m & 4 cm & N/A (CW) &
-5--50 cm \\
+\textbf{Range} & 111 km & 460 km & 75 km & 300 m (LRR) / 30 m (SRR) &
+300 m & 0.1--50 m \\
+\textbf{Range resolution} & 150 m & 250 m & 75 m & 15 cm (LRR, 1 GHz) /
+4 cm (SRR, 4 GHz) & N/A (CW) & 5--50 cm \\
 \textbf{Antenna} & Reflector (5 m) & Dish (8.5 m) & Slotted array &
 Patch array & Horn/patch & Bowtie/horn \\
 \textbf{Scan} & Mechanical 360° & Mechanical 360° & Mechanical 360° &
 Electronic ±8° & Fixed beam & Manual sweep \\
-\textbf{Doppler} & Yes (MTD) & Yes (dual-pol) & Optional & Yes & Yes
-(primary) & No \\
+\textbf{Doppler} & Yes (MTD) & Yes (also dual-pol, a separate
+capability) & Optional & Yes & Yes (primary) & No \\
 \textbf{Cost} & \$2--5M & \$5--10M & \$2--20K & \$10--50 & \$200--2K &
 \$10--50K \\
 \textbf{Key metric} & P\textsubscript{d} at range & Reflectivity (dBZ) &
@@ -31699,15 +31745,16 @@ pulsed, (b) S-band pulsed, or (c) X-band FMCW is the better choice.
 (a) \textbf{X-band pulsed} (9.4 GHz): Well-established marine radar
 technology. Range resolution = 10 m requires τ\textsubscript{p} = 67 ns
 or pulse compression. Rain attenuation at X-band in 4 mm/h rain over 10
-km (two-way, 20 km path) ≈ 0.06 × 20 = \textbf{1.2 dB} --- acceptable.
-Commercial marine radars in this class cost \$5--20K. \textbf{Best
-choice for this application.}
+km (two-way, 20 km path) ≈ 0.071 × 20 = \textbf{1.4 dB} --- acceptable.
+(0.071 dB/km is the figure used in §17.5.1 and Example 17.5.1 for X-band
+at 4 mm/h.) Commercial marine radars in this class cost \$5--20K.
+\textbf{Best choice for this application.}
 
-(b) \textbf{S-band pulsed} (3 GHz): Rain attenuation is negligible (0.1
-dB two-way), but achieving 10 m resolution requires a bandwidth of 15
-MHz (pulse width 67 ns) and the antenna must be 3× larger for the same
-beamwidth. S-band harbor radars cost \$100--500K --- \textbf{over
-budget}.
+(b) \textbf{S-band pulsed} (3 GHz): Rain attenuation is negligible
+(0.00075 dB/km × 20 km = 0.015 dB two-way), but achieving 10 m
+resolution requires a bandwidth of 15 MHz (pulse width 67 ns) and the
+antenna must be 3× larger for the same beamwidth. S-band harbor radars
+cost \$100--500K --- \textbf{over budget}.
 
 (c) \textbf{X-band FMCW}: Could achieve 10 m resolution with only 15 MHz
 bandwidth and milliwatt power levels. However, achieving 10 km range

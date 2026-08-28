@@ -55,7 +55,7 @@ LEATHER_FREQ = 0.65       # per user unit; matches the grain of cover.svg
 # physical size.
 
 VOLUMES = [
-    dict(key="reference", pages=867,
+    dict(key="reference", pages=869,
          title=["ELECTRICAL", "ENGINEERING", "REFERENCE"],
          spine_title="ELECTRICAL ENGINEERING REFERENCE",
          subtitle="Editio Unica",

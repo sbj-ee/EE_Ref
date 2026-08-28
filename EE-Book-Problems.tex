@@ -37286,9 +37286,9 @@ efficiency of the corner reflector geometry.
 perpendicular to a 10 GHz radar beam.
 
 \textbf{Find:} (a) The plate's RCS, (b) the RCS in dBsm, (c) the RCS
-when the plate is tilted 5° off-normal (assume RCS drops as sinc²(2πA
-sin(θ)/λ²) --- approximate 20 dB reduction at 5° for this size), and (d)
-how this illustrates the principle of stealth shaping.
+when a square plate of side L = 1.0 m is tilted 5° off-normal, using
+σ(θ) = σ\textsubscript{max} cos²θ · sinc²(πL sin θ / λ) with sinc(x) =
+sin(x)/x, and (d) how this illustrates the principle of stealth shaping.
 
 \textbf{Solution:}
 
@@ -37299,18 +37299,33 @@ Flat plate RCS: σ = 4πA² / λ² = 4π × 1.0² / 0.03² = 4π / (9 × 10⁻�
 
 (b) σ (dBsm) = 10 log₁₀(13,963) = \textbf{41.4 dBsm}
 
-(c) At 5° tilt, the specular RCS drops dramatically. With the
-approximate 20 dB reduction:
+(c) Note the argument of the sinc is built from a \emph{length}, L sin
+θ, measured in wavelengths --- it has to be dimensionless, so an area
+cannot appear there.
 
-σ\textsubscript{tilted} = 13,963 / 100 = \textbf{139.6 m²} (21.4 dBsm)
+First null: sin θ = λ/L = 0.03, so θ\textsubscript{null} =
+\textbf{1.72°}. A 5° tilt is well beyond it.
+
+At θ = 5°: x = πL sin θ / λ = π × 0.0872 / 0.03 = 9.13 rad\\
+sinc²(9.13) = (sin 9.13 / 9.13)² = (0.294 / 9.13)² = 1.04 × 10⁻³, and
+cos²5° = 0.992
+
+σ\textsubscript{tilted} = 13,963 × 1.03 × 10⁻³ = \textbf{14.3 m²} (11.6
+dBsm) --- a reduction of \textbf{29.9 dB}, not 20 dB.
+
+Treat that number as indicative rather than exact. At 5° the plate is
+deep into its sidelobe structure, where the pattern oscillates rapidly:
+at 3° the same expression gives −17.7 dB and at the 1.72° null it
+collapses entirely. Real plates have edges, finite thickness and surface
+currents that fill in the deep nulls, so measured sidelobes are smoother
+and shallower than this ideal predicts.
 
 (d) \textbf{Stealth aircraft use angled surfaces} to deflect the
 specular reflection away from the radar receiver. A flat plate
-perpendicular to the beam has enormous RCS (13,963 m²), but even a small
-tilt dramatically reduces the backscattered energy. By ensuring no
-surface is perpendicular to likely threat radar directions, stealth
-designs reduce RCS by 30--40 dB compared to conventional aircraft of
-similar size.
+perpendicular to the beam has enormous RCS (13,963 m²), but a 5° tilt
+already cuts it by about 30 dB, to 14 m². By ensuring no surface is
+perpendicular to likely threat radar directions, stealth designs reduce
+RCS by 30--40 dB compared to conventional aircraft of similar size.
 
 \subsection{Problem 17.1.4}\label{problem-17.1.4}
 
@@ -38346,8 +38361,8 @@ MHz.
 
 \textbf{Find:} (a) The antenna gain, (b) the maximum detection range for
 a ballistic warhead with RCS σ = 0.1 m² requiring SNR = 20 dB, and (c)
-the number of coherent integration pulses needed if the single-pulse
-range is only 500 km.
+the number of coherent integration pulses needed to reach the 2,000 km
+detection range wanted for exo-atmospheric surveillance.
 
 \textbf{Solution:}
 
@@ -38377,10 +38392,7 @@ R\textsubscript{max} = (3.514 × 10¹³ / (1.918 ×
 10⁻⁹))\textsuperscript{1/4} = (1.832 × 10²²)\textsuperscript{1/4} =
 \textbf{367 km}
 
-(c) To extend range from 500 km (hypothetical) to the needed range,
-consider:
-
-Required range is 367 km for single pulse. If we need 2,000 km:
+(c) Part (b) gives 367 km on a single pulse. Extending that to 2,000 km:
 
 Range ratio = 2,000 / 367 = 5.45
 
@@ -38388,7 +38400,11 @@ SNR must increase by 5.45⁴ = 882 (29.5 dB)
 
 For coherent integration: N = 882 → \textbf{N = 882 pulses}
 
-At PRF = 10 kHz, this requires a dwell time of 88.2 ms.
+At PRF = 10 kHz, this requires a dwell time of 88.2 ms. Coherent
+integration gains the full factor N because the pulses are summed in
+phase; non-coherent integration would gain only about √N and would need
+N ≈ 882² pulses for the same result, which is why long-range
+surveillance radars go to the expense of phase coherence.
 
 \subsection{Problem 17.4.8}\label{problem-17.4.8}
 
@@ -38439,25 +38455,21 @@ averaged).
 and velocity measurement. It has a sweep bandwidth of 10 GHz, sweep time
 of 100 μs, and transmit power of 20 mW.
 
-\textbf{Find:} (a) The range resolution, (b) the maximum unambiguous
-velocity (using the relation v\textsubscript{max} = λ /
-(4T\textsubscript{sweep})), (c) the wavelength, and (d) explain two
-advantages of 1550 nm over 905 nm for automotive LiDAR.
+\textbf{Find:} (a) The range resolution, (b) the wavelength, (c) the
+maximum unambiguous velocity (using v\textsubscript{max} = λ /
+(4T\textsubscript{sweep})), and (d) two advantages of 1550 nm over 905
+nm for automotive LiDAR.
 
 \textbf{Solution:}
 
 (a) ΔR = c / (2B) = 3 × 10⁸ / (2 × 10 × 10⁹) = \textbf{1.5 cm}
 
-(b) λ = c / f.~First find frequency: f = c / λ = 3 × 10⁸ / (1550 × 10⁻⁹)
-= 1.935 × 10¹⁴ Hz
+(b) \textbf{λ = 1550 nm = 1.55 × 10⁻⁶ m}, corresponding to an optical
+frequency f = c/λ = 3 × 10⁸ / (1550 × 10⁻⁹) = 1.935 × 10¹⁴ Hz.
 
-(c) \textbf{λ = 1550 nm = 1.55 × 10⁻⁶ m}
-
-(b continued) For FMCW LiDAR, the Doppler shift is extremely large due
-to the short wavelength:
-
-v\textsubscript{max} = λ / (4T\textsubscript{sweep}) = 1.55 × 10⁻⁶ / (4
-× 100 × 10⁻⁶) = \textbf{3.875 × 10⁻³ m/s} (extremely small)
+(c) v\textsubscript{max} = λ / (4T\textsubscript{sweep}) = 1.55 × 10⁻⁶ /
+(4 × 100 × 10⁻⁶) = \textbf{3.875 × 10⁻³ m/s} --- a few millimetres per
+second, vanishingly small for a road vehicle.
 
 This shows that FMCW LiDAR at optical wavelengths requires different
 velocity disambiguation approaches than RF FMCW radar. In practice,
@@ -38526,7 +38538,7 @@ being evaluated: S-band (3 GHz), X-band (9.4 GHz), and Ka-band (35 GHz).
 
 \textbf{Find:} (a) The minimum bandwidth required, (b) the antenna
 beamwidth at each band, (c) the two-way rain attenuation at each band
-for 6 mm/h rainfall over 25 km (approximate coefficients: S = 0.007
+for 6 mm/h rainfall over 25 km (approximate coefficients: S = 0.0013
 dB/km, X = 0.08 dB/km, Ka = 0.8 dB/km), and (d) the recommended band.
 
 \textbf{Solution:}
@@ -38543,7 +38555,14 @@ Ka-band: λ = 0.00857 m, θ = 70 × 0.00857 / 2 = \textbf{0.30°}
 
 (c) Two-way rain attenuation (path = 2 × 25 km = 50 km):
 
-S-band: 0.007 × 50 = \textbf{0.35 dB} (negligible)
+S-band: 0.0013 × 50 = \textbf{0.065 dB} (negligible)
+
+The S-band coefficient is worth a sanity check, because it is easy to
+overstate. §17.5.1 uses 0.00075 dB/km at 4 mm/h; scaling by the ITU
+power law γ = kR\^{}α with α ≈ 1.35 gives 0.00075 ×
+(6/4)\textsuperscript{1.35} ≈ 0.0013 dB/km at 6 mm/h. Rain is
+essentially transparent at S-band, which is exactly why NEXRAD is an
+S-band radar.
 
 X-band: 0.08 × 50 = \textbf{4.0 dB} (moderate --- reduces range by
 \textasciitilde20\%)
@@ -38563,18 +38582,22 @@ impractical in rain.
 
 \textbf{Given:} A drone detection radar must detect small drones (RCS =
 0.01 m²) at 5 km range. Three candidate architectures are: (a) S-band
-pulsed, (b) X-band pulsed, and (c) Ku-band FMCW. All have a 1 m antenna
-aperture.
+pulsed, (b) X-band pulsed, and (c) Ku-band FMCW. All use the same 1 m
+antenna aperture with 60\% aperture efficiency.
 
-\textbf{Find:} For each option: the beamwidth, the required transmit
-power (assuming G = 30 dBi, T\textsubscript{sys} = 500 K,
+\textbf{Find:} For each option: the antenna gain and beamwidth, the
+required transmit power (T\textsubscript{sys} = 500 K,
 B\textsubscript{n} = 1 MHz, SNR\textsubscript{req} = 15 dB), and the
 feasibility assessment.
 
 \textbf{Solution:}
 
-Common parameters: σ = 0.01 m², R = 5 km = 5,000 m, G = 10³ (30 dBi),
-SNR = 31.62
+The aperture is fixed, so the gain is \emph{not} a free parameter --- it
+follows from the aperture and the wavelength, G = η(πD/λ)², and rises as
+1/λ². This is the whole point of the comparison: moving up in frequency
+with the same dish buys gain.
+
+Common parameters: σ = 0.01 m², R = 5 km = 5,000 m, SNR = 31.62
 
 S\textsubscript{min} = kT\textsubscript{s}B\textsubscript{n} × SNR =
 1.381 × 10⁻²³ × 500 × 10⁶ × 31.62 = 2.184 × 10⁻¹³ W
@@ -38582,51 +38605,58 @@ S\textsubscript{min} = kT\textsubscript{s}B\textsubscript{n} × SNR =
 From the radar equation: P\textsubscript{t} = R⁴ × (4π)³ ×
 S\textsubscript{min} / (G²λ²σ)
 
-Denominator (common): G²σ = (10³)² × 0.01 = 10⁴
-
-R⁴ = (5 × 10³)⁴ = 6.25 × 10¹⁴
-
-Numerator = 6.25 × 10¹⁴ × 1,984 × 2.184 × 10⁻¹³ = 6.25 × 10¹⁴ × 4.333 ×
-10⁻¹⁰ = 2.708 × 10⁵
+R⁴ × (4π)³ × S\textsubscript{min} = 6.25 × 10¹⁴ × 1,984 × 2.184 × 10⁻¹³
+= 2.708 × 10⁵ (common to all three)
 
 \textbf{(a) S-band (3 GHz):}
 
-λ = 0.10 m, θ = 70 × 0.10 / 1 = \textbf{7.0°} (poor angular resolution)
+λ = 0.10 m. G = 0.6 × (π × 1 / 0.10)² = 0.6 × 987 = \textbf{592 (27.7
+dBi)}, θ = 70 × 0.10 / 1 = \textbf{7.0°}
 
-P\textsubscript{t} = 2.708 × 10⁵ / (10⁴ × 0.01) = 2.708 × 10⁵ / 100 =
-\textbf{2,708 W} (2.7 kW peak)
+P\textsubscript{t} = 2.708 × 10⁵ / (592² × 0.10² × 0.01) = 2.708 × 10⁵ /
+35.07 = \textbf{7,722 W} (7.7 kW peak)
 
-Assessment: The 7° beam provides poor angular accuracy and wide clutter
-cell. The power is feasible. \textbf{Marginal} --- angular resolution is
-inadequate for tracking small drones.
+Assessment: the 7° beam gives poor angular accuracy and a wide clutter
+cell, and this option needs the \emph{most} power of the three.
+\textbf{Poor} on both counts.
 
 \textbf{(b) X-band (10 GHz):}
 
-λ = 0.03 m, θ = 70 × 0.03 / 1 = \textbf{2.1°} (good angular resolution)
+λ = 0.03 m. G = 0.6 × (π × 1 / 0.03)² = 0.6 × 10,966 = \textbf{6,580
+(38.2 dBi)}, θ = 70 × 0.03 / 1 = \textbf{2.1°}
 
-P\textsubscript{t} = 2.708 × 10⁵ / (10⁴ × 9 × 10⁻⁴) = 2.708 × 10⁵ / 9 =
-\textbf{30,089 W} (30 kW peak)
+P\textsubscript{t} = 2.708 × 10⁵ / (6,580² × 0.03² × 0.01) = 2.708 × 10⁵
+/ 389.6 = \textbf{695 W}
 
-Assessment: Good angular resolution, but 30 kW peak power is high for a
-compact system. Pulse compression can reduce the required peak power.
-\textbf{Good choice with pulse compression.}
+Assessment: an order of magnitude less power than S-band and a beam
+three times narrower, from the same 1 m dish. \textbf{Good choice.}
 
 \textbf{(c) Ku-band (15 GHz):}
 
-λ = 0.02 m, θ = 70 × 0.02 / 1 = \textbf{1.4°} (excellent angular
-resolution)
+λ = 0.02 m. G = 0.6 × (π × 1 / 0.02)² = 0.6 × 24,674 = \textbf{14,804
+(41.7 dBi)}, θ = 70 × 0.02 / 1 = \textbf{1.4°}
 
-P\textsubscript{t} = 2.708 × 10⁵ / (10⁴ × 4 × 10⁻⁴) = 2.708 × 10⁵ / 4 =
-\textbf{67,700 W} (67.7 kW peak)
+P\textsubscript{t} = 2.708 × 10⁵ / (14,804² × 0.02² × 0.01) = 2.708 ×
+10⁵ / 876.6 = \textbf{309 W}
 
-Assessment: The λ² term in the radar equation means higher frequencies
-require more power for the same range. However, FMCW with coherent
-integration can achieve equivalent performance with much lower average
-power. \textbf{Feasible with FMCW architecture}, but rain attenuation at
-Ku-band (0.15 dB/km × 10 km two-way ≈ 1.5 dB) adds a modest penalty.
+Assessment: the lowest transmit power and the narrowest beam.
+\textbf{Feasible, and FMCW lowers the peak power requirement further},
+but rain attenuation at Ku-band (0.15 dB/km × 10 km two-way ≈ 1.5 dB)
+begins to matter and the components cost more.
 
-\textbf{Best choice: X-band pulsed with pulse compression} --- balances
-angular resolution, transmit power, and all-weather capability.
+\textbf{Note the direction of the trend.} At a \emph{fixed aperture} the
+required transmit power falls as λ² --- G²λ² ∝ (1/λ²)²λ² = 1/λ², so
+P\textsubscript{t} ∝ λ² --- and the higher band wins on both power and
+resolution. The opposite claim, that higher frequencies always demand
+more power, holds only at \emph{fixed gain}, where the antenna shrinks
+as the frequency rises. Fixing G = 30 dBi here would have overstated the
+X-band power by 20 log₁₀(6,580/1,000) = 16.4 dB. Problem 17.5.3 works
+the fixed-aperture case explicitly.
+
+\textbf{Best choice: X-band pulsed with pulse compression} --- Ku-band
+needs less power still, but X-band keeps most of that advantage while
+suffering appreciably less rain attenuation and drawing on cheaper, more
+mature components.
 
 \subsection{Problem 17.5.3}\label{problem-17.5.3}
 

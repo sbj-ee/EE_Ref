@@ -67,14 +67,14 @@ chosen. The rule is:
 spine (in) = interior page count / PPI      (PPI = pages per inch for the stock)
 ```
 
-At the current build — **reference volume 867 pp, problem companion 961 pp** —
+At the current build — **reference volume 869 pp, problem companion 961 pp** —
 the text-block spine works out as:
 
-| Stock | PPI | Reference volume (867 pp) | Problem companion (961 pp) |
+| Stock | PPI | Reference volume (869 pp) | Problem companion (961 pp) |
 |---|---|---|---|
 | 50# offset (typical short-run) | 400 | **2.17 in** | **2.40 in** |
-| 60# offset | 340 | 2.55 in | 2.83 in |
-| 70# opaque (premium, less show-through) | 300 | 2.89 in | 3.20 in |
+| 60# offset | 340 | 2.56 in | 2.83 in |
+| 70# opaque (premium, less show-through) | 300 | 2.90 in | 3.20 in |
 
 Re-read these after any content change that moves the page count.
 
@@ -108,10 +108,10 @@ with 98-point binder's board (0.098 in), a 0.25 in joint at each hinge and a
 
 | | Reference | Problem sets |
 |---|---|---|
-| Interior pages | 867 | 961 |
-| Text block | 2.167 in | 2.403 in |
-| **Case spine** | **2.364 in** | **2.599 in** |
-| **Flat wrap** | **16.614 × 10.750 in** | **16.849 × 10.750 in** |
+| Interior pages | 869 | 961 |
+| Text block | 2.173 in | 2.403 in |
+| **Case spine** | **2.369 in** | **2.599 in** |
+| **Flat wrap** | **16.619 × 10.750 in** | **16.849 × 10.750 in** |
 
 The turn-in *is* the bleed — art runs the full flat size, and the outer 0.75 in
 on every side wraps to the inside of the board, so nothing critical may sit
@@ -132,7 +132,7 @@ interior invalidates the wrap. Regenerate it after every press build.
 ## Volume splitting
 
 At 6 × 9 both volumes came out **over the practical limit**: the reference
-volume is 867 pp and the problem companion 961 pp, against a rough ceiling of
+volume is 869 pp and the problem companion 961 pp, against a rough ceiling of
 about 800 interior pages for a sewn case binding. Beyond that the block is hard
 to open flat and the spine takes more stress than the sewing will forgive. This
 is a decision still to make; the options, in order of preference:
