@@ -30,10 +30,12 @@ def _(mo):
     mo.md("""
     ## 1.1 U.S. Electricity Generation by Source (2022)
 
-    Horizontal bar chart of Y2022 U.S. net electricity generation
-    by source in million kWh. Sources are color-coded by category:
-    fossil fuels (red shades), nuclear (orange), and renewables
-    (green shades).
+    Horizontal bar chart of Y2022 U.S. net electricity generation by source.
+    The EIA publishes these figures in million kWh; the chart plots them in
+    terawatt-hours (1 TWh = 1,000 million kWh) so the axis, the bar lengths,
+    and the printed values all carry the same unit. Sources are color-coded:
+    fossil fuels in reds, nuclear in orange, wind and biomass in greens,
+    hydro and pumped storage in blues, solar in gold, geothermal in teal.
     """)
     return
 
@@ -97,24 +99,27 @@ def _(np, plt):
 
     ax1.set_yticks(range(len(sorted_sources)))
     ax1.set_yticklabels(sorted_sources, fontsize=9)
-    ax1.set_xlabel("Net Generation (Thousand GWh)")
+    ax1.set_xlabel("Net Generation (TWh)")
     ax1.set_title("Y2022 U.S. Electricity Net Generation by Source")
     ax1.grid(True, axis="x", alpha=0.3)
 
     # Annotate values on bars
     for i, (val, _bar) in enumerate(zip(sorted_values, _bars)):
         if val >= 0:
-            ax1.text(val / 1000 + 15, i, f"{val:,.0f}", va="center", fontsize=8)
+            ax1.text(val / 1000 + 15, i, f"{val/1000:,.0f}", va="center", fontsize=8)
         else:
-            ax1.text(val / 1000 - 15, i, f"{val:,.0f}", va="center", fontsize=8,
+            ax1.text(val / 1000 - 15, i, f"{val/1000:,.0f}", va="center", fontsize=8,
                      ha="right")
 
     # Legend for categories
     from matplotlib.patches import Patch
     legend_elements = [
-        Patch(facecolor="#CC3333", label="Fossil Fuels"),
-        Patch(facecolor="#E68A00", label="Nuclear"),
-        Patch(facecolor="#33AA33", label="Renewable"),
+        Patch(facecolor="#CC3333", label="Fossil fuels (reds)"),
+        Patch(facecolor="#E68A00", label="Nuclear (orange)"),
+        Patch(facecolor="#33AA33", label="Wind and biomass (greens)"),
+        Patch(facecolor="#2288CC", label="Hydro and pumped storage (blues)"),
+        Patch(facecolor="#FFB833", label="Solar (gold)"),
+        Patch(facecolor="#44AA88", label="Geothermal (teal)"),
     ]
     ax1.legend(handles=legend_elements, loc="lower right", fontsize=9)
 

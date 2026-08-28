@@ -4,7 +4,7 @@
   <img src="cover.svg" alt="Electrical Engineering Reference — Book Cover" width="400">
 </p>
 
-A comprehensive electrical engineering reference covering 19 core disciplines including power systems, communications, semiconductors, control systems, embedded systems, digital logic, circuit analysis, signal processing, electromagnetics, power electronics, instrumentation, electric motors, operational amplifiers, the National Electrical Code, networking, antenna design, radar systems, optics, and engineering economics. Written in Markdown for easy navigation and reference.
+A comprehensive electrical engineering reference covering 19 core disciplines including power systems, communications, semiconductors, control systems, embedded systems, digital logic, circuit analysis, signal processing, electromagnetics, power electronics, instrumentation, electric motors, operational amplifiers, the National Electrical Code, networking, antenna design, radar systems, optics, and engineering economics. The reference is written and maintained in Markdown and published as a typeset PDF and an EPUB, together with a companion volume of 1,298 fully worked problems and a set of interactive marimo notebooks.
 
 ## Features
 
@@ -33,7 +33,8 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Appendix on unit prefixes and SI units for electrical engineering
 - Appendix on getting started with Python and marimo for interactive scripts
 - Appendix on matrix operations for circuit analysis and control systems
-- Dictionary of 560+ technical terms with definitions and chapter cross-references
+- Appendix on the TCLab control laboratory: plant identification, IMC tuning, and measured closed-loop results
+- Dictionary of 600+ technical terms with definitions and chapter cross-references
 
 ## Contents
 
@@ -67,8 +68,8 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Semiconductor Fabrication (crystal growth, lithography, ion implantation, etching, CMOS integration, FinFET, GAA, chiplets)
 
 ### Chapter 4: Control Systems
-- Open Loop Systems
-- Closed Loop Systems
+- Open-Loop Systems
+- Closed-Loop Systems
 - Control Signals (step, ramp, impulse, sinusoidal)
 - Transfer Functions and Block Diagrams (block diagram algebra, signal flow graphs)
 - Time-Domain Performance (first/second-order response, steady-state error)
@@ -167,7 +168,7 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 
 ### Chapter 14: National Electrical Code (NEC)
 - NEC Organization and Structure (chapter hierarchy, key tables)
-- Conductor Sizing and Ampacity (Table 310.16, temperature correction, conduit fill, conduit fill calculations)
+- Conductor Sizing and Ampacity (Table 310.16, temperature correction, ampacity adjustment for multiple conductors, conduit fill calculations, rooftop temperature adders)
 - Overcurrent Protection (standard ratings, tap rules, coordination, short-circuit calculations, AFCI)
 - Grounding and Bonding (system grounding, EGCs, GFPE, bonding, GFCI protection)
 - Motor Circuits (FLC tables, conductor sizing, overcurrent, disconnects, VFD circuits)
@@ -182,7 +183,7 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Dense Wavelength Division Multiplexing (WDM/DWDM, EDFA, system design)
 - Ethernet (frame structure, MAC addressing, physical standards, Power over Ethernet, switching and spanning tree)
 - Internet Protocol (IPv4 subnetting, IPv6 addressing, OSPF and BGP routing, NAT/PAT, CIDR and route aggregation)
-- Transport Protocols (TCP, UDP, sockets, WSGI, QUIC/HTTP/3)
+- Transport Protocols and Server Interfaces (TCP, UDP, sockets, QUIC/HTTP/3, and the WSGI server-to-application interface)
 - Wireless Networking (Wi-Fi standards comparison, RF propagation, wireless security WPA2/WPA3/802.1X)
 - Network Infrastructure (switches, routers, patch panels, structured cabling, VLANs and segmentation, network security, SDN)
 - Network Performance (latency, throughput, Shannon capacity, BER, timing and synchronization, QoS)
@@ -271,9 +272,11 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Implementation Notes (bumpless transfer, model-hardware discrepancy)
 
 ### Dictionary of Terms
-- Alphabetical glossary of 560+ technical terms, acronyms, and abbreviations with definitions and chapter references
+- Alphabetical glossary of 600+ technical terms, acronyms, and abbreviations with definitions and chapter references
 
 ## Structure
+
+The tree below is the **source repository** from which the book is built; it is not what this repository contains. This distribution repository carries the built artifacts only — `EE-Book.pdf` / `.epub`, `EE-Book-Problems.pdf` / `.epub`, the two LaTeX sources, `cover.svg`, and the `scripts/` notebooks. The per-chapter Markdown lives in the private source repository.
 
 ```
 EE-Book/
@@ -321,7 +324,7 @@ EE-Book/
 
 ## Scripts
 
-The `scripts/` directory contains interactive [marimo](https://marimo.io) notebooks that visualize example problems from the chapters with matplotlib graphs. To run them:
+The `scripts/` directory contains interactive [marimo](https://marimo.io) notebooks that visualize example problems from the chapters with matplotlib graphs. Coverage is uneven by design: the chapter notebooks for the earlier chapters and the appendix notebooks are multi-topic, while `16_antenna_design.py`, `17_radar_systems.py`, and `18_optics.py` are single-figure notebooks built around one interactive plot each. To run them:
 
 ```bash
 cd scripts
@@ -347,13 +350,13 @@ marimo edit 07_circuit_analysis.py
 | `12_electric_motors.py` | DC/AC motors, stepper motors, motor control |
 | `13_op_amps.py` | Integrator, differentiator, Sallen-Key, Schmitt trigger, slew rate |
 | `15_networking.py` | Ethernet frame efficiency, fiber link budget, QoS queuing |
-| `16_antenna_design.py` | Dipoles, arrays, patch antennas, beamforming |
-| `17_radar_systems.py` | Range equation, Doppler, FMCW, pulse compression |
-| `18_optics.py` | Geometric optics, wave optics, lasers, fiber |
+| `16_antenna_design.py` | Phased array pattern: element count, spacing, and scan angle |
+| `17_radar_systems.py` | FMCW beat frequency vs. range (77 GHz automotive radar) |
+| `18_optics.py` | Dielectric HR mirror reflectivity vs. layer-pair count |
 | `19_engineering_economics.py` | TVM, NPV, IRR, depreciation, breakeven |
-| `14_appendix_a_phasors.py` | Complex plane, phasor addition, phasor diagrams, power triangle |
-| `15_appendix_b_atan_vs_atan2.py` | Quadrant ambiguity, atan2 full circle, axis points |
-| `16_appendix_c_decibels.py` | dB scale, link budget waterfall, op-amp Bode plot |
+| `appendix_a_phasors.py` | Complex plane, phasor addition, phasor diagrams, power triangle |
+| `appendix_b_atan_vs_atan2.py` | Quadrant ambiguity, atan2 full circle, axis points |
+| `appendix_c_decibels.py` | dB scale, link budget waterfall, op-amp Bode plot |
 
 ## Usage
 

@@ -36,7 +36,9 @@ def _(mo):
 
         An integrator with R = 10 kΩ and C = 0.1 μF produces a linear ramp
         when driven by a constant −2 V input. The output ramps from 0 V to 12 V
-        in t = R × C × ΔV / V_in = 6 ms, giving a slew rate of 2.0 V/ms.
+        in t = R × C × ΔV / V_in = 6 ms, an output ramp rate of 2.0 V/ms set by the
+        RC time constant. This is the integrating slope, not the op-amp's own
+        slew-rate limit — see §13.7 for that (13 V/μs, four orders of magnitude faster).
         """
     )
     return

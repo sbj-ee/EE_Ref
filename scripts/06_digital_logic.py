@@ -199,9 +199,9 @@ def _(mo):
         Timing diagram for a 3-bit synchronous binary counter cycling through
         states 000 → 001 → 010 → ... → 111 → 000 over 16 clock cycles. The
         clock signal and three flip-flop outputs (Q0, Q1, Q2) are shown as
-        digital waveforms stacked vertically. Q0 toggles every clock edge,
-        Q1 every 2 edges, and Q2 every 4 edges — the fundamental binary
-        counting pattern.
+        digital waveforms stacked vertically. The counter is rising-edge triggered,
+        so Q0 toggles once per clock cycle, Q1 once every 2 cycles, and Q2 once
+        every 4 cycles — the fundamental binary counting pattern.
         """
     )
     return

@@ -107,7 +107,8 @@ def _(mo):
 
         A buck converter steps 48 V down to 12 V at 2.5 A with L = 100 μH
         at 100 kHz. The duty cycle D = 12/48 = 0.25. The inductor current has a
-        triangular ripple of ΔI = 0.9 A (30% ripple) in CCM.
+        triangular ripple of ΔI = 0.9 A in CCM — 36 % of the 2.5 A output current,
+        comfortably above the 20–40 % band usually targeted for a buck inductor.
         """
     )
     return

@@ -333,20 +333,20 @@ def _(np, plt):
     psd_flat = np.full_like(f_psd, psd_val)
 
     fig6, ax6 = plt.subplots(figsize=(10, 5))
-    ax6.plot(f_psd / 1e3, psd_flat * 1e6, "b-", linewidth=2, label="PSD = 2 μV²/Hz")
+    ax6.plot(f_psd / 1e3, psd_flat * 1e6, "b-", linewidth=2, label="PSD = 2 mV²/Hz  (2 × 10⁻⁶ V²/Hz)")
 
     # Shade full bandwidth
     mask_full = f_psd <= bw_full
     ax6.fill_between(f_psd[mask_full] / 1e3, psd_flat[mask_full] * 1e6, alpha=0.15, color="blue",
-                     label=f"10 kHz BW: P = {psd_val*bw_full*1e6:.0f} μV², Vrms = {np.sqrt(psd_val*bw_full)*1e3:.0f} mV")
+                     label=f"10 kHz BW: P = {psd_val*bw_full*1e6:.0f} mV², Vrms = {np.sqrt(psd_val*bw_full)*1e3:.0f} mV")
 
     # Shade reduced bandwidth
     mask_reduced = f_psd <= bw_reduced
     ax6.fill_between(f_psd[mask_reduced] / 1e3, psd_flat[mask_reduced] * 1e6, alpha=0.3, color="green",
-                     label=f"2 kHz BW: P = {psd_val*bw_reduced*1e6:.0f} μV², Vrms = {np.sqrt(psd_val*bw_reduced)*1e3:.0f} mV")
+                     label=f"2 kHz BW: P = {psd_val*bw_reduced*1e6:.0f} mV², Vrms = {np.sqrt(psd_val*bw_reduced)*1e3:.0f} mV")
 
     ax6.set_xlabel("Frequency (kHz)")
-    ax6.set_ylabel("PSD (μV²/Hz)")
+    ax6.set_ylabel("PSD (mV²/Hz)")
     ax6.set_title("White Noise Power Spectral Density")
     ax6.set_ylim(0, 4)
     ax6.legend(fontsize=9)

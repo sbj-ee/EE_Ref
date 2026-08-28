@@ -144,7 +144,10 @@ def _(mo):
 
     Constellation diagrams show the mapping of digital symbols to points in
     the I/Q (In-phase / Quadrature) plane. BPSK uses 2 points on the real
-    axis, QPSK uses 4 points at 45/135/225/315 degrees, 8-PSK places 8
+    axis, QPSK uses 4 points at 45/135/225/315 degrees (the π/4-rotated
+    convention an I/Q modulator driven by ±1 on each arm produces — the same
+    modulation as the 0/90/180/270 set, and not to be confused with offset
+    QPSK, which staggers the Q arm in time), 8-PSK places 8
     points on the unit circle, and 16-QAM arranges 16 points in a 4x4 grid
     with varying amplitude and phase.
     """)
@@ -309,17 +312,18 @@ def _(np, plt):
 
     ax_eff.plot(snr_db, spectral_eff, "b-", linewidth=2, label="C/B = log2(1 + SNR)")
 
-    # Shannon limit: minimum Eb/N0 = -1.59 dB = ln(2) = 0.693 linear
-    # At the Shannon limit, spectral efficiency approaches 0
-    shannon_limit_db = -1.59
-    ax_eff.axvline(x=shannon_limit_db, color="red", linestyle="--", linewidth=1.5,
-                   label=f"Shannon limit (Eb/N0 = {shannon_limit_db} dB)")
-    ax_eff.annotate(f"Shannon Limit\nEb/N0 = -1.59 dB",
-                    xy=(shannon_limit_db, 0.5),
-                    xytext=(shannon_limit_db + 8, 1.0),
-                    fontsize=10, color="red",
-                    arrowprops=dict(arrowstyle="->", color="red"),
-                    bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8))
+    # The -1.59 dB Shannon limit is a bound on Eb/N0, NOT on SNR, so it must not
+    # be drawn as a vertical line on this SNR axis. The two are related by
+    # SNR = (Eb/N0) x (C/B); as the spectral efficiency C/B approaches zero the
+    # required Eb/N0 approaches ln(2) = -1.59 dB while the required SNR itself
+    # approaches -infinity dB. Stated as a note rather than plotted.
+    ax_eff.text(0.02, 0.97,
+                "Shannon bound on energy per bit: Eb/N0 $\\to$ ln 2 = $-$1.59 dB\n"
+                "as C/B $\\to$ 0. On this SNR axis that limit is at $-\\infty$ dB,\n"
+                "since SNR = (Eb/N0) $\\times$ (C/B).",
+                transform=ax_eff.transAxes, fontsize=9, color="darkred",
+                va="top", ha="left",
+                bbox=dict(boxstyle="round,pad=0.35", facecolor="lightyellow", alpha=0.85))
 
     # Mark common modulation scheme efficiencies
     mod_schemes = [

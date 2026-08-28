@@ -36,8 +36,9 @@ def _(mo):
 
         Four target plots illustrating the distinction between accuracy and
         precision. The bullseye center represents the true value. Accuracy
-        describes how close the measurements cluster to the center, while
-        precision describes how tightly they cluster together. A measurement
+        describes how close the *average* of the measurements lies to the true
+        value at the center; precision describes how tightly the individual
+        measurements cluster together, wherever that cluster happens to sit. A measurement
         system can be precise but inaccurate (tight grouping, offset from
         center), accurate but imprecise (scattered around center), or any
         combination of the two.

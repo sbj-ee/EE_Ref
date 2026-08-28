@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Generate Appendix G figures: TCLab measured-run graphs.
+"""Generate the Appendix G figures.
 
-Uses the FOPDT plant model identified in §G.2.2 (K=0.694, τ=142.9 s, θ=20 s)
-with the IMC-tuned PID gains from §G.3.1 (Kp=2.71, Ti=152.8 s, Td=9.3 s).
-Simulation time is scaled by DT=1.455 to reflect the real-time sample period
-(1 s nominal + ~0.44 s USB serial overhead = 1.44 s/iteration, §G.5.2).
+These are SIMULATIONS, not logged hardware traces. They are produced from the
+FOPDT plant model identified in §G.2.2 (K=0.694, τ=142.9 s, θ=20 s) driven by
+the IMC-tuned PID gains from §G.3.1 (Kp=2.71, Ti=152.8 s, Td=9.3 s), and are
+annotated with the values measured on the real board so the two can be compared
+directly. Simulation time is scaled by DT=1.455 s/iteration, the mean real-time
+sample period observed over the hardware runs (a 1 s nominal sleep plus roughly
+0.45 s of USB serial overhead; §G.5.2 quotes this as "about 1.44 s").
 
 Sample counts are chosen so real-time durations match the measured results:
   G.4.1 — 600 total samples → 873 s  (preheat ~76 + PID ~524)
@@ -26,7 +29,7 @@ tau   = 142.9    # s      time constant
 theta = 20       # s      dead time (integer samples)
 T0    = 23.0     # °C     ambient
 dt    = 1.0      # s      simulation step
-DT    = 1.455    # real-time scale (USB serial overhead, §G.5.2)
+DT    = 1.455    # s/iteration, measured mean real-time sample period (§G.5.2)
 
 # ── IMC PID (§G.3.1) ──────────────────────────────────────────────────────────
 Kp = 2.71
@@ -163,7 +166,7 @@ ax1r.set_ylabel('Heater Q1 (%)')
 ax1.set_ylim(18, 56)
 ax1r.set_ylim(0, 115)
 ax1.set_xlim(0, t1[-1])
-ax1.set_title('TCLab §G.4.1 — Single Setpoint Step Response (50 °C, IMC-Tuned PID)')
+ax1.set_title('TCLab §G.4.1 — Single Setpoint Step Response, FOPDT Simulation\n(50 °C, IMC-Tuned PID; measured values annotated)')
 
 h1, l1 = ax1.get_legend_handles_labels()
 h2, l2 = ax1r.get_legend_handles_labels()
@@ -228,7 +231,7 @@ ax2r.set_ylabel('Heater Q1 (%)')
 ax2.set_ylim(18, 57)
 ax2r.set_ylim(0, 115)
 ax2.set_xlim(0, t2[-1])
-ax2.set_title('TCLab §G.4.2 — Multi-Setpoint Schedule (50 → 35 → 40 °C, IMC-Tuned PID)')
+ax2.set_title('TCLab §G.4.2 — Multi-Setpoint Schedule, FOPDT Simulation\n(50 → 35 → 40 °C, IMC-Tuned PID; measured values annotated)')
 
 h3, l3 = ax2.get_legend_handles_labels()
 h4, l4 = ax2r.get_legend_handles_labels()
