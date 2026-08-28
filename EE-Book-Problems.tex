@@ -31071,17 +31071,19 @@ Temperature correction factor at 42°C ambient:\\
 Per 110.14(C), the 75°C column governs for termination purposes, but the
 90°C ampacity may be used for derating calculations.
 
-Using 90°C column for derating:\\
-- 1/0 AWG: 170 × 0.91 = 154.7 A. Check: does not exceed 75°C termination
-value of 150 A. Use \textbf{150 A} (governed by termination).\\
-- 2/0 AWG: 195 × 0.91 = 177.5 A. Check: does not exceed 75°C value of
-175 A. Use \textbf{175 A}.\\
-- 3/0 AWG: 225 × 0.91 = 204.8 A. Check: exceeds 75°C value of 200 A, so
-limited to \textbf{200 A}.
+Using the 90°C column for derating, then capping at the 75°C termination
+value:\\
+- 1/0 AWG: 170 × 0.87 = 147.9 A. Below the 75°C termination value of 150
+A, so the corrected ampacity governs: \textbf{147.9 A}.\\
+- 2/0 AWG: 195 × 0.87 = 169.7 A. Below the 75°C value of 175 A:
+\textbf{169.7 A}.\\
+- 3/0 AWG: 225 × 0.87 = 195.8 A. Below the 75°C value of 200 A:
+\textbf{195.8 A}.
 
-For a 150 A requirement: \textbf{1/0 AWG} copper THWN-2 is sufficient
-(150 A ≥ 150 A), but has zero margin. Select \textbf{2/0 AWG} (175 A)
-for engineering margin.
+For a 150 A requirement: \textbf{1/0 AWG falls short} at 147.9 A --- the
+42°C ambient costs enough ampacity to disqualify it, even though its
+75°C table value is exactly 150 A. The smallest size that qualifies is
+\textbf{2/0 AWG} at 169.7 A.
 
 \subsection{Problem 14.1.3}\label{problem-14.1.3}
 

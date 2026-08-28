@@ -87,8 +87,11 @@ boards.
 
 Produced by `scripts/generate_cover_wrap.py`, which carries over the visual
 language of `cover.svg` (green leather, gold rules and type, raised spine
-bands) and extends it across a full case wrap. `cover.svg` itself was a
-**front board only**, 620 × 800 px, with no spine and no back.
+bands) and extends it across a full case wrap. `cover.svg`, the previous artwork, has been retired: it was a
+perspective *mockup* of a front board (620 × 800 px, shared by both volumes and
+not the 2:3 shape of the actual book). It is replaced by `cover-front-*.svg`,
+flat 6 × 9 front covers generated from the same code as the wrap, which also
+feed the EPUB covers and the README image.
 
 Stock is **50# offset at 400 PPI**, which sets the text-block thickness:
 
@@ -120,8 +123,8 @@ the binder.
 
 **Spine type runs top-to-bottom**, the US and UK trade convention: upright on
 the shelf the title reads downward, and with the book lying front-cover-up it
-reads normally. `cover.svg` had used `rotate(-90)`, the European bottom-to-top
-direction; the wrap uses `rotate(90)`.
+reads normally. The retired `cover.svg` had used `rotate(-90)`, the European
+bottom-to-top direction; the wrap uses `rotate(90)`.
 
 Both spine widths depend on the page counts above, so any reflow of the
 interior invalidates the wrap. Regenerate it after every press build.

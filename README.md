@@ -1,7 +1,7 @@
 # EE-Book
 
 <p align="center">
-  <img src="cover.svg" alt="Electrical Engineering Reference — Book Cover" width="400">
+  <img src="cover-front-reference.svg" alt="Electrical Engineering Reference — Book Cover" width="360">
 </p>
 
 A comprehensive electrical engineering reference covering 19 core disciplines including power systems, communications, semiconductors, control systems, embedded systems, digital logic, circuit analysis, signal processing, electromagnetics, power electronics, instrumentation, electric motors, operational amplifiers, the National Electrical Code, networking, antenna design, radar systems, optics, and engineering economics. The reference is written and maintained in Markdown and published as a typeset PDF and an EPUB, together with a companion volume of 1,298 fully worked problems and a set of interactive marimo notebooks.
@@ -283,12 +283,17 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 
 ## Structure
 
-This public repository is the published snapshot of *Electrical Engineering Reference*. The book is written and maintained in Markdown in a private source repository; this repo carries the built artifacts, the two LaTeX sources, the cover, and the interactive notebooks.
+This public repository is the published snapshot of *Electrical Engineering Reference*. The book is written and maintained in Markdown in a private source repository; this repo carries the built artifacts, the two LaTeX sources, the cover artwork, and the interactive notebooks.
 
 ```
 EE_Ref/
 ├── README.md
-├── cover.svg
+├── cover-front-reference.svg      # Front cover, 6 x 9 trim
+├── cover-front-problems.svg
+├── cover-wrap-reference.svg       # Full case wrap (back + spine + front)
+├── cover-wrap-problems.svg
+├── cover-wrap-*-guides.svg        # Same, with fold/joint/safe-area guides
+├── print-specs.md                 # Trim, margins, spine table, wrap spec
 ├── EE-Book.tex
 ├── EE-Book.pdf
 ├── EE-Book.epub

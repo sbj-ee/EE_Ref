@@ -24596,8 +24596,10 @@ Temperature correction factor for 90°C conductors at 38°C ambient:
 0.91.\\
 Corrected ampacity: 170 × 0.91 = 154.7 A --- insufficient.\\
 For 2/0 AWG at 90°C: 195 × 0.91 = 177.5 A --- still insufficient.\\
-For 3/0 AWG at 90°C: 225 × 0.91 = 204.8 A --- exceeds 200 A and does not
-exceed the 75°C termination rating of 200 A.\\
+For 3/0 AWG at 90°C: 225 × 0.91 = 204.8 A --- enough for the 200 A
+feeder. Per 110.14(C) the result is then capped at the 75°C termination
+rating, which for 3/0 AWG is 200 A, so the conductor is credited with
+200 A. That exactly meets the 200 A load.\\
 Minimum conductor size: 3/0 AWG copper THWN-2.
 
 \end{examplebox}
