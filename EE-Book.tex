@@ -24836,16 +24836,15 @@ Roof adder per 310.15(B)(2): +33°C, because the conduit lies directly on
 the roof (less than 7/8 inch of clearance).\\
 Effective ambient: 40 + 33 = 73°C.\\
 Temperature correction factor for 90°C insulation at 73°C ambient
-(71--75°C band of Table 310.15(B)(1)): factor = 0.41.\\
+(71--75°C band of Table 310.15(B)(1)): factor = 0.50.\\
 Base ampacity of 6 AWG THWN-2 at 90°C: 75 A.\\
-Derated ampacity: 75 × 0.41 = \textbf{30.8 A}.\\
+Derated ampacity: 75 × 0.50 = \textbf{37.5 A}.\\
 Indoor comparison at 30°C ambient: no correction needed, ampacity = 75 A
 (at 90°C rating), but limited to 65 A by 75°C termination rating.\\
-The rooftop installation loses 59\% of its current-carrying capacity.\\
+The rooftop installation loses half its current-carrying capacity.\\
 If the HVAC unit draws 40 A, 6 AWG is insufficient on the rooftop ---
-upgrade to 4 AWG (90°C base = 95 A, derated = 95 × 0.41 = 39.0 A ---
-still marginal) or 3 AWG (90°C base = 110 A, derated = 110 × 0.41 = 45.1
-A --- sufficient).\\
+upgrade to 4 AWG (90°C base = 95 A, derated = 95 × 0.50 = 47.5 A ---
+sufficient with margin).\\
 Raising the conduit onto standoffs that give at least 7/8 inch of
 clearance removes the adder entirely: the effective ambient falls back
 to the 40°C weather value, the correction factor for 90°C insulation in
@@ -25022,9 +25021,15 @@ Multiplier factor for conductor impedance: f = (1.732 × 30 × 10,459) /
 Available fault current at MDP: I\textsubscript{sc(MDP)} =
 I\textsubscript{sc(xfmr)} / (1 + f) = 10,459 / 1.04239 = 10,034 A.\\
 All overcurrent devices at the MDP must have an interrupting rating ≥
-10,034 A (select standard 10 kAIC or 14 kAIC rated devices).\\
-Standard molded-case circuit breakers are typically rated 10 kAIC or 14
-kAIC at 480 V.
+10,034 A. The next standard rating above that is \textbf{14 kAIC} --- a
+10 kAIC device is rated 10,000 A and does \textbf{not} qualify, even
+though it is within 0.4\% of the available current. Section 110.9 admits
+no margin: the interrupting rating must equal or exceed the available
+fault current, and the nearest standard rating at or above it is the one
+to specify.\\
+Standard molded-case circuit breakers are available at 10, 14, 18, 22,
+25, 35, 42, 65 and 100 kAIC; at 480 V the 14 kAIC frame is the
+economical choice here.
 
 \end{examplebox}
 
@@ -26102,16 +26107,16 @@ Calculations}\label{service-load-calculations}
 
 NEC Article 220 provides two methods for calculating the total demand
 load on a building's electrical service: the \textbf{standard method}
-(Article 220, Parts III--IV) and the \textbf{optional method} (Article
-220, Part V, Section 220.82 for dwelling units). Both methods apply
+(Article 220, Part III) and the \textbf{optional method} (Article 220,
+Part IV, Section 220.82 for dwelling units). Both methods apply
 \textbf{demand factors} --- percentage reductions that account for the
 statistical improbability that all loads will operate simultaneously at
 full capacity --- to convert the total connected load into the design
 demand load used for sizing the service entrance conductors and main
 overcurrent device. The standard method calculates general lighting and
-receptacle loads from Table 220.12 at 3 VA/ft² for dwellings (or the
+receptacle loads from Table 220.42 at 3 VA/ft² for dwellings (or the
 applicable VA/ft² for the occupancy type), applies the demand factors
-from Table 220.42 (first 3,000 VA at 100\%, remainder at 35\% for
+from Table 220.45 (first 3,000 VA at 100\%, remainder at 35\% for
 dwellings), adds fixed appliance loads at 75\% demand if four or more
 appliances (220.53), adds the dryer at 5,000 VA minimum per Table
 220.54, and adds cooking equipment at reduced demand per Table 220.55
@@ -26121,8 +26126,8 @@ for existing dwellings or where the total connected load can be
 determined: the first 10 kVA of general load is taken at 100\%, the
 remainder at 40\%, and HVAC is added at 100\% of the largest system
 (heating or cooling, since they do not operate simultaneously per
-220.60). For commercial buildings, Article 220 Part IV provides demand
-factors for specific load types including lighting (Table 220.42),
+220.60). For commercial buildings, Article 220 Part III provides demand
+factors for specific load types including lighting (Table 220.45),
 receptacles (Table 220.44: first 10 kVA at 100\%, remainder at 50\%),
 and specific equipment loads. The calculated demand load determines the
 minimum service entrance conductor size (per Table 310.16) and the main
@@ -26144,7 +26149,7 @@ size.
 \textbf{Small-appliance circuits:} 2 × 1,500 VA = 3,000 VA.\\
 \textbf{Laundry circuit:} 1,500 VA.\\
 Total general load: 7,200 + 3,000 + 1,500 = 11,700 VA.\\
-Apply Table 220.42 demand factors: first 3,000 VA at 100\% = 3,000 VA;
+Apply Table 220.45 demand factors: first 3,000 VA at 100\% = 3,000 VA;
 remaining 8,700 VA at 35\% = 3,045 VA.\\
 Net general load: 3,000 + 3,045 = \textbf{6,045 VA}.\\
 \textbf{Range:} Table 220.55, Column C for one range ≤ 12 kW: demand =
