@@ -38,8 +38,8 @@
   <line x1="517.73" y1="167.65" x2="695.37" y2="167.65" stroke="url(#goldLine)" stroke-width="0.63" opacity="0.7"/>
   <line x1="513.00" y1="613.44" x2="700.09" y2="613.44" stroke="#0f3a0f" stroke-width="2.36" opacity="0.5"/>
   <line x1="517.73" y1="620.53" x2="695.37" y2="620.53" stroke="url(#goldLine)" stroke-width="0.63" opacity="0.7"/>
-  <text x="606.55" y="387.00" fill="url(#goldSpine)" font-family="Georgia, 'Times New Roman', serif" font-size="12.60" font-weight="bold" letter-spacing="2.36" text-anchor="middle" filter="url(#textEmboss)" transform="rotate(-90, 606.55, 387.00)">EE REFERENCE · PROBLEM SETS</text>
-  <text x="606.55" y="672.05" fill="url(#goldSpine)" font-family="Georgia, 'Times New Roman', serif" font-size="8.66" letter-spacing="0.79" text-anchor="middle" filter="url(#textEmboss)" transform="rotate(-90, 606.55, 672.05)">STEPHEN B. JOHNSON</text>
+  <text x="606.55" y="387.00" fill="url(#goldSpine)" font-family="Georgia, 'Times New Roman', serif" font-size="12.60" font-weight="bold" letter-spacing="2.36" text-anchor="middle" filter="url(#textEmboss)" transform="rotate(90, 606.55, 387.00)">EE REFERENCE · PROBLEM SETS</text>
+  <text x="606.55" y="672.05" fill="url(#goldSpine)" font-family="Georgia, 'Times New Roman', serif" font-size="8.66" letter-spacing="0.79" text-anchor="middle" filter="url(#textEmboss)" transform="rotate(90, 606.55, 672.05)">STEPHEN B. JOHNSON</text>
   <rect x="77.62" y="77.62" width="393.75" height="618.75" fill="none" stroke="url(#goldLine)" stroke-width="1.18" opacity="0.85"/>
   <rect x="85.50" y="85.50" width="378.00" height="603.00" fill="none" stroke="url(#goldLine)" stroke-width="0.55" opacity="0.6"/>
   <rect x="741.72" y="77.62" width="393.75" height="618.75" fill="none" stroke="url(#goldLine)" stroke-width="1.18" opacity="0.85"/>

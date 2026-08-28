@@ -118,10 +118,10 @@ image placed at exact physical size (verify with `pdfimages -list`). Matching
 the safe area in yellow; those are for checking only and must not be sent to
 the binder.
 
-**Spine type runs bottom-to-top** (European convention), inherited from
-`cover.svg`. US and UK trade practice is top-to-bottom. Changing it is a
-one-line edit — the `rotate(-90)` in `spine_text()` becomes `rotate(90)` with
-the transform origin moved — but it has been left as the author drew it.
+**Spine type runs top-to-bottom**, the US and UK trade convention: upright on
+the shelf the title reads downward, and with the book lying front-cover-up it
+reads normally. `cover.svg` had used `rotate(-90)`, the European bottom-to-top
+direction; the wrap uses `rotate(90)`.
 
 Both spine widths depend on the page counts above, so any reflow of the
 interior invalidates the wrap. Regenerate it after every press build.

@@ -152,18 +152,21 @@ def build(vol, guides=False):
         a(f'  <line x1="{x_spine+6*s:.2f}" y1="{yy+9*s:.2f}" x2="{x_spine+w_spine-6*s:.2f}" '
           f'y2="{yy+9*s:.2f}" stroke="url(#goldLine)" stroke-width="{0.8*s:.2f}" opacity="0.7"/>')
     cx = x_spine + w_spine / 2
-    # spine type reads bottom-to-top, matching cover.svg
+    # Spine type reads top-to-bottom (US/UK trade convention): upright on the
+    # shelf, the title reads downward. cover.svg used rotate(-90), the European
+    # bottom-to-top direction; rotate(90) is the same type rotated the other way,
+    # anchored at its own midpoint so nothing needs repositioning.
     ty = (yb1 + yb2) / 2
     a(f'  <text x="{cx:.2f}" y="{ty:.2f}" fill="url(#goldSpine)" '
       f'font-family="Georgia, \'Times New Roman\', serif" font-size="{16*s:.2f}" '
       f'font-weight="bold" letter-spacing="{3*s:.2f}" text-anchor="middle" '
-      f'filter="url(#textEmboss)" transform="rotate(-90, {cx:.2f}, {ty:.2f})">'
+      f'filter="url(#textEmboss)" transform="rotate(90, {cx:.2f}, {ty:.2f})">'
       f'{vol["spine_title"]}</text>')
     ay = yb2 + (y_board + h_board - yb2) * 0.55
     a(f'  <text x="{cx:.2f}" y="{ay:.2f}" fill="url(#goldSpine)" '
       f'font-family="Georgia, \'Times New Roman\', serif" font-size="{11*s:.2f}" '
       f'letter-spacing="{1*s:.2f}" text-anchor="middle" filter="url(#textEmboss)" '
-      f'transform="rotate(-90, {cx:.2f}, {ay:.2f})">{AUTHOR}</text>')
+      f'transform="rotate(90, {cx:.2f}, {ay:.2f})">{AUTHOR}</text>')
 
     # ── board panels: double-rule frame on each ──
     for bx in (x_back, x_front):
@@ -250,7 +253,10 @@ def render_press(svg_path, g, dpi=PRESS_DPI):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--guides", action="store_true", help="also emit guide-marked versions")
+    # Guides are emitted by default. They were opt-in, which let the tracked
+    # guide files keep a stale spine-text direction after the deliverable was
+    # regenerated without the flag -- exactly the drift they exist to catch.
+    ap.add_argument("--no-guides", action="store_true", help="skip the guide-marked versions")
     ap.add_argument("--no-press", action="store_true", help="skip the PNG/PDF press render")
     args = ap.parse_args()
     root = Path(__file__).resolve().parent.parent
@@ -263,7 +269,7 @@ def main():
         if not args.no_press:
             png, pdf = render_press(p, g)
             print(f"  + {png.name}, {pdf.name} at {PRESS_DPI} dpi")
-        if args.guides:
+        if not args.no_guides:
             svg, _ = build(vol, guides=True)
             q = root / f"cover-wrap-{vol['key']}-guides.svg"
             q.write_text(svg, encoding="utf-8")
