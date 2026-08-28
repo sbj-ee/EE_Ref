@@ -6002,10 +6002,10 @@ GaN enables smaller, higher-power amplifiers.
 \subsection{Problem 3.2.5}\label{problem-3.2.5}
 
 \textbf{Given:} A GaN-on-SiC power switching transistor operates at
-V\textsubscript{DS} = 650 V with R\textsubscript{DS(on)} = 25 mohm at
+V\textsubscript{DS} = 650 V with R\textsubscript{DS(on)} = 25 mΩ at
 25°C. The R\textsubscript{DS(on)} temperature coefficient is
 +0.8\%/degree C. An equivalent SiC MOSFET has R\textsubscript{DS(on)} =
-40 mohm at 25°C with a temperature coefficient of +1.2\%/degree C. Both
+40 mΩ at 25°C with a temperature coefficient of +1.2\%/degree C. Both
 devices carry 30 A at a junction temperature of 150°C.
 
 \textbf{Find:} (a) R\textsubscript{DS(on)} at 150°C for each device, and
@@ -6016,9 +6016,9 @@ devices carry 30 A at a junction temperature of 150°C.
 (a) Temperature rise: delta\_T = 150 - 25 = 125°C.
 
 GaN: R\textsubscript{DS(on)}(150) = 25 × (1 + 0.008 × 125) = 25 × 2.0 =
-\textbf{50 mohm}\\
+\textbf{50 mΩ}\\
 SiC: R\textsubscript{DS(on)}(150) = 40 × (1 + 0.012 × 125) = 40 × 2.5 =
-\textbf{100 mohm}
+\textbf{100 mΩ}
 
 (b) Conduction losses at 150°C:\\
 GaN: P\textsubscript{cond} = I\textsuperscript{2} ×
@@ -6665,7 +6665,7 @@ reduced or V\textsubscript{DD} increased to keep V\textsubscript{DS}
 
 \textbf{Given:} A power MOSFET drives a 24 V brushless DC motor at
 f\textsubscript{sw} = 20 kHz using PWM. The MOSFET has
-R\textsubscript{DS(on)} = 12 mohm at 25°C (increasing to 18 mohm at
+R\textsubscript{DS(on)} = 12 mΩ at 25°C (increasing to 18 mΩ at
 T\textsubscript{J} = 100°C), Q\textsubscript{g} = 80 nC,
 t\textsubscript{rise} = 25 ns, t\textsubscript{fall} = 35 ns. The motor
 draws 30 A at a PWM duty cycle of 75\%.
@@ -6713,7 +6713,7 @@ package) is wholly inadequate. A heatsink with θ\textsubscript{JA}
 \subsection{Problem 3.5.5}\label{problem-3.5.5}
 
 \textbf{Given:} Two identical power MOSFETs (R\textsubscript{DS(on)} =
-5.0 mohm each at 25°C, temperature coefficient +0.4\%/degree C) are
+5.0 mΩ each at 25°C, temperature coefficient +0.4\%/degree C) are
 connected in parallel to share a 50 A load current. Due to layout
 asymmetry, MOSFET A runs 10°C hotter than MOSFET B.
 
@@ -6727,9 +6727,9 @@ sharing.
 
 (a) R\textsubscript{DS(on)} at operating temperature:\\
 MOSFET A: R\textsubscript{A} = 5.0 × (1 + 0.004 × (60 - 25)) = 5.0 × (1
-+ 0.14) = 5.0 × 1.14 = \textbf{5.70 mohm}\\
++ 0.14) = 5.0 × 1.14 = \textbf{5.70 mΩ}\\
 MOSFET B: R\textsubscript{B} = 5.0 × (1 + 0.004 × (50 - 25)) = 5.0 × (1
-+ 0.10) = 5.0 × 1.10 = \textbf{5.50 mohm}
++ 0.10) = 5.0 × 1.10 = \textbf{5.50 mΩ}
 
 (b) In parallel with common V\textsubscript{DS}, current divides
 inversely with resistance:\\
@@ -14753,9 +14753,6 @@ takes an electron to travel 1 meter along the conductor.
 v\textsubscript{d} = 100 / (18.1 × 10\textsuperscript{28} × 53.5 ×
 10\textsuperscript{-6} × 1.602 × 10\textsuperscript{-19})
 
-v\textsubscript{d} = 100 / (18.1 × 10\textsuperscript{28} × 53.5 ×
-10\textsuperscript{-6} × 1.602 × 10\textsuperscript{-19})
-
 Denominator = 18.1 × 53.5 × 1.602 × 10\textsuperscript{28-6-19} = 1551.3
 × 10\textsuperscript{3} = 1.551 × 10\textsuperscript{6}
 
@@ -14915,7 +14912,7 @@ e\textsuperscript{-600/(Rleak × 47 × 10-6}) = 11/12 = 0.9167
 ln(0.9167) = -0.0870
 
 R\textsubscript{leak} = 600 / (0.0870 × 47 × 10\textsuperscript{-6}) =
-600 / (4.089 × 10\textsuperscript{-6}) = \textbf{146.7 Mohm}
+600 / (4.089 × 10\textsuperscript{-6}) = \textbf{146.7 MΩ}
 
 \subsection{Problem 7.2.3}\label{problem-7.2.3}
 
@@ -15093,8 +15090,8 @@ proportional to V\textsuperscript{2}.
 
 \subsection{Problem 7.3.2}\label{problem-7.3.2}
 
-\textbf{Given:} A series circuit contains a 36 V battery, a 1.5 kohm
-resistor R₁, a 2.2 kohm resistor R₂, and a 3.3 kohm resistor R₃.
+\textbf{Given:} A series circuit contains a 36 V battery, a 1.5 kΩ
+resistor R₁, a 2.2 kΩ resistor R₂, and a 3.3 kΩ resistor R₃.
 
 \textbf{Find:} (a) The total series resistance. (b) The loop current.
 (c) The voltage drop across each resistor. (d) Verify KVL around the
@@ -15103,7 +15100,7 @@ loop.
 \textbf{Solution:}
 
 (a) R\textsubscript{total} = R₁ + R₂ + R₃ = 1,500 + 2,200 + 3,300 =
-\textbf{7,000 Ω = 7 kohm}
+\textbf{7,000 Ω = 7 kΩ}
 
 (b) Loop current: I = V / R\textsubscript{total} = 36 / 7,000 =
 \textbf{5.143 mA}
@@ -15261,7 +15258,7 @@ series-parallel combinations.
 
 \subsection{Problem 7.4.1}\label{problem-7.4.1}
 
-\textbf{Given:} A series string of five identical 1 kohm resistors is
+\textbf{Given:} A series string of five identical 1 kΩ resistors is
 connected across a 25 V supply. A voltmeter is connected across the
 third resistor in the string.
 
@@ -15271,7 +15268,7 @@ dissipated by each resistor and the total power.
 
 \textbf{Solution:}
 
-(a) R\textsubscript{total} = 5 × 1,000 = \textbf{5,000 Ω = 5 kohm}
+(a) R\textsubscript{total} = 5 × 1,000 = \textbf{5,000 Ω = 5 kΩ}
 
 (b) Series current: I = V / R\textsubscript{total} = 25 / 5,000 =
 \textbf{5 mA}
@@ -15291,7 +15288,7 @@ R\textsubscript{total} = 625 / 5,000 = 125 mW (verified).
 \subsection{Problem 7.4.2}\label{problem-7.4.2}
 
 \textbf{Given:} Four resistors are connected in parallel across a 24 V
-source: R₁ = 100 Ω, R₂ = 220 Ω, R₃ = 470 Ω, R₄ = 1 kohm.
+source: R₁ = 100 Ω, R₂ = 220 Ω, R₃ = 470 Ω, R₄ = 1 kΩ.
 
 \textbf{Find:} (a) The total parallel resistance. (b) The total current
 from the source. (c) The current through each branch. (d) The total
@@ -15367,23 +15364,23 @@ Check: I₂ + I₃ = 196.7 + 98.4 = 295.1 mA = I (verified).
 
 \subsection{Problem 7.4.4}\label{problem-7.4.4}
 
-\textbf{Given:} A Wheatstone bridge has R₁ = 1 kohm, R₂ = 2 kohm, R₃ =
-1.5 kohm, and R₄ is unknown. The bridge is powered by a 10 V source.
-When balanced, the galvanometer reads zero current.
+\textbf{Given:} A Wheatstone bridge has R₁ = 1 kΩ, R₂ = 2 kΩ, R₃ = 1.5
+kΩ, and R₄ is unknown. The bridge is powered by a 10 V source. When
+balanced, the galvanometer reads zero current.
 
 \textbf{Find:} (a) The value of R₄ for a balanced bridge. (b) Verify the
-balance condition. (c) If R₄ is actually 3.1 kohm (slightly unbalanced),
+balance condition. (c) If R₄ is actually 3.1 kΩ (slightly unbalanced),
 find the open-circuit voltage across the galvanometer terminals.
 
 \textbf{Solution:}
 
 (a) Balance condition: R₁/R₂ = R₃/R₄
 
-R₄ = R₂ × R₃ / R₁ = 2,000 × 1,500 / 1,000 = \textbf{3,000 Ω = 3 kohm}
+R₄ = R₂ × R₃ / R₁ = 2,000 × 1,500 / 1,000 = \textbf{3,000 Ω = 3 kΩ}
 
 (b) Check: R₁/R₂ = 1/2 = 0.5. R₃/R₄ = 1.5/3 = 0.5. \textbf{Balanced.}
 
-(c) With R₄ = 3.1 kohm, the voltage at each midpoint:
+(c) With R₄ = 3.1 kΩ, the voltage at each midpoint:
 
 V\textsubscript{A} = V\textsubscript{source} × R₂ / (R₁ + R₂) = 10 ×
 2,000 / (1,000 + 2,000) = 10 × 2/3 = 6.667 V
@@ -15398,14 +15395,13 @@ V\textsubscript{galvanometer} = V\textsubscript{B} - V\textsubscript{A}
 
 \textbf{Given:} A voltage divider supplies 3.3 V to a microcontroller
 from a 12 V source. The microcontroller input has an input impedance of
-10 Mohm and draws negligible current. The divider uses R₁ (upper,
-connected to 12 V) and R₂ (lower, connected to ground) with R₂ = 10
-kohm.
+10 MΩ and draws negligible current. The divider uses R₁ (upper,
+connected to 12 V) and R₂ (lower, connected to ground) with R₂ = 10 kΩ.
 
 \textbf{Find:} (a) The required value of R₁. (b) The current through the
 divider (quiescent current). (c) The power dissipated by the divider.
-(d) If the microcontroller input impedance drops to 100 kohm (a
-different MCU), the new output voltage.
+(d) If the microcontroller input impedance drops to 100 kΩ (a different
+MCU), the new output voltage.
 
 \textbf{Solution:}
 
@@ -15416,10 +15412,10 @@ different MCU), the new output voltage.
 
 R₁ + 10,000 = 12 × 10,000 / 3.3 = 120,000 / 3.3 = 36,364
 
-R₁ = 36,364 - 10,000 = \textbf{26,364 Ω} (use standard value 27 kohm)
+R₁ = 36,364 - 10,000 = \textbf{26,364 Ω} (use standard value 27 kΩ)
 
-With R₁ = 27 kohm: V\textsubscript{out} = 12 × 10,000 / (27,000 +
-10,000) = 120,000 / 37,000 = \textbf{3.24 V}
+With R₁ = 27 kΩ: V\textsubscript{out} = 12 × 10,000 / (27,000 + 10,000)
+= 120,000 / 37,000 = \textbf{3.24 V}
 
 (b) Quiescent current: I\textsubscript{q} = 12 / (27,000 + 10,000) = 12
 / 37,000 = \textbf{324 μA}
@@ -15427,7 +15423,7 @@ With R₁ = 27 kohm: V\textsubscript{out} = 12 × 10,000 / (27,000 +
 (c) Power: P = V\textsubscript{in} × I\textsubscript{q} = 12 × 0.000324
 = \textbf{3.89 mW}
 
-(d) With 100 kohm load in parallel with R₂:
+(d) With 100 kΩ load in parallel with R₂:
 
 R₂\textsubscript{eff} = (10,000 × 100,000) / (10,000 + 100,000) =
 1,000,000,000 / 110,000 = 9,091 Ω
@@ -15592,65 +15588,70 @@ source produces V\textsubscript{x} = 3(-2.5) = -7.5 V.
 
 \subsection{Problem 7.5.5}\label{problem-7.5.5}
 
-\textbf{Given:} A circuit has three voltage sources (6 V, 12 V, and 18
-V) and four resistors forming a two-mesh network. Mesh 1 (left): 6 V
-source, R₁ = 2 kΩ, R₂ = 4 kΩ (shared). Mesh 2 (right): R₂ = 4 kΩ
-(shared), R₃ = 3 kΩ, 12 V source. Additionally, an 18 V source is in
-series with R₄ = 6 kΩ between the top node (junction of R₁ and R₂) and
-ground, forming a third branch.
+\textbf{Given:} A single top node is fed from ground by four parallel
+branches: a 6 V source in series with R₁ = 2 kΩ, a 12 V source in series
+with R₃ = 3 kΩ, an 18 V source in series with R₄ = 6 kΩ, and a plain
+resistor R₂ = 4 kΩ connecting the node directly to ground.
 
 \textbf{Find:} The voltage at the top node using superposition
 (considering each source independently).
 
 \textbf{Solution:}\\
-Let V\textsubscript{N} be the voltage at the top node. Using nodal
-analysis with superposition:
+Let V\textsubscript{N} be the voltage at the top node. Deactivating a
+voltage source shorts it, which leaves that branch's series resistor
+connected from the node straight to ground. R₂ has no source in series
+with it, so it stays in the circuit for \textbf{every} sub-problem --- a
+resistor is not a source and is never deactivated.
 
 \textbf{18 V source alone} (6 V and 12 V replaced by short circuits):
 
-The 18 V source is in series with R₄ = 6 kΩ. R₂ is shared between the
-two meshes, so with both the 6 V and 12 V sources shorted it connects
-the top node directly through those shorts, leaving R₁ = 2 kΩ and R₃ = 3
-kΩ as the paths to ground.
+From the top node, three resistors now run to ground: R₁, R₃, and R₂.
 
-From the top node: R₁ to ground (through shorted 6 V), R₃ to ground
-(through shorted 12 V), and the 18 V source with R₄.
-
-R\textsubscript{parallel} = R₁ \textbar\textbar{} R₃ = (2000 × 3000) /
-(2000 + 3000) = 6,000,000 / 5,000 = 1,200 Ω
+R\textsubscript{parallel} = R₁ \textbar\textbar{} R₃ \textbar\textbar{}
+R₂ = 1 / (1/2000 + 1/3000 + 1/4000) = 1 / 0.0010833 = 923.1 Ω
 
 V\textsubscript{N,18} = 18 × R\textsubscript{parallel} / (R₄ +
-R\textsubscript{parallel}) = 18 × 1200 / (6000 + 1200) = 21,600 / 7,200
-= \textbf{3.0 V}
+R\textsubscript{parallel}) = 18 × 923.1 / (6000 + 923.1) = 18 × 0.1333 =
+\textbf{2.4 V}
 
 \textbf{6 V source alone} (12 V and 18 V shorted):
 
-From the top node: R₃ to ground (through shorted 12 V), R₄ to ground
-(through shorted 18 V).
+To ground from the node: R₃, R₄, and R₂.
 
-R\textsubscript{parallel} = R₃ \textbar\textbar{} R₄ = (3000 × 6000) /
-(3000 + 6000) = 18,000,000 / 9,000 = 2,000 Ω
+R\textsubscript{parallel} = R₃ \textbar\textbar{} R₄ \textbar\textbar{}
+R₂ = 1 / (1/3000 + 1/6000 + 1/4000) = 1 / 0.00075 = 1,333.3 Ω
 
 V\textsubscript{N,6} = 6 × R\textsubscript{parallel} / (R₁ +
-R\textsubscript{parallel}) = 6 × 2000 / (2000 + 2000) = 12,000 / 4,000 =
-\textbf{3.0 V}
+R\textsubscript{parallel}) = 6 × 1333.3 / (2000 + 1333.3) = 6 × 0.4000 =
+\textbf{2.4 V}
 
 \textbf{12 V source alone} (6 V and 18 V shorted):
 
-From the top node: R₁ to ground (through shorted 6 V), R₄ to ground
-(through shorted 18 V).
+To ground from the node: R₁, R₄, and R₂.
 
-R\textsubscript{parallel} = R₁ \textbar\textbar{} R₄ = (2000 × 6000) /
-(2000 + 6000) = 12,000,000 / 8,000 = 1,500 Ω
+R\textsubscript{parallel} = R₁ \textbar\textbar{} R₄ \textbar\textbar{}
+R₂ = 1 / (1/2000 + 1/6000 + 1/4000) = 1 / 0.0009167 = 1,090.9 Ω
 
 V\textsubscript{N,12} = 12 × R\textsubscript{parallel} / (R₃ +
-R\textsubscript{parallel}) = 12 × 1500 / (3000 + 1500) = 18,000 / 4,500
-= \textbf{4.0 V}
+R\textsubscript{parallel}) = 12 × 1090.9 / (3000 + 1090.9) = 12 × 0.2667
+= \textbf{3.2 V}
 
 \textbf{Total by superposition:}
 
 V\textsubscript{N} = V\textsubscript{N,18} + V\textsubscript{N,6} +
-V\textsubscript{N,12} = 3.0 + 3.0 + 4.0 = \textbf{10.0 V}
+V\textsubscript{N,12} = 2.4 + 2.4 + 3.2 = \textbf{8.0 V}
+
+\textbf{Check by direct nodal analysis} (all sources active at once):\\
+(6 − V\textsubscript{N})/2000 + (12 − V\textsubscript{N})/3000 + (18 −
+V\textsubscript{N})/6000 = V\textsubscript{N}/4000\\
+Multiplying by 12,000: 6(6 − V\textsubscript{N}) + 4(12 −
+V\textsubscript{N}) + 2(18 − V\textsubscript{N}) = 3V\textsubscript{N}\\
+120 − 12V\textsubscript{N} = 3V\textsubscript{N}, so
+15V\textsubscript{N} = 120 and V\textsubscript{N} = \textbf{8.0 V} ✓
+
+Omitting R₂ from the sub-problems would give 10.0 V --- a 25\% error.
+Every passive element must appear in every superposition sub-circuit;
+only the \emph{sources} are deactivated one at a time.
 
 \subsection{Problem 7.5.6}\label{problem-7.5.6}
 
@@ -15870,11 +15871,11 @@ I\textsubscript{max} = 3.0 / (2 + 2) = 0.75 A
 P\textsubscript{max} = I\textsubscript{max}\textsuperscript{2} ×
 R\textsubscript{load} = 0.5625 × 2 = 1.125 W
 
-But efficiency would be only 50\%, and the battery would drain 30x
-faster. The sensor's operating point (R\textsubscript{load} = 2.9/0.050
-= 58 Ω \textgreater\textgreater{} R\textsubscript{int}) achieves much
-higher efficiency at the cost of lower power extraction -- appropriate
-for a battery-powered device.
+But efficiency would be only 50\%, and the battery would drain 15×
+faster (0.75 A instead of 50 mA). The sensor's operating point
+(R\textsubscript{load} = 2.9/0.050 = 58 Ω \textgreater\textgreater{}
+R\textsubscript{int}) achieves much higher efficiency at the cost of
+lower power extraction -- appropriate for a battery-powered device.
 
 \section{7.7 AC Circuit
 Analysis}\label{chapter-7-section-7.7-ac-circuit-analysis}
@@ -15945,10 +15946,9 @@ Q = 1000 × √(20 × 10\textsuperscript{-9} / (5 × 10\textsuperscript{-3}))
 = 1000 × √(4 × 10\textsuperscript{-6}) = 1000 × 2 ×
 10\textsuperscript{-3} = \textbf{2.0}
 
-Or equivalently: Q = R / (2 × π × f₀ × L) \ldots{} Let's verify:
+Cross-check with the equivalent form Q = R / (ω₀L):
 
-Q = R / (omega₀ × L) = 1000 / (2 × π × 15915 × 0.005) = 1000 / 500 = 2.0
-(verified)
+Q = 1000 / (2 × π × 15,915 × 0.005) = 1000 / 500 = 2.0 ✓
 
 (c) Bandwidth: BW = f₀ / Q = 15,915 / 2.0 = \textbf{7,958 Hz = 7.96 kHz}
 
@@ -16262,9 +16262,10 @@ discharges back to 1/3 V\textsubscript{CC} to set the oscillation
 frequency.
 
 \textbf{Find:} (a) The time constant. (b) The charge time from 4 V to 8
-V (1/3 to 2/3 of 12 V). (c) The approximate oscillation frequency (using
-the 555 formula f = 1.44 / (R × C) for a basic astable with
-R\textsubscript{A} = R\textsubscript{B} = R).
+V (1/3 to 2/3 of 12 V). (c) The approximate oscillation frequency of a
+basic 555 astable built from these values, using f = 1.44 /
+((R\textsubscript{A} + 2R\textsubscript{B}) × C) with R\textsubscript{A}
+= R\textsubscript{B} = R.
 
 \textbf{Solution:}\\
 (a) τ = R × C = 100,000 × 4.7 × 10\textsuperscript{-6} = \textbf{0.47 s}
@@ -16509,8 +16510,10 @@ to 200 Ω.
 
 \subsection{Problem 7.9.4}\label{problem-7.9.4}
 
-\textbf{Given:} Three identical filter sections are cascaded. Each
-section has ABCD parameters A = 1, B = 100 Ω, C = 0.01 S, D = 1.
+\textbf{Given:} Three identical L-section filter stages are cascaded.
+Each stage is a 100 Ω series impedance followed by a 0.01 S shunt
+admittance, giving ABCD parameters A = 1 + ZY = 2, B = 100 Ω, C = 0.01
+S, D = 1.
 
 \textbf{Find:} (a) The overall ABCD parameters for the cascade of three
 sections. (b) The insertion loss (in dB) when the cascade is terminated
@@ -16518,59 +16521,61 @@ in Z\textsubscript{L} = 600 Ω and driven by a Z\textsubscript{S} = 600 Ω
 source.
 
 \textbf{Solution:}\\
+Each stage is passive and reciprocal, so its determinant must be unity:
+AD − BC = 2 × 1 − 100 × 0.01 = 2 − 1 = \textbf{1} ✓. Carrying this check
+through every step is the cheapest way to catch an arithmetic slip in an
+ABCD cascade.
+
 (a) For a cascade, {[}ABCD{]}\textsubscript{total} = {[}ABCD{]}₁ ×
 {[}ABCD{]}₂ × {[}ABCD{]}₃.
 
 First, cascade two sections:
 
-A₁₂ = 1 × 1 + 100 × 0.01 = 1 + 1 = 2
+A₁₂ = 2 × 2 + 100 × 0.01 = 4 + 1 = 5
 
-B₁₂ = 1 × 100 + 100 × 1 = 200 Ω
+B₁₂ = 2 × 100 + 100 × 1 = 200 + 100 = 300 Ω
 
-C₁₂ = 0.01 × 1 + 1 × 0.01 = 0.02 S
+C₁₂ = 0.01 × 2 + 1 × 0.01 = 0.02 + 0.01 = 0.03 S
 
-D₁₂ = 0.01 × 100 + 1 × 1 = 2
+D₁₂ = 0.01 × 100 + 1 × 1 = 1 + 1 = 2
+
+Check: 5 × 2 − 300 × 0.03 = 10 − 9 = \textbf{1} ✓
 
 Now cascade the two-section result with the third section:
 
-A\textsubscript{T} = 2 × 1 + 200 × 0.01 = 2 + 2 = \textbf{4}
+A\textsubscript{T} = 5 × 2 + 300 × 0.01 = 10 + 3 = \textbf{13}
 
-B\textsubscript{T} = 2 × 100 + 200 × 1 = 200 + 200 = \textbf{400 Ω}
+B\textsubscript{T} = 5 × 100 + 300 × 1 = 500 + 300 = \textbf{800 Ω}
 
-C\textsubscript{T} = 0.02 × 1 + 2 × 0.01 = 0.02 + 0.02 = \textbf{0.04 S}
+C\textsubscript{T} = 0.03 × 2 + 2 × 0.01 = 0.06 + 0.02 = \textbf{0.08 S}
 
-D\textsubscript{T} = 0.02 × 100 + 2 × 1 = 2 + 2 = \textbf{4}
+D\textsubscript{T} = 0.03 × 100 + 2 × 1 = 3 + 2 = \textbf{5}
 
-Check: AD - BC = 4 × 4 - 400 × 0.04 = 16 - 16 = 0.
+Check: A\textsubscript{T}D\textsubscript{T} −
+B\textsubscript{T}C\textsubscript{T} = 13 × 5 − 800 × 0.08 = 65 − 64 =
+\textbf{1} ✓ --- the determinant is preserved through the cascade, as it
+must be for a chain of passive reciprocal sections.
 
-Note: Each section has AD - BC = 1 × 1 - 100 × 0.01 = 0 (degenerate case
---- the network is not reciprocal). The cascade of three such sections
-also yields AD - BC = 0. Consistent.
+(b) Insertion loss. With both source and load impedances present:
 
-(b) Insertion loss: The voltage across the load with the cascade
-inserted:
-
-V₂/V\textsubscript{source} = Z\textsubscript{L} / ((A\textsubscript{T} +
-B\textsubscript{T}/Z\textsubscript{L}) × Z\textsubscript{L} + \ldots{} )
-
-Using the full formula: V₂ = V\textsubscript{S} × Z\textsubscript{L} /
+V₂ = V\textsubscript{S} × Z\textsubscript{L} /
 (A\textsubscript{T}Z\textsubscript{L} + B\textsubscript{T} +
 C\textsubscript{T}Z\textsubscript{S}Z\textsubscript{L} +
 D\textsubscript{T}Z\textsubscript{S})
 
-= V\textsubscript{S} × 600 / (4 × 600 + 400 + 0.04 × 600 × 600 + 4 ×
+= V\textsubscript{S} × 600 / (13 × 600 + 800 + 0.08 × 600 × 600 + 5 ×
 600)
 
-= V\textsubscript{S} × 600 / (2,400 + 400 + 14,400 + 2,400)
+= V\textsubscript{S} × 600 / (7,800 + 800 + 28,800 + 3,000)
 
-= V\textsubscript{S} × 600 / 19,600 = V\textsubscript{S} × 0.03061
+= V\textsubscript{S} × 600 / 40,400 = V\textsubscript{S} × 0.014851
 
 Without the cascade (direct connection): V₂ = V\textsubscript{S} ×
 Z\textsubscript{L} / (Z\textsubscript{S} + Z\textsubscript{L}) =
 V\textsubscript{S} × 600/1200 = 0.5 × V\textsubscript{S}
 
-Insertion loss = 20 × log₁₀(0.5 / 0.03061) = 20 × log₁₀(16.33) = 20 ×
-1.213 = \textbf{24.3 dB}
+Insertion loss = 20 × log₁₀(0.5 / 0.014851) = 20 × log₁₀(33.67) = 20 ×
+1.5273 = \textbf{30.5 dB}
 
 \subsection{Problem 7.9.5}\label{problem-7.9.5}
 

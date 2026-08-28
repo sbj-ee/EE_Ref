@@ -10314,6 +10314,7 @@ Typical Application
 1/0 (0) & 8.25 & 53.5 & 0.323 & Service entrance, grounding electrode \\
 4 & 5.19 & 21.2 & 0.815 & Range, dryer circuits (240 V) \\
 6 & 4.11 & 13.3 & 1.296 & Large appliances, subpanels \\
+8 & 3.26 & 8.37 & 2.061 & Range and dryer feeders, 40--50 A circuits \\
 10 & 2.59 & 5.26 & 3.277 & Dryers, water heaters, 30 A circuits \\
 12 & 2.05 & 3.31 & 5.211 & General-purpose 20 A branch circuits \\
 14 & 1.63 & 2.08 & 8.286 & General-purpose 15 A branch circuits \\
@@ -10884,10 +10885,14 @@ reactance is X\textsubscript{C} = -1/(ωC) (negative imaginary), where ω
 = 2πf is the angular frequency. The magnitude \textbar Z\textbar{} =
 √(R² + X²) determines the ratio of voltage amplitude to current
 amplitude, and the angle θ = arctan(X/R) determines the phase shift
-between voltage and current. All DC analysis techniques (Ohm's law, KVL,
-KCL, nodal analysis, mesh analysis, Thévenin/Norton) apply directly to
-AC circuits when voltages and currents are expressed as phasors and
-resistances are replaced by impedances.
+between voltage and current. (For a passive branch R \textgreater{} 0,
+so the ordinary arctangent is unambiguous here. Wherever the real part
+can be negative --- reflection coefficients, network parameters, general
+phasor arithmetic --- the two-argument atan2 is required instead; see
+App. B.) All DC analysis techniques (Ohm's law, KVL, KCL, nodal
+analysis, mesh analysis, Thévenin/Norton) apply directly to AC circuits
+when voltages and currents are expressed as phasors and resistances are
+replaced by impedances.
 
 \begin{examplebox}
 
@@ -11024,8 +11029,12 @@ and (c) whether this transformer provides a reasonable impedance match.
 
 \textbf{Solution:}
 
-(a) Reflected impedance: Z\textsubscript{reflected} = (N₁/N₂)² ×
-Z\textsubscript{load} = (5)² × 8 = \textbf{200 Ω}.
+(a) Reflected impedance, using the ideal-transformer relation:
+Z\textsubscript{reflected} = (N₁/N₂)² × Z\textsubscript{load} = (5)² × 8
+= \textbf{200 Ω}. (Strictly this holds for k = 1; at k = 0.98 the
+leakage inductance adds a small series reactance and the reflected value
+differs by a few percent, which is well inside the tolerance of a real
+audio transformer.)
 
 (b) L₂ = L₁/(N₁/N₂)² = 100 mH/25 = 4 mH. M = k√(L₁L₂) = 0.98 × √(0.100 ×
 0.004) = 0.98 × √(4 × 10⁻⁴) = 0.98 × 0.02 = \textbf{19.6 mH}.
@@ -11211,11 +11220,18 @@ h\textsubscript{ie} (input impedance), h₂₁ = h\textsubscript{fe}
 (current gain), h₁₂ = h\textsubscript{re} (reverse voltage ratio), and
 h₂₂ = h\textsubscript{oe} (output admittance).
 
-\textbf{ABCD-parameters (transmission):} V₁ = AV₂ − BI₂ and I₁ = CV₂ −
-DI₂ (with I₂ defined as flowing out of port 2). Transmission parameters
-are uniquely suited for cascaded networks because the overall ABCD
-matrix is simply the product of the individual ABCD matrices. For a
-reciprocal network, AD − BC = 1.
+\textbf{ABCD-parameters (transmission):} V₁ = AV₂ + BI₂ and I₁ = CV₂ +
+DI₂, with \textbf{I₂ defined as flowing out of port 2} into the load.
+(The same parameters are often written V₁ = AV₂ − BI₂, I₁ = CV₂ − DI₂;
+that form takes I₂ as flowing \emph{into} port 2, and the two differ
+only in that reference direction. Mixing the two is the most common
+source of sign errors in two-port work.) Transmission parameters are
+uniquely suited for cascaded networks because the overall ABCD matrix is
+simply the product of the individual ABCD matrices. For a reciprocal
+network, AD − BC = 1; every passive reciprocal two-port therefore has a
+unit determinant, and because the determinant of a matrix product is the
+product of the determinants, a cascade of such networks does too --- a
+useful arithmetic check on any ABCD calculation.
 
 \begin{examplebox}
 
@@ -11268,35 +11284,51 @@ gain and impedance calculations.
 
 \begin{examplebox}
 
-\textbf{Example 7.9.2:} Two identical two-port networks, each with ABCD
-parameters A = 1, B = 10 Ω, C = 0.02 S, D = 1, are cascaded. Find the
-overall ABCD parameters and the voltage gain V₂/V₁ when the cascade is
-terminated in a 50 Ω load.
+\textbf{Example 7.9.2:} Two identical L-sections are cascaded. Each
+consists of a 10 Ω series impedance followed by a 0.02 S shunt
+admittance, giving ABCD parameters A = 1.2, B = 10 Ω, C = 0.02 S, D = 1.
+Find the overall ABCD parameters and the voltage gain V₂/V₁ when the
+cascade is terminated in a 50 Ω load.
 
 \textbf{Solution:}\\
+The single-section parameters come from cascading the two elementary
+blocks --- a series impedance {[}1, Z; 0, 1{]} and a shunt admittance
+{[}1, 0; Y, 1{]}:\\
+A = 1 + ZY = 1 + (10)(0.02) = 1.2, B = Z = 10 Ω, C = Y = 0.02 S, D =
+1.\\
+Determinant check: AD − BC = (1.2)(1) − (10)(0.02) = 1.2 − 0.2 =
+\textbf{1} ✓ (passive and reciprocal, as it must be).
+
 For a cascade, {[}ABCD{]}\textsubscript{total} = {[}ABCD{]}₁ ×
 {[}ABCD{]}₂:
 
-A\textsubscript{T} = A₁A₂ + B₁C₂ = (1)(1) + (10)(0.02) = \textbf{1.2}
+A\textsubscript{T} = A₁A₂ + B₁C₂ = (1.2)(1.2) + (10)(0.02) = 1.44 + 0.20
+= \textbf{1.64}
 
-B\textsubscript{T} = A₁B₂ + B₁D₂ = (1)(10) + (10)(1) = \textbf{20 Ω}
+B\textsubscript{T} = A₁B₂ + B₁D₂ = (1.2)(10) + (10)(1) = 12 + 10 =
+\textbf{22 Ω}
 
-C\textsubscript{T} = C₁A₂ + D₁C₂ = (0.02)(1) + (1)(0.02) = \textbf{0.04
-S}
+C\textsubscript{T} = C₁A₂ + D₁C₂ = (0.02)(1.2) + (1)(0.02) = 0.024 +
+0.020 = \textbf{0.044 S}
 
-D\textsubscript{T} = C₁B₂ + D₁D₂ = (0.02)(10) + (1)(1) = \textbf{1.2}
+D\textsubscript{T} = C₁B₂ + D₁D₂ = (0.02)(10) + (1)(1) = 0.2 + 1 =
+\textbf{1.2}
 
 Verify determinant: A\textsubscript{T}D\textsubscript{T} −
-B\textsubscript{T}C\textsubscript{T} = 1.2 × 1.2 − 20 × 0.04 = 1.44 −
-0.80 = \textbf{0.64}.\\
-Each individual stage has AD − BC = 1 − 0.2 = \textbf{0.8}, and (0.8)² =
-0.64 ✓ (consistent with cascading two identical stages).\\
-Since AD − BC = 0.64 ≠ 1, the cascade is \textbf{not a reciprocal
-network} --- as expected, because the individual stages are also
-non-reciprocal (AD − BC = 0.8 ≠ 1).\\
-With Z\textsubscript{L} = 50 Ω: V₂/V₁ = Z\textsubscript{L} /
-(A\textsubscript{T}Z\textsubscript{L} + B\textsubscript{T}) = 50 / (1.2
-× 50 + 20) = 50 / 80 = \textbf{0.625} (−4.08 dB).
+B\textsubscript{T}C\textsubscript{T} = 1.64 × 1.2 − 22 × 0.044 = 1.968 −
+0.968 = \textbf{1} ✓\\
+The determinant is preserved through the cascade because det(M₁M₂) =
+det(M₁)det(M₂) = 1 × 1 = 1. This is the single most useful check on an
+ABCD calculation: any passive reciprocal network, however many sections
+it has, must come out with a unit determinant.
+
+With Z\textsubscript{L} = 50 Ω, and I₂ flowing out of port 2 into the
+load so that V₂ = I₂Z\textsubscript{L}:\\
+V₁ = A\textsubscript{T}V₂ + B\textsubscript{T}I₂ = V₂(A\textsubscript{T}
++ B\textsubscript{T}/Z\textsubscript{L}), so\\
+V₂/V₁ = Z\textsubscript{L} / (A\textsubscript{T}Z\textsubscript{L} +
+B\textsubscript{T}) = 50 / (1.64 × 50 + 22) = 50 / 104 = \textbf{0.481}
+(−6.36 dB).
 
 \end{examplebox}
 
