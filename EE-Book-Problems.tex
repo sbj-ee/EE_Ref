@@ -4019,7 +4019,7 @@ GHz spacing.
 (c) Channel spacing in wavelength at 1,550 nm:\\
 Δλ = λ² × Δf / c = (1,550 × 10⁻⁹)² × 50 × 10⁹ / (3 × 10⁸) = 2.4025 ×
 10⁻¹² × 50 × 10⁹ / (3 × 10⁸)\\
-Δλ = 1.2013 × 10⁻¹ × 10⁻⁹ = \textbf{0.40 nm}
+Δλ = 0.120125 / (3 × 10⁸) = 4.004 × 10⁻¹⁰ m = \textbf{0.40 nm}
 
 (d) Per channel: DP-QPSK carries 4 bits/symbol (2 polarizations × 2
 bits/symbol).\\
@@ -5681,8 +5681,8 @@ Majority carriers (holes): p \textasciitilde{} N\textsubscript{A} =
 
 Minority carriers (electrons): n = n\textsubscript{i}\textsuperscript{2}
 / p = (1.5 × 10\textsuperscript{10})\textsuperscript{2} / (8 ×
-10\textsuperscript{15}) = 2.25 × 10\textsuperscript{20} / 8 ×
-10\textsuperscript{15} = \textbf{2.81 × 10\textsuperscript{4}
+10\textsuperscript{15}) = 2.25 × 10\textsuperscript{20} / (8 ×
+10\textsuperscript{15}) = \textbf{2.81 × 10\textsuperscript{4}
 cm\textsuperscript{-3}}
 
 (b) Conductivity (dominated by majority carriers):\\
@@ -5720,8 +5720,8 @@ cm\textsuperscript{-3}}
 
 Minority carriers (holes): p = n\textsubscript{i}\textsuperscript{2} / n
 = (1.5 × 10\textsuperscript{10})\textsuperscript{2} / (2.5 ×
-10\textsuperscript{16}) = 2.25 × 10\textsuperscript{20} / 2.5 ×
-10\textsuperscript{16} = \textbf{9.0 × 10\textsuperscript{3}
+10\textsuperscript{16}) = 2.25 × 10\textsuperscript{20} / (2.5 ×
+10\textsuperscript{16}) = \textbf{9.0 × 10\textsuperscript{3}
 cm\textsuperscript{-3}}
 
 (c) σ = q × n × μ\textsubscript{n} = 1.602 × 10\textsuperscript{-19} ×
@@ -5869,14 +5869,14 @@ E\textsubscript{g} = 1.12 eV.
 
 Hole concentration: p = n\textsubscript{i}\textsuperscript{2}/n = (1.5 ×
 10\textsuperscript{10})\textsuperscript{2} / (2 ×
-10\textsuperscript{17}) = 2.25 × 10\textsuperscript{20} / 2 ×
-10\textsuperscript{17} = \textbf{1.125 × 10\textsuperscript{3}
+10\textsuperscript{17}) = 2.25 × 10\textsuperscript{20} / (2 ×
+10\textsuperscript{17}) = \textbf{1.125 × 10\textsuperscript{3}
 cm\textsuperscript{-3}}
 
 (b) Fermi level position:\\
 E\textsubscript{F} - E\textsubscript{i} = kT × ln(n/n\textsubscript{i})
-= 0.02585 × ln(2 × 10\textsuperscript{17} / 1.5 ×
-10\textsuperscript{10})\\
+= 0.02585 × ln(2 × 10\textsuperscript{17} / (1.5 ×
+10\textsuperscript{10}))\\
 = 0.02585 × ln(1.333 × 10\textsuperscript{7}) = 0.02585 × 16.41 =
 \textbf{0.424 eV above E\textsubscript{i}}
 
@@ -5908,7 +5908,7 @@ maximum (cutoff) wavelength the silicon detector can absorb.
 (a) Emission wavelength:\\
 λ = hc/E\textsubscript{g} = (6.626 × 10\textsuperscript{-34} × 3 ×
 10\textsuperscript{8}) / (1.42 × 1.602 × 10\textsuperscript{-19})\\
-= 1.988 × 10\textsuperscript{-25} / 2.275 × 10\textsuperscript{-19} =
+= 1.988 × 10\textsuperscript{-25} / (2.275 × 10\textsuperscript{-19}) =
 8.74 × 10\textsuperscript{-7} m = \textbf{874 nm} (near infrared)
 
 (b) For the silicon detector to absorb the photon, the photon energy
@@ -5919,7 +5919,7 @@ Photon energy = 1.42 eV \textgreater{} E\textsubscript{g,Si} = 1.12 eV.
 (c) Silicon cutoff wavelength:\\
 λ\textsubscript{cutoff} = hc/E\textsubscript{g,Si} = 1.988 ×
 10\textsuperscript{-25} / (1.12 × 1.602 × 10\textsuperscript{-19})\\
-= 1.988 × 10\textsuperscript{-25} / 1.794 × 10\textsuperscript{-19} =
+= 1.988 × 10\textsuperscript{-25} / (1.794 × 10\textsuperscript{-19}) =
 1.108 × 10\textsuperscript{-6} m = \textbf{1,108 nm}
 
 Silicon can detect wavelengths shorter than 1,108 nm, so the 874 nm GaAs
@@ -5947,10 +5947,11 @@ Silicon: v\textsubscript{d} = 1,200 × 10,000 = 1.2 ×
 10\textsuperscript{7} cm/s
 
 Transit time τ = L/v\textsubscript{d}:\\
-GaAs: τ = 0.25 × 10\textsuperscript{-4} / 8.0 × 10\textsuperscript{7} =
-\textbf{3.13 × 10\textsuperscript{-13} s = 0.313 ps}\\
-Silicon: τ = 0.25 × 10\textsuperscript{-4} / 1.2 × 10\textsuperscript{7}
-= \textbf{2.08 × 10\textsuperscript{-12} s = 2.08 ps}
+GaAs: τ = 0.25 × 10\textsuperscript{-4} / (8.0 × 10\textsuperscript{7})
+= \textbf{3.13 × 10\textsuperscript{-13} s = 0.313 ps}\\
+Silicon: τ = 0.25 × 10\textsuperscript{-4} / (1.2 ×
+10\textsuperscript{7}) = \textbf{2.08 × 10\textsuperscript{-12} s = 2.08
+ps}
 
 (b) f\textsubscript{T} \textasciitilde{} 1/(2 × π × τ):\\
 GaAs: f\textsubscript{T} = 1/(2 × π × 3.13 × 10\textsuperscript{-13}) =
@@ -6057,8 +6058,9 @@ V\textsubscript{bi} = V\textsubscript{T} × ln(N\textsubscript{A} ×
 N\textsubscript{D} / n\textsubscript{i}\textsuperscript{2}) = 0.02585 ×
 ln(10\textsuperscript{18} × 5 × 10\textsuperscript{15} / (1.5 ×
 10\textsuperscript{10})\textsuperscript{2})\\
-= 0.02585 × ln(5 × 10\textsuperscript{33} / 2.25 ×
-10\textsuperscript{20}) = 0.02585 × ln(2.222 × 10\textsuperscript{13})\\
+= 0.02585 × ln(5 × 10\textsuperscript{33} / (2.25 ×
+10\textsuperscript{20})) = 0.02585 × ln(2.222 ×
+10\textsuperscript{13})\\
 = 0.02585 × 30.73 = \textbf{0.795 V}
 
 (b) Since N\textsubscript{A} \textgreater\textgreater{}
@@ -6071,16 +6073,16 @@ V\textsubscript{A}) / (q × N\textsubscript{D})) for one-sided junction
 approximation:\\
 W = √(2 × 1.036 × 10\textsuperscript{-12} × 0.795 / (1.602 ×
 10\textsuperscript{-19} × 5 × 10\textsuperscript{15}))\\
-= √(1.647 × 10\textsuperscript{-12} / 8.01 × 10\textsuperscript{-4}) =
+= √(1.647 × 10\textsuperscript{-12} / (8.01 × 10\textsuperscript{-4})) =
 √(2.056 × 10\textsuperscript{-9}) = \textbf{4.54 ×
 10\textsuperscript{-5} cm = 0.454 μm}
 
 (c) At V\textsubscript{R} = 10 V (V\textsubscript{A} = -10 V):\\
 W = √(2 × 1.036 × 10\textsuperscript{-12} × (0.795 + 10) / (1.602 ×
 10\textsuperscript{-19} × 5 × 10\textsuperscript{15}))\\
-= √(2 × 1.036 × 10\textsuperscript{-12} × 10.795 / 8.01 ×
-10\textsuperscript{-4})\\
-= √(2.238 × 10\textsuperscript{-11} / 8.01 × 10\textsuperscript{-4}) =
+= √(2 × 1.036 × 10\textsuperscript{-12} × 10.795 / (8.01 ×
+10\textsuperscript{-4}))\\
+= √(2.238 × 10\textsuperscript{-11} / (8.01 × 10\textsuperscript{-4})) =
 √(2.794 × 10\textsuperscript{-8}) = \textbf{1.672 ×
 10\textsuperscript{-4} cm = 1.672 μm}
 
@@ -6109,7 +6111,7 @@ I\textsubscript{S} × e\textsuperscript{V/(nVT)} (since I
 \textgreater\textgreater{} I\textsubscript{S}):
 
 V = n × V\textsubscript{T} × ln(I/I\textsubscript{S}) = 1.05 × 0.02585 ×
-ln(1.5 × 10\textsuperscript{-3} / 5 × 10\textsuperscript{-15})\\
+ln(1.5 × 10\textsuperscript{-3} / (5 × 10\textsuperscript{-15}))\\
 = 0.02714 × ln(3 × 10\textsuperscript{11}) = 0.02714 × 26.43 =
 \textbf{0.717 V}
 
@@ -6151,24 +6153,24 @@ V\textsubscript{R} = 0.3 V.
 10\textsuperscript{-16} cm\textsuperscript{3}:
 
 W = √(2 × 1.036 × 10\textsuperscript{-12} × 1.1 ×
-10\textsuperscript{-16} × (0.757 + 0.3) / 1.602 ×
-10\textsuperscript{-19})\\
-= √(2.279 × 10\textsuperscript{-28} × 1.057 / 1.602 ×
-10\textsuperscript{-19})\\
-= √(2.409 × 10\textsuperscript{-28} / 1.602 × 10\textsuperscript{-19}) =
-√(1.504 × 10\textsuperscript{-9}) = \textbf{3.88 ×
+10\textsuperscript{-16} × (0.757 + 0.3) / (1.602 ×
+10\textsuperscript{-19}))\\
+= √(2.279 × 10\textsuperscript{-28} × 1.057 / (1.602 ×
+10\textsuperscript{-19}))\\
+= √(2.409 × 10\textsuperscript{-28} / (1.602 × 10\textsuperscript{-19}))
+= √(1.504 × 10\textsuperscript{-9}) = \textbf{3.88 ×
 10\textsuperscript{-5} cm = 0.388 μm}
 
 (b) Zero-bias junction capacitance per unit area:\\
 C\textsubscript{j0}/A = ε\textsubscript{Si}/W₀
 
 W₀ = √(2 × 1.036 × 10\textsuperscript{-12} × 1.1 ×
-10\textsuperscript{-16} × 0.757 / 1.602 × 10\textsuperscript{-19})\\
-= √(1.724 × 10\textsuperscript{-28} / 1.602 × 10\textsuperscript{-19}) =
-√(1.076 × 10\textsuperscript{-9}) = 3.28 × 10\textsuperscript{-5} cm
+10\textsuperscript{-16} × 0.757 / (1.602 × 10\textsuperscript{-19}))\\
+= √(1.724 × 10\textsuperscript{-28} / (1.602 × 10\textsuperscript{-19}))
+= √(1.076 × 10\textsuperscript{-9}) = 3.28 × 10\textsuperscript{-5} cm
 
-C\textsubscript{j0}/A = 1.036 × 10\textsuperscript{-12} / 3.28 ×
-10\textsuperscript{-5} = \textbf{3.16 × 10\textsuperscript{-8}
+C\textsubscript{j0}/A = 1.036 × 10\textsuperscript{-12} / (3.28 ×
+10\textsuperscript{-5}) = \textbf{3.16 × 10\textsuperscript{-8}
 F/cm\textsuperscript{2} = 31.6 nF/cm\textsuperscript{2}}
 
 (c) At V\textsubscript{R} = 0.3 V: C\textsubscript{j} =
@@ -6245,8 +6247,8 @@ V₁ = V\textsubscript{T} × ln(I/I\textsubscript{S1}) = 0.02585 × ln(2 ×
 = 0.02585 × 26.02 = \textbf{0.673 V}
 
 V₂ = V\textsubscript{T} × ln(I/I\textsubscript{S2}) = 0.02585 × ln(2 ×
-10\textsuperscript{-3} / 5 × 10\textsuperscript{-14}) = 0.02585 × ln(4 ×
-10\textsuperscript{10})\\
+10\textsuperscript{-3} / (5 × 10\textsuperscript{-14})) = 0.02585 × ln(4
+× 10\textsuperscript{10})\\
 = 0.02585 × 24.41 = \textbf{0.631 V}
 
 (b) Total voltage: V\textsubscript{total} = 0.673 + 0.631 =
@@ -6263,11 +6265,11 @@ I\textsubscript{S1}(358) = 10\textsuperscript{-14} × 55.7 = 5.57 ×
 I\textsubscript{S2}(358) = 5 × 10\textsuperscript{-14} × 55.7 = 2.785 ×
 10\textsuperscript{-12} A
 
-V₁ = 0.03085 × ln(2 × 10\textsuperscript{-3} / 5.57 ×
-10\textsuperscript{-13}) = 0.03085 × ln(3.59 × 10\textsuperscript{9}) =
+V₁ = 0.03085 × ln(2 × 10\textsuperscript{-3} / (5.57 ×
+10\textsuperscript{-13})) = 0.03085 × ln(3.59 × 10\textsuperscript{9}) =
 0.03085 × 22.00 = \textbf{0.679 V}\\
-V₂ = 0.03085 × ln(2 × 10\textsuperscript{-3} / 2.785 ×
-10\textsuperscript{-12}) = 0.03085 × ln(7.18 × 10\textsuperscript{8}) =
+V₂ = 0.03085 × ln(2 × 10\textsuperscript{-3} / (2.785 ×
+10\textsuperscript{-12})) = 0.03085 × ln(7.18 × 10\textsuperscript{8}) =
 0.03085 × 20.39 = \textbf{0.629 V}
 
 Total: 0.679 + 0.629 = \textbf{1.308 V} --- remarkably stable despite a
@@ -6779,7 +6781,7 @@ V\textsubscript{th}) = 4 × 10\textsuperscript{-3} × 1.0 = \textbf{4.0
 mA/V}
 
 (c) r\textsubscript{o} = 1/(λ × I\textsubscript{D}) = 1/(0.02 × 0.00212)
-= 1/4.24 × 10\textsuperscript{-5} = \textbf{23.6 kΩ}
+= 1/ (4.24 × 10\textsuperscript{-5}) = \textbf{23.6 kΩ}
 
 (d) Voltage gain: A\textsubscript{v} = -g\textsubscript{m} ×
 (R\textsubscript{D} \textbar\textbar{} r\textsubscript{o}) = -4 ×
@@ -7070,7 +7072,7 @@ N\textsubscript{peak} = phi / (√(2 × π) × delta\_R\textsubscript{p})\\
 = 5 × 10\textsuperscript{13} / (√(2 × π) × 60 ×
 10\textsuperscript{-7})\\
 = 5 × 10\textsuperscript{13} / (2.507 × 6 × 10\textsuperscript{-6})\\
-= 5 × 10\textsuperscript{13} / 1.504 × 10\textsuperscript{-5} =
+= 5 × 10\textsuperscript{13} / (1.504 × 10\textsuperscript{-5}) =
 \textbf{3.32 × 10\textsuperscript{18} cm\textsuperscript{-3}}
 
 (b) Junction depth where N(x\textsubscript{j}) = N\textsubscript{D} = 5
@@ -7083,7 +7085,7 @@ exp(-(x\textsubscript{j} - 170)\textsuperscript{2} / (2 ×
 60\textsuperscript{2}))
 
 exp(-(x\textsubscript{j} - 170)\textsuperscript{2}/7,200) = 5 ×
-10\textsuperscript{15} / 3.32 × 10\textsuperscript{18} = 1.506 ×
+10\textsuperscript{15} / (3.32 × 10\textsuperscript{18}) = 1.506 ×
 10\textsuperscript{-3}
 
 -(x\textsubscript{j} - 170)\textsuperscript{2}/7,200 = ln(1.506 ×
@@ -11802,7 +11804,7 @@ at each operating point.
 C\textsubscript{L} = P / (V\textsubscript{DD}\textsuperscript{2} × f) =
 0.0216 / (1.8\textsuperscript{2} × 80 × 10\textsuperscript{6}) = 0.0216
 / (3.24 × 8 × 10\textsuperscript{7})\\
-C\textsubscript{L} = 0.0216 / 2.592 × 10\textsuperscript{8} =
+C\textsubscript{L} = 0.0216 / (2.592 × 10\textsuperscript{8}) =
 \textbf{83.3 pF}
 
 (b) P at 1.2 V / 48 MHz = 83.3 × 10\textsuperscript{-12} ×
@@ -11814,11 +11816,11 @@ I = P / V\textsubscript{DD} = 5.76 / 1.2 = \textbf{4.8 mA}
 
 (c) Power savings = (21.6 - 5.76) / 21.6 × 100 = \textbf{73.3\%}
 
-(d) At 80 MHz: time = 10\textsuperscript{7} / 80 × 10\textsuperscript{6}
-= 0.125 s\\
+(d) At 80 MHz: time = 10\textsuperscript{7} / (80 ×
+10\textsuperscript{6}) = 0.125 s\\
 Energy = 21.6 mW × 0.125 s = \textbf{2.70 mJ}
 
-At 48 MHz: time = 10\textsuperscript{7} / 48 × 10\textsuperscript{6} =
+At 48 MHz: time = 10\textsuperscript{7} / (48 × 10\textsuperscript{6}) =
 0.2083 s\\
 Energy = 5.76 mW × 0.2083 s = \textbf{1.20 mJ}
 
@@ -14757,12 +14759,12 @@ v\textsubscript{d} = 100 / (18.1 × 10\textsuperscript{28} × 53.5 ×
 Denominator = 18.1 × 53.5 × 1.602 × 10\textsuperscript{28-6-19} = 1551.3
 × 10\textsuperscript{3} = 1.551 × 10\textsuperscript{6}
 
-v\textsubscript{d} = 100 / 1.551 × 10\textsuperscript{6} = \textbf{6.45
-× 10\textsuperscript{-5} m/s = 0.0645 mm/s}
+v\textsubscript{d} = 100 / (1.551 × 10\textsuperscript{6}) =
+\textbf{6.45 × 10\textsuperscript{-5} m/s = 0.0645 mm/s}
 
 (b) Time to travel 1 meter: t = d / v\textsubscript{d}
 
-t = 1 / 6.45 × 10\textsuperscript{-5} = \textbf{15,504 s = 4.31 hours}
+t = 1 / (6.45 × 10\textsuperscript{-5}) = \textbf{15,504 s = 4.31 hours}
 
 \subsection{Problem 7.1.3}\label{problem-7.1.3}
 
@@ -15939,9 +15941,9 @@ f₀ = 1 / (2 × π × 10\textsuperscript{-5}) = 1 / (6.283 ×
 
 (b) For a parallel RLC circuit: Q = R × √(C/L)
 
-Q = 1000 × √(20 × 10\textsuperscript{-9} / 5 × 10\textsuperscript{-3}) =
-1000 × √(4 × 10\textsuperscript{-6}) = 1000 × 2 × 10\textsuperscript{-3}
-= \textbf{2.0}
+Q = 1000 × √(20 × 10\textsuperscript{-9} / (5 × 10\textsuperscript{-3}))
+= 1000 × √(4 × 10\textsuperscript{-6}) = 1000 × 2 ×
+10\textsuperscript{-3} = \textbf{2.0}
 
 Or equivalently: Q = R / (2 × π × f₀ × L) \ldots{} Let's verify:
 
@@ -16229,8 +16231,8 @@ applicable). (e) The final (steady-state) capacitor voltage.
 = 1 / √(25 × 10\textsuperscript{-9}) = 1 / (1.581 ×
 10\textsuperscript{-4}) = \textbf{6,325 rad/s}
 
-(b) ζ = R / (2 × √(L/C)) = 200 / (2 × √(0.050 / 0.5 ×
-10\textsuperscript{-6}))
+(b) ζ = R / (2 × √(L/C)) = 200 / (2 × √(0.050 / (0.5 ×
+10\textsuperscript{-6})))
 
 = 200 / (2 × √(100,000)) = 200 / (2 × 316.2) = 200 / 632.5 =
 \textbf{0.316}
@@ -19605,7 +19607,7 @@ capacitor remains disconnected, find the new voltage and stored energy.
 \textbf{Solution:}
 
 (a) C = ε₀ε\textsubscript{r}A / d = (8.854 × 10⁻¹² × 200 × 50 × 10⁻⁴) /
-(1 × 10⁻³) = (8.854 × 10⁻⁹) / 10⁻³ = \textbf{8.854 nF}
+(1 × 10⁻³) = (8.854 × 10⁻¹²) / 10⁻³ = \textbf{8.854 nF}
 
 (b) W = ½CV² = 0.5 × 8.854 × 10⁻⁹ × 50² = 0.5 × 8.854 × 10⁻⁹ × 2500 =
 \textbf{11.07 μJ}
@@ -22772,7 +22774,7 @@ Primary MOSFETs (two in series at any time):\\
 I\textsubscript{pri,rms} ≈ I\textsubscript{pri} × √D = 12.5 × √0.496 =
 12.5 × 0.704 = 8.80 A per MOSFET pair\\
 P\textsubscript{pri} = 2 × I\textsubscript{pri,rms}² ×
-R\textsubscript{DS(on)} = 2 × 8.80² × 0.100 = 2 × 7.744 × 0.1 =
+R\textsubscript{DS(on)} = 2 × 8.80² × 0.100 = 2 × 77.44 × 0.1 =
 \textbf{15.5 W}
 
 Output rectifiers (center-tapped): I\textsubscript{rect} =
@@ -35866,7 +35868,8 @@ W/h = 17.1/0.813 = 21.03\\
 (d) Patch length:\\
 L = c/(2f\textsubscript{r}√ε\textsubscript{r,eff}) − 2ΔL = (3 × 10⁸)/(2
 × 5.8 × 10⁹ × √3.293) − 2 × 0.387\\
-L = 0.02586 / 1.8147 − 0.774 = 14.25 − 0.77 = \textbf{13.5 mm}
+L = 0.02586 / 1.8147 − 2ΔL = 0.01425 m − 0.774 mm = 14.25 − 0.77 =
+\textbf{13.5 mm}
 
 (e) Q ≈ c√ε\textsubscript{r}/(4hf\textsubscript{r}) = 3 × 10⁸ × 1.884 /
 (4 × 0.813 × 10⁻³ × 5.8 × 10⁹)\\
@@ -36044,7 +36047,8 @@ W = 0.04286 × 0.7071 = \textbf{30.3 mm}
 
 L = c/(2f\textsubscript{r}√ε\textsubscript{r,eff}) − 2ΔL = (3 × 10⁸)/(2
 × 3.5 × 10⁹ × 1.670) − 2 × 0.747\\
-L = 0.04286 / 1.670 − 1.494 = 25.67 − 1.49 = \textbf{24.2 mm}
+L = 0.04286 / 1.670 − 2ΔL = 0.02567 m − 1.494 mm = 25.67 − 1.49 =
+\textbf{24.2 mm}
 
 (d) R\textsubscript{edge} ≈ 90 × ε\textsubscript{r}²/(ε\textsubscript{r}
 − 1) × (L/W)² = 90 × 9.0/2.0 × (24.2/30.3)²\\
@@ -36161,8 +36165,8 @@ W = 0.1667 × 0.7505 = \textbf{125.1 mm}
 ΔL = 0.412 × 6.35 × (2.686)(20.0) / ((2.128)(20.5)) = 2.616 × 53.72 /
 43.62 = \textbf{3.22 mm}
 
-L = c/(2f\textsubscript{r}√ε\textsubscript{r,eff}) − 2ΔL = 0.1667 /
-1.545 − 6.44 = 107.9 − 6.4 = \textbf{101.5 mm}
+L = c/(2f\textsubscript{r}√ε\textsubscript{r,eff}) − 2ΔL = 0.1079 m −
+6.44 mm = 107.9 − 6.4 = \textbf{101.5 mm}
 
 (c) Q ≈ c√ε\textsubscript{r}/(4hf\textsubscript{r}) = 3 × 10⁸ × 1.597 /
 (4 × 6.35 × 10⁻³ × 900 × 10⁶)\\
@@ -39884,7 +39888,7 @@ I\textsubscript{signal} = M × R₀ × P\textsubscript{rx} = 50 × 0.5 × 0.75
 
 (d) Noise analysis (R\textsubscript{L} = 50 Ω, T = 300 K):\\
 i\textsubscript{thermal} = √(4k\textsubscript{B}TB/R\textsubscript{L}) =
-√(4 × 1.381 × 10⁻²³ × 300 × 200 × 10⁶ / 50) = √(6.629 × 10⁻¹³) =
+√(4 × 1.381 × 10⁻²³ × 300 × 200 × 10⁶ / 50) = √(6.629 × 10⁻¹⁴) =
 \textbf{257 nA}\\
 F(M) = 50⁰·⁷ = 15.46\\
 i\textsubscript{shot} = M × √(2q(I\textsubscript{d}/M + R₀ ×
