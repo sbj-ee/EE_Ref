@@ -15402,14 +15402,18 @@ NFC system at 13.56 MHz with a 50 mm × 50 mm loop antenna.
 
 \textbf{Solution:}\\
 At 28 GHz: λ = c/f = 3 × 10⁸ / (28 × 10⁹) = 10.71 mm.\\
-D = 0.5 m (diagonal of the panel = 0.707 m, but typically the largest
-linear dimension is used).\\
-Far-field boundary: r\textsubscript{ff} = 2D²/λ = 2 × 0.5² / 0.01071 =
-0.5/0.01071 = 46.7 m.\\
+D is the largest overall dimension of the radiating aperture. For a
+square panel that is the \textbf{diagonal}, D = √(0.5² + 0.5²) = 0.707
+m, not the side length.\\
+Far-field boundary: r\textsubscript{ff} = 2D²/λ = 2 × 0.707² / 0.01071 =
+1.0/0.01071 = \textbf{93.4 m}.\\
+(Taking D as the 0.5 m side instead gives 46.7 m --- a common shortcut
+that understates the boundary by a factor of two. For a square aperture
+the diagonal is the correct dimension.)\\
 Reactive near-field extent: r\textsubscript{reactive} = 0.62√(D³/λ) =
-0.62√(0.125/0.01071) = 0.62√(11.67) = 0.62 × 3.416 = 2.12 m.\\
-An anechoic chamber for far-field measurement must be at least 47 m long
---- impractical for indoor facilities. A compact antenna test range
+0.62√(0.707³/0.01071) = 0.62√(33.0) = 0.62 × 5.745 = \textbf{3.56 m}.\\
+An anechoic chamber for far-field measurement would have to be over 90 m
+long --- impractical for indoor facilities. A compact antenna test range
 (CATR) or planar near-field scanner would be used instead.\\
 For the NFC system: λ = 3 × 10⁸ / (13.56 × 10⁶) = 22.12 m. D = 0.05 m.\\
 Far-field boundary: 2 × 0.05² / 22.12 = 0.000226 m = 0.23 mm ---
@@ -17846,11 +17850,12 @@ the system meets its performance guarantee at end of warranty.
 \begin{examplebox}
 
 \textbf{Example 10.9.4:} A commercial facility has a monthly peak demand
-of 5.0 MW, but demand exceeds 3.5 MW for only 4 hours per day (peak
-profile approximated as a trapezoid peaking at 5.0 MW). The utility
-demand charge is \$18/kW-month. Determine (a) the BESS power rating to
-shave the peak to 3.5 MW, (b) the minimum energy capacity required, (c)
-the monthly demand charge savings, and (d) the recommended nameplate
+of 5.0 MW, but demand exceeds 3.5 MW for only 4 hours per day, and the
+excess above 3.5 MW is approximately triangular, rising to 1.5 MW at the
+peak and falling back to zero over the 4-hour window. The utility demand
+charge is \$18/kW-month. Determine (a) the BESS power rating to shave
+the peak to 3.5 MW, (b) the minimum energy capacity required, (c) the
+monthly demand charge savings, and (d) the recommended nameplate
 capacity with a 15\% degradation margin.
 
 \textbf{Solution:}
@@ -17923,13 +17928,36 @@ discharge = 81.25 × 0.80 × 365 = 23,725 MWh. Total lifetime: 23,725 × 15
 = \textbf{355,875 MWh}
 
 (b) Capital: 100,000 × \$280 = \$28,000,000. Annual O\&M: 23,725 × \$6 =
-\$142,350/year. PW of O\&M (P/A, 8\%, 15) = \$142,350 × 8.5595 =
-\$1,218,497. LCOS = (\$28,000,000 + \$1,218,497) / 355,875 =
-\$29,218,497 / 355,875 = \textbf{\$82.1/MWh}
+\$142,350/year.\\
+PW of O\&M = \$142,350 × (P/A, 8\%, 15) = \$142,350 × 8.5595 =
+\textbf{\$1,218,442}\\
+Total present worth of cost = \$28,000,000 + \$1,218,442 =
+\textbf{\$29,218,442}
 
-(c) Revenue of \$140/MWh exceeds LCOS of \$82.1/MWh by \$57.9/MWh,
-yielding an annual profit margin of 23,725 × \$57.9 =
-\textbf{\$1,373,678/year}. The project is \textbf{viable}.
+The LCOS definition above discounts \emph{both} sides of the ratio, so
+the energy must be discounted at the same rate as the costs:\\
+PW of lifetime energy discharged = 23,725 × 8.5595 = \textbf{203,074
+MWh}\\
+LCOS = \$29,218,442 / 203,074 = \textbf{\$143.9/MWh}
+
+A common shortcut divides the discounted cost by the \emph{undiscounted}
+lifetime energy of 355,875 MWh, giving \$82.1/MWh. That figure is not
+comparable to a per-MWh revenue stream: it discounts the money but not
+the energy that earns it, understating LCOS here by 43\%. Always
+discount both, or neither.
+
+(c) At the correctly discounted LCOS of \$143.9/MWh, the stacked revenue
+of \$140/MWh falls \textbf{\$3.9/MWh short} --- the project is
+\textbf{marginally not viable} on these assumptions, and would need
+lower installed cost, higher revenue, or more throughput (deeper cycling
+or a second daily cycle) to clear its cost of capital. The shortcut LCOS
+of \$82.1/MWh would have shown a comfortable \$57.9/MWh margin and led
+to the opposite decision.
+
+Two costs are omitted from this simplified treatment and would both
+worsen the result: the energy purchased for charging (at 92\% round-trip
+efficiency, every MWh discharged requires 1/0.92 = 1.087 MWh in) and any
+mid-life augmentation.
 
 \end{examplebox}
 
@@ -23732,17 +23760,24 @@ The multiple feedback (MFB) topology uses a single op-amp in an
 inverting configuration with two feedback paths to implement
 second-order lowpass, highpass, or bandpass filters. The MFB bandpass
 filter is particularly popular because it provides a narrow bandpass
-response with a single op-amp, using two resistors and two capacitors,
-with the center frequency f₀ = 1/(2πC) × √(1/(R₁R₃)), the quality factor
-Q = π × f₀ × C × R₂, and a midband gain of A₀ = -R₂/(2R₁). The MFB
-lowpass filter offers an advantage over Sallen-Key at high Q values
-because it is less sensitive to op-amp gain-bandwidth limitations and
-provides an inherently inverting output. Component sensitivity is
-moderate --- the Q and center frequency interact somewhat when
-components are changed, making independent tuning more difficult than
-with the state-variable topology. The MFB topology is widely used in
-audio equalizers, anti-aliasing filters, and communication channel
-filters.
+response with a single op-amp, using three resistors and two equal
+capacitors: R₁ from the input to the summing junction, R₃ from the
+summing junction to ground, and R₂ as the feedback resistor. With C₁ =
+C₂ = C its parameters are the center frequency f₀ = 1/(2πC√(R₂ ×
+(R₁∥R₃))), where R₁∥R₃ = R₁R₃/(R₁ + R₃); the quality factor Q =
+½√(R₂/(R₁∥R₃)), which is equivalent to the design form Q = π × f₀ × C ×
+R₂; and a midband gain of A₀ = −R₂/(2R₁). Note that R₃ must appear in
+the f₀ expression only through the parallel combination --- the shunt
+leg loads the summing junction and cannot be separated from R₁.
+Realizability requires 2Q² \textgreater{} \textbar A₀\textbar; otherwise
+the computed R₃ is negative. The MFB lowpass filter offers an advantage
+over Sallen-Key at high Q values because it is less sensitive to op-amp
+gain-bandwidth limitations and provides an inherently inverting output.
+Component sensitivity is moderate --- the Q and center frequency
+interact somewhat when components are changed, making independent tuning
+more difficult than with the state-variable topology. The MFB topology
+is widely used in audio equalizers, anti-aliasing filters, and
+communication channel filters.
 
 \begin{examplebox}
 
@@ -23752,20 +23787,34 @@ a center frequency of f₀ = 2 kHz, Q = 5, and a midband gain of
 R₁, R₂, R₃, and the bandwidth.
 
 \textbf{Solution:}\\
+Check realizability first: 2Q² = 2 × 25 = 50 \textgreater{}
+\textbar A₀\textbar{} = 10 ✓.\\
 Bandwidth: BW = f₀ / Q = 2,000 / 5 = 400 Hz.\\
-From the gain equation: A₀ = -R₂ / (2R₁), so R₂ = 2 ×
-\textbar A₀\textbar{} × R₁.\\
-From the Q equation: Q = π × f₀ × C × R₂, so R₂ = Q / (π × f₀ × C) = 5 /
-(π × 2,000 × 10 × 10⁻⁹) = 5 / (62.83 × 10⁻⁶) = 79,577 Ω ≈ 79.6 kΩ (use
-82 kΩ).\\
-From the gain: R₁ = R₂ / (2 × \textbar A₀\textbar) = 82,000 / 20 = 4,100
-Ω (use 3.9 kΩ).\\
-From the center frequency: f₀ = (1/(2πC)) × √(1/(R₁R₃)), so R₃ = 1 /
-((2πf₀C)² × R₁) = 1 / ((2π × 2,000 × 10 × 10⁻⁹)² × 3,900) = 1 / ((125.7
-× 10⁻⁶)² × 3,900) = 1 / (1.580 × 10⁻⁸ × 3,900) = 1 / (6.162 × 10⁻⁵) =
-16,228 Ω (use 16 kΩ).\\
-Lower and upper -3 dB frequencies: f\textsubscript{L} ≈ 2,000 - 200 =
+From the Q equation: R₂ = Q / (π × f₀ × C) = 5 / (π × 2,000 × 10 × 10⁻⁹)
+= 5 / (62.83 × 10⁻⁶) = \textbf{79,577 Ω ≈ 79.6 kΩ}\\
+From the gain A₀ = −R₂/(2R₁): R₁ = R₂ / (2\textbar A₀\textbar) = 79,577
+/ 20 = \textbf{3,979 Ω ≈ 3.98 kΩ}\\
+R₃ comes from the parallel combination that Q fixes: R₁∥R₃ = R₂/(4Q²) =
+79,577 / 100 = 795.8 Ω.\\
+1/R₃ = 1/795.8 − 1/3,979 = 1.2566 × 10⁻³ − 2.5133 × 10⁻⁴ = 1.0053 ×
+10⁻³, so R₃ = \textbf{995 Ω ≈ 1 kΩ}
+
+Verification with the exact values: R₁∥R₃ = 795.8 Ω, so\\
+f₀ = 1/(2πC√(R₂ × 795.8)) = 1/(2π × 10⁻⁸ × √(6.333 × 10⁷)) = 1/(2π ×
+10⁻⁸ × 7,958) = \textbf{2,000 Hz} ✓\\
+Q = ½√(79,577/795.8) = ½√100 = \textbf{5.0} ✓, \textbar A₀\textbar{} =
+79,577/(2 × 3,979) = \textbf{10} ✓
+
+With nearest standard values (R₁ = 3.9 kΩ, R₂ = 82 kΩ, R₃ = 1 kΩ): f₀ =
+1,970 Hz, Q = 5.08, \textbar A₀\textbar{} = 10.5 --- within about 1.5\%
+of the targets.\\
+Lower and upper −3 dB frequencies: f\textsubscript{L} ≈ 2,000 − 200 =
 1,800 Hz, f\textsubscript{H} ≈ 2,000 + 200 = 2,200 Hz.
+
+A caution on this topology: R₃ is small (≈1 kΩ) compared with R₁, and it
+is tempting to size it from f₀ alone as if R₂ were absent. Doing so here
+would give R₃ ≈ 16 kΩ, which drops the realized centre frequency to 993
+Hz and the Q to 2.6 --- half of both targets.
 
 \end{examplebox}
 

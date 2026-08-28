@@ -27829,20 +27829,24 @@ Approximate ratio: V\textsubscript{new} / V\textsubscript{rated} =
 180/240 = 0.75.
 
 Using the relation E\textsubscript{back} proportional to I × ω (series
-motor), and V = E\textsubscript{back} + I × R:\\
-Assume I\textsubscript{new} \textasciitilde{} 0.75 × 6 = 4.5 A (first
-approximation).\\
-E\textsubscript{back,new} = 180 - 4.5 × 3.5 = 180 - 15.75 = 164.25 V.
+motor), and V = E\textsubscript{back} + I × R, the answer depends on
+what the load does as the speed changes. Two limiting assumptions
+bracket the result.
 
-Speed ratio: ω\textsubscript{new}/ω\textsubscript{rated} =
+\textbf{Assumption 1 --- current falls in proportion to voltage}
+(I\textsubscript{new} ≈ 0.75 × 6 = 4.5 A):\\
+E\textsubscript{back,new} = 180 − 4.5 × 3.5 = 180 − 15.75 = 164.25 V.\\
+ω\textsubscript{new}/ω\textsubscript{rated} =
 (E\textsubscript{back,new}/E\textsubscript{back,rated}) ×
-(I\textsubscript{rated}/I\textsubscript{new})\\
-= (164.25/219) × (6/4.5) = 0.750 × 1.333 = 1.00.
+(I\textsubscript{rated}/I\textsubscript{new}) = (164.25/219) × (6/4.5) =
+0.750 × 1.333 = 1.00.\\
+The two factors cancel and the speed is essentially unchanged --- the
+signature of a series motor whose load torque falls off as fast as its
+flux.
 
-This suggests the speed stays nearly constant (characteristic of a
-lightly loaded series motor). Let's refine:\\
-At constant load torque (T proportional to I²): if torque is constant, I
-is constant at 6 A.\\
+\textbf{Assumption 2 --- constant load torque} (T ∝ I², so constant
+torque holds I fixed at 6 A). This is the case the problem specifies,
+and it gives the operating point:\\
 E\textsubscript{back} = 180 - 6 × 3.5 = 159 V.\\
 ω\textsubscript{new} = ω\textsubscript{rated} × (159/219) × (6/6) =
 28,000 × 0.726 = \textbf{20,329 RPM}.\\
@@ -30341,23 +30345,31 @@ capacitors C = 1 nF.
 \textbf{Solution:}\\
 Bandwidth: BW = f₀/Q = 10,000/8 = \textbf{1,250 Hz}.
 
-From Q equation: R₂ = Q/(π × f₀ × C) = 8/(π × 10,000 × 1 × 10⁻⁹) =
-8/(31.42 × 10⁻⁶) = \textbf{254,648 Ω} (use 270 kΩ).
+Realizability check: 2Q² = 2 × 64 = 128 \textgreater{}
+\textbar A₀\textbar{} = 5 ✓.
 
-From gain equation: A₀ = -R₂/(2R₁), so:\\
-R₁ = R₂/(2 × \textbar A₀\textbar) = 270,000/(2 × 5) = \textbf{27,000 Ω}
-(use 27 kΩ).
+From the Q equation: R₂ = Q/(π × f₀ × C) = 8/(π × 10,000 × 1 × 10⁻⁹) =
+8/(31.42 × 10⁻⁶) = \textbf{254,648 Ω ≈ 255 kΩ}
 
-From center frequency: f₀ = (1/(2πC)) × √(1/(R₁R₃)), so:\\
-R₃ = 1/((2πf₀C)² × R₁) = 1/((2π × 10,000 × 10⁻⁹)² × 27,000)\\
-= 1/((62.83 × 10⁻⁶)² × 27,000) = 1/(3.948 × 10⁻⁹ × 27,000) = 1/(1.066 ×
-10⁻⁴)\\
-= \textbf{9,381 Ω} (use 9.1 kΩ).
+From the gain equation A₀ = −R₂/(2R₁):\\
+R₁ = R₂/(2 × \textbar A₀\textbar) = 254,648/10 = \textbf{25,465 Ω ≈ 25.5
+kΩ}
 
-Verification with standard values:\\
-f₀ = (1/(2πC)) × √(1/(R₁R₃)) = (1/(2π × 10⁻⁹)) × √(1/(27,000 × 9,100))\\
-= 159,155 × √(4.07 × 10⁻⁹) = 159,155 × 6.38 × 10⁻⁵ = \textbf{10,154 Hz}
-≈ 10 kHz.
+R₃ is set by the parallel combination that Q fixes --- for the MFB
+bandpass the shunt leg enters f₀ only through R₁∥R₃, never on its own:\\
+R₁∥R₃ = R₂/(4Q²) = 254,648/(4 × 64) = 254,648/256 = 994.7 Ω\\
+1/R₃ = 1/994.7 − 1/25,465 = 1.00533 × 10⁻³ − 3.927 × 10⁻⁵ = 9.6606 ×
+10⁻⁴\\
+R₃ = \textbf{1,035 Ω ≈ 1.02 kΩ}
+
+Verification with the exact values, using f₀ = 1/(2πC√(R₂ × (R₁∥R₃))):\\
+f₀ = 1/(2π × 10⁻⁹ × √(254,648 × 994.7)) = 1/(2π × 10⁻⁹ × 15,914) =
+\textbf{10,000 Hz} ✓\\
+Q = ½√(R₂/(R₁∥R₃)) = ½√(254,648/994.7) = ½ × 16.0 = \textbf{8.0} ✓\\
+\textbar A₀\textbar{} = 254,648/(2 × 25,465) = \textbf{5.0} ✓
+
+With E96 standard values (25.5 kΩ, 255 kΩ, 1.02 kΩ): f₀ = 10,064 Hz, Q =
+8.06, \textbar A₀\textbar{} = 5.0 --- within 0.7\% of target.
 
 \subsection{Problem 13.5.5}\label{problem-13.5.5}
 
