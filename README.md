@@ -283,51 +283,22 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 
 ## Structure
 
-The tree below is the **source repository** from which the book is built; it is not what this repository contains. This distribution repository carries the built artifacts only — `EE-Book.pdf` / `.epub`, `EE-Book-Problems.pdf` / `.epub`, the two LaTeX sources, `cover.svg`, and the `scripts/` notebooks. The per-chapter Markdown lives in the private source repository.
+This public repository is the published snapshot of *Electrical Engineering Reference*. The book is written and maintained in Markdown in a private source repository; this repo carries the built artifacts, the two LaTeX sources, the cover, and the interactive notebooks.
 
 ```
-EE-Book/
-├── 0-Table-of-Contents.md
-├── 0-Foreword.md
-├── 0-List-of-Figures.md
-├── 1-Introduction.md
-├── Chapter-1.md   # Power Engineering
-├── Chapter-2.md   # Communications Engineering
-├── Chapter-3.md   # Semiconductors
-├── Chapter-4.md   # Control Systems
-├── Chapter-5.md   # Embedded Systems
-├── Chapter-6.md   # Digital Logic
-├── Chapter-7.md   # Circuit Analysis
-├── Chapter-8.md   # Signal Processing
-├── Chapter-9.md   # Electromagnetics
-├── Chapter-10.md  # Power Electronics
-├── Chapter-11.md  # Instrumentation and Measurement
-├── Chapter-12.md  # Electric Motors
-├── Chapter-13.md  # Operational Amplifiers
-├── Chapter-14.md  # National Electrical Code (NEC)
-├── Chapter-15.md  # Networking
-├── Chapter-16.md  # Antenna Design and Principles
-├── Chapter-17.md  # Radar Systems
-├── Chapter-18.md  # Optics
-├── Chapter-19.md  # Engineering Economics
-├── Appendix-A.md  # Imaginary Numbers and Phasors
-├── Appendix-B.md  # Arctangent and atan2
-├── Appendix-C.md  # Decibels
-├── Appendix-D.md  # Unit Prefixes and SI Units
-├── Appendix-E.md  # Getting Started with Python and marimo
-├── Appendix-F.md  # Matrix Operations
-├── Appendix-G.md  # TCLab Control Lab
-├── 0-References.md # Standards, papers, textbooks, data sources
-├── Dictionary.md  # Dictionary of Terms
-├── build-pdf.sh   # PDF/LaTeX build script (pandoc + XeLaTeX)
-├── pdf-header.tex # LaTeX preamble for Unicode and fonts
-├── pdf-sub-sup-filter.lua  # Pandoc Lua filter for sub/sup tags
-├── pdf-figure-filter.lua   # Pandoc Lua filter for figure environments
-├── pdf-example-box-filter.lua  # Pandoc Lua filter for green example boxes
-├── Problems/       # Worked problem sets (173 Markdown files)
-├── tests/          # Calculation verification scripts
-├── images/         # Generated PNG graphs embedded in chapters
-└── scripts/        # Interactive marimo notebooks with graphs
+EE_Ref/
+├── README.md
+├── cover.svg
+├── EE-Book.tex
+├── EE-Book.pdf
+├── EE-Book.epub
+├── EE-Book-Problems.tex
+├── EE-Book-Problems.pdf
+├── EE-Book-Problems.epub
+├── requirements.txt
+├── scripts/                 # Interactive marimo notebooks
+├── .gitignore
+└── .pre-commit-config.yaml
 ```
 
 ## Scripts
