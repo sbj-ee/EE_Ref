@@ -35002,7 +35002,8 @@ the target is detectable at 50 km.
 (b) Convert gain: G = 10\textsuperscript{34/10} = 2,512 (linear)\\
 Rearrange for R: R⁴ = P\textsubscript{t}G²λ²σ /
 ((4π)³P\textsubscript{r,min})\\
-P\textsubscript{r,min} = 10⁻¹¹⁰/¹⁰ mW = 10⁻¹¹ mW = 10⁻¹⁴ W
+P\textsubscript{r,min} = 10\textsuperscript{-110/10} mW = 10⁻¹¹ mW =
+10⁻¹⁴ W
 
 R⁴ = (25,000 × 2,512² × 0.03191² × 5) / ((4π)³ × 10⁻¹⁴)\\
 Numerator = 25,000 × 6.310 × 10⁶ × 1.018 × 10⁻³ × 5 = 25,000 × 32,120 =
@@ -35222,7 +35223,7 @@ antennas, and Yagi-Uda antennas.
 operates at 300 MHz.
 
 \textbf{Find:} (a) The wavelength and L/λ ratio, (b) the radiation
-resistance using R\textsubscript{rad} = 80π²(L/λ)², (c) the radiation
+resistance using R\textsubscript{rad} = 20π²(L/λ)², (c) the radiation
 resistance of a half-wave dipole at the same frequency, and (d) the
 efficiency of the short dipole if the ohmic loss resistance is 1.5 Ω.
 
@@ -35231,21 +35232,34 @@ efficiency of the short dipole if the ohmic loss resistance is 1.5 Ω.
 (a) λ = c/f = 3 × 10⁸ / (300 × 10⁶) = 1.0 m\\
 L/λ = 0.15 / 1.0 = \textbf{0.15}
 
-(b) R\textsubscript{rad} = 80π²(L/λ)² = 80 × 9.8696 × (0.15)² = 789.57 ×
-0.0225 = \textbf{17.8 Ω}
+(b) R\textsubscript{rad} = 20π²(L/λ)² = 20 × 9.8696 × (0.15)² = 197.39 ×
+0.0225 = \textbf{4.44 Ω}
+
+Note which short-dipole formula this is. A physical short dipole carries
+a current that tapers from a maximum at the feed to zero at the tips,
+and that triangular distribution gives R\textsubscript{rad} = 20π²(L/λ)²
+--- the form used in §16.2.1. The larger R\textsubscript{rad} =
+80π²(L/λ)² applies to the \emph{Hertzian} dipole, an idealisation
+carrying uniform current along its whole length. The uniform current
+radiates twice the field of the triangular one, hence four times the
+resistance. Using the Hertzian value for a real short dipole overstates
+R\textsubscript{rad} by a factor of four.
 
 (c) Half-wave dipole: R\textsubscript{rad} = \textbf{73 Ω} (standard
 value at resonance)
 
 (d) Efficiency of the short dipole:\\
 η = R\textsubscript{rad} / (R\textsubscript{rad} +
-R\textsubscript{loss}) = 17.8 / (17.8 + 1.5) = 17.8 / 19.3 =
-\textbf{0.922 (92.2\%)}
+R\textsubscript{loss}) = 4.44 / (4.44 + 1.5) = 4.44 / 5.94 =
+\textbf{0.748 (74.8\%)}
 
-The short dipole at L = 0.15λ has reasonable efficiency because its
-radiation resistance (17.8 Ω) still dominates the loss resistance. For
-much shorter dipoles (L \textless{} λ/20), the radiation resistance
-drops below 2 Ω and efficiency degrades severely.
+A quarter of the input power is burned in the 1.5 Ω of ohmic loss. That
+is the characteristic difficulty of electrically small antennas:
+R\textsubscript{rad} falls as (L/λ)² while the loss resistance does not
+fall with it, so efficiency collapses as the element shrinks. At L =
+λ/10 the radiation resistance is 20π²(0.1)² = 1.97 Ω, already comparable
+to the loss; at L = λ/20 it is 0.49 Ω, and the same 1.5 Ω of loss would
+leave an efficiency of only 25\%.
 
 \subsection{Problem 16.2.2}\label{problem-16.2.2}
 
@@ -35647,7 +35661,10 @@ G (dBi) = 10 log₁₀(72,437) = \textbf{48.6 dBi}
 arctan(0.658)\\
 θ\textsubscript{f} = 2 × 33.3° = \textbf{66.7°}
 
-The feed antenna must illuminate the dish out to ±33.3° from the axis.
+θ\textsubscript{f} is already the half-angle --- the angle from the axis
+out to the rim --- so the feed must illuminate ±66.7°, a total included
+angle of 133.4°. (Check the limiting case: at f/D = 0.25 the focus lies
+in the plane of the rim and the formula returns 90°, as it must.)
 
 (e) Far-field distance:\\
 d\textsubscript{ff} = 2D² / λ = 2 × 4.5² / 0.04 = 2 × 20.25 / 0.04 =
@@ -36029,8 +36046,15 @@ Estimated gain ≈ \textbf{5.5 dBi}
 Q = 6.293 × 10⁸ / (1.008 × 10⁷) = 62.4\\
 Bandwidth ≈ 1/Q = 1/62.4 = 0.016 = \textbf{1.6\%} (approximately 25 MHz)
 
-This narrow bandwidth is marginal for GPS L1, which requires about 2
-MHz. The low substrate thickness is the limiting factor.
+At 1,575.42 MHz, 1.6\% is about 25 MHz --- comfortably more than the
+roughly 2 MHz the GPS L1 C/A signal occupies (a 1.023 MHz chipping rate
+gives a 2.046 MHz null-to-null main lobe), and enough even for the 20
+MHz of the P(Y) code. Bandwidth is not the constraint here. What the
+thin 1.6 mm substrate does cost is tolerance: with Q = 62.4 the
+resonance is sharp, so dielectric-constant spread, etching tolerance and
+nearby dielectric loading can pull the patch off frequency by more than
+the band is wide, and the design needs either a thicker substrate or
+post-fabrication trimming.
 
 \subsection{Problem 16.4.4}\label{problem-16.4.4}
 
@@ -36118,8 +36142,13 @@ R\textsubscript{edge} × cos²(πy₀/L).\\
 For 50 Ω: cos²(πy₀/L) = 50/258 = 0.1938\\
 cos(πy₀/L) = 0.4403\\
 πy₀/L = arccos(0.4403) = 1.115 rad\\
-y₀ = 1.115 × 24.2 / π = \textbf{8.59 mm} from the patch center (or 12.1
-− 8.59 = 3.51 mm from the radiating edge)
+y₀ = 1.115 × 24.2 / π = \textbf{8.59 mm} from the radiating edge
+(equivalently 12.1 − 8.59 = 3.51 mm from the patch center)
+
+The reference point matters: R\textsubscript{in}(y₀) =
+R\textsubscript{edge}cos²(πy₀/L) returns R\textsubscript{edge} at y₀ =
+0, so y₀ is measured inward from the radiating edge, exactly as in
+Problem 16.4.2.
 
 \subsection{Problem 16.4.6}\label{problem-16.4.6}
 
@@ -36176,14 +36205,21 @@ W = c/(2f\textsubscript{r}) × √(2/(ε\textsubscript{r} + 1)) = (3 ×
 ε\textsubscript{r,eff} = 1.6 + 0.6 × (1.797)⁻⁰·⁵ = 1.6 + 0.6 × 0.7458 =
 2.047
 
-L = c/(2f\textsubscript{r}√ε\textsubscript{r,eff}) − 2ΔL ≈ 0.03/1.431 −
-2 × 0.68 mm ≈ 20.96 − 1.36 = \textbf{19.6 mm}
+The fringing extension comes from the Hammerstad expression used in
+Problems 16.4.2 and 16.4.5, not from a guess. With W/h = 23.7/1.575 =
+15.05:\\
+ΔL = 0.412 × 1.575 × (2.047 + 0.3)(15.05 + 0.264) / ((2.047 −
+0.258)(15.05 + 0.8))\\
+ΔL = 0.649 × 35.94 / 28.35 = \textbf{0.82 mm}
 
-Driven patch: \textbf{23.7 mm × 19.6 mm}
+L = c/(2f\textsubscript{r}√ε\textsubscript{r,eff}) − 2ΔL = 30 mm/1.431 −
+2 × 0.82 mm = 20.96 − 1.65 = \textbf{19.3 mm}
+
+Driven patch: \textbf{23.7 mm × 19.3 mm}
 
 (b) Parasitic patch (7\% larger):\\
 W\textsubscript{p} = 1.07 × 23.7 = \textbf{25.4 mm}\\
-L\textsubscript{p} = 1.07 × 19.6 = \textbf{21.0 mm}
+L\textsubscript{p} = 1.07 × 19.3 = \textbf{20.7 mm}
 
 The larger parasitic patch resonates at a slightly lower frequency, and
 the coupling between patches creates a dual-resonance response.
@@ -36427,8 +36463,9 @@ HPBW = 2 × √(0.2658 / 0.45) = 2 × √0.5907 = 2 × 0.7686 rad = 1.537 rad =
 End-fire arrays have much wider beamwidths than broadside arrays of the
 same length.
 
-(e) For grating lobes: sin θ\textsubscript{GL} = sin θ₀ + nλ/d.~With θ₀
-= 0° (cos θ₀ = 1):\\
+(e) This problem measures θ from the array axis (ψ = kd cos θ + β, as in
+part (b)), so the grating-lobe condition is written in cosines: cos
+θ\textsubscript{GL} = cos θ₀ + nλ/d.~With θ₀ = 0° (cos θ₀ = 1):\\
 For n = −1: the grating lobe appears when cos θ\textsubscript{GL} = cos
 0° − λ/d = 1 − 4 = −3.\\
 Since \textbar cos θ\textsubscript{GL}\textbar{} \textgreater{} 1,
@@ -36648,9 +36685,25 @@ Assuming G\textsubscript{element} = 6 dBi at broadside:\\
 G\textsubscript{scanned} = 13.8 + 6 − 3.84 − 10 log₁₀(1/cos 50°) = 13.8
 + 6 − 3.84 − 1.92 = \textbf{14.0 dBi}
 
-The combined effect of element pattern roll-off (−3.84 dB) and projected
-aperture reduction (−1.92 dB) yields a total scan loss of 5.76 dB at
-50°.
+This treats the element pattern roll-off (−3.84 dB) and the
+projected-aperture reduction (−1.92 dB) as independent, giving a total
+scan loss of 5.76 dB at 50°. That is the pessimistic bound, and it is
+worth seeing why.
+
+For an ideal element embedded in a large array, the projected-aperture
+cos θ is \emph{already} the element pattern --- the embedded-element
+gain of a lossless, perfectly matched array goes as cos θ, and the whole
+scan loss is that single factor. On that model the element contributes
+−3.84 dB and nothing further is subtracted, giving \textbf{16.0 dBi}.
+Charging both factors, as above, counts the aperture projection twice.
+
+Which figure is closer depends on the element. A patch whose isolated
+pattern really does fall as cos θ in field (cos²θ in power), set in an
+array whose beam also broadens as 1/cos θ, behaves nearer the 14.0 dBi
+answer; an array of well-matched elements with strong mutual coupling
+behaves nearer 16.0 dBi. Measured arrays typically fall between, with
+scan loss going as cos\^{}1.2 to cos\^{}1.5 θ rather than cos θ or
+cos³θ. Quote the model along with the number.
 
 \subsection{Problem 16.5.10}\label{problem-16.5.10}
 
@@ -36986,14 +37039,14 @@ Verification: G\textsubscript{A} + G\textsubscript{C} = 17.2 + 15.4 =
 
 \textbf{Given:} A quarter-wave transformer matches a patch antenna
 (Z\textsubscript{ant} = 200 Ω) to a 50 Ω microstrip line at 5 GHz on a
-substrate with ε\textsubscript{r} = 2.2.
+substrate with ε\textsubscript{r} = 2.2 and thickness h = 1.575 mm.
 
 \textbf{Find:} (a) The transformer impedance, (b) the transformer
 physical length, (c) the VSWR at center frequency, (d) the bandwidth
 over which VSWR \textless{} 1.5:1, and (e) the microstrip line width for
 the transformer section (using approximate formula: w/h ≈
 8e\textsuperscript{A}/(e\textsuperscript{2A} − 2) where A =
-Z/(60√((ε\textsubscript{r}+1)/2)) +
+(Z/60)√((ε\textsubscript{r}+1)/2) +
 (ε\textsubscript{r}−1)/(ε\textsubscript{r}+1) × (0.23 +
 0.11/ε\textsubscript{r}), for w/h \textless{} 2).
 
@@ -37012,16 +37065,22 @@ Physical length = λ\textsubscript{g}/4 = \textbf{11.86 mm}
 (c) At center frequency, the transformer provides a perfect match: VSWR
 = \textbf{1.0:1}
 
-(d) The quarter-wave transformer bandwidth for VSWR \textless{} 1.5 is
-approximately:\\
-BW ≈ 2f₀ × (2/π) × arccos(Γ\textsubscript{max} ×
-2√(Z\textsubscript{ant}Z₀) / \textbar Z\textsubscript{ant} − Z₀\textbar)
+(d) For a single-section quarter-wave transformer the fractional
+bandwidth over which \textbar Γ\textbar{} stays below
+Γ\textsubscript{max} is
 
-For VSWR = 1.5: Γ\textsubscript{max} = (1.5 − 1)/(1.5 + 1) = 0.2\\
-Fractional BW ≈ 2 − (4/π) × arccos(0.2 × 2 × 100 / 150) = 2 − (4/π) ×
-arccos(0.267)\\
-= 2 − 1.273 × 1.300 = 2 − 1.655 = 0.345\\
-BW ≈ 0.345 × 5 GHz = \textbf{1.73 GHz} (34.5\% fractional bandwidth)
+Δf/f₀ = 2 − (4/π) arccos{[} (Γ\textsubscript{max}/√(1 −
+Γ\textsubscript{max}²)) ×
+2√(Z\textsubscript{ant}Z₀)/\textbar Z\textsubscript{ant} − Z₀\textbar{}
+{]}
+
+For VSWR = 1.5: Γ\textsubscript{max} = (1.5 − 1)/(1.5 + 1) = 0.2, so
+Γ\textsubscript{max}/√(1 − 0.04) = 0.2041.\\
+2√(Z\textsubscript{ant}Z₀)/\textbar Z\textsubscript{ant} − Z₀\textbar{}
+= 2 × 100 / 150 = 1.3333.\\
+Argument = 0.2041 × 1.3333 = 0.2722, arccos(0.2722) = 1.2951 rad.\\
+Δf/f₀ = 2 − 1.2732 × 1.2951 = 2 − 1.6490 = 0.351\\
+BW ≈ 0.351 × 5 GHz = \textbf{1.76 GHz} (35.1\% fractional bandwidth)
 
 (e) For Z = 100 Ω on ε\textsubscript{r} = 2.2:\\
 A = 100/60 × √((2.2+1)/2) + (2.2−1)/(2.2+1) × (0.23 + 0.11/2.2)\\
@@ -37049,7 +37108,7 @@ for a full spherical scan.
 
 (a) D = 1.0 m (largest dimension); λ = c/f = 3 × 10⁸ / (30 × 10⁹) = 0.01
 m\\
-d\textsubscript{ff} = 2D² / λ = 2 × 1.0 / 0.01 = \textbf{200 m}
+d\textsubscript{ff} = 2D² / λ = 2 × 1.0² / 0.01 = \textbf{200 m}
 
 (b) The scan radius of 1.5 m is \textbf{well within the near field} (1.5
 m \textless\textless{} 200 m). This is only 0.75\% of the far-field
@@ -37077,7 +37136,7 @@ distance.
 (e) For a full spherical scan:\\
 N\textsubscript{θ} = 180° / 0.286° ≈ 629 points in elevation\\
 N\textsubscript{φ} = 360° / 0.286° ≈ 1,259 points in azimuth\\
-Total ≈ 629 × 1,259 = \textbf{791,711 measurement points}
+Total ≈ 629 × 1,259 = \textbf{791,911 measurement points}
 
 In practice, the back hemisphere may be sparsely sampled if the antenna
 is known to have low back radiation, reducing the total to approximately

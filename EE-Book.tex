@@ -29323,8 +29323,8 @@ or optimized distributions.
 30° in the E-plane and 35° in the H-plane. The first sidelobe is 15 dB
 below the main lobe peak. Estimate (a) the directivity using the
 approximate formula D ≈ 32,400 / (θ\textsubscript{E} ×
-θ\textsubscript{H}), and (b) the sidelobe power relative to the main
-lobe.
+θ\textsubscript{H}), and (b) the sidelobe radiation intensity relative
+to the main lobe.
 
 \textbf{Solution:}
 
@@ -29332,10 +29332,15 @@ lobe.
 (linear)\\
 D (dB) = 10 log₁₀(30.86) = \textbf{14.9 dBi}
 
-(b) Sidelobe level = −15 dB means the sidelobe power is 10⁻¹·⁵ = 0.0316
-times the main lobe power, or \textbf{3.16\%} of the peak power density.
-This is a moderate sidelobe level, typical of practical horn or
-reflector antennas without special sidelobe suppression techniques.
+(b) Sidelobe level = −15 dB means the radiation intensity at the
+sidelobe peak is 10⁻¹·⁵ = 0.0316 times the intensity at the main lobe
+peak --- \textbf{3.16\%} of the peak power density. Note that this is a
+ratio of power \emph{densities} at the two peaks, not a ratio of the
+total powers contained in the two lobes; the latter would require
+integrating each lobe over its own solid angle, and the sidelobe is much
+wider than the main lobe. This is a moderate sidelobe level, typical of
+practical horn or reflector antennas without special sidelobe
+suppression techniques.
 
 \end{examplebox}
 
@@ -29387,8 +29392,10 @@ G (dBi) = 10 log₁₀(9,475) = \textbf{39.8 dBi}
 This equals η × A\textsubscript{physical} = 0.60 × π(1)² = 1.88 m²,
 confirming the result.
 
-(c) EIRP = P\textsubscript{t} × G = 10 × 9,475 = 94,750 W = 10 + 39.8 =
-\textbf{49.8 dBW} (or 79.8 dBm) EIRP
+(c) EIRP = P\textsubscript{t} × G = 10 × 9,475 = \textbf{94,750 W}\\
+In decibels the same result is a sum rather than a product: EIRP =
+P\textsubscript{t}(dBW) + G(dBi) = 10 + 39.8 = \textbf{49.8 dBW} (79.8
+dBm), which checks against 10 log₁₀(94,750) = 49.8 dBW.
 
 (d) HPBW ≈ 70λ/D = 70 × 0.05 / 2 = \textbf{1.75°}
 
@@ -29415,10 +29422,14 @@ foundation of all link budget analyses (see also Ch. 2, §2.8).
 For radar systems, the radar range equation extends Friis to account for
 the round-trip path and target scattering: P\textsubscript{r} =
 P\textsubscript{t}G\textsubscript{t}²λ²σ / ((4π)³R⁴), where σ is the
-radar cross section (RCS) of the target in m² and R is the range. The R⁴
-dependence (compared to R² for one-way links) means radar performance
-degrades rapidly with distance, making high-gain antennas and powerful
-transmitters essential for long-range detection.
+radar cross section (RCS) of the target in m² and R is the range. The
+squared gain is what makes this the \textbf{monostatic} form --- one
+antenna both transmits and receives, so the same G appears on each leg
+of the round trip. A bistatic radar, with separate transmit and receive
+sites, carries G\textsubscript{t}G\textsubscript{r} and two distinct
+ranges. The R⁴ dependence (compared to R² for one-way links) means radar
+performance degrades rapidly with distance, making high-gain antennas
+and powerful transmitters essential for long-range detection.
 
 \begin{examplebox}
 
@@ -29549,12 +29560,22 @@ return loss = 16 dB), which is acceptable for most applications without
 additional matching.
 
 (c) Gain: \textbf{5.15 dBi} (or 3.0 dBd) --- 3 dB more than a half-wave
-dipole due to the ground plane concentrating radiation into the upper
-hemisphere.
+dipole, because an ideal ground plane confines the same radiated power
+to the upper hemisphere. Both this figure and the 36.5 Ω above assume an
+\emph{infinite, perfectly conducting} ground plane, which is the
+reference case rather than anything buildable.
 
-(d) Minimum ground plane radius ≈ λ/4 = \textbf{83.3 mm}. This is
-compact enough for integration into cellular base station equipment or
-handheld device enclosures.
+(d) Minimum ground plane radius ≈ λ/4 = \textbf{83.3 mm}. Note what a
+finite ground plane costs. At λ/4 radius the currents reach the edge
+with appreciable amplitude and diffract, which tilts the pattern maximum
+up off the horizon, fills in the region below it, and typically leaves
+2--4 dBi in the horizontal plane rather than 5.15 dBi; the input
+resistance also rises above 36.5 Ω, toward the 50 Ω of a dipole, as the
+ground plane shrinks. Reaching the ideal figures takes a radius of
+several wavelengths. A 166 mm disc is realistic for base-station or
+rooftop hardware; it is far too large for a handset, where the ground
+plane is the handset's own circuit board and the pattern is set as much
+by the case and the user's hand as by the element.
 
 \end{examplebox}
 
@@ -29832,21 +29853,33 @@ mm.
 Z\textsubscript{dipole}) = 377²/(4 × 73) = 142,129/292 = \textbf{486.7
 Ω}.
 
-(c) The cavity backing eliminates the back lobe, effectively doubling
-the forward radiation. The cavity modifies the impedance --- for a λ/4
-deep cavity, the impedance drops to approximately
-Z\textsubscript{slot}/2 = \textbf{243 Ω} because the short-circuit back
-wall at λ/4 presents an open circuit at the slot plane, maintaining slot
-resonance while doubling the radiation conductance --- the in-phase
-image source at λ/2 distance constructively doubles the forward-radiated
-power for the same slot voltage, halving the radiation resistance.
+(c) The λ/4 depth is chosen so that the short-circuit back wall
+transforms to an open circuit at the slot plane, leaving the slot's
+resonance essentially undisturbed while the cavity blocks radiation into
+the rear half-space. The pattern consequence is unambiguous: the back
+lobe goes away and the forward gain rises by about \textbf{3 dB}.
 
-(d) A 243 Ω to 50 Ω transformation requires an impedance ratio of
-4.86:1. A quarter-wave transformer with Z\textsubscript{match} = √(50 ×
-243) = √12,150 = \textbf{110.2 Ω} provides the match. Alternatively, an
-offset microstrip feed positioned at a point along the slot where the
-impedance is lower can achieve a direct 50 Ω match without external
-components.
+The impedance consequence is not. Take Z\textsubscript{slot}/2 ≈
+\textbf{243 Ω} as a working design value only, and treat it as an
+estimate rather than a result. Babinet's 486.7 Ω describes a slot
+radiating into \emph{both} half-spaces, so backing it changes the load
+the slot sees, but the direction of that change depends on what the
+cavity does with the rear radiation. Idealised as a reflector, it
+returns that energy to the forward direction, the total radiated power
+for a given slot voltage is roughly unchanged, and so is the impedance.
+Idealised as simply removing the rear half-space, the radiated power
+halves, the radiation conductance halves, and the impedance
+\emph{doubles}. Real cavities lie between, and the result depends
+strongly on the cavity's lateral dimensions and on how close they are to
+a resonance of the cavity itself. A cavity-backed slot is a structure to
+simulate or measure, not one to settle with a factor of two.
+
+(d) Taking the 243 Ω estimate as the design target, a 243 Ω to 50 Ω
+transformation requires an impedance ratio of 4.86:1. A quarter-wave
+transformer with Z\textsubscript{match} = √(50 × 243) = √12,150 =
+\textbf{110.2 Ω} provides the match. Alternatively, an offset microstrip
+feed positioned at a point along the slot where the impedance is lower
+can achieve a direct 50 Ω match without external components.
 
 \end{examplebox}
 
@@ -29992,16 +30025,18 @@ the individual element pattern and the array factor (AF), a principle
 known as pattern multiplication. For a uniform linear array (ULA) of N
 identical elements spaced d apart along a line, the array factor is AF =
 sin(Nψ/2) / (N sin(ψ/2)), where ψ = kd cos θ + β, k = 2π/λ is the
-wavenumber, θ is the angle from the array axis, and β is the progressive
-phase shift between elements. The main beam direction θ₀ is determined
-by ψ = 0, giving cos θ₀ = −β/(kd).
+wavenumber, θ is the angle \textbf{from the array axis}, and β is the
+progressive phase shift between elements. (§16.5.3 switches to the other
+common convention, measuring θ from broadside; watch for it, because the
+same symbols then carry sines where these carry cosines.) The main beam
+direction θ₀ is determined by ψ = 0, giving cos θ₀ = −β/(kd).
 
 A broadside array (β = 0) radiates perpendicular to the array axis,
 while an end-fire array (β = −kd) radiates along the array axis. The
 first-null beamwidth for a broadside array is approximately FNBW ≈
-2λ/(Nd), and the directivity is D ≈ 2Nd/λ. Grating lobes ---
-full-strength replicas of the main beam at undesired angles --- appear
-when the element spacing d exceeds λ/(1 + \textbar sin
+2λ/(Nd) \textbf{radians}, and the directivity is D ≈ 2Nd/λ. Grating
+lobes --- full-strength replicas of the main beam at undesired angles
+--- appear when the element spacing d exceeds λ/(1 + \textbar sin
 θ\textsubscript{s}\textbar), where θ\textsubscript{s} is the scan angle
 from broadside. For an unsteered broadside array, the condition d
 \textless{} λ prevents grating lobes; for arrays that must scan to ±60°,
@@ -30031,8 +30066,14 @@ HPBW ≈ 0.886λ/(Nd) = 0.886 × 0.10 / 0.50 = \textbf{0.177 radians =
 0.5 \textless{} 1/(1 + sin θ\textsubscript{s}), so 1 + sin
 θ\textsubscript{s} \textless{} 2, giving sin θ\textsubscript{s}
 \textless{} 1, meaning θ\textsubscript{s} \textless{} 90°.\\
-\textbf{The array can scan the full visible range (±90°) without grating
-lobes at d = λ/2 spacing.}
+\textbf{At d = λ/2 the array scans grating-lobe free everywhere short of
+endfire: \textbar θ\textsubscript{s}\textbar{} \textless{} 90°.} The
+inequality is strict. At exactly θ\textsubscript{s} = 90° the
+grating-lobe condition sin θ\textsubscript{GL} = sin θ\textsubscript{s}
+− λ/d = 1 − 2 = −1 puts a full-strength replica on the opposite horizon.
+In practice the limit is reached earlier still, because the element
+pattern and the cos θ\textsubscript{s} narrowing of the projected
+aperture both erode the beam long before endfire.
 
 (d) Total directivity ≈ D\textsubscript{AF} × D\textsubscript{element} =
 10.0 × 1.64 (dipole) = 16.4 = \textbf{12.1 dBi}. In practice, mutual
@@ -30103,6 +30144,13 @@ due to inter-user interference and processing constraints.
 
 \subsection{16.5.3 Phased Array Scanning and Grating
 Lobes}\label{phased-array-scanning-and-grating-lobes}
+
+\textbf{A note on angles.} This section measures θ \textbf{from
+broadside}, the usual convention in the phased-array literature, whereas
+§16.5.1 measured it from the array axis. The two are complements, so
+every cos θ there becomes a sin θ here --- including the grating-lobe
+condition. Keep track of which reference a formula assumes before
+substituting into it.
 
 Phased array antennas steer the main beam electronically by applying a
 progressive phase shift β between adjacent elements, directing the beam
@@ -30199,8 +30247,8 @@ between an antenna and its feedline: VSWR = (1 + \textbar Γ\textbar)/(1
 Z₀)/(Z\textsubscript{ant} + Z₀) is the reflection coefficient. The
 return loss RL = −20 log₁₀\textbar Γ\textbar{} represents the fraction
 of power reflected back toward the transmitter in dB, with RL
-\textgreater{} 10 dB (VSWR \textless{} 2:1) considered acceptable and RL
-\textgreater{} 15 dB (VSWR \textless{} 1.43:1) considered good. The
+\textgreater{} 9.54 dB (VSWR \textless{} 2:1) considered acceptable and
+RL \textgreater{} 15 dB (VSWR \textless{} 1.43:1) considered good. The
 mismatch loss --- the fraction of power actually delivered to the
 antenna --- is ML = −10 log₁₀(1 − \textbar Γ\textbar²); at VSWR = 2:1,
 only 11\% of power is reflected and mismatch loss is just 0.51 dB.
