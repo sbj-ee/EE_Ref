@@ -18018,11 +18018,9 @@ h{[}3{]} = 0.5(2.25) + 0 + 0 + 0 = \textbf{1.125}\\
 h{[}4{]} = 0.5(1.125) = \textbf{0.5625}
 
 (d) At f = 1 kHz: ω = 2π × 1000/10,000 = 0.2π rad/sample\\
-Numerator: \textbar1 + 2e\textsuperscript{-j0.2π} +
-e\textsuperscript{-j0.4π}\textbar{} = \textbar(1 +
-e\textsuperscript{-j0.2π})²\textbar{}\\
-= \textbar1 + cos(0.2π) - jsin(0.2π)\textbar² \ldots{} let me compute
-directly:\\
+Numerator: the numerator factors as 1 + 2z⁻¹ + z⁻² = (1 + z⁻¹)², so its
+magnitude on the unit circle is \textbar1 +
+e\textsuperscript{-jω}\textbar².\\
 \textbar1 + e\textsuperscript{-jω}\textbar² = (1 + cos ω)² + sin²ω = 2 +
 2cos ω = 2(1 + cos(0.2π)) = 2(1 + 0.809) = 3.618\\
 So \textbar numerator\textbar{} = 3.618
@@ -18188,7 +18186,7 @@ n ≥ cosh⁻¹(√{[}(10\textsuperscript{As/10} -
 1)/(10\textsuperscript{Ap/10} - 1){]}) / cosh⁻¹(1/k)\\
 = cosh⁻¹(√(386,247)) / cosh⁻¹(1.676)\\
 = cosh⁻¹(621.5) / cosh⁻¹(1.676)\\
-= 7.125 / 1.114 = \textbf{6.4 → n = 7}
+= 7.125 / 1.106 = \textbf{6.4 → n = 7}
 
 The Chebyshev filter requires roughly half the order of the Butterworth
 (7 vs 13) at the cost of passband ripple. This translates to
@@ -18232,9 +18230,11 @@ from 1440 at the intermediate rate.
 \subsection{Problem 8.5.5}\label{problem-8.5.5}
 
 \textbf{Given:} A second-order IIR notch filter centered at 60 Hz (for
-power line rejection) is designed for f\textsubscript{s} = 1000 Hz. The
-ideal coefficients are a₁ = -1.61803 and a₂ = 0.95. The filter is
-implemented in Q15 fixed-point (16-bit signed).
+power line rejection) is designed for f\textsubscript{s} = 1000 Hz. For
+a notch at ω₀ the denominator coefficient is a₁ = −2r·cos(ω₀), and with
+ω₀ = 2π × 60/1000 = 0.37699 rad/sample and pole radius r = √a₂ this
+gives a₁ = \textbf{−1.85955}, with a₂ = 0.95. The filter is implemented
+in Q15 fixed-point (16-bit signed).
 
 \textbf{Find:} (a) The Q15 representations of a₁ and a₂, (b) the
 quantized coefficient values, (c) the quantization error for each
@@ -18244,31 +18244,36 @@ coefficient, and (d) the shift in notch frequency due to quantization.
 
 (a) Q15 represents values from -1.0 to +0.99997 with resolution 2⁻¹⁵ =
 3.052 × 10⁻⁵.\\
-However, \textbar a₁\textbar{} = 1.61803 \textgreater{} 1.0, which
-\textbf{exceeds Q15 range}.
+However, \textbar a₁\textbar{} = 1.85955 \textgreater{} 1.0, which
+\textbf{exceeds Q15 range} --- a recurring practical problem, since the
+a₁ coefficient of any narrowband second-order section is close to −2.
 
-Use Q14 scaling (divide by 2): a₁\textsubscript{Q14} = round(-1.61803 ×
-2¹⁴) = round(-26,510.4) = -26,510\\
-a₂\textsubscript{Q15} = round(0.95 × 2¹⁵) = round(31,129.6) = 31,130
+Use Q14 scaling (one guard bit): a₁\textsubscript{Q14} = round(−1.85955
+× 2¹⁴) = round(−30,466.9) = \textbf{−30,467}\\
+a₂ fits in Q15: a₂\textsubscript{Q15} = round(0.95 × 2¹⁵) =
+round(31,129.6) = \textbf{31,130}
 
-(b) Quantized values:\\
-a₁\textsubscript{quant} = -26,510 / 2¹⁴ = -26,510 / 16,384 =
-\textbf{-1.61798}\\
+(b) Quantized values (divide the integer code by its scale factor):\\
+a₁\textsubscript{quant} = −30,467 / 2¹⁴ = −30,467 / 16,384 =
+\textbf{−1.859558}\\
 a₂\textsubscript{quant} = 31,130 / 2¹⁵ = 31,130 / 32,768 =
-\textbf{0.94998}
+\textbf{0.950012}
 
-(c) Quantization errors:\\
-Δa₁ = -1.61798 - (-1.61803) = \textbf{+5 × 10⁻⁵} (0.003\%)\\
-Δa₂ = 0.94998 - 0.95 = \textbf{-2 × 10⁻⁵} (0.002\%)
+(c) Quantization errors (quantized minus ideal):\\
+Δa₁ = −1.859558 − (−1.85955) = \textbf{−8.1 × 10⁻⁶} (−0.00044\%)\\
+Δa₂ = 0.950012 − 0.95 = \textbf{+1.2 × 10⁻⁵} (+0.0013\%)\\
+Each error is at most half an LSB of its format --- 2⁻¹⁵ = 3.05 × 10⁻⁵
+for a₁ in Q14 and 1.53 × 10⁻⁵ for a₂ in Q15 --- as rounding guarantees.
 
 (d) The notch frequency depends on a₁: for a second-order notch, ω₀ =
-arccos(-a₁/2).\\
-Ideal: ω₀ = arccos(1.61803/2) = arccos(0.80902) = 0.37699 rad/sample →
-f₀ = 60.000 Hz\\
-Quantized: ω₀ = arccos(1.61798/2) = arccos(0.80899) = 0.37703 rad/sample
-→ f₀ = \textbf{60.005 Hz}\\
-Shift = \textbf{0.005 Hz}, which is negligible for a 60 Hz notch
-application.
+arccos(−a₁/2).\\
+Ideal: ω₀ = arccos(1.85955/2) = arccos(0.929775) = 0.376995 rad/sample →
+f₀ = (0.376995/2π) × 1000 = \textbf{60.00 Hz}\\
+Quantized: ω₀ = arccos(1.859558/2) = arccos(0.929779) = 0.376984
+rad/sample → f₀ = \textbf{59.999 Hz}\\
+Shift ≈ \textbf{0.002 Hz}, negligible for power-line rejection: a 60 Hz
+notch typically has a 3 dB bandwidth of several hertz, so a 2 mHz centre
+shift is four orders of magnitude smaller than the notch width.
 
 \subsection{Problem 8.5.6}\label{problem-8.5.6}
 
@@ -18507,7 +18512,8 @@ to 50 kHz bandwidth centered at 1 MHz.
 \textbf{Solution:}
 
 (a) Total noise power:\\
-P = S(f) × BW = 4.0 × 10⁻⁹ × 200,000 = \textbf{8.0 × 10⁻⁴ V² = 0.8 mV²}
+P = S(f) × BW = 4.0 × 10⁻⁹ × 200,000 = \textbf{8.0 × 10⁻⁴ V²}
+(equivalently 800 mV², since 1 mV² = 10⁻⁶ V²)
 
 (b) RMS noise voltage:\\
 V\textsubscript{rms} = √P = √(8.0 × 10⁻⁴) = \textbf{0.02828 V = 28.28
@@ -18768,13 +18774,13 @@ Number of segments: K = (8,000 - 512)/256 + 1 = 7,488/256 + 1 = 29.25 +
 
 (c) Total broadband noise power:\\
 P\textsubscript{n} = S\textsubscript{n} × BW = 5.0 × 10⁻⁶ × 2,000 =
-\textbf{0.01 V² = 10 mV²}
+\textbf{0.01 V²} (V\textsubscript{n,rms} = 100 mV)
 
 V\textsubscript{rms,noise} = √0.01 = \textbf{0.1 V = 100 mV}
 
 (d) Signal power in 10 Hz band around shaft frequency:\\
 P\textsubscript{signal} = S\textsubscript{peak} × 10 = 2.0 × 10⁻³ × 10 =
-\textbf{0.02 V² = 20 mV²}
+\textbf{0.02 V²} (V\textsubscript{s,rms} = 141 mV)
 
 (e) Noise power in the same 10 Hz band:\\
 P\textsubscript{n,band} = S\textsubscript{n} × 10 = 5.0 × 10⁻⁶ × 10 =
