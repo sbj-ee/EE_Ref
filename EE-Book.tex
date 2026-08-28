@@ -24849,16 +24849,18 @@ Base ampacity of 6 AWG THWN-2 at 90°C: 75 A.\\
 Derated ampacity: 75 × 0.50 = \textbf{37.5 A}.\\
 Indoor comparison at 30°C ambient: no correction needed, ampacity = 75 A
 (at 90°C rating), but limited to 65 A by 75°C termination rating.\\
-The rooftop installation loses half its current-carrying capacity.\\
+The rooftop installation loses half its 90°C base ampacity (75 A to 37.5
+A).\\
 If the HVAC unit draws 40 A, 6 AWG is insufficient on the rooftop ---
-upgrade to 4 AWG (90°C base = 95 A, derated = 95 × 0.50 = 47.5 A ---
-sufficient with margin).\\
+upgrade to 4 AWG (90°C base = 95 A, derated = 95 × 0.50 = 47.5 A, below
+the 85 A termination limit for 4 AWG --- sufficient with margin).\\
 Raising the conduit onto standoffs that give at least 7/8 inch of
 clearance removes the adder entirely: the effective ambient falls back
 to the 40°C weather value, the correction factor for 90°C insulation in
 the 36--40°C band is 0.91, and the 6 AWG derated ampacity becomes 75 ×
-0.91 = 68.3 A --- comfortably sufficient for the 40 A load and saving
-two wire sizes for the cost of a few standoffs.
+0.91 = 68.3 A --- which the 75°C termination rating then caps at 65 A,
+still comfortably above the 40 A load. A few standoffs therefore save a
+wire size.
 
 \end{examplebox}
 

@@ -31300,8 +31300,8 @@ Raising the conduit onto standoffs that provide at least 7/8 inch of
 clearance removes the adder entirely under the 2023 NEC: effective
 ambient = 43°C, correction factor for 90°C insulation in the 41--45°C
 band = \textbf{0.87}, and derated ampacity = 130 × 0.87 × 0.80 =
-\textbf{90.5 A} --- a threefold improvement for the cost of the
-standoffs.
+\textbf{90.5 A} --- the ampacity slightly more than doubles (90.5 / 42.6
+= 2.1×) for the cost of the standoffs.
 
 \subsection{Problem 14.2.7}\label{problem-14.2.7}
 
@@ -31895,9 +31895,11 @@ Dual-element time-delay fuse (Design B motor): maximum 175\% of FLC.\\
 175\% × 34 = 59.5 A. Next standard size: \textbf{60 A}.
 
 Final motor branch circuit:\\
-- Conductors: 10 AWG copper (rated 35 A at 75°C ≥ 1.25 × 34 = 42.5 A --
-\textbf{insufficient}).\\
-- Need 8 AWG copper (rated 50 A at 75°C ≥ 42.5 A).\\
+- Required conductor ampacity per 430.22: 1.25 × 34 = 42.5 A.\\
+- 10 AWG copper is rated 35 A at 75°C, which is below 42.5 A ---
+\textbf{insufficient}.\\
+- 8 AWG copper is rated 50 A at 75°C, which exceeds 42.5 A ---
+\textbf{use 8 AWG}.\\
 - Overcurrent: 90 A inverse-time breaker OR 60 A dual-element fuse.\\
 - Overload relay: set at 36.8 A.
 
