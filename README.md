@@ -33,7 +33,6 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Appendix on unit prefixes and SI units for electrical engineering
 - Appendix on getting started with Python and marimo for interactive scripts
 - Appendix on matrix operations for circuit analysis and control systems
-- Appendix on the TCLab control laboratory: plant identification, IMC tuning, and measured closed-loop results
 - References: standards with pinned editions, foundational papers, textbooks by chapter, and data sources
 - Dictionary of 600+ technical terms with definitions and chapter cross-references
 
@@ -264,13 +263,6 @@ A comprehensive electrical engineering reference covering 19 core disciplines in
 - Matrix Operations (transpose, determinant, inverse)
 - Solving Linear Systems (Gaussian elimination, Cramer's rule)
 - Applications (nodal analysis, two-port parameters, state-space)
-
-### Appendix G: TCLab Control Lab
-- Hardware and Software (TCLab shield, tclab_control package, uv setup)
-- Plant Identification (open-loop step test, FOPDT model fit)
-- Controller Design (IMC λ-tuning, Ziegler-Nichols comparison)
-- Measured Results (single setpoint step response, multi-setpoint schedule)
-- Implementation Notes (bumpless transfer, model-hardware discrepancy)
 
 ### References
 - Standards and codes cited in the text, with the edition each chapter was written against (NFPA, IEEE, IEC/ISO/CISPR, ANSI/NEMA/TIA/UL/SAE, NERC, IETF, ITU, BIPM)
