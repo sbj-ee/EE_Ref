@@ -3876,8 +3876,10 @@ full-rank channels.
 
 (d) For 256-QAM at BER = 10⁻⁵, the required E\textsubscript{b}/N₀ ≈ 22.5
 dB.\\
-Per-stream SNR = E\textsubscript{b}/N₀ + 10 log₁₀(bits/symbol) − 10
-log₁₀(coding gain) ≈ 22.5 + 9.0 − 0.8 = \textbf{30.7 dB}.\\
+Per-stream SNR = E\textsubscript{b}/N₀ + 10 log₁₀(bits/symbol × code
+rate) ≈ 22.5 + 9.0 − 0.8 = \textbf{30.7 dB}. The −0.8 dB is 10
+log₁₀(5/6), the \emph{code rate} --- not a coding gain, which would move
+the required E\textsubscript{b}/N₀ in the opposite direction.\\
 This high SNR requirement limits 256-QAM operation to short-range,
 high-SNR scenarios --- at greater distances, the system adaptively falls
 back to lower-order modulation (64-QAM, 16-QAM).

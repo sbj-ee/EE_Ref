@@ -2572,17 +2572,23 @@ f\textsubscript{lower} = f\textsubscript{c} + 300 = 14,200,300 Hz\\
 f\textsubscript{upper} = f\textsubscript{c} + 3,000 = 14,203,000 Hz\\
 Range: \textbf{14.2003 to 14.203 MHz}
 
-(c) SSB PEP = 100 W. All power carries information.\\
-For AM at m = 1.0 with equivalent sideband power:\\
-The SSB signal has power in one sideband = 100 W PEP.\\
-AM total power for same PEP sideband: P\textsubscript{c} = 2 ×
-P\textsubscript{ssb}/m² × 2 = needs clarification.\\
-More directly: AM at m = 1.0 has P\textsubscript{total} = 1.5 ×
-P\textsubscript{c}, with P\textsubscript{sb} = 0.5 × P\textsubscript{c}
-total in both sidebands.\\
-For the same information as SSB at 100 W: P\textsubscript{c} = 2 ×
-100/0.5 = 400 W, P\textsubscript{total} = 600 W.\\
+(c) Fix the basis of comparison first, because SSB is rated in PEP and
+AM is normally rated in average power. For a single audio tone the SSB
+envelope is constant, so its PEP and its average power are both 100 W,
+and all of it is in the one information-bearing sideband.
+
+AM at m = 1.0 puts P\textsubscript{sb} = m²P\textsubscript{c}/4 =
+0.25P\textsubscript{c} into \emph{each} sideband. Matching the SSB
+sideband:\\
+0.25 × P\textsubscript{c} = 100 W → P\textsubscript{c} = 400 W\\
+P\textsubscript{total} = P\textsubscript{c}(1 + m²/2) = 400 × 1.5 = 600
+W average
+
 Power savings: (600 - 100)/600 = \textbf{83.3\% power savings}
+
+The contrast is sharper still in PEP terms, which is what sizes the
+final amplifier: the AM transmitter peaks at P\textsubscript{c}(1 + m)²
+= 400 × 4 = 1,600 W against the SSB transmitter's 100 W.
 
 (d) AM bandwidth = 2 × 3,000 = 6,000 Hz. SSB bandwidth = 2,700 Hz.\\
 Savings: (6,000 - 2,700)/6,000 = \textbf{55\% bandwidth savings}
@@ -2699,12 +2705,14 @@ zero), and (d) the step size at the largest signal level (near ±1 V).
 (a) Bit rate: R\textsubscript{b} = N × f\textsubscript{s} = 8 × 8,000 =
 \textbf{64 kbps}
 
-(b) The dynamic range of μ-law with μ = 255:\\
-DR = 6.02 × 8 + 1.76 + 10 log₁₀(3(μ)² / (ln(1 + μ))²)\\
-The compression gain: 10 log₁₀(3 × 255² / (ln(256))²) = 10 log₁₀(195,075
-/ 30.68) = 10 log₁₀(6,358) = 38.0 dB\\
-Total DR ≈ 49.9 + 38.0 − 38.0 ≈ \textbf{72 dB} (equivalent to
-approximately 12 uniform bits)
+(b) A uniform 8-bit quantizer gives SQNR = 6.02 × 8 + 1.76 = 49.9 dB,
+but only at full scale --- it falls 1 dB for every dB the input drops.
+The μ-law SQNR is instead nearly independent of level:\\
+SQNR ≈ 6.02N + 4.77 − 20 log₁₀(ln(1 + μ)) = 48.16 + 4.77 − 20
+log₁₀(5.545) = 48.16 + 4.77 − 14.88 = \textbf{38.1 dB}\\
+Companding therefore trades 11.8 dB of peak SQNR for holding 38.1 dB
+across roughly 40 dB of input level. It is that \emph{range}, not the
+peak figure, that the ``13-bit equivalent'' description refers to.
 
 More directly, μ-law companding with 8 bits achieves an SQNR that is
 approximately constant at \textbf{38 dB} over a 40 dB input dynamic
@@ -2972,9 +2980,9 @@ in GSM) has a bit rate of 270.833 kbps and a bandwidth-time product BT =
 × R\textsubscript{b} × BT/0.3.
 
 \textbf{Find:} (a) The 99\% power containment bandwidth, (b) the
-spectral efficiency, (c) the number of GSM channels in a 200 kHz
-allocation, and (d) the comparison to standard MSK bandwidth (1.5 ×
-R\textsubscript{b}).
+spectral efficiency, (c) the number of voice channels (TDMA time slots)
+carried by one 200 kHz GSM carrier, and (d) the comparison to standard
+MSK bandwidth (1.5 × R\textsubscript{b}).
 
 \textbf{Solution:}
 
@@ -3085,8 +3093,9 @@ margin}.
 \textbf{Given:} A wireless system operates at E\textsubscript{b}/N₀ = 20
 dB. Three modulation schemes are available: QPSK (BER =
 Q(√(2E\textsubscript{b}/N₀))), 16-QAM (BER ≈
-(3/8)Q(√(4E\textsubscript{b}/(5N₀)))), and 64-QAM (BER ≈
-(7/24)Q(√(2E\textsubscript{b}/(7N₀)))).
+(3/4)Q(√(4E\textsubscript{b}/(5N₀)))), and 64-QAM (BER ≈
+(7/12)Q(√(2E\textsubscript{b}/(7N₀)))). The prefactors are (4/log₂M)(1 −
+1/√M): 3/4 for 16-QAM and 7/12 for 64-QAM.
 
 \textbf{Find:} (a) The BER for each scheme, (b) the bandwidth efficiency
 of each, (c) the throughput at symbol rate R\textsubscript{s} = 1
@@ -3100,14 +3109,14 @@ E\textsubscript{b}/N₀ = 20 dB = 10² = 100 (linear).
 (a) QPSK: BER = Q(√(2 × 100)) = Q(√200) = Q(14.14)\\
 BER ≈ \textbf{\textless{} 10⁻⁴⁴} (essentially error-free)
 
-16-QAM: BER = (3/8) × Q(√(4 × 100/5)) = 0.375 × Q(√80) = 0.375 ×
+16-QAM: BER = (3/4) × Q(√(4 × 100/5)) = 0.75 × Q(√80) = 0.75 ×
 Q(8.944)\\
-BER ≈ 0.375 × 1.8 × 10⁻¹⁹ = \textbf{6.75 × 10⁻²⁰} (essentially
+BER ≈ 0.75 × 1.9 × 10⁻¹⁹ = \textbf{1.42 × 10⁻¹⁹} (essentially
 error-free)
 
-64-QAM: BER = (7/24) × Q(√(2 × 100/7)) = 0.2917 × Q(√28.57) = 0.2917 ×
+64-QAM: BER = (7/12) × Q(√(2 × 100/7)) = 0.5833 × Q(√28.57) = 0.5833 ×
 Q(5.345)\\
-BER ≈ 0.2917 × 4.5 × 10⁻⁸ = \textbf{1.31 × 10⁻⁸}
+BER ≈ 0.5833 × 4.5 × 10⁻⁸ = \textbf{2.63 × 10⁻⁸}
 
 (b) Bandwidth efficiencies: QPSK = \textbf{2 bits/s/Hz}, 16-QAM =
 \textbf{4 bits/s/Hz}, 64-QAM = \textbf{6 bits/s/Hz}
@@ -3118,7 +3127,7 @@ QPSK: 2 × 10⁶ = \textbf{2 Mbps}\\
 64-QAM: 6 × 10⁶ = \textbf{6 Mbps}
 
 (d) All three schemes meet BER \textless{} 10⁻⁶. The highest-order
-modulation meeting the target is \textbf{64-QAM} with BER = 1.31 × 10⁻⁸,
+modulation meeting the target is \textbf{64-QAM} with BER = 2.63 × 10⁻⁸,
 providing 6 Mbps throughput. At 20 dB E\textsubscript{b}/N₀, 64-QAM has
 comfortable margin.
 
@@ -3206,9 +3215,9 @@ phase change between consecutive symbols. The phase changes are 0°, 90°,
 rate is 2 Msymbols/s and the channel E\textsubscript{b}/N₀ is 12 dB.
 
 \textbf{Find:} (a) The bit rate, (b) the BER for coherent DQPSK
-detection (BER ≈ Q(√(2E\textsubscript{b}/N₀)) × 2), (c) the BER for
-noncoherent DQPSK detection (BER ≈ e\textsuperscript{−Eb/N₀}), and (d)
-the E\textsubscript{b}/N₀ penalty relative to coherent QPSK.
+detection (BER ≈ 2Q(√(2E\textsubscript{b}/N₀))), (c) the BER for
+noncoherent (differentially detected) DQPSK, and (d) the
+E\textsubscript{b}/N₀ penalty relative to coherent QPSK.
 
 \textbf{Solution:}
 
@@ -3221,8 +3230,15 @@ E\textsubscript{b}/N₀ = 12 dB = 15.85 (linear).
 BER ≈ 2 × Q(√(2 × 15.85)) = 2 × Q(√31.70) = 2 × Q(5.630)\\
 BER = 2 × 9.0 × 10⁻⁹ = \textbf{1.80 × 10⁻⁸}
 
-(c) Noncoherent DQPSK BER:\\
-BER ≈ e\textsuperscript{−Eb/N₀} = e⁻¹⁵·⁸⁵ = \textbf{1.32 × 10⁻⁷}
+(c) Noncoherent DQPSK BER. The familiar e\textsuperscript{−Eb/N₀} shape
+belongs to DBPSK (and even there carries a factor of ½); differentially
+detected DQPSK requires the Marcum-Q form:\\
+BER = Q₁(a, b) − ½ I₀(ab) e\textsuperscript{−(a² + b²)/2}, with a =
+√(2γ(1 − 1/√2)) and b = √(2γ(1 + 1/√2))\\
+At γ = E\textsubscript{b}/N₀ = 15.85: a = 3.047, b = 7.356\\
+BER = 1.30 × 10⁻⁵ − 3.94 × 10⁻⁶ = \textbf{9.05 × 10⁻⁶}\\
+The DBPSK expression would have given 1.32 × 10⁻⁷, understating the
+error rate by nearly two orders of magnitude.
 
 (d) Coherent QPSK at the same E\textsubscript{b}/N₀:\\
 BER = Q(√(2 × 15.85)) = Q(5.630) = 9.0 × 10⁻⁹
@@ -3231,8 +3247,9 @@ Comparing at BER = 10⁻⁵:\\
 Coherent QPSK requires E\textsubscript{b}/N₀ = 9.6 dB.\\
 Coherent DQPSK requires approximately 9.6 + 0.5 = \textbf{10.1 dB}
 (about 0.5 dB penalty).\\
-Noncoherent DQPSK requires approximately 9.6 + 1.8 = \textbf{11.4 dB}
-(about 1.8 dB penalty).
+Noncoherent DQPSK reaches 10⁻⁵ at \textbf{12.0 dB} by the expression in
+(c) --- about a 2.4 dB penalty, which is why part (c) at 12 dB lands
+just under 10⁻⁵.
 
 The penalty is the cost of not requiring a coherent carrier reference,
 which simplifies the receiver significantly.
@@ -3263,12 +3280,15 @@ The Wi-Fi 6 (802.11ax) standard specifies MCS 11 (1024-QAM, 5/6) at
 approximately 143.4 Mbps per spatial stream for 80 MHz with 0.8 μs GI,
 confirming this calculation.
 
-(d) For 1024-QAM at BER = 10⁻⁵:\\
-E\textsubscript{b}/N₀ ≈ 25.1 dB (from tables).\\
-SNR per subcarrier = E\textsubscript{b}/N₀ + 10 log₁₀(bits/symbol) − 10
-log₁₀(code rate)\\
-SNR = 25.1 + 10 log₁₀(10) − 10 log₁₀(5/6) = 25.1 + 10.0 − (−0.79) =
-\textbf{35.9 dB}
+(d) For 1024-QAM at BER = 10⁻⁵, from BER ≈ (4/log₂M)(1 − 1/√M) Q(√(3
+log₂M · E\textsubscript{b}/N₀ /(M − 1))):\\
+E\textsubscript{b}/N₀ ≈ \textbf{27.5 dB}.\\
+SNR per subcarrier = E\textsubscript{b}/N₀ + 10 log₁₀(bits/symbol × code
+rate), the same convention as Example 2.3.6:\\
+SNR = 27.5 + 10 log₁₀(10) + 10 log₁₀(5/6) = 27.5 + 10.0 − 0.79 =
+\textbf{36.7 dB}\\
+The code-rate term subtracts here because coding spends bandwidth: at
+rate 5/6 each channel symbol carries 8.33 information bits, not 10.
 
 (e) Bandwidth efficiency = 143.38 / 80 = \textbf{1.79 bits/s/Hz} per
 stream\\
@@ -3370,7 +3390,7 @@ are computed as: p₁ = d₃ ⊕ d₂ ⊕ d₀, p₂ = d₃ ⊕ d₁ ⊕ d₀, p
 d₀.
 
 \textbf{Find:} (a) The encoded 7-bit codeword, (b) the syndrome if bit
-position 5 (d₁) is flipped during transmission, (c) the corrected
+position 6 (d₁) is flipped during transmission, (c) the corrected
 codeword, and (d) the code rate and overhead percentage.
 
 \textbf{Solution:}
@@ -3382,8 +3402,8 @@ p₃ = 0 ⊕ 1 ⊕ 1 = 0
 
 Codeword (positions 1-7): p₁p₂d₃p₃d₂d₁d₀ = \textbf{0 1 1 0 0 1 1}
 
-(b) If bit 5 (d₁ at position 6 in standard Hamming) is flipped: received
-= 0 1 1 0 0 0 1\\
+(b) In the layout p₁p₂d₃p₃d₂d₁d₀ the positions are 1-7, so d₁ occupies
+position 6 (position 5 is d₂). Flipping it: received = 0 1 1 0 0 0 1\\
 Syndrome bits:\\
 s₁ = p₁ ⊕ d₃ ⊕ d₂ ⊕ d₀ = 0 ⊕ 1 ⊕ 0 ⊕ 1 = 0\\
 s₂ = p₂ ⊕ d₃ ⊕ d₁ ⊕ d₀ = 1 ⊕ 1 ⊕ 0 ⊕ 1 = 1\\
@@ -4064,7 +4084,7 @@ pushing spectral efficiency to 8 bits/s/Hz per channel.
 \subsection{Problem 2.5.9}\label{problem-2.5.9}
 
 \textbf{Given:} An OFDMA system (similar to Wi-Fi 6, 802.11ax) operates
-in a 20 MHz channel with 256 subcarriers (9.765625 kHz spacing). The
+in a 20 MHz channel with 256 subcarriers (78.125 kHz spacing). The
 resource allocation divides the channel into resource units (RUs): 9 RUs
 of 26 subcarriers each (234 data subcarriers total). Three stations are
 scheduled simultaneously: STA1 gets 4 RUs (106 subcarriers) with
