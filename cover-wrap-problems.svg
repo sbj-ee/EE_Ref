@@ -3,7 +3,7 @@
   <defs>
     <filter id="leather" x="0%" y="0%" width="100%" height="100%">
       <feTurbulence type="fractalNoise" baseFrequency="0.6500" numOctaves="4" seed="2" result="noise"/>
-      <feDiffuseLighting in="noise" lighting-color="#2d5a27" surfaceScale="1.5" result="lit">
+      <feDiffuseLighting in="noise" lighting-color="#b02830" surfaceScale="1.5" result="lit">
         <feDistantLight azimuth="225" elevation="35"/>
       </feDiffuseLighting>
       <feComposite in="lit" in2="SourceGraphic" operator="multiply"/>
@@ -24,19 +24,19 @@
     </linearGradient>
     <filter id="textEmboss" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0.47" dy="0.47" stdDeviation="0.32"
-                    flood-color="#0a2e0a" flood-opacity="0.85"/>
+                    flood-color="#2a080a" flood-opacity="0.85"/>
     </filter>
   </defs>
 
-  <rect x="0" y="0" width="1213.09" height="774.00" fill="#1e5a1e"/>
+  <rect x="0" y="0" width="1213.09" height="774.00" fill="#7a1218"/>
   <rect x="0" y="0" width="1213.09" height="774.00" filter="url(#leather)" opacity="0.6"/>
-  <rect x="513.00" y="0" width="187.09" height="774.00" fill="#1a4d1a"/>
+  <rect x="513.00" y="0" width="187.09" height="774.00" fill="#5a0e14"/>
   <rect x="513.00" y="0" width="187.09" height="774.00" filter="url(#leather)" opacity="0.7"/>
-  <line x1="513.00" y1="0" x2="513.00" y2="774.00" stroke="#0a2e0a" stroke-width="1.57" opacity="0.6"/>
-  <line x1="700.09" y1="0" x2="700.09" y2="774.00" stroke="#0a2e0a" stroke-width="1.57" opacity="0.6"/>
-  <line x1="513.00" y1="160.56" x2="700.09" y2="160.56" stroke="#0f3a0f" stroke-width="2.36" opacity="0.5"/>
+  <line x1="513.00" y1="0" x2="513.00" y2="774.00" stroke="#2a080a" stroke-width="1.57" opacity="0.6"/>
+  <line x1="700.09" y1="0" x2="700.09" y2="774.00" stroke="#2a080a" stroke-width="1.57" opacity="0.6"/>
+  <line x1="513.00" y1="160.56" x2="700.09" y2="160.56" stroke="#2a080a" stroke-width="2.36" opacity="0.5"/>
   <line x1="517.73" y1="167.65" x2="695.37" y2="167.65" stroke="url(#goldLine)" stroke-width="0.63" opacity="0.7"/>
-  <line x1="513.00" y1="613.44" x2="700.09" y2="613.44" stroke="#0f3a0f" stroke-width="2.36" opacity="0.5"/>
+  <line x1="513.00" y1="613.44" x2="700.09" y2="613.44" stroke="#2a080a" stroke-width="2.36" opacity="0.5"/>
   <line x1="517.73" y1="620.53" x2="695.37" y2="620.53" stroke="url(#goldLine)" stroke-width="0.63" opacity="0.7"/>
   <text x="606.55" y="387.00" fill="url(#goldSpine)" font-family="Georgia, 'Times New Roman', serif" font-size="12.60" font-weight="bold" letter-spacing="2.36" text-anchor="middle" filter="url(#textEmboss)" transform="rotate(90, 606.55, 387.00)">EE REFERENCE · PROBLEM SETS</text>
   <text x="606.55" y="672.05" fill="url(#goldSpine)" font-family="Georgia, 'Times New Roman', serif" font-size="8.66" letter-spacing="0.79" text-anchor="middle" filter="url(#textEmboss)" transform="rotate(90, 606.55, 672.05)">STEPHEN B. JOHNSON</text>
@@ -44,11 +44,14 @@
   <rect x="85.50" y="85.50" width="378.00" height="603.00" fill="none" stroke="url(#goldLine)" stroke-width="0.55" opacity="0.6"/>
   <rect x="741.72" y="77.62" width="393.75" height="618.75" fill="none" stroke="url(#goldLine)" stroke-width="1.18" opacity="0.85"/>
   <rect x="749.59" y="85.50" width="378.00" height="603.00" fill="none" stroke="url(#goldLine)" stroke-width="0.55" opacity="0.6"/>
+  <rect x="755.89" y="91.80" width="365.40" height="11.03" fill="url(#gold)" opacity="0.92"/>
+  <rect x="755.89" y="671.18" width="365.40" height="11.03" fill="url(#gold)" opacity="0.92"/>
   <text x="938.59" y="313.88" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="29.93" font-weight="bold" text-anchor="middle" letter-spacing="2.36" filter="url(#textEmboss)">ELECTRICAL</text>
   <text x="938.59" y="351.68" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="29.93" font-weight="bold" text-anchor="middle" letter-spacing="2.36" filter="url(#textEmboss)">ENGINEERING</text>
-  <text x="938.59" y="389.47" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="29.93" font-weight="bold" text-anchor="middle" letter-spacing="2.36" filter="url(#textEmboss)">REFERENCE</text>
-  <text x="938.59" y="475.31" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="17.32" font-style="italic" text-anchor="middle" letter-spacing="3.94" filter="url(#textEmboss)">Problem Sets</text>
-  <line x1="899.22" y1="495.00" x2="977.97" y2="495.00" stroke="url(#goldLine)" stroke-width="0.63" opacity="0.6"/>
+  <text x="938.59" y="389.47" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="29.93" font-weight="bold" text-anchor="middle" letter-spacing="2.36" filter="url(#textEmboss)">PROBLEM SETS</text>
+  <rect x="773.22" y="443.81" width="330.75" height="45.67" fill="url(#gold)" opacity="0.98"/>
+  <rect x="775.58" y="446.18" width="326.02" height="40.95" fill="none" stroke="#2a080a" stroke-width="0.94" opacity="0.55"/>
+  <text x="938.59" y="474.52" fill="#2a080a" font-family="Georgia, 'Times New Roman', serif" font-size="23.62" font-weight="bold" text-anchor="middle" letter-spacing="3.94">PROBLEM SETS</text>
   <text x="938.59" y="558.00" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="15.75" text-anchor="middle" letter-spacing="3.15" filter="url(#textEmboss)">STEPHEN B. JOHNSON</text>
   <line x1="227.25" y1="290.25" x2="321.75" y2="290.25" stroke="url(#goldLine)" stroke-width="0.63" opacity="0.6"/>
   <text x="274.50" y="321.75" fill="url(#gold)" font-family="Georgia, 'Times New Roman', serif" font-size="11.81" font-style="italic" text-anchor="middle" opacity="0.9" filter="url(#textEmboss)">1,298 problems, every one worked in full,</text>

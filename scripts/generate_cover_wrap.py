@@ -26,10 +26,13 @@ Usage:
 Writes, per volume: the full case wrap (svg/png/pdf), a guide-marked wrap, and
 cover-front-<vol>.svg -- a standalone 6 x 9 front cover used for the EPUB cover
 and the README images. cover-front-* replaced the old hand-made cover.svg.
+
+The two volumes share gold embossing and leather grain, but the Problem Sets
+volume uses a red leather field plus a large gold PROBLEM SETS banner so the
+EPUB/Kindle library thumbnails are unmistakable next to the green Reference.
 """
 
 import argparse
-import math
 from pathlib import Path
 
 # ─── Binding parameters (inches) ─────────────────────────────────────────────
@@ -59,12 +62,18 @@ VOLUMES = [
          title=["ELECTRICAL", "ENGINEERING", "REFERENCE"],
          spine_title="ELECTRICAL ENGINEERING REFERENCE",
          subtitle="Editio Unica",
-         blurb="Nineteen disciplines of electrical engineering,\nwith worked examples throughout."),
+         blurb="Nineteen disciplines of electrical engineering,\nwith worked examples throughout.",
+         # Forest-green leather (series original)
+         leather="#1e5a1e", leather_lit="#2d5a27", spine="#1a4d1a",
+         emboss="#0a2e0a", subtitle_style="italic"),
     dict(key="problems", pages=961,
-         title=["ELECTRICAL", "ENGINEERING", "REFERENCE"],
+         title=["ELECTRICAL", "ENGINEERING", "PROBLEM SETS"],
          spine_title="EE REFERENCE · PROBLEM SETS",
-         subtitle="Problem Sets",
-         blurb="1,298 problems, every one worked in full,\nkeyed section by section to the reference."),
+         subtitle="PROBLEM SETS",
+         blurb="1,298 problems, every one worked in full,\nkeyed section by section to the reference.",
+         # Red leather (Stephen's call) + banner so thumbs don't match Reference
+         leather="#7a1218", leather_lit="#b02830", spine="#5a0e14",
+         emboss="#2a080a", subtitle_style="banner"),
 ]
 AUTHOR = "STEPHEN B. JOHNSON"
 
@@ -81,12 +90,14 @@ def geometry(pages):
                 board_w=board_w, board_h=board_h, wrap_w=wrap_w, wrap_h=wrap_h)
 
 
-def defs(scale):
+def defs(scale, vol):
     """Gradients and filters, carried over from cover.svg so the wrap matches."""
+    lit = vol["leather_lit"]
+    emboss = vol["emboss"]
     return f"""  <defs>
     <filter id="leather" x="0%" y="0%" width="100%" height="100%">
       <feTurbulence type="fractalNoise" baseFrequency="{LEATHER_FREQ:.4f}" numOctaves="4" seed="2" result="noise"/>
-      <feDiffuseLighting in="noise" lighting-color="#2d5a27" surfaceScale="1.5" result="lit">
+      <feDiffuseLighting in="noise" lighting-color="{lit}" surfaceScale="1.5" result="lit">
         <feDistantLight azimuth="225" elevation="35"/>
       </feDiffuseLighting>
       <feComposite in="lit" in2="SourceGraphic" operator="multiply"/>
@@ -107,7 +118,7 @@ def defs(scale):
     </linearGradient>
     <filter id="textEmboss" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="{0.6*scale:.2f}" dy="{0.6*scale:.2f}" stdDeviation="{0.4*scale:.2f}"
-                    flood-color="#0a2e0a" flood-opacity="0.85"/>
+                    flood-color="{emboss}" flood-opacity="0.85"/>
     </filter>
   </defs>
 """
@@ -121,15 +132,45 @@ def front_type(a, fx, base, s, vol):
           f'font-family="Georgia, \'Times New Roman\', serif" font-size="{38*s:.2f}" '
           f'font-weight="bold" text-anchor="middle" letter-spacing="{3*s:.2f}" '
           f'filter="url(#textEmboss)">{line}</text>')
-    a(f'  <text x="{fx:.2f}" y="{base+535*s:.2f}" fill="url(#gold)" '
-      f'font-family="Georgia, \'Times New Roman\', serif" font-size="{22*s:.2f}" '
-      f'font-style="italic" text-anchor="middle" letter-spacing="{5*s:.2f}" '
-      f'filter="url(#textEmboss)">{vol["subtitle"]}</text>')
-    a(f'  <line x1="{fx-50*s:.2f}" y1="{base+560*s:.2f}" x2="{fx+50*s:.2f}" y2="{base+560*s:.2f}" '
-      f'stroke="url(#goldLine)" stroke-width="{0.8*s:.2f}" opacity="0.6"/>')
-    a(f'  <text x="{fx:.2f}" y="{base+640*s:.2f}" fill="url(#gold)" '
-      f'font-family="Georgia, \'Times New Roman\', serif" font-size="{20*s:.2f}" '
-      f'text-anchor="middle" letter-spacing="{4*s:.2f}" filter="url(#textEmboss)">{AUTHOR}</text>')
+
+    if vol.get("subtitle_style") == "banner":
+        # Large gold band with dark PROBLEM SETS — readable at library thumbnail size.
+        band_top = base + 495 * s
+        band_h = 58 * s
+        band_w = 420 * s
+        a(f'  <rect x="{fx-band_w/2:.2f}" y="{band_top:.2f}" width="{band_w:.2f}" '
+          f'height="{band_h:.2f}" fill="url(#gold)" opacity="0.98"/>')
+        a(f'  <rect x="{fx-band_w/2+3*s:.2f}" y="{band_top+3*s:.2f}" '
+          f'width="{band_w-6*s:.2f}" height="{band_h-6*s:.2f}" fill="none" '
+          f'stroke="{vol["emboss"]}" stroke-width="{1.2*s:.2f}" opacity="0.55"/>')
+        a(f'  <text x="{fx:.2f}" y="{band_top+39*s:.2f}" fill="{vol["emboss"]}" '
+          f'font-family="Georgia, \'Times New Roman\', serif" font-size="{30*s:.2f}" '
+          f'font-weight="bold" text-anchor="middle" letter-spacing="{5*s:.2f}">'
+          f'{vol["subtitle"]}</text>')
+        a(f'  <text x="{fx:.2f}" y="{base+640*s:.2f}" fill="url(#gold)" '
+          f'font-family="Georgia, \'Times New Roman\', serif" font-size="{20*s:.2f}" '
+          f'text-anchor="middle" letter-spacing="{4*s:.2f}" filter="url(#textEmboss)">{AUTHOR}</text>')
+    else:
+        a(f'  <text x="{fx:.2f}" y="{base+535*s:.2f}" fill="url(#gold)" '
+          f'font-family="Georgia, \'Times New Roman\', serif" font-size="{22*s:.2f}" '
+          f'font-style="italic" text-anchor="middle" letter-spacing="{5*s:.2f}" '
+          f'filter="url(#textEmboss)">{vol["subtitle"]}</text>')
+        a(f'  <line x1="{fx-50*s:.2f}" y1="{base+560*s:.2f}" x2="{fx+50*s:.2f}" y2="{base+560*s:.2f}" '
+          f'stroke="url(#goldLine)" stroke-width="{0.8*s:.2f}" opacity="0.6"/>')
+        a(f'  <text x="{fx:.2f}" y="{base+640*s:.2f}" fill="url(#gold)" '
+          f'font-family="Georgia, \'Times New Roman\', serif" font-size="{20*s:.2f}" '
+          f'text-anchor="middle" letter-spacing="{4*s:.2f}" filter="url(#textEmboss)">{AUTHOR}</text>')
+
+
+def front_accent_bars(a, bx, by, bw, bh, s, vol):
+    """Extra head/foot gold bars on the Problem Sets front board only."""
+    if vol.get("subtitle_style") != "banner":
+        return
+    bar_h = 14 * s
+    inset = 48 * s
+    for yy in (by + inset, by + bh - inset - bar_h):
+        a(f'  <rect x="{bx+inset:.2f}" y="{yy:.2f}" width="{bw-2*inset:.2f}" '
+          f'height="{bar_h:.2f}" fill="url(#gold)" opacity="0.92"/>')
 
 
 def build_front(vol):
@@ -147,13 +188,14 @@ def build_front(vol):
     a(f'  <!-- {vol["key"]} volume front cover, {TRIM_W} x {TRIM_H} in trim. '
       f'Generated by scripts/generate_cover_wrap.py; the printed case is '
       f'cover-wrap-{vol["key"]}.pdf. -->')
-    a(defs(s))
-    a(f'  <rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="#1e5a1e"/>')
+    a(defs(s, vol))
+    a(f'  <rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="{vol["leather"]}"/>')
     a(f'  <rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" filter="url(#leather)" opacity="0.6"/>')
     for inset, sw, op in ((30 * s, 1.5 * s, 0.85), (40 * s, 0.7 * s, 0.6)):
         a(f'  <rect x="{inset:.2f}" y="{inset:.2f}" width="{W-2*inset:.2f}" '
           f'height="{H-2*inset:.2f}" fill="none" stroke="url(#goldLine)" '
           f'stroke-width="{sw:.2f}" opacity="{op}"/>')
+    front_accent_bars(a, 0.0, 0.0, W, H, s, vol)
     front_type(a, W / 2, 0.0, s, vol)
     a('</svg>')
     return "\n".join(o)
@@ -181,25 +223,25 @@ def build(vol, guides=False):
       f'(PPI {PPI:.0f}). Text-block spine {g["block_spine"]:.3f} in, '
       f'case spine {g["case_spine"]:.3f} in. Flat size '
       f'{g["wrap_w"]:.3f} x {g["wrap_h"]:.3f} in including {TURN_IN} in turn-in. -->')
-    a(defs(s))
+    a(defs(s, vol))
 
     # leather across the whole sheet, turn-in included, so the fold edges are covered
-    a(f'  <rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="#1e5a1e"/>')
+    a(f'  <rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="{vol["leather"]}"/>')
     a(f'  <rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" filter="url(#leather)" opacity="0.6"/>')
     # spine panel slightly darker, as on the original
-    a(f'  <rect x="{x_spine:.2f}" y="0" width="{w_spine:.2f}" height="{H:.2f}" fill="#1a4d1a"/>')
+    a(f'  <rect x="{x_spine:.2f}" y="0" width="{w_spine:.2f}" height="{H:.2f}" fill="{vol["spine"]}"/>')
     a(f'  <rect x="{x_spine:.2f}" y="0" width="{w_spine:.2f}" height="{H:.2f}" '
       f'filter="url(#leather)" opacity="0.7"/>')
     # joint shadows
     for jx in (x_spine, x_spine + w_spine):
         a(f'  <line x1="{jx:.2f}" y1="0" x2="{jx:.2f}" y2="{H:.2f}" '
-          f'stroke="#0a2e0a" stroke-width="{2*s:.2f}" opacity="0.6"/>')
+          f'stroke="{vol["emboss"]}" stroke-width="{2*s:.2f}" opacity="0.6"/>')
 
     # ── spine: raised bands + gold rules + type ──
     yb1, yb2 = y_board + 0.16 * h_board, y_board + 0.84 * h_board
     for yy in (yb1, yb2):
         a(f'  <line x1="{x_spine:.2f}" y1="{yy:.2f}" x2="{x_spine+w_spine:.2f}" y2="{yy:.2f}" '
-          f'stroke="#0f3a0f" stroke-width="{3*s:.2f}" opacity="0.5"/>')
+          f'stroke="{vol["emboss"]}" stroke-width="{3*s:.2f}" opacity="0.5"/>')
         a(f'  <line x1="{x_spine+6*s:.2f}" y1="{yy+9*s:.2f}" x2="{x_spine+w_spine-6*s:.2f}" '
           f'y2="{yy+9*s:.2f}" stroke="url(#goldLine)" stroke-width="{0.8*s:.2f}" opacity="0.7"/>')
     cx = x_spine + w_spine / 2
@@ -227,6 +269,7 @@ def build(vol, guides=False):
               f'stroke="url(#goldLine)" stroke-width="{sw:.2f}" opacity="{op}"/>')
 
     # ── front board type ──
+    front_accent_bars(a, x_front, y_board, w_board, h_board, s, vol)
     front_type(a, x_front + w_board / 2, y_board, s, vol)
 
     # ── back board: centred ornament and blurb ──
@@ -294,9 +337,12 @@ def main():
     # regenerated without the flag -- exactly the drift they exist to catch.
     ap.add_argument("--no-guides", action="store_true", help="skip the guide-marked versions")
     ap.add_argument("--no-press", action="store_true", help="skip the PNG/PDF press render")
+    ap.add_argument("--only", choices=("reference", "problems"),
+                    help="regenerate a single volume (default: both)")
     args = ap.parse_args()
     root = Path(__file__).resolve().parent.parent
-    for vol in VOLUMES:
+    vols = [v for v in VOLUMES if args.only in (None, v["key"])]
+    for vol in vols:
         svg, g = build(vol, guides=False)
         p = root / f"cover-wrap-{vol['key']}.svg"
         p.write_text(svg, encoding="utf-8")
