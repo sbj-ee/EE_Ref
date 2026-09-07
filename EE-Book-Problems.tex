@@ -44821,8 +44821,8 @@ Power ratio (equal impedances): P\textsubscript{out}/P\textsubscript{in}
 = (V\textsubscript{out}/V\textsubscript{in})² = 0.5² = 0.25.\\
 Power gain: G = 10 × log₁₀(0.25) = 10 × (-0.6021) = -6.02 dB. Matches.
 
-\textbf{The attenuation is 6.02 dB (halving voltage = halving power × 2
-= -6 dB).}
+\textbf{The attenuation is 6.02 dB (voltage × ½ → power × ¼ = -6.02
+dB).}
 
 \subsection{Problem C.1.5}\label{problem-c.1.5}
 
@@ -44899,7 +44899,7 @@ Power: P = 1 mW × 10\textsuperscript{17/10} = 1 mW ×
 RMS voltage: V\textsubscript{rms} = √(P × R) = √(0.05012 × 50) = √2.506
 = 1.583 V.
 
-\textbf{P = 50.12 mW = 0.0501 W. V\textsubscript{rms} = 1.583 V.}
+\textbf{P = 50.12 mW = 0.05012 W. V\textsubscript{rms} = 1.583 V.}
 
 \subsection{Problem C.2.2}\label{problem-c.2.2}
 
@@ -44955,19 +44955,25 @@ Verification: 20 × log₁₀(501.2 × 10⁻⁶ / 10⁻⁶) = 20 × log₁₀(50
 \subsection{Problem C.2.5}\label{problem-c.2.5}
 
 \textbf{Given:} An audio interface specifies a maximum output level of
-+4 dBV (professional line level).
++4 dBu (professional line level; dBu is referenced to 0.775
+V\textsubscript{rms}, not to 1 V as dBV is).
 
 \textbf{Find:} The output voltage in V\textsubscript{rms}, and convert
 to dBm assuming a 600 Ω load (standard audio impedance).
 
 \textbf{Solution:}\\
-Voltage: V = 1 V × 10\textsuperscript{4/20} = 10\textsuperscript{0.2} =
-1.585 V\textsubscript{rms}.
+Voltage: V = 0.775 V × 10\textsuperscript{4/20} = 0.775 × 1.585 = 1.228
+V\textsubscript{rms}.
 
-Power into 600 Ω: P = V²/R = (1.585)²/600 = 2.512/600 = 4.187 mW.\\
-dBm: P = 10 × log₁₀(4.187/1) = 10 × 0.6218 = 6.22 dBm.
+Power into 600 Ω: P = V²/R = (1.228)²/600 = 1.508/600 = 2.514 mW.\\
+dBm: P = 10 × log₁₀(2.514/1) = 10 × 0.4004 = 4.00 dBm.
 
-\textbf{V = 1.585 V\textsubscript{rms}. Into 600 Ω, this is +6.22 dBm.}
+The dBm figure matches the dBu figure because 0.775 V is exactly the
+voltage that dissipates 1 mW in 600 Ω. Reading the specification as +4
+dBV instead would give 1.585 V\textsubscript{rms} and +6.22 dBm --- a
+2.2 dB error from a one-letter mix-up.
+
+\textbf{V = 1.228 V\textsubscript{rms}. Into 600 Ω, this is +4.00 dBm.}
 
 \subsection{Problem C.2.6}\label{problem-c.2.6}
 
@@ -45167,16 +45173,22 @@ Linear gain: A\textsubscript{CL} = 10\textsuperscript{26/20} =
 
 Bandwidth: BW = GBW / A\textsubscript{CL} = 5 × 10⁶ / 19.95 = 250.6 kHz.
 
-At 500 kHz, the gain rolls off. The gain at frequency f for a
-single-pole op-amp is:\\
+At 500 kHz, the gain rolls off. Well above the corner, the single-pole
+response follows the Bode asymptote:\\
 A(f) = GBW / f = 5 × 10⁶ / (500 × 10³) = 10.\\
 In dB: 20 × log₁₀(10) = 20 dB.
 
-Since 500 kHz is about 2x the -3 dB bandwidth, the gain has dropped from
-26 dB to 20 dB.
+But 500 kHz is only about 2x the -3 dB bandwidth of 250.6 kHz, so the
+asymptote is still optimistic. The exact single-pole magnitude is:\\
+\textbar A(f)\textbar{} = A\textsubscript{CL} / √(1 + (f/BW)²) = 19.95 /
+√(1 + 1.995²) = 19.95 / √4.980 = 19.95 / 2.232 = 8.94.\\
+In dB: 20 × log₁₀(8.94) = 19.03 dB.
 
-\textbf{A\textsubscript{CL} = 20 (linear). BW = 250.6 kHz. Gain at 500
-kHz = 20 dB.}
+The asymptote is the quick estimate; the exact magnitude is about 1 dB
+lower because the corner is not yet far behind.
+
+\textbf{A\textsubscript{CL} = 19.95 (linear). BW = 250.6 kHz. Gain at
+500 kHz = 20 dB by the asymptote, 19.03 dB exactly.}
 
 \subsection{Problem C.4.2}\label{problem-c.4.2}
 

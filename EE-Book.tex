@@ -35680,8 +35680,12 @@ dBV expresses voltage referenced to 1 volt: V(dBV) = 20 × log₁₀(V/1 V).
 dBμV (decibels referenced to 1 microvolt) is used for small signals:
 V(dBμV) = 20 × log₁₀(V/1 μV). The conversion between them is dBμV = dBV
 + 120. dBV is common in audio engineering, where 0 dBV = 1
-V\textsubscript{rms} is a standard reference level. dBμV is prevalent in
-EMC (electromagnetic compatibility) testing and antenna measurements,
+V\textsubscript{rms} is a standard reference level. It must not be
+confused with dBu, referenced to 0.775 V\textsubscript{rms}: V(dBu) = 20
+× log₁₀(V/0.775 V), the voltage that dissipates 1 mW in 600 Ω, so a
+level in dBu equals the same number in dBm whenever the load really is
+600 Ω. Professional line level is +4 dBu, not +4 dBV. dBμV is prevalent
+in EMC (electromagnetic compatibility) testing and antenna measurements,
 where signal levels are typically in the microvolt to millivolt range.
 The related unit dBmV (referenced to 1 millivolt) is standard in cable
 television systems.
@@ -35695,7 +35699,8 @@ V/m.
 \textbf{Solution:}\\
 dBV = dBμV − 120 = 42 − 120 = −78 dBV/m.\\
 Field strength: E = 1 μV/m × 10\textsuperscript{42/20} = 10⁻⁶ ×
-10\textsuperscript{2.1} = 10⁻⁶ × 125.9 = 125.9 μV/m.\\
+10\textsuperscript{2.1} = 10⁻⁶ × 125.9 = 125.9 μV/m = 1.259 × 10⁻⁴
+V/m.\\
 This is a relatively weak emission typical of unintentional radiators.
 
 \end{examplebox}
@@ -35817,7 +35822,9 @@ defined by the frequencies at which the gain drops 3 dB below the
 midband value. A gain roll-off of −20 dB/decade indicates a first-order
 response (single pole), while −40 dB/decade indicates a second-order
 response (two poles). The gain-bandwidth product (GBW) of an op-amp is
-constant: if the gain is halved (−6 dB), the bandwidth doubles.
+constant: if the voltage gain is halved (−6.02 dB), the bandwidth
+doubles. Note that halving a voltage gain is −6 dB while halving a power
+gain is −3 dB, so the quantity being halved has to be named.
 
 \begin{examplebox}
 
@@ -35872,12 +35879,19 @@ RMS noise floor of 0.5 mV. Calculate the SNR in dB and the effective
 number of bits (ENOB).
 
 \textbf{Solution:}\\
+ENOB is defined against a full-scale sine wave, so the signal term is
+the RMS value of a sine that just fills the 3.3 V span, not 3.3 V
+itself:\\
+V\textsubscript{signal} = V\textsubscript{FS} / (2√2) = 3.3 / 2.828 =
+1.167 V\textsubscript{rms}.\\
 SNR = 20 × log₁₀(V\textsubscript{signal}/V\textsubscript{noise}) = 20 ×
-log₁₀(3.3/0.0005) = 20 × log₁₀(6600) = 20 × 3.8195 = 76.39 dB.\\
-ENOB = (SNR − 1.76) / 6.02 = (76.39 − 1.76) / 6.02 = 74.63 / 6.02 = 12.4
+log₁₀(1.167/0.0005) = 20 × log₁₀(2333) = 20 × 3.3680 = 67.36 dB.\\
+ENOB = (SNR − 1.76) / 6.02 = (67.36 − 1.76) / 6.02 = 65.60 / 6.02 = 10.9
 bits.\\
-The ADC performs equivalently to an ideal 12.4-bit converter, meaning
-roughly 12 bits of useful resolution.
+The ADC performs equivalently to an ideal 10.9-bit converter, meaning
+roughly 11 bits of useful resolution. Using the 3.3 V span directly as
+an RMS value would overstate the SNR by 20 × log₁₀(2√2) = 9.03 dB, or
+1.5 bits.
 
 \end{examplebox}
 
@@ -35889,10 +35903,12 @@ decibels. The received power is computed as: P\textsubscript{rx} =
 P\textsubscript{tx} + G\textsubscript{tx} − L\textsubscript{path} +
 G\textsubscript{rx} − L\textsubscript{misc}, where all terms are in dB
 or dBm. Free-space path loss for a radio link is L\textsubscript{path} =
-20 × log₁₀(4πd/λ), where d is the distance and λ is the wavelength. Link
-budgets allow engineers to predict system performance, determine
-required transmit power, and evaluate the feasibility of a communication
-link before deployment.
+10 × log₁₀{[}(4πd/λ)²{]} = 20 × log₁₀(4πd/λ), where d is the distance
+and λ is the wavelength. The factor of 20 here comes from squaring the
+ratio 4πd/λ, not from the field-quantity rule of §C.3.2 --- path loss is
+a ratio of powers throughout. Link budgets allow engineers to predict
+system performance, determine required transmit power, and evaluate the
+feasibility of a communication link before deployment.
 
 \begin{examplebox}
 
