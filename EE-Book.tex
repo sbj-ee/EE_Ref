@@ -279,24 +279,27 @@ unfolds.
 Consider what electric charge actually gives us. A stationary charge
 creates an electric field that reaches out through empty space, exerting
 force on other charges without any physical contact --- action at a
-distance that troubled Newton and fascinated Faraday. Set that charge in
-motion, and it becomes a current, generating a magnetic field that wraps
-around it in closed loops, perpendicular to its direction of travel.
-Accelerate the charge, and it radiates electromagnetic waves that
-propagate at the speed of light, carrying energy and information across
-the universe. These three behaviors --- the electrostatic field, the
-magnetic field, and electromagnetic radiation --- are not three separate
-phenomena but three manifestations of the same underlying reality,
-unified by Maxwell's equations into a single elegant framework.
+distance, the puzzle that Faraday's field picture would later dissolve.
+Set that charge in motion, and it becomes a current, generating a
+magnetic field that wraps around it in closed loops, perpendicular to
+its direction of travel. Accelerate the charge, and it radiates
+electromagnetic waves that propagate at the speed of light, carrying
+energy and information across the universe. These three behaviors ---
+the electrostatic field, the magnetic field, and electromagnetic
+radiation --- are not three separate phenomena but three manifestations
+of the same underlying reality, unified by Maxwell's equations into a
+single elegant framework.
+
+\subsection{Precision and
+Predictability}\label{precision-and-predictability}
 
 What makes this especially remarkable is the precision and reliability
-of electrical phenomena. The charge of an electron, 1.602 × 10⁻¹⁹
-coulombs, is identical for every electron in the universe --- not
-approximately identical, but exactly so, to the limits of our
-measurement capability. This uniformity means that electrical systems
-are inherently predictable and reproducible. A resistor obeys Ohm's Law
-whether it is in a basement lab in Middleton, Wisconsin or on a
-spacecraft approaching Mars. A photon emitted by a semiconductor
+of electrical phenomena. The charge of an electron, 1.602176634 × 10⁻¹⁹
+coulombs, is identical for every electron in the universe --- fixed
+exactly in the SI since 2019. This uniformity means that electrical
+systems are inherently predictable and reproducible. A resistor obeys
+Ohm's Law whether it is in a basement lab in Middleton, Wisconsin or on
+a spacecraft approaching Mars. A photon emitted by a semiconductor
 junction carries exactly the energy corresponding to the bandgap of the
 material. This predictability is what makes engineering possible: we can
 design, analyze, and build systems with confidence that the underlying
@@ -305,30 +308,32 @@ physics will behave exactly as the mathematics describes.
 The flow of charge through a conductor --- something as simple as
 electrons drifting through copper wire --- enables the entire modern
 world. In a power system, vast numbers of electrons oscillate back and
-forth sixty times per second, transferring gigawatts of energy from
-generators to cities hundreds of miles away, with the electromagnetic
-field doing the actual work of energy transport while the electrons
-themselves barely move. In a semiconductor, carefully arranged regions
-of excess and deficit charge create the PN junctions and transistor
-channels that form the basis of all digital computation --- billions of
-tiny switches on a chip the size of a fingernail, each one exploiting
-the quantum mechanical behavior of charge carriers in crystalline
-silicon. In an antenna, oscillating charges launch electromagnetic waves
-into free space, carrying voice, data, and video to receivers on the
-other side of the planet or on satellites in orbit.
+forth fifty or sixty times per second, transferring gigawatts of energy
+from generators to cities hundreds of miles away, with the
+electromagnetic field doing the actual work of energy transport while
+the electrons themselves barely move. In a semiconductor, carefully
+arranged regions of excess and deficit charge create the PN junctions
+and transistor channels that form the basis of all digital computation
+--- billions of tiny switches on a chip the size of a fingernail, each
+one exploiting the quantum mechanical behavior of charge carriers in
+crystalline silicon. In an antenna, oscillating charges launch
+electromagnetic waves into free space, carrying voice, data, and video
+to receivers on the other side of the planet or on satellites in orbit.
 
-Every chapter in this book explores a different aspect of how we
-harness, control, measure, and understand the behavior of electric
-charge. Power engineering moves charge in bulk to deliver energy.
-Communications engineering encodes information onto oscillating charges
-and fields. Semiconductor physics explains how charge behaves in
-crystalline materials. Control systems regulate the flow of charge to
-achieve desired outcomes. Circuit analysis provides the mathematical
-tools to predict what charge will do in any network of components.
-Signal processing extracts meaning from the time-varying patterns of
-charge. Electromagnetics describes the fields that charge creates and
-responds to. Each discipline is a different lens focused on the same
-underlying phenomenon.
+Across this book, each major topic is another way of harnessing,
+controlling, measuring, or understanding electric charge. Power
+engineering moves charge in bulk to deliver energy. Communications
+engineering encodes information onto oscillating charges and fields.
+Semiconductor physics explains how charge behaves in crystalline
+materials. Control systems regulate the flow of charge to achieve
+desired outcomes. Circuit analysis provides the mathematical tools to
+predict what charge will do in any network of components. Signal
+processing extracts meaning from the time-varying patterns of charge.
+Electromagnetics describes the fields that charge creates and responds
+to. Other chapters take the same thread into the National Electrical
+Code, networking, antennas, radar, optics, and engineering economics.
+Each discipline is a different lens focused on the same underlying
+phenomenon.
 
 The fact that so much of our technological civilization rests on a
 single elementary property of matter --- a property we can measure with
@@ -34777,7 +34782,8 @@ yields a real number: Z × Z* = a² + b² = \textbar Z\textbar². This
 property is fundamental in circuit analysis for rationalizing complex
 fractions (dividing complex numbers) and in power calculations where
 complex power is S = V × I*, with I* being the conjugate of the current
-phasor.
+phasor (this form assumes RMS phasors; with peak-value phasors the
+expression carries a factor of ½).
 
 \begin{examplebox}
 
@@ -34936,21 +34942,22 @@ implicit. The time-domain signal v(t) = V\textsubscript{m} cos(ωt + φ)
 is represented by the phasor V = V\textsubscript{m}∠φ (using peak
 values) or V = V\textsubscript{rms}∠φ (using RMS values). In power
 engineering, RMS phasors are standard because they simplify power
-calculations (P = V\textsubscript{rms} × I\textsubscript{rms} × cos(φ)).
-Phasor notation transforms calculus operations into algebra:
-differentiation in time (d/dt) becomes multiplication by jω, and
-integration becomes division by jω, enabling AC circuit analysis using
-the same techniques as DC analysis.
+calculations (P = V\textsubscript{rms} × I\textsubscript{rms} × cos θ,
+where θ = ∠V − ∠I is the angle between the voltage and current phasors
+--- not the φ of any single sinusoid). Phasor notation transforms
+calculus operations into algebra: differentiation in time (d/dt) becomes
+multiplication by jω, and integration becomes division by jω, enabling
+AC circuit analysis using the same techniques as DC analysis.
 
 \begin{examplebox}
 
-\textbf{Example A.4.2:} Express v(t) = 311 cos(314t − 45°) V as an RMS
-phasor, and convert the phasor V = 24∠60° V\textsubscript{rms} back to a
-time-domain expression at 50 Hz.
+\textbf{Example A.4.2:} Express v(t) = 311 cos(314.16t − 45°) V as an
+RMS phasor, and convert the phasor V = 24∠60° V\textsubscript{rms} back
+to a time-domain expression at 50 Hz.
 
 \textbf{Solution:}\\
-For v(t) = 311 cos(314t − 45°): V\textsubscript{rms} = 311 / √2 = 219.9
-V, so the phasor is V = 219.9∠−45° V\textsubscript{rms}.\\
+For v(t) = 311 cos(314.16t − 45°): V\textsubscript{rms} = 311 / √2 =
+219.9 V, so the phasor is V = 219.9∠−45° V\textsubscript{rms}.\\
 For the reverse: V = 24∠60° V\textsubscript{rms}, so V\textsubscript{m}
 = 24 × √2 = 33.94 V.\\
 At 50 Hz, ω = 2π × 50 = 314.16 rad/s.\\

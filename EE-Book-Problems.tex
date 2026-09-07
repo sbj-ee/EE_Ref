@@ -261,11 +261,12 @@
 \addcontentsline{toc}{chapter}{Preface}
 
 This volume is the problem companion to \emph{Electrical Engineering
-Reference}. It follows the main book chapter for chapter and section for
+Reference}. It follows the main book chapter by chapter and section by
 section: every numbered section of the reference that carries worked
 examples has a matching problem set here, and the section numbers are
 identical in both volumes. A reader working through §11.4 of the
-reference will find the corresponding drill in §11.4 of this volume.
+reference will find the corresponding problem set in §11.4 of this
+volume (Problem 11.4.3 is the third problem of that section).
 
 Every problem is stated in the same three-part form --- \textbf{Given},
 \textbf{Find}, \textbf{Solution} --- and every problem is solved in
@@ -276,9 +277,6 @@ are named, and the final answer is set in bold so it can be checked at a
 glance. Where a result depends on a table (conductor ampacities, conduit
 areas, present-worth factors), the table value used is quoted inline so
 the work can be followed without the reference at hand.
-
-Problems are numbered by section, so Problem 11.4.3 is the third problem
-of §11.4. Numbering runs unbroken within each section.
 
 Chapters 1 through 19 and Appendices A through F all have problem sets.
 Appendix G, the TCLab control laboratory, does not: it is a hands-on
@@ -291,9 +289,8 @@ the reference volume; the References section at the back of that volume
 lists them in full, along with the papers and textbooks behind the named
 results.
 
-Units, symbols, and notation follow the main book. Greek letters are set
-as symbols rather than spelled out, complex quantities use j for √−1,
-and American spelling is used throughout.
+Units, symbols, and notation follow the main book (j for √−1; American
+spelling).
 
 \chapter{Power Engineering}\label{problems-1}
 
@@ -43733,6 +43730,11 @@ j⁻² + j⁻⁵ + j⁻⁸ = -1 + (-j) + 1 = -j.
 
 √(-18) × √(-2) = (j × 3√2)(j × √2) = j² × 3 × 2 = (-1) × 6 = -6.
 
+Note that the familiar identity √a × √b = √(ab) does not hold when both
+a and b are negative: applying it here would give √36 = +6, the wrong
+sign. Each radical must be converted to its principal form
+j√\textbar a\textbar{} first.
+
 \textbf{The result is -6.}
 
 \section{A.2 Complex
@@ -43854,7 +43856,8 @@ Verification in polar form: \textbar Z\textsubscript{p}\textbar{} =
 \textbf{Given:} The equation Z² = -9 + j40, where Z = a + jb is a
 complex impedance.
 
-\textbf{Find:} The value of Z.
+\textbf{Find:} The two square roots of −9 + j40, and the one that can
+represent a passive impedance (Re\{Z\} ≥ 0).
 
 \textbf{Solution:}\\
 Let Z = a + jb. Then Z² = a² - b² + j2ab.\\
@@ -43868,12 +43871,18 @@ a⁴ + 9a² - 400 = 0
 
 Let u = a²: u² + 9u - 400 = 0.\\
 u = (-9 + √(81 + 1600)) / 2 = (-9 + √1681) / 2 = (-9 + 41) / 2 = 16.\\
-So a² = 16, a = 4 (taking positive root).\\
-b = 20/4 = 5.
+So a² = 16, giving a = +4 or a = -4.\\
+b = 20/a, so a = 4 gives b = 5 and a = -4 gives b = -5.
 
-Verification: Z = 4 + j5, Z² = 16 - 25 + j40 = -9 + j40.
+Verification: Z = 4 + j5, Z² = 16 - 25 + j40 = -9 + j40. The other root
+Z = -4 - j5 squares to the same value, as every complex number has two
+square roots that differ by a factor of -1.
 
-\textbf{Z = 4 + j5 (or Z = -4 - j5 for the negative root).}
+A passive impedance cannot have negative resistance, so Re\{Z\} ≥ 0
+selects the first root.
+
+\textbf{The two square roots are Z = 4 + j5 and Z = -4 - j5. As a
+passive impedance, Z = 4 + j5 Ω.}
 
 \section{A.3 Polar and Exponential
 Forms}\label{appendix-a-section-a.3-polar-and-exponential-forms}
@@ -44102,10 +44111,10 @@ V\textsubscript{total} = (50 - 15 + 0) + j(0 + 25.98 - 40) = 35 - j14.02
 V.
 
 \textbar V\textsubscript{total}\textbar{} = √(35² + 14.02²) = √(1225 +
-196.6) = √1421.6 = 37.71 V.\\
+196.6) = √1421.6 = 37.70 V.\\
 θ = arctan(-14.02/35) = arctan(-0.4006) = -21.83°.
 
-\textbf{V\textsubscript{total} = 37.71∠-21.83° V.}
+\textbf{V\textsubscript{total} = 37.70∠-21.83° V.}
 
 \subsection{Problem A.4.5}\label{problem-a.4.5}
 
@@ -44243,16 +44252,16 @@ Z\textsubscript{C} = -j/(ωC) = -j/(62,831.9 × 22 × 10⁻⁹) = -j/(1.3823 ×
 
 Z\textsubscript{total} = 220 + j2073.5 - j723.4 = 220 + j1350.1 Ω.\\
 \textbar Z\textsubscript{total}\textbar{} = √(220² + 1350.1²) = √(48,400
-+ 1,822,770) = √1,871,170 = 1368.3 Ω.\\
++ 1,822,770) = √1,871,170 = 1367.9 Ω.\\
 θ = arctan(1350.1/220) = arctan(6.137) = 80.74°.
 
-Y = 1/Z\textsubscript{total} = 1/1368.3∠80.74° = 7.308 × 10⁻⁴∠-80.74°
+Y = 1/Z\textsubscript{total} = 1/1367.9∠80.74° = 7.310 × 10⁻⁴∠-80.74°
 S.\\
-Y = 7.308 × 10⁻⁴(cos(-80.74°) + j sin(-80.74°)) = (1.175 - j7.213) ×
+Y = 7.310 × 10⁻⁴(cos(-80.74°) + j sin(-80.74°)) = (1.176 - j7.215) ×
 10⁻⁴ S.
 
-\textbf{Z\textsubscript{total} = 220 + j1350.1 Ω = 1368.3∠80.74° Ω. Y =
-7.308 × 10⁻⁴∠-80.74° S.}
+\textbf{Z\textsubscript{total} = 220 + j1350.1 Ω = 1367.9∠80.74° Ω. Y =
+7.310 × 10⁻⁴∠-80.74° S.}
 
 \subsection{Problem A.5.2}\label{problem-a.5.2}
 
@@ -44347,24 +44356,25 @@ Power factor: pf = P/\textbar S\textbar{} = 1500/1700 = 0.882 lagging (Q
 Power factor angle: θ = arctan(800/1500) = 28.07°.
 
 Current magnitude: I\textsubscript{rms} =
-\textbar S\textbar/V\textsubscript{rms} = 1700/120 = 14.17 A.\\
-Current phasor: I = 14.17∠-28.07° A\textsubscript{rms} (lagging the
+\textbar S\textbar/V\textsubscript{rms} = 1700/120 = 14.167 A.\\
+Current phasor: I = 14.167∠-28.07° A\textsubscript{rms} (lagging the
 voltage).
 
-Load impedance: Z = V/I = 120∠0° / 14.17∠-28.07° = 8.468∠28.07° Ω.\\
-In rectangular: Z = 8.468 cos(28.07°) + j8.468 sin(28.07°) = 7.474 +
-j3.983 Ω.
+Load impedance: Z = V/I = 120∠0° / 14.167∠-28.07° = 8.471∠28.07° Ω.\\
+In rectangular: Z = 8.471 cos(28.07°) + j8.471 sin(28.07°) = 7.474 +
+j3.986 Ω.
 
-Verification: S = V²/Z* = 120²/(8.468∠-28.07°) = 14400/8.468 ∠28.07° =
-1700.8∠28.07° VA. Confirmed.
+Verification: S = V²/Z* = 120²/(8.471∠-28.07°) = 14400/8.471 ∠28.07° =
+1700∠28.07° VA. Confirmed.
 
 \textbf{\textbar S\textbar{} = 1700 VA. Power factor = 0.882 lagging. Z
-= 8.468∠28.07° Ω = 7.474 + j3.983 Ω.}
+= 8.471∠28.07° Ω = 7.474 + j3.986 Ω.}
 
 \subsection{Problem A.5.6}\label{problem-a.5.6}
 
-\textbf{Given:} A 50 Ω resistor and a 100 Ω inductor reactance are in
-parallel at 60 Hz, driven by V = 100∠0° V\textsubscript{rms}.
+\textbf{Given:} A 50 Ω resistor and an inductive reactance
+X\textsubscript{L} = 100 Ω are in parallel, driven by V = 100∠0°
+V\textsubscript{rms}.
 
 \textbf{Find:} The total current, the power drawn from the source, and
 the power factor.
