@@ -37265,12 +37265,13 @@ frozen when the heater output saturates at 0 or 100 \%).
 plant.
 
 \textbf{Solution:} Using K = 0.694, τ = 142.9 s, θ = 19.9 s, and λ =
-max(0.5 × 142.9, 19.9) = 71.5 s:
+max(0.5 × 142.9, 19.9) = 71.45 s (quoted as 71.5 s elsewhere; the
+unrounded value is carried through here):
 
-T\textsubscript{i} = 142.9 + 9.95 = 152.8 s\\
-T\textsubscript{d} = 142.9 × 9.95 / 152.8 = 9.3 s\\
-K\textsubscript{p} = (1/0.694) × 152.8 / (71.5 + 9.95) = 1.441 × 152.8 /
-81.45 = \textbf{2.71}
+T\textsubscript{i} = 142.9 + 9.95 = 152.85 s\\
+T\textsubscript{d} = 142.9 × 9.95 / 152.85 = 9.3 s\\
+K\textsubscript{p} = (1/0.694) × 152.85 / (71.45 + 9.95) = 1.441 ×
+152.85 / 81.40 = \textbf{2.71}
 
 Per-second gains: k\textsubscript{i} =
 K\textsubscript{p}/T\textsubscript{i} = 0.0177 s⁻¹, k\textsubscript{d} =
@@ -37322,10 +37323,19 @@ Sim settle ±2 \%
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-IMC (λ = 71.5 s) & 2.71 & 152.8 & 9.3 & 0.4 \% & 244 s \\
-Ziegler-Nichols & 12.46 & 39.7 & 9.9 & 5.1 \% & 163 s \\
+IMC (λ = 71.5 s) & 2.71 & 152.85 & 9.3 & 0.4 \% & 244 s \\
+Ziegler-Nichols & 12.42 & 39.8 & 9.95 & 5.1 \% & 163 s \\
 \end{longtable}
 }
+
+The Ziegler-Nichols entries follow directly from the formulas above:
+K\textsubscript{p} = 1.2 × 142.9/(0.694 × 19.9) = 12.42,
+T\textsubscript{i} = 2 × 19.9 = 39.8 s, T\textsubscript{d} = 0.5 × 19.9
+= 9.95 s. The simulated overshoot and settling figures come from the
+unrounded gains, so re-running with the values as printed will shift
+them slightly. Note also that the two overshoot columns are both
+percentages of the 27 °C step, not of the 50 °C setpoint --- 0.4 \% of
+the step is 0.11 °C.
 
 IMC is the preferred starting point for the TCLab because the plant
 model is accurate and low overshoot is valued over raw speed.
@@ -37357,10 +37367,12 @@ uv run tclab-run --from-fit data/step_hw.csv --setpoint 50 --tuning imc \
                  --out data/run_hw.csv --plot data/run_hw.png
 \end{verbatim}
 
-Measured result (run\_hw.csv, 600 samples, 873 s):\\
-- Overshoot: +0.2 °C (0.4 \%)\\
+Measured result (run\_hw.csv, 600 samples, 873 s --- the run is 600 PID
+iterations from ambient with no preheat, at the measured 1.455 s per
+iteration):\\
+- Overshoot: +0.2 °C, which is 0.4 \% of the 50 °C setpoint\\
 - Steady-state error: −0.03 °C\\
-- Settling ±2 \% band: 587 s\\
+- Settling to ±2 \% of setpoint (49--51 °C): 587 s\\
 - Heater at steady state: ≈ 38 \% (matches u\textsubscript{ss} = 38.9 \%
 from the model)
 
@@ -37368,6 +37380,16 @@ The real hardware settles approximately 2.4× slower than the FOPDT
 simulation predicts (587 s measured vs.~244 s simulated), reflecting
 additional thermal mass and heat losses not captured by the simple
 first-order model.
+
+Two cautions when reading that ratio. The measured 587 s is scored
+against ±2 \% of the \emph{setpoint} (49--51 °C), while the 244 s in
+Table G.3.2 is scored against ±2 \% of the 27 °C \emph{step} (±0.54 °C)
+--- a tighter target, so re-scoring the simulation against the looser
+band would shorten it and widen the gap. The ratio therefore understates
+the model--hardware discrepancy rather than inflating it. Likewise the
+0.4 \% overshoot quoted here is of the setpoint, while the 0.4 \% in
+Table G.3.2 is of the step; the two agree by coincidence, not by
+construction.
 
 \end{examplebox}
 
@@ -37379,7 +37401,7 @@ first-order model.
 
 \includegraphics[width=\linewidth,keepaspectratio]{images/G-4-1-tclab-step-response.png}
 
-\caption{Figure G.4.1: TCLab single setpoint step response, simulated from the identified FOPDT model and annotated with the measured values — temperature T1 and heater output Q1 vs. time. Preheat at 80 \% drives the plant from ambient to 46 °C; the PID (with integral seeded at uss) takes over at the dotted boundary. The ±2 \% settling band (49–51 °C) is shaded; steady-state heater output of ≈ 38 \% matches the model prediction of uss = 38.9 \%.}
+\caption{Figure G.4.1: TCLab single setpoint step response, simulated from the identified FOPDT model and annotated with the measured values — temperature T1 and heater output Q1 vs. time. The simulation shown is the preheated variant: 80 \% open loop drives the plant from ambient to 46 °C, and the PID (with integral seeded at uss) takes over at the dotted boundary, illustrating the bumpless handoff of §G.5.1. The hardware run of Example G.4.1 used no preheat — it closes the loop at ambient — so the first ≈ 150 s of the plotted trajectory has no counterpart in the measured data; the annotated steady-state values do. The ±2 \% settling band (49–51 °C) is shaded; steady-state heater output of ≈ 38 \% matches the model prediction of uss = 38.9 \%.}
 
 \end{figure}
 
@@ -37427,9 +37449,15 @@ Preheat & 85 s & --- & --- & --- & --- \\
 }
 
 The 35 °C segment did not fully reach its setpoint in 500 iterations
-because passive cooling from 49.6 °C is limited by natural convection;
-extending to 650 iterations (≈ 650 s) is sufficient per simulation. The
-50 °C and 40 °C segments track their setpoints within ±0.7 °C.
+because passive cooling from 49.6 °C is limited by natural convection.
+Note that the FOPDT model is no guide here: with the heater at zero it
+predicts the plant reaching 35 °C in τ ln{[}(49.6 − 23)/(35 − 23){]} =
+142.9 × 0.796 ≈ 114 s. The hardware needs several times that, which is
+the same model--hardware gap quantified in §G.5.2 and the reason segment
+durations must come from observation. Extending to 650 iterations ---
+about 950 s of wall-clock time at the measured 1.455 s per iteration ---
+was enough in practice. The 50 °C and 40 °C segments track their
+setpoints within ±0.7 °C.
 
 \end{examplebox}
 
@@ -37480,8 +37508,10 @@ Seed: I₀ = 38.9 − 2.71 × 4 = 38.9 − 10.8 = \textbf{28.1 \%}.\\
 First PID output = K\textsubscript{p} × e + I₀ = 10.8 + 28.1 =
 \textbf{38.9 \%}.\\
 Without the seed, the first output would be K\textsubscript{p} × e =
-10.8 \%, causing the temperature to continue falling for ≈
-T\textsubscript{i} = 153 s before the integrator recovers.
+10.8 \%. The plant needs 38.9 \% just to hold 50 °C, so at 10.8 \% the
+temperature stops rising and falls back --- it was climbing under the 80
+\% preheat at the moment of handoff --- and it keeps falling until the
+integrator has wound up over roughly T\textsubscript{i} = 153 s.
 
 \end{examplebox}
 
@@ -37511,11 +37541,13 @@ sufficient to settle at 50 °C on the real board.
 
 \textbf{Solution:} The FOPDT simulation predicts settling at ≈ 244 s.
 Applying the observed 2.4× hardware factor gives a rough estimate of 244
-× 2.4 ≈ 586 s required. At ≈ 1.45 s per iteration (serial communication
-overhead adds ≈ 0.45 s to the nominal 1 s sleep; the measured mean is
-1.455 s), 300 iterations ≈ 432 s real time --- short of the ≈ 586 s
-estimate. The measured SS error at 300 iterations is −0.68 °C,
-confirming the prediction. Extending to 450 iterations (≈ 648 s) would
+× 2.4 ≈ 586 s required. A schedule segment is counted in PID iterations,
+not in seconds of wall-clock time: \texttt{-\/-schedule\ "50:300"} runs
+300 iterations, and each takes ≈ 1.455 s because serial communication
+adds ≈ 0.45 s to the nominal 1 s sleep. So 300 iterations ≈ 300 × 1.455
+= 437 s real time --- short of the ≈ 586 s estimate. The measured
+steady-state error at the end of that segment is −0.68 °C, confirming
+the prediction. Extending to 450 iterations (450 × 1.455 ≈ 655 s) would
 approach full settling; for a demonstration run, −0.68 °C is acceptable.
 
 \end{examplebox}
