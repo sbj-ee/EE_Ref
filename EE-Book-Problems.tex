@@ -5979,9 +5979,7 @@ emission falls well within the detector's range.
 \textbf{Given:} A GaAs HEMT has electron mobility μ\textsubscript{n} =
 8,000 cm\textsuperscript{2}/(V·s) and a silicon MOSFET has
 μ\textsubscript{n} = 1,200 cm\textsuperscript{2}/(V·s). Both devices
-have a channel length of L = 0.25 μm. The GaAs device operates at
-V\textsubscript{DD} = 3.3 V and the silicon device at
-V\textsubscript{DD} = 1.8 V.
+have a channel length of L = 0.25 μm.
 
 \textbf{Find:} (a) The electron transit time for each device at an
 average field of E = 10 kV/cm, (b) the estimated f\textsubscript{T} for
@@ -6010,6 +6008,15 @@ Silicon: f\textsubscript{T} = 1/(2 × π × 2.08 × 10\textsuperscript{-12})
 
 (c) Ratio: 509/76.5 = \textbf{6.7x} advantage for GaAs, consistent with
 its use in mmWave and 5G applications.
+
+Read the absolute figures with care. This calculation uses the low-field
+relation v\textsubscript{d} = μ\textsubscript{n}E, which holds only
+until the carriers velocity-saturate --- near 1 × 10\textsuperscript{7}
+cm/s in silicon and about 2 × 10\textsuperscript{7} cm/s in GaAs. Both
+devices are past that point at the stated field, so the transit times
+are optimistic and the real f\textsubscript{T} values are lower. What
+the comparison does capture is the mobility advantage that makes GaAs
+reach saturation at a much lower field than silicon.
 
 \subsection{Problem 3.2.4}\label{problem-3.2.4}
 
@@ -6321,9 +6328,22 @@ V₂ = 0.03085 × ln(2 × 10\textsuperscript{-3} / (2.785 ×
 10\textsuperscript{-12})) = 0.03085 × ln(7.18 × 10\textsuperscript{8}) =
 0.03085 × 20.39 = \textbf{0.629 V}
 
-Total: 0.679 + 0.629 = \textbf{1.308 V} --- remarkably stable despite a
-58°C temperature increase, demonstrating why series diode strings are
-used as voltage references.
+Total: 0.679 + 0.629 = \textbf{1.308 V}, a drift of only +4 mV over
+58°C.
+
+That near-cancellation is an artifact of the simplified model, not a
+property of real diodes. It comes from assuming I\textsubscript{S}
+merely doubles every 10°C; in silicon I\textsubscript{S} ∝
+T³e\textsuperscript{−Eg/kT} and rises far faster, and the measured
+coefficient of a forward-biased junction at constant current is about
+\textbf{−2 mV/°C}. Two junctions over 58°C therefore drift roughly −230
+mV, to about 1.07 V, not +4 mV. Reproducing −2 mV/°C from this model
+would require I\textsubscript{S} to double about every 4°C rather than
+every 10°C.
+
+This is exactly why bandgap references exist: they add a PTAT term whose
+positive coefficient cancels the −2 mV/°C of V\textsubscript{BE},
+producing the stability a plain diode string only appears to have here.
 
 \section{3.4 Diodes}\label{chapter-3-section-3.4-diodes}
 
@@ -6405,12 +6425,16 @@ regulator would be preferable.
 
 \subsection{Problem 3.4.3}\label{problem-3.4.3}
 
-\textbf{Given:} A synchronous buck converter switching at 500 kHz uses a
-Schottky body diode with V\textsubscript{f} = 0.45 V during dead time.
-The dead time is t\textsubscript{dead} = 30 ns per transition (two
-transitions per cycle). The inductor current (and diode current during
-dead time) is I\textsubscript{L} = 15 A. The high-side MOSFET body diode
-would have V\textsubscript{f} = 1.0 V during the same dead time.
+\textbf{Given:} A synchronous buck converter switching at 500 kHz places
+an external Schottky diode in antiparallel with the low-side MOSFET, so
+that the freewheeling current during dead time flows through the
+Schottky (V\textsubscript{f} = 0.45 V) rather than through the MOSFET's
+own body diode. A MOSFET body diode is an intrinsic PN junction, never a
+Schottky; the Schottky is a separate device added alongside it. The dead
+time is t\textsubscript{dead} = 30 ns per transition (two transitions
+per cycle) and the freewheeling current is I\textsubscript{L} = 15 A.
+Without the Schottky, the low-side body diode would drop
+V\textsubscript{f} = 1.0 V over the same interval.
 
 \textbf{Find:} (a) The energy lost in the Schottky diode per dead-time
 event, (b) the total dead-time power loss with the Schottky diode, and
@@ -6427,7 +6451,7 @@ t\textsubscript{dead} = 0.45 × 15 × 30 × 10\textsuperscript{-9} =
 P\textsubscript{dead} = 2 × E\textsubscript{dead} × f\textsubscript{sw}
 = 2 × 202.5 × 10\textsuperscript{-9} × 500,000 = \textbf{0.203 W}
 
-(c) With MOSFET body diode:\\
+(c) With the body diode alone (no external Schottky):\\
 E\textsubscript{dead} = 1.0 × 15 × 30 × 10\textsuperscript{-9} = 450
 nJ\\
 P\textsubscript{dead} = 2 × 450 × 10\textsuperscript{-9} × 500,000 =
@@ -7075,9 +7099,9 @@ with NA = 0.33 and k₁ = 0.32. A next-generation high-NA EUV tool uses NA
 = 0.55 with the same wavelength and k₁ = 0.28.
 
 \textbf{Find:} (a) The minimum feature size (CD\textsubscript{min}) for
-each tool, (b) the minimum half-pitch (feature + space), and (c) the
-transistor density improvement assuming density scales as
-1/pitch\textsuperscript{2}.
+each tool, which for dense lines is the half-pitch, (b) the minimum
+pitch (feature + space = 2 × CD), and (c) the transistor density
+improvement assuming density scales as 1/pitch\textsuperscript{2}.
 
 \textbf{Solution:}
 
@@ -7087,7 +7111,8 @@ Standard EUV: CD\textsubscript{min} = 0.32 × 13.5/0.33 = \textbf{13.1
 nm}\\
 High-NA EUV: CD\textsubscript{min} = 0.28 × 13.5/0.55 = \textbf{6.87 nm}
 
-(b) Minimum half-pitch (assuming pitch = 2 × CD):\\
+(b) Minimum pitch. The Rayleigh CD is the half-pitch, so the full pitch
+--- one feature plus one space --- is twice it:\\
 Standard EUV: pitch = 2 × 13.1 = \textbf{26.2 nm}\\
 High-NA EUV: pitch = 2 × 6.87 = \textbf{13.7 nm}
 
@@ -7197,8 +7222,8 @@ takes 420/150 = 2.80 min, and the overetch time becomes 0.15 × 2.80 =
 
 \textbf{Given:} A 5 nm GAA nanosheet CMOS process has a gate pitch of 48
 nm and a minimum metal pitch of 28 nm. The SRAM bit cell area is 0.021
-μm\textsuperscript{2}. A processor requires 8 MB of L2 cache (8 × 8 ×
-10\textsuperscript{6} × 8 = 64 × 10\textsuperscript{6} bits, plus
+μm\textsuperscript{2}. A processor requires 8 MB of L2 cache (8 ×
+10\textsuperscript{6} bytes × 8 = 64 × 10\textsuperscript{6} bits, plus
 \textasciitilde30\% overhead for control logic), and the logic portion
 requires 15 billion transistors at a density of 310
 MTr/mm\textsuperscript{2}.
@@ -7228,9 +7253,9 @@ A\textsubscript{total} = (48.4 + 1.75) × 1.20 = 50.15 × 1.20 =
 \textbf{60.2 mm\textsuperscript{2}}
 
 (d) Dies per 300 mm wafer:\\
-Usable area: π × (150 - 3)\textsuperscript{2} = 67,929
-mm\textsuperscript{2}\\
-Gross dies: 67,929/60.2 = 1,128\\
+Usable area: π × (150 - 3)\textsuperscript{2} = 67,890
+mm\textsuperscript{2} (as in Example 3.7.1)\\
+Gross dies: 67,890/60.2 = 1,128\\
 Edge loss: π × 294/√(2 × 60.2) \textasciitilde{} π × 294/10.96
 \textasciitilde{} 84\\
 Net dies: 1,128 - 84 = 1,044\\
@@ -7282,13 +7307,14 @@ raw die costs:
 Chiplet: The 3 nm die at 75\% yield has a raw cost already factored in
 at \$35. The monolithic 3 nm die at 55\% yield costs more per good die.
 
-If raw wafer cost is \$18,000 and the monolithic die gets 67,929/250
-\textasciitilde{} 230 gross dies (minus \textasciitilde30 edge = 200
-net), then at 55\% yield = 110 good dies, raw cost = \$18,000/110 =
-\$163/die (not \$95). This demonstrates the \textbf{chiplet yield
-advantage}: smaller dies have exponentially better yield, making the
-chiplet approach more cost-effective for large designs despite higher
-assembly complexity.
+If raw wafer cost is \$18,000, the monolithic die gets 67,890/250
+\textasciitilde{} 272 gross dies. The edge correction used in Problem
+3.7.5, π × 294/√(2 × 250) \textasciitilde{} 41, leaves 231 net, so at
+55\% yield = 127 good dies and a raw cost of \$18,000/127 = \$142/die
+(not \$95). This demonstrates the \textbf{chiplet yield advantage}:
+smaller dies have exponentially better yield, making the chiplet
+approach more cost-effective for large designs despite higher assembly
+complexity.
 
 \chapter{Control Systems}\label{problems-4}
 

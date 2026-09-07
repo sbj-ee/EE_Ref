@@ -5135,8 +5135,8 @@ N\textsubscript{D} / n\textsubscript{i}²) = 0.02585 × ln(5 × 10¹⁷ × 2 ×
 = \textbf{0.812 V}
 
 (b) Depletion width at V\textsubscript{A} = 0:\\
-W = √(2 × 1.036 × 10⁻¹² / 1.602 × 10⁻¹⁹ × (1/5 × 10¹⁷ + 1/(2 × 10¹⁶)) ×
-0.812)\\
+W = √(2 × 1.036 × 10⁻¹² / (1.602 × 10⁻¹⁹) × (1/(5 × 10¹⁷) + 1/(2 ×
+10¹⁶)) × 0.812)\\
 1/N\textsubscript{A} + 1/N\textsubscript{D} = 2 × 10⁻¹⁸ + 5 × 10⁻¹⁷ =
 5.2 × 10⁻¹⁷ cm³\\
 W = √(2 × 1.036 × 10⁻¹² × 5.2 × 10⁻¹⁷ × 0.812 / (1.602 × 10⁻¹⁹))\\
@@ -5522,17 +5522,27 @@ Recalculating: I\textsubscript{C\_sat} = (V\textsubscript{CC} −
 V\textsubscript{CE\_sat}) / (R\textsubscript{C} + R\textsubscript{E}) =
 (12 − 0.2) / 2,670 = \textbf{4.42 mA}
 
-(c) Since the transistor is saturated under the given bias, gain is not
-defined at this operating point. For the purpose of calculating gain,
-re-bias the circuit to the edge of saturation using I\textsubscript{C} =
-4.42 mA from part (b):\\
+(c) Since the transistor is saturated under the given bias, the
+small-signal voltage gain is not defined at this operating point --- the
+collector node is pinned near 0.2 V and cannot swing. The saturated
+I\textsubscript{C} = 4.42 mA from part (b) must not be fed into
+g\textsubscript{m} = I\textsubscript{C}/V\textsubscript{T} either,
+because that expression is a forward-active result.
+
+To obtain a gain the circuit has to be re-biased into the active region.
+Placing the quiescent point at mid-supply, V\textsubscript{CE} = 6 V:\\
+I\textsubscript{C} = (V\textsubscript{CC} − V\textsubscript{CE}) /
+(R\textsubscript{C} + R\textsubscript{E}) = (12 − 6) / 2,670 =
+\textbf{2.25 mA}, which requires I\textsubscript{B} =
+I\textsubscript{C}/β = 2.25 mA / 150 = \textbf{15 μA}, not the 40 μA of
+the original bias network.\\
 Transconductance: g\textsubscript{m} = I\textsubscript{C} /
-V\textsubscript{T} = 0.00442 / 0.02585 = 171.0 mA/V\\
+V\textsubscript{T} = 0.00225 / 0.02585 = 86.9 mA/V\\
 With R\textsubscript{E} bypassed: A\textsubscript{v} =
-−g\textsubscript{m} × R\textsubscript{C} = −171.0 × 10⁻³ × 2,200 =
-\textbf{−376.2} (inverting)\\
-\textbar A\textsubscript{v}\textbar{} in dB = 20 × log₁₀(376.2) =
-\textbf{51.5 dB}
+−g\textsubscript{m} × R\textsubscript{C} = −86.9 × 10⁻³ × 2,200 =
+\textbf{−191} (inverting)\\
+\textbar A\textsubscript{v}\textbar{} in dB = 20 × log₁₀(191) =
+\textbf{45.6 dB}
 
 \end{examplebox}
 
