@@ -721,7 +721,7 @@ V\textsubscript{S} = 195,322 + 19,612 + j(375 + 44,295) = 214,934 +
 j44,670\\
 \textbar V\textsubscript{S}\textbar{} = √(214,934² + 44,670²) =
 \textbf{219,528 V per phase}\\
-V\textsubscript{S,LL} = √3 × 219,521 = \textbf{380.2 kV}
+V\textsubscript{S,LL} = √3 × 219,528 = \textbf{380.2 kV}
 
 Voltage regulation = (380.2 - 345) / 345 × 100 = \textbf{10.2\%}
 
@@ -954,8 +954,8 @@ I\textsubscript{base} = (1/0.1375) × 1,255 = 7.273 × 1,255 =
 supplies a 138 kV bus.
 
 \textbf{Find:} (a) The turns ratio, (b) the rated load current at 138
-kV, (c) the source current at 345 kV, (d) the current in the series
-winding, (e) the transformed (coupled) power, and (f) the power
+kV, (c) the source current at 345 kV, (d) the currents in the series and
+common windings, (e) the transformed (coupled) power, and (f) the power
 advantage ratio.
 
 \textbf{Solution:}
@@ -968,9 +968,15 @@ advantage ratio.
 (c) Source current: I\textsubscript{source} = S / V₁ = 200 × 10⁶ /
 345,000 = \textbf{580 A}
 
-(d) Series winding current:\\
-I\textsubscript{series} = I\textsubscript{load} -
-I\textsubscript{source} = 1,449 - 580 = \textbf{869 A}
+(d) Winding currents. As in Example 1.3.1.2, the \emph{series} winding
+sits between the HV terminal and the tap and carries the HV-side line
+current, while the \emph{common} winding sits between the tap and
+neutral and carries the difference:\\
+I\textsubscript{series} = I\textsubscript{source} = \textbf{580 A}\\
+I\textsubscript{common} = I\textsubscript{load} -
+I\textsubscript{source} = 1,449 - 580 = \textbf{869 A}\\
+Unlike the 2:1 case of Example 1.3.1.2, the two differ here because the
+ratio is 2.5:1.
 
 (e) Transformed power:\\
 S\textsubscript{transformed} = S\textsubscript{auto} × (1 - 1/a) = 200 ×
@@ -1032,16 +1038,22 @@ I\textsubscript{sec} = 3.125∠-28.36° = 2.75 - j1.484 A
 V\textsubscript{drop} = I\textsubscript{sec} × (R + jX) = (2.75 -
 j1.484)(2.5 + j7.5)\\
 = 6.875 + j20.625 - j3.710 + 11.13\\
-= 18.005 + j16.915\\
-\textbar V\textsubscript{drop}\textbar{} = √(18.005² + 16.915²) =
-√(324.2 + 286.1) = √610.3 = \textbf{24.7 V}
+= \textbf{18.005 + j16.915 V}\\
+(\textbar V\textsubscript{drop}\textbar{} = 24.7 V, but as established
+in Example 1.3.1.4 the magnitude is not the boost.)
 
-(c) Regulator output on 120 V base:\\
-V\textsubscript{reg} = 120 + 24.7 = 144.7 V\\
-Convert to primary: V\textsubscript{out} = (144.7/120) × 14,400 = 1.206
-× 14,400 = \textbf{17,362 V}
+(c) The regulator must supply the component of the drop \textbf{in phase
+with its output voltage}; the quadrature part rotates the load-center
+phasor and changes its magnitude only to second order. Referencing the
+output to the real axis:\\
+Boost on 120 V base = Re(V\textsubscript{drop}) = \textbf{18.01 V}
 
-Tap position needed: (17,362 - 14,400) / 14,400 = 0.2057 = 20.6\%\\
+Regulator output on 120 V base:\\
+V\textsubscript{reg} = 120 + 18.01 = 138.01 V\\
+Convert to primary: V\textsubscript{out} = (138.01/120) × 14,400 = 1.150
+× 14,400 = \textbf{16,561 V}
+
+Tap position needed: (16,561 - 14,400) / 14,400 = 0.1500 = 15.0\%\\
 Since regulator range is ±10\%, this exceeds the single regulator range.
 The regulator would operate at its maximum boost (+10\%), providing
 14,400 × 1.10 = 15,840 V. A second regulator or capacitor bank is
@@ -1614,11 +1626,14 @@ incident energy by a factor of 10, from 4.49 to 0.45 cal/cm².
 
 \subsection{Problem 1.5.5}\label{problem-1.5.5}
 
-\textbf{Given:} A three-phase rectifier bridge draws a square-wave
+\textbf{Given:} A three-phase, 6-pulse rectifier bridge draws a six-step
 current from the AC source. The fundamental component is 500 A, and the
-harmonic amplitudes follow the ideal pattern of I\textsubscript{h} =
-I₁/h for odd harmonics (no even harmonics). The system has a transformer
-with 5\% impedance on a 2,000 kVA base at 480 V.
+harmonic amplitudes follow the ideal pattern I\textsubscript{h} = I₁/h.
+The characteristic harmonics of a 6-pulse bridge are h = 6k ± 1 --- that
+is 5, 7, 11, 13, 17, 19, \ldots{} Even harmonics are absent by half-wave
+symmetry, and the triplens (3, 9, 15, \ldots) are absent because they
+are zero-sequence and cannot flow in a three-wire connection. The system
+has a transformer with 5\% impedance on a 2,000 kVA base at 480 V.
 
 \textbf{Find:} (a) The current THD, (b) the voltage THD at the PCC
 (using V\textsubscript{h} = I\textsubscript{h} × Z\textsubscript{h},
@@ -1627,23 +1642,29 @@ IEEE 519 limits (5\% for systems \textless{} 69 kV).
 
 \textbf{Solution:}
 
-(a) Harmonic currents: I₃ = 500/3 = 166.7 A, I₅ = 100 A, I₇ = 71.4 A, I₉
-= 55.6 A, I₁₁ = 45.5 A, I₁₃ = 38.5 A.\\
-THD = √(166.7² + 100² + 71.4² + 55.6² + 45.5² + 38.5²) / 500\\
-= √(27,789 + 10,000 + 5,098 + 3,091 + 2,070 + 1,482) / 500\\
-= √49,530 / 500 = 222.6 / 500 = \textbf{44.5\%}
+(a) Harmonic currents, taking the first six characteristic orders: I₅ =
+500/5 = 100 A, I₇ = 71.4 A, I₁₁ = 45.5 A, I₁₃ = 38.5 A, I₁₇ = 29.4 A,
+I₁₉ = 26.3 A.\\
+THD = √(100² + 71.4² + 45.5² + 38.5² + 29.4² + 26.3²) / 500\\
+= √(10,000 + 5,098 + 2,066 + 1,479 + 865 + 693) / 500\\
+= √20,201 / 500 = 142.1 / 500 = \textbf{28.4\%}\\
+Including the triplens would have given 44.5\%, which is the figure for
+a single-phase square wave, not a three-phase bridge.
 
 (b) System impedance at fundamental:\\
 Z\textsubscript{base} = V²/S = 480²/(2,000 × 10³) = 0.1152 Ω\\
 Z₁ = 0.05 × 0.1152 = 0.00576 Ω (primarily reactive)
 
-Harmonic voltage drops:\\
-V₃ = I₃ × 3 × Z₁ = 166.7 × 3 × 0.00576 = 2.88 V\\
+Harmonic voltage drops. Because I\textsubscript{h} = I₁/h and
+Z\textsubscript{h} = h × Z₁, the h cancels and every characteristic
+harmonic contributes the same voltage, I₁ × Z₁ = 500 × 0.00576 = 2.88
+V:\\
 V₅ = 100 × 5 × 0.00576 = 2.88 V\\
 V₇ = 71.4 × 7 × 0.00576 = 2.88 V\\
-V₉ = 55.6 × 9 × 0.00576 = 2.88 V\\
 V₁₁ = 45.5 × 11 × 0.00576 = 2.88 V\\
-V₁₃ = 38.5 × 13 × 0.00576 = 2.88 V
+V₁₃ = 38.5 × 13 × 0.00576 = 2.88 V\\
+V₁₇ = 29.4 × 17 × 0.00576 = 2.88 V\\
+V₁₉ = 26.3 × 19 × 0.00576 = 2.88 V
 
 V\textsubscript{1,LN} = 480/√3 = 277.1 V\\
 THD\textsubscript{V} = √(6 × 2.88²) / 277.1 = √49.79 / 277.1 = 7.06 /
@@ -2099,8 +2120,8 @@ VT with ratio 345,000:115 V and a transducer output of 0--10 V for
 
 \textbf{Find:} (a) The ADC resolution in volts, (b) the transducer
 output voltage when the bus voltage is 342 kV, (c) the corresponding ADC
-digital count (assuming unipolar 0--10 V maps to 0--65535), and (d) the
-measurement resolution in kV at the primary bus.
+digital count, and (d) the measurement resolution in kV at the primary
+bus.
 
 \textbf{Solution:}
 
@@ -2114,14 +2135,25 @@ V\textsubscript{sec} = 342,000 × (115 / 345,000) = 342,000 / 3,000 =
 Transducer output (0--10 V for 0--120 V):\\
 V\textsubscript{transducer} = (114.0 / 120) × 10 = \textbf{9.500 V}
 
-(c) ADC count (unipolar 0--10 V → 0--65535):\\
-Count = (9.500 / 10) × 65,535 = \textbf{62,258}
+(c) ADC count. The converter spans −10 to +10 V across its 65,536 codes,
+so mid-scale (code 32,768) is 0 V and a unipolar 0--10 V transducer uses
+only the upper half:\\
+Count = ((9.500 + 10) / 20) × 65,535 = 0.975 × 65,535 =
+\textbf{63,897}\\
+Equivalently, 32,768 + 9.500/305.2 μV = 32,768 + 31,130 = 63,898, the
+difference being the 2¹⁶ versus 2¹⁶ − 1 convention.
 
 (d) Primary bus resolution:\\
-One ADC count in transducer volts = 10 / 65,536 = 152.6 μV\\
-In secondary volts = 152.6 μV × (120 / 10) = 1.831 mV\\
-In primary kV = 1.831 × 10⁻³ × 3,000 / 1,000 = \textbf{0.00549 kV = 5.49
+One ADC count in transducer volts = 305.2 μV (from part a --- the full
+±10 V span, not 10 V)\\
+In secondary volts = 305.2 μV × (120 / 10) = 3.662 mV\\
+In primary kV = 3.662 × 10⁻³ × 3,000 / 1,000 = \textbf{0.01099 kV = 11.0
 V}
+
+Note that half the converter's range is wasted on a signal that never
+goes negative. A unipolar 0--10 V ADC of the same 16-bit depth would
+resolve 152.6 μV, or 5.49 V at the primary bus --- twice the precision
+for the same part cost.
 
 \subsection{Problem 1.8.4}\label{problem-1.8.4}
 
