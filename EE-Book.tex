@@ -35229,10 +35229,11 @@ This occurs because dividing b by a discards the individual signs: the
 ratio (−4)/(−3) is indistinguishable from 4/3, and (−4)/3 is
 indistinguishable from 4/(−3). In circuit analysis, this means an
 impedance in the second quadrant (negative resistance with positive
-reactance) or third quadrant (both negative) would be assigned an
-incorrect angle if only arctan(X/R) is used. Engineers using arctan must
-manually inspect the signs of the real and imaginary parts and add or
-subtract 180° to correct the angle when the real part is negative.
+reactance) or third quadrant (negative resistance with negative
+reactance) would be assigned an incorrect angle if only arctan(X/R) is
+used. Engineers using arctan must manually inspect the signs of the real
+and imaginary parts and add or subtract 180° to correct the angle when
+the real part is negative.
 
 \begin{examplebox}
 
@@ -35277,8 +35278,13 @@ individual signs. It returns the angle θ in the range −180° \textless{}
 quadrants of the complex plane. The function is defined for all (a, b)
 pairs except (0, 0) and is equivalent to arctan(b/a) with automatic
 quadrant correction. In most programming languages and scientific
-calculators, atan2 is available as a built-in function: atan2(y, x) in
-C/Python/MATLAB, or ATAN2(y, x) in spreadsheets.
+calculators, atan2 is available as a built-in function, but the argument
+order is not universal: C, Python, and MATLAB take atan2(y, x) ---
+imaginary part first, matching atan2(b, a) as used here --- while Excel
+and Google Sheets take ATAN2(x, y), with the real part first. Passing
+the arguments in the wrong order to a spreadsheet reflects the angle
+about the 45° line, which is exactly the class of error this appendix
+exists to prevent.
 
 \begin{examplebox}
 
@@ -35351,12 +35357,13 @@ The atan2 function handles points on the real and imaginary axes
 correctly, where arctan(b/a) would encounter division by zero or
 ambiguity. For a purely real positive number (a \textgreater{} 0, b =
 0), atan2 returns 0°. For a purely real negative number (a \textless{}
-0, b = 0), atan2 returns 180° (or ±180°). For a purely imaginary
-positive number (a = 0, b \textgreater{} 0), atan2 returns 90°. For a
-purely imaginary negative number (a = 0, b \textless{} 0), atan2 returns
-−90°. These axis cases arise frequently in circuit analysis: a pure
-resistance has 0° impedance angle, a pure inductance has +90°, and a
-pure capacitance has −90°.
+0, b = 0), atan2 returns +180°, the one endpoint the range −180°
+\textless{} θ ≤ +180° includes. For a purely imaginary positive number
+(a = 0, b \textgreater{} 0), atan2 returns 90°. For a purely imaginary
+negative number (a = 0, b \textless{} 0), atan2 returns −90°. These axis
+cases arise frequently in circuit analysis: a pure resistance has 0°
+impedance angle, a pure inductance has +90°, and a pure capacitance has
+−90°.
 
 \begin{examplebox}
 
@@ -35395,13 +35402,15 @@ Calculation}\label{b.3.1-impedance-angle-calculation}
 
 When converting an impedance from rectangular form Z = R + jX to polar
 form Z = \textbar Z\textbar∠θ, the angle θ should be computed using
-atan2(X, R) rather than arctan(X/R). For passive circuits where R ≥ 0,
-arctan(X/R) happens to give correct results because the impedance always
-lies in quadrants I or IV (inductive or capacitive with positive
-resistance). However, in circuits with negative resistance (such as
-active circuits with oscillators, tunnel diodes, or negative impedance
-converters), the impedance can fall in quadrants II or III, and atan2
-becomes essential for correctness.
+atan2(X, R) rather than arctan(X/R). For passive circuits where R
+\textgreater{} 0, arctan(X/R) happens to give correct results because
+the impedance always lies in quadrants I or IV (inductive or capacitive
+with positive resistance). The case R = 0 is excluded because it is the
+pure-reactance axis, where the ratio X/R divides by zero and only atan2
+returns the ±90° answer. However, in circuits with negative resistance
+(such as active circuits with oscillators, tunnel diodes, or negative
+impedance converters), the impedance can fall in quadrants II or III,
+and atan2 becomes essential for correctness.
 
 \begin{examplebox}
 
@@ -35437,11 +35446,12 @@ lag or lead the voltage reference by any angle.
 \begin{examplebox}
 
 \textbf{Example B.3.2:} A lock-in amplifier measures a signal with
-in-phase component I = −2.5 mV and quadrature component Q = −4.33 mV.
-Find the signal magnitude and phase angle.
+in-phase component I = −2.5 mV and quadrature component Q = −4.33 mV
+(that is, −2.5√3 mV, a 30-60-90 pair). Find the signal magnitude and
+phase angle.
 
 \textbf{Solution:}\\
-Magnitude: \textbar V\textbar{} = √((−2.5)² + (−4.33)²) = √(6.25 +
+Magnitude: \textbar V\textbar{} = √((−2.5)² + (−2.5√3)²) = √(6.25 +
 18.75) = √25 = 5.0 mV.\\
 Phase angle: θ = atan2(−4.33, −2.5) = −(180° − arctan(4.33/2.5)) =
 −(180° − 60°) = −120° (quadrant III).\\

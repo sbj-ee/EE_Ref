@@ -44437,9 +44437,9 @@ of the arctan function.
 
 \subsection{Problem B.1.1}\label{problem-b.1.1}
 
-\textbf{Given:} The ratios: arctan(√3), arctan(0), and arctan(-√3).
+\textbf{Given:} The tangent ratios √3, 0, and -√3.
 
-\textbf{Find:} The angle for each and identify the quadrant.
+\textbf{Find:} The arctangent of each and identify the quadrant.
 
 \textbf{Solution:}\\
 arctan(√3) = arctan(1.732) = 60° (quadrant I).\\
@@ -44615,12 +44615,13 @@ requires division by zero.}
 \subsection{Problem B.2.5}\label{problem-b.2.5}
 
 \textbf{Given:} A signal with in-phase component I = -3.5 V and
-quadrature component Q = -6.062 V (from an I/Q demodulator).
+quadrature component Q = -6.062 V, that is -3.5√3 V (from an I/Q
+demodulator).
 
 \textbf{Find:} The magnitude and phase angle using atan2.
 
 \textbf{Solution:}\\
-Magnitude: \textbar V\textbar{} = √((-3.5)² + (-6.062)²) = √(12.25 +
+Magnitude: \textbar V\textbar{} = √((-3.5)² + (-3.5√3)²) = √(12.25 +
 36.75) = √49 = 7.0 V.
 
 Phase angle: θ = atan2(-6.062, -3.5).\\
@@ -44631,7 +44632,7 @@ Since a \textless{} 0 and b \textless{} 0, this is quadrant III.\\
 Using arctan instead: arctan((-6.062)/(-3.5)) = arctan(1.732) = 60°
 (quadrant I -- wrong by 180°).
 
-\textbf{V = 7.0∠-120°. atan2 correctly places the phasor in quadrant
+\textbf{V = 7.0∠-120° V. atan2 correctly places the phasor in quadrant
 III.}
 
 \section{B.3 Applications in Electrical
@@ -44663,13 +44664,13 @@ wrong).
 \subsection{Problem B.3.2}\label{problem-b.3.2}
 
 \textbf{Given:} A lock-in amplifier measures in-phase I = 4.0 mV and
-quadrature Q = -6.928 mV from a sensor signal.
+quadrature Q = -6.928 mV, that is -4√3 mV, from a sensor signal.
 
 \textbf{Find:} The signal magnitude and phase angle using atan2.
 
 \textbf{Solution:}\\
-Magnitude: \textbar V\textbar{} = √(4.0² + (-6.928)²) = √(16 + 48) = √64
-= 8.0 mV.
+Magnitude: \textbar V\textbar{} = √(4.0² + (-4√3)²) = √(16 + 48) = √64 =
+8.0 mV.
 
 Phase angle: θ = atan2(-6.928, 4.0).\\
 Since a \textgreater{} 0 and b \textless{} 0, this is quadrant IV.\\
@@ -44729,12 +44730,12 @@ Since Q \textless{} 0, the load is capacitive (leading).
 \subsection{Problem B.3.5}\label{problem-b.3.5}
 
 \textbf{Given:} An I/Q demodulator outputs I = -0.707 mV and Q = 0.707
-mV for a QAM constellation point.
+mV (that is, -1/√2 and +1/√2 mV) for a QAM constellation point.
 
 \textbf{Find:} The magnitude and phase using atan2. Compare with arctan.
 
 \textbf{Solution:}\\
-Magnitude: \textbar V\textbar{} = √((-0.707)² + 0.707²) = √(0.5 + 0.5) =
+Magnitude: \textbar V\textbar{} = √((-1/√2)² + (1/√2)²) = √(0.5 + 0.5) =
 √1.0 = 1.0 mV.
 
 Using atan2: θ = atan2(0.707, -0.707).\\
@@ -44744,9 +44745,9 @@ arctan(0.707/0.707) = 180° - 45° = 135°.
 Using arctan: arctan(0.707/(-0.707)) = arctan(-1) = -45° (quadrant IV --
 wrong by 180°).
 
-In a QPSK constellation, 135° corresponds to the symbol in the second
-quadrant, carrying bit pattern ``01'' (Gray-coded). The arctan error
-would map it to the fourth quadrant symbol, causing a bit error.
+In a QPSK constellation, 135° identifies the symbol in the second
+quadrant. The arctan error would map it to the diagonally opposite
+fourth-quadrant symbol, so the wrong symbol is decoded entirely.
 
 \textbf{V = 1.0∠135° mV. atan2 is essential for correct symbol detection
 in digital communications.}
