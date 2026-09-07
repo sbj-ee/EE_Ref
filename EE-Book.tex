@@ -472,7 +472,7 @@ if phasors, decibels, or matrix methods are unfamiliar.
 \chapter*{List of Figures}\label{list-of-figures}
 \addcontentsline{toc}{chapter}{List of Figures}
 
-The 98 numbered figures in this reference are listed below by chapter.
+The 96 numbered figures in this reference are listed below by chapter.
 Each entry links to the figure in its chapter. Chapter 14 (National
 Electrical Code) and Appendices D, E, and F contain no figures --- their
 material is tabular and procedural --- which is why those numbers do not
@@ -37467,7 +37467,7 @@ reasons of length, states rather than derives.
 \item
   Ziegler, J. G., and N. B. Nichols. ``Optimum Settings for Automatic
   Controllers.'' \emph{Transactions of the ASME}, vol.~64, 1942,
-  pp.~759--768. (Ch. 4 §4.7, App. G §G.3)
+  pp.~759--768. (Ch. 4 §4.6.4)
 \item
   Friis, H. T. ``A Note on a Simple Transmission Formula.''
   \emph{Proceedings of the IRE}, vol.~34, no. 5, 1946, pp.~254--256.
@@ -37639,7 +37639,7 @@ F)}
   Architecture}. Morgan Kaufmann.
 \end{itemize}
 
-\textbf{Control systems and embedded systems (Ch. 4, Ch. 5, App. G)}
+\textbf{Control systems and embedded systems (Ch. 4, Ch. 5)}
 
 \begin{itemize}
 \tightlist
@@ -37652,11 +37652,12 @@ F)}
   Control of Dynamic Systems}. Pearson.
 \item
   Åström, K. J., and T. Hägglund. \emph{Advanced PID Control}. ISA,
-  2006. The IMC λ-tuning used in App. G §G.3.
+  2006. Covers the IMC λ-tuning named among the alternative methods in
+  Ch. 4 §4.6.4.
 \item
   Seborg, D. E., T. F. Edgar, D. A. Mellichamp, and F. J. Doyle III.
   \emph{Process Dynamics and Control}. Wiley. Source of the FOPDT
-  identification method of App. G §G.2.
+  reaction-curve identification used in Problem 4.6.5.
 \item
   Yiu, J. \emph{The Definitive Guide to Arm® Cortex®-M23 and Cortex-M33
   Processors}. Newnes.
@@ -38119,7 +38120,7 @@ between control modes (e.g., open-loop to closed-loop PID) by
 pre-seeding the integrator state so the controller output is continuous
 at the handoff point. Without it, the integral starts at zero and the
 output drops suddenly, causing a transient error that takes several
-integral time constants to recover. (Ch. 4, App. G)
+integral time constants to recover. (Ch. 4)
 
 \textbf{Bypass Diode (PV)} --- A diode placed in parallel with a group
 of series-connected PV cells (typically 18--20 cells per diode) to
@@ -38889,11 +38890,11 @@ coils, quality factor monitoring, and thermal sensors. Required by SAE
 J2954 and Qi standards. (Ch. 10)
 
 \textbf{FOPDT (First-Order Plus Dead Time)} --- A transfer function
-model G(s) = K e\textsuperscript{−θs} / (τs + 1) characterising a
+model G(s) = K e\textsuperscript{−θs} / (τs + 1) characterizing a
 process by its static gain K, time constant τ, and dead time θ. Widely
 used for industrial process identification because the three parameters
 can be determined from a single open-loop step test, and they directly
-feed IMC and Ziegler-Nichols tuning rules. (Ch. 4, App. G)
+feed IMC and Ziegler-Nichols tuning rules. (Ch. 4)
 
 \textbf{Fourier Series} --- The representation of a periodic signal as
 an infinite sum of harmonically related sinusoidal components
@@ -39152,8 +39153,7 @@ derives gains from an identified plant model and a single closed-loop
 speed parameter λ. For a FOPDT plant the formulas are T\textsubscript{i}
 = τ + θ/2, K\textsubscript{p} = T\textsubscript{i} / {[}K(λ + θ/2){]},
 T\textsubscript{d} = τ(θ/2)/T\textsubscript{i}. Increasing λ gives a
-slower, more robust controller; λ = 0.5τ is a common default. (Ch. 4,
-App. G)
+slower, more robust controller; λ = 0.5τ is a common default. (Ch. 4)
 
 \textbf{Impedance (Z)} --- The total opposition to current flow in an AC
 circuit, combining resistance and reactance as a complex quantity: Z = R
