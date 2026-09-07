@@ -9,9 +9,16 @@ directly. Simulation time is scaled by DT=1.455 s/iteration, the mean real-time
 sample period observed over the hardware runs (a 1 s nominal sleep plus roughly
 0.45 s of USB serial overhead; §G.5.2 quotes this as "about 1.44 s").
 
-Sample counts are chosen so real-time durations match the measured results:
-  G.4.1 — 600 total samples → 873 s  (preheat ~76 + PID ~524)
-  G.4.2 — preheat ~76 + 207 + 344 + 740 = 1367 samples → 1990 s
+Each figure runs the same schedule the reader would type, and the sample counts
+come from the commands in Appendix G rather than being fitted to a target
+duration:
+  G.4.1 — `--setpoint 50` (600 samples at 1.455 s → 873 s), preheat ~76 + 524
+  G.4.2 — `--schedule "50:300" "35:500" "40:500"` (1300 PID samples plus the
+          preheat, at 1.438 s → ≈ 1960 s)
+
+The two hardware runs logged slightly different mean sample periods — 873/600 =
+1.455 s for the single-setpoint run and 1963/1365 = 1.438 s for the schedule run
+— so each figure is scaled by its own measured period.
 """
 
 import numpy as np
@@ -29,7 +36,8 @@ tau   = 142.9    # s      time constant
 theta = 20       # s      dead time (integer samples)
 T0    = 23.0     # °C     ambient
 dt    = 1.0      # s      simulation step
-DT    = 1.455    # s/iteration, measured mean real-time sample period (§G.5.2)
+DT    = 1.455    # s/iteration, single-setpoint run: 873 s / 600 samples (§G.5.2)
+DT_SCHED = 1.4381  # s/iteration, schedule run: 1963 s / 1365 samples (§G.4.2)
 
 # ── IMC PID (§G.3.1) ──────────────────────────────────────────────────────────
 Kp = 2.71
@@ -44,7 +52,7 @@ alpha_f = Tf / (Tf + dt)   # ≈ 0.54
 alpha = 1.0 - dt / tau     # Euler-forward plant pole
 
 
-def simulate(setpoints_n, preheat_pct=80.0, preheat_until=46.0):
+def simulate(setpoints_n, preheat_pct=80.0, preheat_until=46.0, dt_real=DT):
     """Run a closed-loop TCLab simulation.
 
     Parameters
@@ -52,6 +60,8 @@ def simulate(setpoints_n, preheat_pct=80.0, preheat_until=46.0):
     setpoints_n  : list of (setpoint_°C, n_sim_samples) tuples
     preheat_pct  : heater % during open-loop preheat
     preheat_until: temperature (°C) at which PID handoff occurs
+    dt_real      : measured wall-clock seconds per iteration, used to scale the
+                   time axis (the two hardware runs differ slightly)
 
     Returns
     -------
@@ -79,7 +89,7 @@ def simulate(setpoints_n, preheat_pct=80.0, preheat_until=46.0):
         x  = alpha * x + (1.0 - alpha) * K * ubuf[-1]
         T1p = T1
         T1  = T0 + x + rng.normal(0, 0.08)
-        t_lst.append(k * DT)
+        t_lst.append(k * dt_real)
         T_lst.append(T1);  Q_lst.append(u);  S_lst.append(setpoints_n[0][0])
         k += 1
 
@@ -110,7 +120,7 @@ def simulate(setpoints_n, preheat_pct=80.0, preheat_until=46.0):
             T1p = T1
             T1  = T0 + x + rng.normal(0, 0.08)
 
-            t_lst.append(k * DT)
+            t_lst.append(k * dt_real)
             T_lst.append(T1);  Q_lst.append(u);  S_lst.append(sp)
             k += 1
 
@@ -180,12 +190,15 @@ print(f'Saved {p1}')
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Figure G.4.2 — Multi-setpoint schedule  (preheat + 207 + 344 + 740 ≈ 1963 s)
-# Segment real-time durations: 50°C → 301 s, 35°C → 500 s, 40°C → 1077 s
+# Figure G.4.2 — Multi-setpoint schedule, exactly as commanded in §G.4.2:
+#   --schedule "50:300" "35:500" "40:500" --preheat 80:46
+# A schedule entry is a count of PID iterations (run.py loops
+# `for _ in range(seg_seconds)`), so at the schedule run's measured 1.4381 s per
+# iteration the segments occupy 431 s, 719 s and 719 s of wall-clock time.
 # ─────────────────────────────────────────────────────────────────────────────
 t2, T2, Q2, SP2 = simulate(
-    [(50.0, 207), (35.0, 344), (40.0, 740)],
-    preheat_pct=80.0, preheat_until=46.0,
+    [(50.0, 300), (35.0, 500), (40.0, 500)],
+    preheat_pct=80.0, preheat_until=46.0, dt_real=DT_SCHED,
 )
 
 fig2, ax2 = plt.subplots(figsize=(6.5, 3.6))
@@ -235,7 +248,10 @@ ax2.set_title('TCLab §G.4.2 — Multi-Setpoint Schedule, FOPDT Simulation\n(50 
 
 h3, l3 = ax2.get_legend_handles_labels()
 h4, l4 = ax2r.get_legend_handles_labels()
-ax2.legend(h3 + h4, l3 + l4, loc='center right', framealpha=0.9)
+# Below the axes: every in-plot corner is taken by a trace, a segment label or
+# a measured-value annotation once the segments run their commanded lengths.
+ax2.legend(h3 + h4, l3 + l4, loc='upper center', bbox_to_anchor=(0.5, -0.18),
+           ncol=3, framealpha=0.9)
 
 fig2.tight_layout()
 p2 = OUT / 'G-4-2-tclab-schedule.png'
