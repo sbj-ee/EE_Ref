@@ -47886,21 +47886,26 @@ reciprocal two-port network.
 3 − λ = ±1\\
 λ₁ = 3 − 1 = \textbf{2}, λ₂ = 3 + 1 = \textbf{4}
 
-(c) The eigenvalues represent the \textbf{natural modes} of the network:
+(c) The eigenvalues represent the \textbf{natural modes} of the network.
+Pair each with its eigenvector by substitution: A{[}1,
+1{]}\textsuperscript{T} = {[}4, 4{]}\textsuperscript{T} = 4{[}1,
+1{]}\textsuperscript{T}, and A{[}1, −1{]}\textsuperscript{T} = {[}2,
+−2{]}\textsuperscript{T} = 2{[}1, −1{]}\textsuperscript{T}.
 
 \begin{itemize}
 \tightlist
 \item
-  λ₁ = 2 S: The even mode (both ports driven in phase) --- the effective
-  admittance is 2 S
+  λ₂ = 4 S with eigenvector {[}1, 1{]}\textsuperscript{T}: The even mode
+  (both ports driven in phase) --- the effective admittance is 4 S
 \item
-  λ₂ = 4 S: The odd mode (ports driven out of phase) --- the effective
-  admittance is 4 S
+  λ₁ = 2 S with eigenvector {[}1, −1{]}\textsuperscript{T}: The odd mode
+  (ports driven out of phase) --- the effective admittance is 2 S
 \end{itemize}
 
-The eigenvectors are {[}1, 1{]}\textsuperscript{T} (even mode) and {[}1,
-−1{]}\textsuperscript{T} (odd mode). These modes decouple the two-port
-into two independent one-port problems.
+These modes decouple the two-port into two independent one-port
+problems. The even mode sees the larger admittance here because the
+mutual term adds to the self term when both ports swing together, and
+subtracts when they swing oppositely.
 
 \subsection{Problem F.1.10}\label{problem-f.1.10}
 
@@ -47909,8 +47914,9 @@ circuit graph with 3 nodes and 2 branches:\\
 A = {[}1, 0; −1, 1; 0, −1{]}
 
 \textbf{Find:} (a) The dimensions and their meaning, (b) what the
-entries tell us about the circuit topology, and (c) the product
-A\textsuperscript{T}A and its significance.
+entries tell us about the circuit topology, and (c) the products
+A\textsuperscript{T}A and AA\textsuperscript{T}, and what each one
+means.
 
 \textbf{Solution:}
 
@@ -47932,16 +47938,27 @@ Each column represents a branch, and each row represents a node.
 Each branch has exactly one +1 (start node) and one −1 (end node),
 indicating the assumed current direction.
 
-(c) A\textsuperscript{T}A:\\
-A\textsuperscript{T} = {[}1, −1, 0; 0, 1, −1{]}\\
+(c) With A\textsuperscript{T} = {[}1, −1, 0; 0, 1, −1{]}:
+
 A\textsuperscript{T}A = {[}1×1+(−1)(−1)+0, 1×0+(−1)(1)+0; 0+(1)(−1)+0,
 0+1×1+(−1)(−1){]} = \textbf{{[}2, −1; −1, 2{]}}
 
-This is the \textbf{graph Laplacian} of the circuit. In circuit
-analysis, if each branch has unit conductance, then
-A\textsuperscript{T}A is the nodal admittance matrix (with the reference
-node eliminated). The diagonal entries count the number of branches at
-each node, and the off-diagonal entries are −1 for connected node pairs.
+This is 2 × 2 --- one entry per \emph{branch pair}. It is the
+\textbf{edge Laplacian}, and its diagonal is always 2 because every
+branch touches exactly two nodes. It is not the nodal admittance matrix.
+
+The nodal quantity is the other product, which is 3 × 3 --- one entry
+per node pair:
+
+AA\textsuperscript{T} = \textbf{{[}1, −1, 0; −1, 2, −1; 0, −1, 1{]}}
+
+This is the \textbf{graph Laplacian}. With unit conductance on every
+branch it is the full nodal admittance matrix: the diagonal entries
+count the branches meeting at each node (1, 2, 1 for a three-node path),
+and the off-diagonal entries are −1 for each connected pair. It is
+singular, as every Laplacian is, because no node has yet been chosen as
+the reference. Grounding node 3 deletes its row and column, leaving the
+reduced nodal admittance matrix {[}1, −1; −1, 2{]}.
 
 \section{F.2 Matrix
 Arithmetic}\label{appendix-f-section-f.2-matrix-arithmetic}
@@ -48096,26 +48113,32 @@ Verification: Total power = V\textsuperscript{T}I = 30×1 + 37.5×2 +
 \textbf{Given:} Two ABCD matrices representing cascaded transmission
 line sections:\\
 M₁ = {[}cosh(γ₁l₁), Z₀₁ sinh(γ₁l₁); sinh(γ₁l₁)/Z₀₁, cosh(γ₁l₁){]}\\
-with numerical values M₁ = {[}0.95, 25; 0.01, 0.95{]} and M₂ = {[}0.90,
-40; 0.008, 0.90{]}.
+with numerical values M₁ = {[}1.1180, 25; 0.01, 1.1180{]} and M₂ =
+{[}1.1489, 40; 0.008, 1.1489{]}.
+
+(Each matrix satisfies cosh² − sinh² = 1, so det = 1 as a reciprocal
+line requires: for M₁, sinh(γ₁l₁) = 0.5 and Z₀₁ = 25/0.5 = 50 Ω; for M₂,
+sinh(γ₂l₂) = 0.5657 and Z₀₂ = 40/0.5657 = 70.71 Ω.)
 
 \textbf{Find:} The overall ABCD matrix M\textsubscript{total} = M₁ × M₂.
 
 \textbf{Solution:}
 
-A = 0.95×0.90 + 25×0.008 = 0.855 + 0.200 = \textbf{1.055}\\
-B = 0.95×40 + 25×0.90 = 38.0 + 22.5 = \textbf{60.5}\\
-C = 0.01×0.90 + 0.95×0.008 = 0.009 + 0.0076 = \textbf{0.0166}\\
-D = 0.01×40 + 0.95×0.90 = 0.40 + 0.855 = \textbf{1.255}
+A = 1.1180×1.1489 + 25×0.008 = 1.2845 + 0.2000 = \textbf{1.4845}\\
+B = 1.1180×40 + 25×1.1489 = 44.72 + 28.72 = \textbf{73.44}\\
+C = 0.01×1.1489 + 1.1180×0.008 = 0.011489 + 0.008944 =
+\textbf{0.02043}\\
+D = 0.01×40 + 1.1180×1.1489 = 0.400 + 1.2845 = \textbf{1.6845}
 
-\textbf{M\textsubscript{total} = {[}1.055, 60.5; 0.0166, 1.255{]}}
+\textbf{M\textsubscript{total} = {[}1.4845, 73.44; 0.02043, 1.6845{]}}
 
-Verification: det(M\textsubscript{total}) = 1.055 × 1.255 − 60.5 ×
-0.0166 = 1.324 − 1.004 = 0.320.\\
-Note: det(M₁) = 0.95² − 25 × 0.01 = 0.9025 − 0.25 = 0.6525 and det(M₂) =
-0.81 − 0.32 = 0.49.\\
-det(M\textsubscript{total}) = det(M₁) × det(M₂) = 0.6525 × 0.49 = 0.320
-✓
+Verification: det(M\textsubscript{total}) = 1.4845 × 1.6845 − 73.44 ×
+0.02043 = 2.5007 − 1.5004 ≈ \textbf{1.000}.\\
+Note: det(M₁) = 1.1180² − 25 × 0.01 = 1.250 − 0.250 = 1.000 and det(M₂)
+= 1.1489² − 40 × 0.008 = 1.320 − 0.320 = 1.000.\\
+det(M\textsubscript{total}) = det(M₁) × det(M₂) = 1.000 × 1.000 = 1.000
+✓ --- the determinant of a cascade is the product of the determinants,
+so a chain of reciprocal two-ports is itself reciprocal.
 
 \subsection{Problem F.2.7}\label{problem-f.2.7}
 
@@ -48747,14 +48770,30 @@ V₂ = −199/(−199) = \textbf{1.0 V}
 (b) det(A) = −199. While non-zero, it is small relative to the magnitude
 of the matrix entries (10,000).
 
-(c) The condition number is approximately
-max\textbar a\textsubscript{ij}\textbar/\textbar det/n\textbar{} ≈ 100/1
-≈ 100. More precisely, eigenvalues: λ₁ = 100−99 = 1 and λ₂ = −(100+99) =
-−199, giving condition number κ = 199/1 = 199. A small perturbation in
-the right-hand side could shift the solution significantly. For example,
-changing the RHS from {[}1, −1{]} to {[}1.01, −0.99{]} shifts V₁ to
-≈1.01 and V₂ to ≈0.99 --- the solution change is proportional to κ times
-the input change, demonstrating \textbf{ill-conditioning}.
+(c) A small determinant is a hint, not a measure --- scaling every
+equation by 10 multiplies the determinant by 100 without changing the
+sensitivity at all. The measure is the condition number built from the
+singular values, which for this matrix are σ₁ = 199 and σ₂ = 1:
+
+κ₂ = σ₁/σ₂ = 199/1 = \textbf{199}
+
+(The eigenvalues are ±14.11, not 1 and −199. They are the wrong tool
+here in any case, because A is not symmetric --- for a non-symmetric
+matrix it is the singular values, not the eigenvalues, that set the
+conditioning.)
+
+κ = 199 bounds the \emph{worst-case} amplification; it does not promise
+that every perturbation is amplified. Perturbing the given right-hand
+side from {[}1, −1{]} to {[}1.01, −0.99{]} moves the solution only from
+{[}1, 1{]} to {[}1.00005, 0.99995{]} --- a change of 0.005\%, because
+this particular right-hand side lies along the well-conditioned
+direction. The amplification appears when the right-hand side lies the
+other way: for {[}1, 1{]} the solution is {[}0.005025, −0.005025{]}, and
+perturbing that by the same 1\% to {[}1.01, 0.99{]} moves it to
+{[}0.01503, 0.004975{]} --- a relative change of 199\%, exactly the
+factor κ predicts. That is what \textbf{ill-conditioning} means: the
+worst case is 199 times the input error, and which case you get depends
+on the right-hand side.
 
 \subsection{Problem F.4.7}\label{problem-f.4.7}
 
@@ -48778,9 +48817,16 @@ Back-substitute:\\
 −20δ₁ + 10(0.005) = 1.5 → −20δ₁ = 1.45 → δ₁ = \textbf{−0.0725 rad =
 −4.154°}
 
-The negative angle at bus 1 indicates that bus 1 leads the reference
-(generating power), and bus 2 is nearly at the reference angle (small
-load).
+Watch the sign convention before reading physics into δ₁. The B given
+here has negative diagonal entries, so it is the negative of the
+conventional DC-power-flow matrix B\textsubscript{bus} (whose diagonals
+are positive sums of branch susceptances). Solving Bδ = P therefore
+returns angles of the opposite sign to the usual convention: δ₁ =
+−4.154° as computed, but +4.154° in terms of B\textsubscript{bus}δ = P
+with the same data. Taken at face value the arithmetic says bus 1
+\emph{lags} the reference; the standard convention says a bus injecting
++1.5 pu \emph{leads} it. Bus 2, with its small load, sits near the
+reference angle either way.
 
 \subsection{Problem F.4.8}\label{problem-f.4.8}
 
@@ -48814,8 +48860,10 @@ Verification: 15(2.14)−5(0.419) = 32.1−2.1 = 30 ✓
 
 \subsection{Problem F.4.9}\label{problem-f.4.9}
 
-\textbf{Given:} A 2 × 2 system from a transformer equivalent circuit:\\
-(R₁ + jX₁)I₁ − jX\textsubscript{m}I₂ = V₁\\
+\textbf{Given:} A 2 × 2 system from a transformer equivalent circuit
+with the secondary short-circuited (V₂ = 0), which is the standard
+short-circuit test:\\
+(R₁ + jX₁ + jX\textsubscript{m})I₁ − jX\textsubscript{m}I₂ = V₁\\
 −jX\textsubscript{m}I₁ + (R₂ + jX₂ + jX\textsubscript{m})I₂ = 0
 
 With R₁ = 2 Ω, X₁ = 8 Ω, X\textsubscript{m} = 200 Ω, R₂ = 3 Ω, X₂ = 10
@@ -48825,36 +48873,39 @@ With R₁ = 2 Ω, X₁ = 8 Ω, X\textsubscript{m} = 200 Ω, R₂ = 3 Ω, X₂ = 
 
 \textbf{Solution:}
 
-Z = {[}2+j8, −j200; −j200, 3+j210{]}
+Z = {[}2+j208, −j200; −j200, 3+j210{]}
 
-det(Z) = (2+j8)(3+j210) − (−j200)(−j200)\\
-= 6+j420+j24+j²1680 − j²40,000\\
-= 6+j444−1680+40,000 = \textbf{38,326 + j444}
+det(Z) = (2+j208)(3+j210) − (−j200)(−j200)\\
+= 6+j420+j624+j²43,680 − j²40,000\\
+= 6+j1044−43,680+40,000 = \textbf{−3674 + j1044}
 
 For I₂: Replace column 2 with {[}240, 0{]}:\\
-det(Z₂) = {[}2+j8, 240; −j200, 0{]}\\
-= (2+j8)(0) − (240)(−j200) = 0 + j48,000 = \textbf{j48,000}
+det(Z₂) = {[}2+j208, 240; −j200, 0{]}\\
+= (2+j208)(0) − (240)(−j200) = 0 + j48,000 = \textbf{j48,000}
 
-I₂ = det(Z₂)/det(Z) = j48,000/(38,326+j444)
+I₂ = det(Z₂)/det(Z) = j48,000/(−3674+j1044)
 
-\textbar det(Z)\textbar{} = √(38326² + 444²) = √(1.469×10⁹ + 1.972×10⁵)
-≈ 38,329
+Multiply numerator and denominator by the conjugate of the denominator,
+whose squared magnitude is 3674² + 1044² = 13,498,276 + 1,089,936 =
+14,588,212:
 
-Multiply numerator and denominator by the conjugate of the denominator:
-(38,326−j444)/(38,326²+444²) = (38,326−j444)/(1.469 × 10⁹)
+I₂ = j48,000 × (−3674−j1044)/14,588,212\\
+= (−j×48,000×3674 − j²×48,000×1044)/14,588,212\\
+= (50,112,000 − j176,352,000)/14,588,212\\
+= 3.435 − j12.089
 
-I₂ = j48,000 × (38,326−j444)/(1.469 × 10⁹)\\
-= (j×48,000×38,326 − j²×48,000×444)/(1.469 × 10⁹)\\
-= (48,000×444 + j×48,000×38,326)/(1.469 × 10⁹)\\
-= (21,312,000 + j1,839,648,000)/1,469,459,432\\
-= 0.01450 + j1.2519
+\textbar I₂\textbar{} = √(3.435² + 12.089²) ≈ \textbf{12.57 A}\\
+∠I₂ ≈ arctan(−12.089/3.435) ≈ \textbf{−74.1°}
 
-\textbar I₂\textbar{} = √(0.0145² + 1.252²) ≈ \textbf{1.252 A}\\
-∠I₂ ≈ arctan(1.252/0.0145) ≈ \textbf{89.3°}
-
-The secondary current lags the applied voltage by nearly 90° (almost
-purely magnetizing current with a small resistive component). This is
-expected for a transformer operating near no-load.
+The secondary current lags the applied voltage by 74°, set almost
+entirely by the leakage impedance: with the secondary shorted, the
+magnetizing branch is bypassed by a far lower-impedance path, and a
+quick check ignoring it gives V₁/(R₁+R₂+j(X₁+X₂)) = 240/(5+j18) =
+12.85∠−74.5° A, close to the exact answer. This is the short-circuit
+test used to measure leakage reactance. Under \textbf{no-load} the
+secondary is open, I₂ = 0, and it is the primary current that becomes
+small and nearly 90° lagging --- that is the magnetizing current, and it
+is a different test.
 
 \subsection{Problem F.4.10}\label{problem-f.4.10}
 

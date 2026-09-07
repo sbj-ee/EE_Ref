@@ -36818,9 +36818,14 @@ multiplying the system matrix by a scalar reciprocal.
 express R in kilohms using scalar multiplication.
 
 \textbf{Solution:} R in kilohms: R\textsubscript{kΩ} = (1/1000) × R =
-{[}0.1, 0.02; 0.02, 0.05{]} kΩ. For the conductance matrix, we need the
-inverse (covered in F.3.3), but the scalar multiplication simply divides
-each element by 1000.
+{[}0.1, 0.02; 0.02, 0.05{]} kΩ --- scalar multiplication simply divides
+each element by 1000. The conductance matrix is a different operation
+entirely: it needs the inverse, not a scalar. Using the 2 × 2 inverse
+formula from F.3.3, det(R) = 100 × 50 − 20 × 20 = 4600, so G = R⁻¹ =
+(1/4600) × {[}50, −20; −20, 100{]} = {[}0.01087, −0.004348; −0.004348,
+0.02174{]} S. Note that the diagonal entries of G are not the
+reciprocals of the diagonal entries of R (1/100 = 0.01 ≠ 0.01087):
+inverting a matrix is not the same as inverting its elements.
 
 \end{examplebox}
 
@@ -37047,8 +37052,10 @@ C = 0 × 1 + 1 × 0.02 = 0.02.\\
 D = 0 × 0 + 1 × 1 = 1.\\
 M\textsubscript{total} = {[}2, 50; 0.02, 1{]}.\\
 Verification: det(M\textsubscript{total}) = 2 × 1 − 50 × 0.02 = 2 − 1 =
-1, confirming a reciprocal network (det = 1 for lossless reciprocal
-two-ports).
+1, confirming a reciprocal network (det = 1 for any reciprocal
+two-port). Reciprocity is not the same as losslessness --- a series 50 Ω
+resistance is reciprocal and dissipative alike, and this cascade has det
+= 1 either way.
 
 \end{examplebox}
 
