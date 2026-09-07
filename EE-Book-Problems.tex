@@ -45404,7 +45404,7 @@ conductance, with units verified at each step.
 \textbf{Solution:}\\
 Power: P = V × I = 24 V × 6 A = 144 W.\\
 Resistance: R = V/I = 24 V / 6 A = 4 Ω.\\
-Conductance: G = 1/R = 1/4 Ω = 0.25 S.
+Conductance: G = 1/R = 1/(4 Ω) = 0.25 S.
 
 Check via conductance: I = G × V = 0.25 S × 24 V = 6 A. Confirmed.\\
 Check via power: P = V²/R = 576/4 = 144 W = I²R = 36 × 4 = 144 W.
@@ -45604,8 +45604,12 @@ Energy: E = 1.12 eV × 1.602 × 10⁻¹⁹ J/eV = 1.794 × 10⁻¹⁹ J.
 Wavelength: λ = hc/E = (6.626 × 10⁻³⁴ × 3 × 10⁸) / (1.794 × 10⁻¹⁹) =
 1.988 × 10⁻²⁵ / (1.794 × 10⁻¹⁹) = 1.108 × 10⁻⁶ m = 1108 nm.
 
-This is in the infrared range, which is why silicon photodetectors are
-sensitive to near-IR light.
+This is the long-wavelength cutoff λ\textsubscript{g}: a photon needs at
+least the bandgap energy to create a carrier, so silicon responds to λ ≤
+1108 nm --- the visible range through the near-IR --- and is transparent
+beyond it. That is why silicon photodetectors work at 850 nm but are
+blind at the 1550 nm telecom wavelength, where germanium or InGaAs is
+required.
 
 \textbf{E = 1.794 × 10⁻¹⁹ J. λ = 1108 nm (infrared).}
 
@@ -45669,7 +45673,7 @@ Temperature: T = 75 K = 75 - 273.15 = -198.15°C = -198.15 × 9/5 + 32 =
 Noise factor: F = 1 + T\textsubscript{e}/T₀ = 1 + 75/290 = 1 + 0.2586 =
 1.2586.
 
-Noise figure: NF = 10 × log₁₀(1.2586) = 10 × 0.1000 = 1.00 dB.
+Noise figure: NF = 10 × log₁₀(1.2586) = 10 × 0.09989 = 0.999 ≈ 1.00 dB.
 
 \textbf{T = -198.15°C = -324.67°F. NF = 1.00 dB.}
 

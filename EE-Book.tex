@@ -35953,10 +35953,9 @@ are derived. The four most frequently encountered in electrical
 engineering are the meter (m) for length, the kilogram (kg) for mass,
 the second (s) for time, and the ampere (A) for electric current. The
 ampere is defined by fixing the elementary charge to exactly 1.602176634
-× 10⁻¹⁹ coulombs, making it the fundamental electrical quantity in SI.
-The kelvin (K) for temperature, the mole (mol) for amount of substance,
-and the candela (cd) for luminous intensity complete the set but appear
-less often in core EE work.
+× 10⁻¹⁹ coulombs. The kelvin (K) for temperature, the mole (mol) for
+amount of substance, and the candela (cd) for luminous intensity
+complete the set but appear less often in core EE work.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lll@{}}
@@ -36057,7 +36056,7 @@ each step.
 Current: I = V/R = 12 V / 4 Ω = 3 A.\\
 Power: P = V × I = 12 V × 3 A = 36 W, or equivalently P = I² × R = 9 × 4
 = 36 W, or P = V²/R = 144/4 = 36 W.\\
-Conductance: G = 1/R = 1/4 Ω = 0.25 S.\\
+Conductance: G = 1/R = 1/(4 Ω) = 0.25 S.\\
 Verification using conductance: I = G × V = 0.25 S × 12 V = 3 A.
 
 \end{examplebox}
@@ -36072,8 +36071,9 @@ of electric charge, defined as one ampere-second (1 C = 1 A·s).
 Practical capacitors range from picofarads (pF) in RF circuits to
 millifarads (mF) in power supply filters, while practical inductors
 range from nanohenries (nH) in RF circuits to henries (H) in power
-transformers. The weber (Wb) for magnetic flux and the tesla (T) for
-magnetic flux density are also derived from these units.
+transformers. The weber (Wb) for magnetic flux is one volt-second (1 Wb
+= 1 V·s), and the tesla (T) for magnetic flux density is one weber per
+square meter (1 T = 1 Wb/m²).
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}llll@{}}
@@ -36155,7 +36155,11 @@ convenient magnitude. The prefixes range from quecto (10⁻³⁰) to quetta
 giga. Each prefix is a fixed power of 10³ (or 10⁻³), with the exception
 of deci, centi, deca, and hecto, which are rarely used in EE. Prefixes
 attach directly to the unit symbol without a space or separator: 4.7 kΩ,
-100 pF, 50 μH.
+100 pF, 50 μH. The byte entries in the table below are included because
+they are the everyday encounter with the largest prefixes, but the byte
+is not an SI unit: prefixed byte counts are decimal (1 TB = 10¹² bytes),
+while memory sizes are often quoted with the binary IEC prefixes kibi,
+mebi, gibi and tebi (1 TiB = 2⁴⁰ bytes ≈ 1.100 TB).
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}llll@{}}
@@ -36199,8 +36203,10 @@ quecto & q & 10⁻³⁰ & --- \\
 2,200,000 Ω = 2.2 × 10⁶ Ω = 2.2 MΩ.\\
 0.000000033 H = 33 × 10⁻⁹ H = 33 nH.\\
 The convention is to choose the prefix that places the numeric value
-between 1 and 999, keeping one to three significant digits before the
-decimal point.
+between 1 and 999.999 --- that is, one to three digits before the
+decimal point, matching the engineering-notation mantissa of §D.3.3.
+Digits after the decimal point are unrestricted, which is why 146.9 mJ
+and 11.75 mC are both correctly prefixed.
 
 \end{examplebox}
 
@@ -36303,9 +36309,9 @@ calculations require consistent units throughout.
 
 \begin{examplebox}
 
-\textbf{Example D.4.2:} A power MOSFET has a maximum junction
-temperature of 175°C, the ambient temperature is 45°C, and the thermal
-resistance from junction to ambient is R\textsubscript{θJA} = 62°C/W.
+\textbf{Example D.4.2:} A power MOSFET is specified with
+T\textsubscript{j,max} = 175°C, T\textsubscript{ambient} = 45°C, and a
+junction-to-ambient thermal resistance R\textsubscript{θJA} = 62°C/W.
 Find the maximum allowable power dissipation and express the junction
 temperature in Kelvin.
 
