@@ -36601,9 +36601,11 @@ marimo notebooks can be executed as standard Python scripts from the
 command line. The
 \texttt{if\ \_\_name\_\_\ ==\ "\_\_main\_\_":\ app.run()} block at the
 end of each file enables this. Running as a script executes all cells in
-dependency order and launches the notebook viewer. This is useful for
-batch processing, automated report generation, or running on a remote
-server.
+dependency order and then exits --- no web server is started and no
+browser opens. That is what makes script mode suitable for batch
+processing, automated report generation, and headless CI runs on a
+remote server. To serve the notebook as a read-only web app instead, use
+\texttt{marimo\ run}.
 
 \begin{examplebox}
 

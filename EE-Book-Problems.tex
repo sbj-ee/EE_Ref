@@ -45805,13 +45805,13 @@ venv).
 \subsection{Problem E.1.4}\label{problem-e.1.4}
 
 \textbf{Given:} A virtual environment is active and the user needs to
-install the project dependencies from \texttt{requirements.txt}, which
-contains:
+install the project dependencies from \texttt{scripts/requirements.txt},
+which contains:
 
 \begin{verbatim}
-marimo>=0.19.0
-numpy>=1.26.0
-matplotlib>=3.8.0
+marimo
+numpy
+matplotlib
 \end{verbatim}
 
 \textbf{Find:} (a) The install command, (b) how to verify all packages
@@ -45840,7 +45840,10 @@ matplotlib appear in the list.
 python -c "import numpy; print(numpy.__version__)"
 \end{verbatim}
 
-Expected output: \textbf{1.26.x} (or newer). Alternatively:
+Because the file pins no versions, pip installs the newest release
+compatible with the interpreter, so the number printed is whatever was
+current at install time. Recording it matters when a result needs to be
+reproduced later. Alternatively:
 
 \begin{verbatim}
 pip show numpy
@@ -45926,9 +45929,24 @@ source .venv/bin/activate
 pip install -r requirements.txt
 \end{verbatim}
 
-This creates a \textbf{completely fresh environment} with only the
-packages listed in \texttt{requirements.txt}. No leftover packages from
-previous installations will be present.
+This creates a \textbf{completely fresh environment} containing only the
+packages listed in \texttt{requirements.txt}.
+
+Note what this does \emph{not} fix: deleting \texttt{.venv} removes only
+the virtual environment. The packages that were accidentally installed
+into the system Python are still there, because they never lived in
+\texttt{.venv} at all. To clean those up, deactivate the virtual
+environment first, list what was added with
+\texttt{pip\ list\ -\/-user}, and remove them explicitly:
+
+\begin{verbatim}
+deactivate
+pip uninstall marimo numpy matplotlib
+\end{verbatim}
+
+On a Python installed by the system package manager,
+\texttt{pip\ install} outside a virtual environment is usually blocked
+for exactly this reason.
 
 \subsection{Problem E.1.7}\label{problem-e.1.7}
 
@@ -46202,9 +46220,11 @@ dependencies is modified.
 
 \textbf{Solution:}
 
-(a) In the marimo editor, click the \textbf{hamburger menu} (three
-lines) in the top-left corner, then select ``View dependency graph'' (or
-press Ctrl+Shift+D / Cmd+Shift+D on macOS).
+(a) In the marimo editor, open the helper panel along the left edge
+(Ctrl+Shift+S / Cmd+Shift+S toggles it) and select the
+\textbf{Dependencies} panel. The command palette (Ctrl+K / Cmd+K) will
+also find it by name. Panel icons and shortcuts move between marimo
+releases, so look for the panel rather than memorizing a key.
 
 (b) The dependency graph shows cells as nodes connected by directed
 edges. An edge from cell A to cell B means B uses a variable defined in
@@ -46290,11 +46310,15 @@ When you reopen the file with \texttt{marimo\ edit}, it loads the last
 saved version from disk. Alternatively, reload the page (F5 or Ctrl+R)
 --- marimo prompts whether to discard unsaved changes.
 
-(c) Unsaved changes are indicated by a \textbf{dot or indicator} in the
-tab title or editor header. Pressing \textbf{Ctrl+S} (Cmd+S on macOS)
-saves all changes to the \texttt{.py} file on disk. If the browser is
-closed without saving, \textbf{all unsaved changes are lost} --- marimo
-does not auto-save.
+(c) Pressing \textbf{Ctrl+S} (Cmd+S on macOS) writes all changes to the
+\texttt{.py} file immediately. marimo also \textbf{autosaves by
+default}: the \texttt{autosave} setting ships as \texttt{"after\_delay"}
+with an \texttt{autosave\_delay} of 1000 ms, so an edit left alone for
+about a second is already on disk. This is why (b) works by reopening
+the file rather than by recovering a buffer --- and it is also why
+closing the tab is a poor way to discard changes, since most of them
+will already have been saved. Set \texttt{autosave\ =\ "off"} in the
+marimo configuration if manual saving is wanted.
 
 \subsection{Problem E.2.7}\label{problem-e.2.7}
 
@@ -46712,8 +46736,8 @@ f\textsubscript{c} = 50 kHz on the same graph.
 frequency.
 
 (b) The -3 dB frequency is \textbf{f\textsubscript{c} = 10 kHz} (set by
-the denominator \texttt{f\ /\ 10e3}). At f = 10 kHz, H = 1/√2 = -3.01
-dB.
+the denominator \texttt{f\ /\ 10e3}). At f = 10 kHz, H = 1/√2 ≈ 0.707,
+and 20 × log₁₀(0.707) = -3.01 dB.
 
 (c) Add the second filter to the same axes:
 
@@ -46770,11 +46794,12 @@ It does \textbf{not} execute when marimo loads the file via
 \texttt{marimo\ edit} or \texttt{marimo\ run}, because in those cases
 marimo imports the file rather than running it directly.
 
-(c) \texttt{app.run()} launches the marimo notebook viewer in the
-default web browser, identical to running
-\texttt{marimo\ run\ 07\_circuit\_analysis.py} from the command line.
-All cells execute in dependency order and their outputs are displayed in
-read-only mode.
+(c) \texttt{app.run()} executes every cell in dependency order and then
+returns, so the process exits normally. It does \textbf{not} start a web
+server or open a browser --- that is what
+\texttt{marimo\ run\ 07\_circuit\_analysis.py} does, serving the
+notebook as a read-only web app. Script mode is for batch and CI use,
+where the exit code is the result you care about.
 
 \subsection{Problem E.3.7}\label{problem-e.3.7}
 
@@ -47169,17 +47194,26 @@ it to the graph, and (c) the expected interactive behavior.
 \end{Highlighting}
 \end{Shaded}
 
-(c) When the user moves the slider:
+(c) When the user moves the slider (note that ζ = 1/(2Q), so the
+response stays underdamped for every Q on this slider --- overdamped
+would need Q \textless{} 0.5):
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Q = 1}: Broad, flat response with no visible peak (overdamped)
+  \textbf{Q = 1}: ζ = 0.5, a broad response with only a small peak of
+  about +1.25 dB near 0.707 f₀
 \item
-  \textbf{Q = 10}: Moderate peak of +20 dB, bandwidth = f₀/Q = 100 Hz
+  \textbf{Q = 10}: ζ = 0.05, a moderate peak of +20 dB just below f₀
 \item
-  \textbf{Q = 100}: Sharp peak of +40 dB, bandwidth = 10 Hz
+  \textbf{Q = 100}: ζ = 0.005, a sharp peak of +40 dB at f₀
 \end{itemize}
+
+The familiar Δf = f₀/Q --- 100 Hz at Q = 10, 10 Hz at Q = 100 --- is the
+-3 dB width of the corresponding \emph{bandpass} response, which is the
+current through the series RLC. The magnitude plotted here is the
+lowpass response taken across the capacitor, so read f₀/Q as the
+sharpness the Q implies, not as a width measurable on this curve.
 
 The graph updates \textbf{instantly} as the slider moves, providing
 real-time interactive exploration.
@@ -47505,7 +47539,7 @@ fallback.
 \StringTok{        ⚠ **File not found:** \textasciigrave{}measurements.csv\textasciigrave{}}
 
 \StringTok{        Place the CSV file in the \textasciigrave{}scripts/\textasciigrave{} directory with columns: time, voltage.}
-\StringTok{        Using demo data instead.}
+\StringTok{        No plot is produced until the file is present — see (c) for a fallback.}
 \StringTok{        """}\NormalTok{)}
     \ControlFlowTok{return}
 \end{Highlighting}
