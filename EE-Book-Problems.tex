@@ -279,10 +279,6 @@ areas, present-worth factors), the table value used is quoted inline so
 the work can be followed without the reference at hand.
 
 Chapters 1 through 19 and Appendices A through F all have problem sets.
-Appendix G, the TCLab control laboratory, does not: it is a hands-on
-exercise sequence carried out against physical hardware, and its
-procedures are given in full in the main volume rather than restated as
-paper problems here.
 
 Standards are cited here by the same designations and editions used in
 the reference volume; the References section at the back of that volume
@@ -8360,7 +8356,15 @@ t\textsubscript{s} = 4/(0.707 × 10) = \textbf{0.566 s}
 (d) ζ = 1.0 (critically damped): No overshoot → \textbf{\%OS = 0\%}.\\
 No oscillation, so t\textsubscript{p} = \textbf{∞} (no peak; monotonic
 approach to final value).\\
-t\textsubscript{s} = 4/(1.0 × 10) = \textbf{0.4 s}
+The 4/(ζω\textsubscript{n}) rule does not apply at ζ = 1. It comes from
+the decay of the e\textsuperscript{-ζωnt} envelope of an underdamped
+response; the critically damped step response is y(t) = 1 - (1 +
+ω\textsubscript{n}t)e\textsuperscript{-ωnt}, whose extra factor of (1 +
+ω\textsubscript{n}t) slows the approach. Solving (1 +
+ω\textsubscript{n}t)e\textsuperscript{-ωnt} = 0.02 gives
+ω\textsubscript{n}t = 5.83:\\
+t\textsubscript{s} = 5.83/ω\textsubscript{n} = 5.83/10 = \textbf{0.58
+s}, against the 0.4 s the underdamped rule would have predicted.
 
 (e) ζ = 2.0 (overdamped): Poles at s = -10(2 ± √(4-1)) = -10(2 ± 1.732)
 → s = -2.68 and -37.32.\\
@@ -9201,8 +9205,9 @@ asymptotically stable).
 1)(s + 2)(s + 6){]}.
 
 \textbf{Find:} (a) The number of root locus branches and asymptotes, (b)
-the asymptote angles and centroid, (c) the breakaway point between s =
--1 and s = -2, (d) the break-in point between s = -3 and s = -6, and (e)
+the asymptote angles and centroid, (c) the real-axis segments of the
+locus and the breakaway point on the segment between s = 0 and s = -1,
+(d) whether a break-in point exists between s = -3 and s = -6, and (e)
 the maximum K for stability.
 
 \textbf{Solution:}
@@ -9214,8 +9219,30 @@ Asymptotic branches: n - m = \textbf{3}.
 Centroid: σ\textsubscript{a} = (0 - 1 - 2 - 6 - (-3))/3 = (-9 + 3)/3 =
 \textbf{-2.0}
 
-(c) 1/(s+3) = 1/s + 1/(s+1) + 1/(s+2) + 1/(s+6). This is derived from
-dK/ds = 0.\\
+(c) First establish where the locus lies on the real axis: a real point
+is on the K \textgreater{} 0 locus when the number of real poles and
+zeros to its right is odd. Counting for this system (poles 0, -1, -2, -6
+and zero -3):
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Segment & Poles + zeros to the right & On locus? \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 to -1 & 1 & yes \\
+-1 to -2 & 2 & no \\
+-2 to -3 & 3 & yes \\
+-3 to -6 & 4 & no \\
+-6 to -∞ & 5 & yes \\
+\end{longtable}
+}
+
+So the breakaway must lie on {[}0, -1{]}, where the branches from the
+poles at 0 and -1 meet and leave the axis. Setting dK/ds = 0 gives
+1/(s+3) = 1/s + 1/(s+1) + 1/(s+2) + 1/(s+6).\\
 Between s = -1 and s = -2, try s = -1.5:\\
 LHS: 1/(-1.5+3) = 1/1.5 = 0.667\\
 RHS: 1/(-1.5) + 1/(-0.5) + 1/(0.5) + 1/(4.5) = -0.667 - 2.0 + 2.0 +
@@ -9226,15 +9253,23 @@ LHS: 1/1.6 = 0.625. RHS: 1/(-1.4) + 1/(-0.4) + 1/(0.6) + 1/(4.6) =
 Try s = -1.2: LHS: 1/1.8 = 0.556. RHS: 1/(-1.2) + 1/(-.2) + 1/(0.8) +
 1/(4.8) = -0.833 - 5.0 + 1.25 + 0.208 = -4.375
 
-The breakaway actually occurs very close to the midpoint. Using K =
--s(s+1)(s+2)(s+6)/(s+3):\\
-dK/ds = 0 is solved numerically. At s = -0.446: K = 0.446 × 0.554 ×
-1.554 × 5.554 / 2.554 = 0.834.\\
+Using K = -s(s+1)(s+2)(s+6)/(s+3), the condition dK/ds = 0 has roots at
+s = -0.447, s = -1.630, and s = -3.96 ± j0.89. Only the first gives a
+positive K:\\
+At s = -0.447: K = 0.447 × 0.553 × 1.553 × 5.553 / 2.553 = 0.835.\\
 Breakaway point ≈ s = \textbf{-0.45}
 
-(d) Break-in between -3 and -6 by numerical evaluation: at s = -4.3, K =
-4.3 × 3.3 × 2.3 × 1.7 / 1.3 = 42.7.\\
-This is a local minimum of K. Break-in point ≈ s = \textbf{-4.3}
+(d) \textbf{There is no break-in point between -3 and -6}, because that
+segment is not on the K \textgreater{} 0 locus --- four poles and zeros
+lie to its right, an even count. Evaluating K there confirms it: at s =
+-4.3, K = -(-4.3)(-3.3)(-2.3)(1.7)/(-1.3) = \textbf{-42.7}, a negative
+value, so s = -4.3 belongs to the complementary (K \textless{} 0) root
+locus. The same is true of the other dK/ds roots found in part (c), s =
+-1.630 and s = -3.96 ± j0.89, all of which return K \textless{} 0.
+
+Of the four branches, one terminates on the finite zero at -3 (arriving
+along the {[}-2, -3{]} segment) and three go to infinity along the 60°,
+180° and 300° asymptotes.
 
 (e) Characteristic equation: s(s+1)(s+2)(s+6) + K(s+3) = 0.\\
 Expand: s⁴ + 9s³ + 20s² + 12s + Ks + 3K = s⁴ + 9s³ + 20s² + (12+K)s + 3K
@@ -9491,9 +9526,11 @@ At DC: G\textsubscript{c}(0) = 0.125/0.025 = 5. This provides the
 required 5× gain increase.
 
 At ω = ω\textsubscript{gc} = 1.25: the lag compensator magnitude ≈ 1
-(since both corners are far below crossover) and phase ≈
--arctan(1.25/0.125) + arctan(1.25/0.025) ≈ -84.3° + 88.9° = +4.6°. The
-net phase contribution is small, preserving the phase margin.
+(since both corners are far below crossover) and phase =
+arctan(1.25/0.125) - arctan(1.25/0.025) = 84.3° - 88.9° =
+\textbf{-4.6°}. A lag compensator always contributes negative phase ---
+that is what the name records --- so the sign must come out negative;
+the small magnitude, not the sign, is what preserves the phase margin.
 
 \subsection{Problem 4.8.7}\label{problem-4.8.7}
 
@@ -9533,8 +9570,16 @@ rad/s}.
 z = ω\textsubscript{m}√α = 6.1 × 0.557 = \textbf{3.40 rad/s}\\
 p = ω\textsubscript{m}/√α = 6.1/0.557 = \textbf{10.95 rad/s}
 
-Lead compensator: G\textsubscript{c}(s) = \textbf{(s + 3.40) / (s +
-10.95)}
+Written this way the compensator has a DC gain of z/p = 3.40/10.95 =
+0.310 = α, which would multiply K\textsubscript{v} by 0.310 and drop it
+from 20 to 6.2 --- failing the ramp-error specification that set K in
+part (a). The lead must be normalized to unity DC gain by folding in
+1/α:
+
+Lead compensator: G\textsubscript{c}(s) = \textbf{(1/0.310) × (s + 3.40)
+/ (s + 10.95) = 3.23(s + 3.40) / (s + 10.95)}\\
+DC gain = 3.23 × 3.40/10.95 = 1.00, so K\textsubscript{v} stays at 20
+and the ramp error stays at 0.05.
 
 \subsection{Problem 4.8.8}\label{problem-4.8.8}
 
@@ -9567,20 +9612,20 @@ Slopes:\\
 
 (c) High-frequency slope: \textbf{-40 dB/decade}
 
-(d) The asymptotic magnitude is -14 dB at ω = 1 and \emph{falls} at -20
-dB/dec, so it never rises toward 0 dB. Tracing the asymptotes:\\
-At ω = 1: -14 dB, decreasing at -20 dB/dec until ω = 2, where the zero
-flattens the slope.\\
-At ω = 2: \textbar G\textbar{} = 0.2/2 = 0.1 → -20 dB.\\
-But the zero starts at ω = 2, flattening to 0 dB/dec. So the magnitude
-stays at -20 dB until ω = 10.\\
-Then pole at ω = 10 resumes -20 dB/dec. The magnitude never reaches 0
-dB.
+(d) Trace the asymptote in both directions from ω = 1, not just upward.
+Above ω = 1 the magnitude falls --- -20 dB at ω = 2, flat until ω = 10,
+then falling again --- so it never returns to 0 dB from that side. Below
+ω = 1 it \emph{rises} at 20 dB/dec, because the free integrator
+dominates:
 
-Gain crossover: \textbf{does not cross 0 dB} (the system gain is too
-low). The maximum asymptotic magnitude is about -14 dB at ω = 1,
-decreasing from there. With additional gain of at least 14 dB (factor of
-5), gain crossover would occur.
+\textbar G\textbar{} ≈ 0.2/ω = 1 when ω = \textbf{0.2 rad/s}
+
+Gain crossover: \textbf{ω\textsubscript{gc} ≈ 0.2 rad/s}. The exact
+magnitude confirms it --- \textbar G(j0.2)\textbar{} = 1.000, so the
+asymptotic estimate is essentially exact here, the pole and zero both
+being a decade or more above crossover. A system with a free integrator
+always crosses 0 dB somewhere, since \textbar G\textbar{} → ∞ as ω → 0;
+the only question is where.
 
 \subsection{Problem 4.8.9}\label{problem-4.8.9}
 
@@ -9655,10 +9700,21 @@ Additional phase needed: 45° - 13.4° + 5° = 36.6°.\\
 z\textsubscript{lead} = 3√0.253 = \textbf{1.51 rad/s},
 p\textsubscript{lead} = 3/√0.253 = \textbf{5.97 rad/s}.
 
-Lead compensator: G\textsubscript{lead}(s) = \textbf{(s + 1.51) / (s +
-5.97)}\\
-Lag compensator: G\textsubscript{lag}(s) = \textbf{(s + 0.3) / (s +
-0.057)}
+Both sections must be normalized to unity DC gain, or the
+K\textsubscript{v} ≥ 50 requirement set in part (a) is undone. As bare
+pole-zero ratios the lead would contribute a DC gain of 1.51/5.97 =
+0.253, cutting K\textsubscript{v} from 50 to 12.6, while the lag would
+contribute 0.3/0.057 = 5.26 in the other direction. Neither is intended:
+the lag is there to attenuate at ω = 3, not to move DC.
+
+Lead compensator: G\textsubscript{lead}(s) = \textbf{(1/0.253) × (s +
+1.51) / (s + 5.97) = 3.95(s + 1.51) / (s + 5.97)}\\
+Lag compensator: G\textsubscript{lag}(s) = \textbf{(1/5.27) × (s + 0.3)
+/ (s + 0.057) = 0.19(s + 0.3) / (s + 0.057)}
+
+Each now has DC gain 1.00, so K\textsubscript{v} = 50 as required, while
+the lead still supplies its 36.6° of phase at ω = 3 and the lag still
+supplies its 14.44 dB of attenuation there.
 
 \section{4.9 State-Space
 Representation}\label{chapter-4-section-4.9-state-space-representation}
@@ -9935,8 +9991,6 @@ K = {[}34, 7{]}
 e\textsuperscript{-π(0.707)/√(1-0.5)} = 100 ×
 e\textsuperscript{-2.221/0.707} = 100 × e\textsuperscript{-3.142}
 
-Correcting: -πζ/√(1 - ζ²) = -π(0.707)/√(0.5) = -2.221/0.707 = -3.142
-
 \%OS = 100 × e⁻³·¹⁴² = 100 × 0.0432 = \textbf{4.3\%}
 
 \subsection{Problem 4.9.8}\label{problem-4.9.8}
@@ -10080,8 +10134,12 @@ A - BK = {[}0, 10; -2 - 2(1.5), -6 - 2(2){]} = {[}0, 10; -5, -10{]}
 
 A - LC = {[}0 - 34, 10; -2 - 57.6, -6{]} = {[}-34, 10; -59.6, -6{]}
 
-A\textsubscript{combined} = {[}{[}0, 10, 0, -20{]}; {[}-5, -10, 3, 4{]};
+A\textsubscript{combined} = {[}{[}0, 10, 0, 0{]}; {[}-5, -10, 3, 4{]};
 {[}0, 0, -34, 10{]}; {[}0, 0, -59.6, -6{]}{]}
+
+The upper-right block is BK, whose first row is {[}0, 0{]} because B =
+{[}0; 2{]} has a zero first entry --- every entry of BK's first row is 0
+× K\textsubscript{i}.
 
 Note: BK = {[}0; 2{]} × {[}1.5, 2{]} = {[}0, 0; 3, 4{]}
 
@@ -10621,36 +10679,47 @@ the cost target.
 
 \subsection{Problem 5.1.3}\label{problem-5.1.3}
 
-\textbf{Given:} A microcontroller uses a 16 MHz external crystal (HSE)
-with a PLL configured as follows: input divider M = 4, multiplication
-factor N = 192, output divider P = 4. The AHB prescaler is 1, the APB1
-prescaler is 2, and the APB2 prescaler is 1.
+\textbf{Given:} An STM32F4-class microcontroller uses a 16 MHz external
+crystal (HSE) with a PLL configured as follows: input divider M = 8,
+multiplication factor N = 168, output divider P = 2. The AHB prescaler
+is 1, the APB1 prescaler is 4, and the APB2 prescaler is 2. The device
+limits are: PLL input 1-2 MHz, VCO output 100-432 MHz, SYSCLK ≤ 168 MHz,
+APB1 ≤ 42 MHz, APB2 ≤ 84 MHz.
 
 \textbf{Find:} (a) The system clock (PLL output), (b) the AHB bus
-frequency, (c) the APB1 peripheral clock, (d) the APB1 timer clock, and
-(e) the APB2 peripheral clock.
+frequency, (c) the APB1 peripheral clock, (d) the APB1 timer clock, (e)
+the APB2 peripheral clock, and (f) whether every stage is within its
+limit.
 
 \textbf{Solution:}
 
 (a) f\textsubscript{PLL} = (HSE / M) × N / P. Working through the PLL
-stages: 16 / 4 = 4 MHz VCO input; 4 × 192 = 768 MHz VCO output; 768 / 4
-= \textbf{192 MHz system clock}
+stages: 16 / 8 = 2 MHz PLL input; 2 × 168 = 336 MHz VCO output; 336 / 2
+= \textbf{168 MHz system clock}
 
-(b) f\textsubscript{AHB} = f\textsubscript{PLL} / AHB prescaler = 192 /
-1 = \textbf{192 MHz}
+(b) f\textsubscript{AHB} = f\textsubscript{PLL} / AHB prescaler = 168 /
+1 = \textbf{168 MHz}
 
-(c) f\textsubscript{APB1} = f\textsubscript{AHB} / APB1 prescaler = 192
-/ 2 = \textbf{96 MHz}
+(c) f\textsubscript{APB1} = f\textsubscript{AHB} / APB1 prescaler = 168
+/ 4 = \textbf{42 MHz}
 
 (d) When the APB prescaler is not 1, the timer clock is doubled:\\
-f\textsubscript{APB1\_timer} = 2 × f\textsubscript{APB1} = 2 × 96 =
-\textbf{192 MHz}
+f\textsubscript{APB1\_timer} = 2 × f\textsubscript{APB1} = 2 × 42 =
+\textbf{84 MHz}
 
-(e) f\textsubscript{APB2} = f\textsubscript{AHB} / APB2 prescaler = 192
-/ 1 = \textbf{192 MHz}
+(e) f\textsubscript{APB2} = f\textsubscript{AHB} / APB2 prescaler = 168
+/ 2 = \textbf{84 MHz}, and since that prescaler is also not 1, the APB2
+timers run at 2 × 84 = \textbf{168 MHz}
 
-Since APB2 prescaler is 1, APB2 timers also run at 192 MHz (no doubling
-needed when prescaler = 1).
+(f) Checking each stage against the limits: PLL input 2 MHz (1-2 ✓), VCO
+336 MHz (100-432 ✓), SYSCLK 168 MHz (≤ 168 ✓), APB1 42 MHz (≤ 42 ✓),
+APB2 84 MHz (≤ 84 ✓). Every stage is at or inside its limit, and this is
+the same 168 MHz operating point reached in Example 5.1.3 from an 8 MHz
+crystal --- only M changes to suit the different HSE. Note that the
+divider values must be checked, not just the final SYSCLK: a combination
+such as M = 4, N = 192, P = 4 also lands on a plausible-looking number,
+but it implies a 4 MHz PLL input and a 768 MHz VCO, both outside the
+device's range, and a 192 MHz SYSCLK the part cannot run at all.
 
 \subsection{Problem 5.1.4}\label{problem-5.1.4}
 
@@ -10933,8 +11002,10 @@ timers.
 used to drive a common-anode RGB LED. Each LED color element has a
 forward voltage of 2.1 V (red), 3.0 V (green), and 3.0 V (blue), and the
 desired forward current for each is 8 mA. The GPIO pins drive low (sink
-current) to turn on each LED element, with the common anode connected to
-3.3 V through individual current-limiting resistors.
+current) to turn on each LED element. The common anode ties directly to
+3.3 V --- being a single shared node it cannot pass through per-colour
+resistors --- and each cathode reaches its GPIO pin through its own
+current-limiting resistor.
 
 \textbf{Find:} (a) The resistor value for each color. (b) Whether the
 GPIO pins can directly drive the LEDs. (c) The total power dissipated in
@@ -11312,8 +11383,8 @@ Total frame time = 58.0 + 140.0 + 6.0 = \textbf{204.0 μs}
 Effective data rate = 4,902 × 32 bytes = 156,863 bytes/s = \textbf{1.255
 Mbps}
 
-Compared to classical CAN (244 kbps effective from Example 5.4.4), CAN
-FD provides a \textbf{5.14x improvement} in data throughput by using a
+Compared to classical CAN (246 kbps effective from Example 5.4.4), CAN
+FD provides a \textbf{5.10x improvement} in data throughput by using a
 higher bit rate during the data phase and a larger payload.
 
 \subsection{Problem 5.4.5}\label{problem-5.4.5}
@@ -11411,9 +11482,11 @@ main program resumes.
 (a) The SPI ISR (priority 3) is preempted by the Timer interrupt
 (priority 0, highest of the three new interrupts). After Timer
 completes, UART (priority 1) runs next, then ADC (priority 2), then the
-remainder of SPI (already executing, 0 cycles remaining since it was
-preempted at an arbitrary point --- assume worst case: full SPI ISR
-re-runs after restoration).
+remainder of SPI. A preempted ISR is not restarted --- the core saves
+its context and later resumes it at the instruction where it was
+interrupted --- so the work left is whatever had not yet executed. The
+worst case is preemption at the first instruction, leaving all 40 cycles
+still to run, and that is the figure used below.
 
 Execution sequence:\\
 1. SPI ISR is interrupted (context save for preemption)\\
@@ -12025,11 +12098,17 @@ the flash write speed rather than the SWD link bandwidth.
 \subsection{Problem 5.8.2}\label{problem-5.8.2}
 
 \textbf{Given:} A custom bootloader for a medical device uses dual-bank
-(A/B) firmware slots. The MCU has 1 MB of flash organized as:\\
+(A/B) firmware slots. The MCU has 1 MB of flash in the STM32F4 sector
+layout --- four 16 KB sectors, one 64 KB sector, then 128 KB sectors ---
+organized as:\\
 - Bootloader: 64 KB (sectors 0-3, 16 KB each)\\
-- Configuration/keys: 16 KB (sector 4)\\
-- Slot A: 464 KB (sectors 5-11)\\
-- Slot B: 464 KB (sectors 12-18)
+- Configuration/keys: 64 KB (sector 4)\\
+- Slot A: 384 KB (sectors 5-7, 128 KB each)\\
+- Slot B: 384 KB (sectors 8-10, 128 KB each)\\
+- Reserved: 128 KB (sector 11)
+
+The map totals 64 + 64 + 384 + 384 + 128 = 1,024 KB, which is the whole
+of the flash (KB here is binary, 1 MB = 1,024 KB).
 
 The active firmware is 320 KB. Updates arrive over BLE (Bluetooth Low
 Energy) at an effective throughput of 20 KB/s. Flash erase for Slot B
@@ -12236,7 +12315,7 @@ Hexadecimal: \textbf{0xFAD}
 hexadecimal value 0xB7E3.
 
 \textbf{Find:} (a) The full binary representation. (b) The decimal
-value. (c) The value of bits {[}11:8{]} (upper nibble of the lower
+value. (c) The value of bits {[}11:8{]} (lower nibble of the upper
 byte). (d) The octal representation.
 
 \textbf{Solution:}
@@ -13155,9 +13234,13 @@ at stage 15:\\
 t\textsubscript{S15} = 15 × t\textsubscript{carry} +
 t\textsubscript{sum} = 15 × 5 + 7 = 75 + 7 = \textbf{82 ns}
 
-(c) Maximum frequency (limited by worst-case carry-out delay):\\
-f\textsubscript{max} = 1 / t\textsubscript{carry,total} = 1 / 80 ns =
-\textbf{12.5 MHz}
+(c) Maximum frequency. The limiting path is the one that has to settle
+before the next clock edge, and that is the MSB \emph{sum} output from
+part (b), not the final carry-out: the carry reaches the last stage in
+16 × 5 = 80 ns, but the sum bit it produces needs a further 7 ns of its
+own, and 15 × 5 + 7 = 82 ns is the longer of the two.\\
+f\textsubscript{max} = 1 / t\textsubscript{S15} = 1 / 82 ns =
+\textbf{12.2 MHz}
 
 (d) With 4-bit CLA blocks, the carry output of each block is available
 after one CLA delay. Four cascaded CLA blocks:\\
@@ -13458,30 +13541,23 @@ Bit 3: 1 + 1 + 0 = 0, C₄ = 1
 
 Result: C₄ = 1, Sum = \textbf{0111}
 
-(d) In two's complement subtraction, C\textsubscript{out} = 1 indicates
-no borrow (result is positive).\\
-The 4-bit result is 0111 = \textbf{7 decimal}.\\
-A - B = 12 - 5 = 7. \textbf{Confirmed.}
+(d) The adder produces one bit pattern; which status flag matters
+depends on how the operands are being read.
 
-Overflow check: C₃ XOR C₄ = 0 XOR 1 = 1? No --- C₃ = 0 (carry into bit
-3) and C₄ = 1 (carry out of bit 3). Overflow = C₃ XOR C₄ = 0 XOR 1 = 1.
-But this indicates signed overflow.
+\textbf{Unsigned.} C\textsubscript{out} = C₄ = 1 indicates no borrow, so
+the 4-bit result 0111 = \textbf{7 decimal} stands: A - B = 12 - 5 = 7.
+\textbf{Confirmed.}
 
-For unsigned subtraction: C\textsubscript{out} = 1 means no borrow. For
-signed: both operands are positive and the result (7) is positive and
-fits in 4 bits (range -8 to +7). Since the MSB of the result is 0, there
-is \textbf{no signed overflow}. The XOR check applies to the carries
-into and out of the MSB: C₃ (carry into bit 3) = 0, C₄ (carry out of bit
-3) = 1, so C₃ XOR C₄ = 1 would suggest overflow, but we must
-recalculate.
+\textbf{Signed.} The same patterns denote different numbers. In 4-bit
+two's complement A = 1100 is -4, not +12, and B = 0101 is +5, so the
+machine is computing -4 - 5 = -9, which falls outside the representable
+range {[}-8, +7{]}. The overflow flag reports exactly that: V = C₃ XOR
+C₄ = 0 XOR 1 = \textbf{1}.
 
-Rechecking carries: Bit 2 gives C₃ = 0 (correct). Bit 3: 1 + 1 + 0 = 10,
-C₄ = 1. Overflow = C₃ XOR C₄ = 0 XOR 1 = 1. However, the result 0111 =
-+7 is the correct answer for 12 - 5 in unsigned. The overflow flag is
-meaningful only for signed interpretation. In 4-bit signed, A = 1100 =
--4 (not +12), so signed A - B = -4 - 5 = -9, which overflows the range
-{[}-8, +7{]}. \textbf{Unsigned result is correct (7); signed
-interpretation would overflow.}
+The two readings do not conflict. The 12 in the problem statement is an
+unsigned value, and read that way the answer is right with no borrow;
+read as signed, the operands are not 12 and 5 at all, and the true
+result will not fit in four bits.
 
 \subsection{Problem 6.4.9}\label{problem-6.4.9}
 
@@ -13992,8 +14068,11 @@ Clock 4: shift in 1 → {[}1 1 0 1{]} = \textbf{1101}
 (b) After 4 clocks, parallel output = \textbf{1101}\\
 The first bit (1) is now in the LSB, and the fourth bit (1) is in the
 MSB.\\
-In decimal: 1101 = \textbf{13} (or interpreting as received LSB-first:
-the nibble is 1011 = 0xB = 11).
+In decimal: 1101 = 0xD = \textbf{13}. That is already the LSB-first
+interpretation: the first bit received (1) carries weight 2⁰, the second
+(0) weight 2¹, the third (1) weight 2², the fourth (1) weight 2³, giving
+1 + 0 + 4 + 8 = 13. The reversed reading 1011 = 0xB = 11 would apply
+only if the same bit sequence had been transmitted MSB-first.
 
 (c) Continuing with bits 5-8 (0, 0, 1, 0):\\
 Clock 5: shift in 0 → {[}0 1 1 0{]} = \textbf{0110}\\
@@ -31624,8 +31703,9 @@ smooth waveform of a resistive or motor load). The AFCI algorithm
 identifies the arc pattern and trips within \textbf{8-60 half-cycles}
 (67-500 ms at 60 Hz).
 
-Per 210.12(A), AFCI protection is required for all 125 V, 15 A and 20 A
-branch circuits in dwelling unit family rooms.
+Per 210.12(B), AFCI protection is required for all 125 V, 15 A and 20 A
+branch circuits in dwelling unit family rooms. (210.12(A) lists the
+permitted means of providing that protection.)
 
 \subsection{Problem 14.3.6}\label{problem-14.3.6}
 
@@ -32392,7 +32472,10 @@ From Chapter 9, Table 9: 8 AWG copper in PVC = 0.764 Ω/1000 ft
 V\textsubscript{drop} = 2 × 12 × 200 × (0.764 × 0.95 + 0.050 × 0.312) /
 1000 = 4,800 × 0.7414 / 1000 = \textbf{3.56 V} = 2.97\%.
 
-Upgrade to \textbf{8 AWG copper} for NEC compliance.
+Upgrade to \textbf{8 AWG copper} to meet the 3\% recommendation. The 3\%
+figure is an Informational Note, not an enforceable requirement --- 10
+AWG is Code-compliant here on ampacity grounds; it simply performs
+poorly.
 
 \subsection{Problem 14.7.2}\label{problem-14.7.2}
 
@@ -39952,7 +40035,8 @@ P\textsubscript{sens} = Q × i\textsubscript{n} / R = 6 × 124.6 × 10⁻⁹ /
 
 The high transimpedance (2 kΩ) significantly improves sensitivity
 compared to a 50 Ω load, which would give i\textsubscript{thermal} = 790
-nA and sensitivity of −22.0 dBm.
+nA and sensitivity of 6 × 790 × 10⁻⁹/0.95 = 4.99 μW = \textbf{−23.0
+dBm}.
 
 \subsection{Problem 18.4.6}\label{problem-18.4.6}
 
@@ -40264,16 +40348,20 @@ In dBm: P\textsubscript{ASE} = NF + G +
 P\textsubscript{ASE} = 5.5 + 25 + (−58.0) = \textbf{−27.5 dBm} per
 polarization
 
-For both polarizations: P\textsubscript{ASE,total} = −27.5 + 3 =
-\textbf{−24.5 dBm}
+No separate factor for the second polarization is added: the noise
+figure already carries the factor of 2 in P\textsubscript{ASE} =
+2n\textsubscript{sp}hν(G − 1)B\textsubscript{ref}, and adding 3 dB again
+would double-count it.
 
 (c) Output OSNR:\\
-OSNR = P\textsubscript{out} − P\textsubscript{ASE,total} = 5 − (−24.5) =
-\textbf{29.5 dB}
+OSNR = P\textsubscript{out} − P\textsubscript{ASE} = 5 − (−27.5) =
+\textbf{32.5 dB}\\
+This agrees with the compact form used in Example 18.5.3, OSNR = 58 +
+P\textsubscript{in} − NF = 58 − 20 − 5.5 = 32.5 dB.
 
 (d) With −30 dBm input:\\
 P\textsubscript{out} = −30 + 25 = −5 dBm\\
-OSNR = −5 − (−24.5) = \textbf{19.5 dB}
+OSNR = −5 − (−27.5) = \textbf{22.5 dB}
 
 A single EDFA provides moderate OSNR; the challenge arises from
 cascading many amplifiers where ASE noise accumulates.
@@ -40350,7 +40438,7 @@ modulation at 1550 nm. FEC overhead is 15\%.
 
 \textbf{Find:} (a) The bits per symbol per polarization, (b) the raw
 data rate, (c) the net data rate after FEC, and (d) the spectral
-efficiency for a 50 GHz channel spacing.
+efficiency on a 75 GHz channel grid.
 
 \textbf{Solution:}
 
@@ -40365,11 +40453,16 @@ R\textsubscript{net} = R\textsubscript{raw} / (1 + FEC overhead) = 256 /
 1.15 = \textbf{222.6 Gbps} (approximately 200G class)
 
 (d) Spectral efficiency:\\
-SE = R\textsubscript{net} / channel spacing = 222.6 / 50 = \textbf{4.45
+A 64 GBaud carrier needs at least 64 GHz even at the Nyquist limit, so
+it cannot be placed on a 50 GHz grid; 75 GHz is the standard slot for
+this symbol rate (400G ZR uses \textasciitilde60 GBaud in 75 GHz).\\
+SE = R\textsubscript{net} / channel spacing = 222.6 / 75 = \textbf{2.97
 b/s/Hz}
 
-This is close to the practical limit for QPSK with dual polarization
-(theoretical max = 4 b/s/Hz before FEC overhead).
+The ceiling for DP-QPSK is 4 b/s/Hz --- four bits per symbol at one
+symbol per hertz of Nyquist bandwidth --- and 2.97 sits below it, as it
+must. Any computed figure above 4 b/s/Hz for this format signals that
+the assumed channel spacing is narrower than the signal itself.
 
 \subsection{Problem 18.5.7}\label{problem-18.5.7}
 
@@ -40655,10 +40748,18 @@ d\textsubscript{Airy}²) = √(15² + 2.42²) = √(225 + 5.86) = √230.86 =
 \textbf{15.2 μm}
 
 The aberration dominates; the diffraction contribution is negligible at
-f/1.8. Stopping down to f/5.6 would increase d\textsubscript{Airy} to
-7.5 μm while reducing spherical aberration by roughly (1.8/5.6)³ ≈ 3.3×,
-potentially reducing d\textsubscript{aberr} to \textasciitilde4.5 μm and
-achieving a better-balanced design.
+f/1.8.
+
+Stopping down to f/5.6 reverses that. Spherical aberration scales as the
+cube of the aperture ratio, and (1.8/5.6)³ = 0.033 --- a \textbf{30×
+reduction}, not 3.3× --- so d\textsubscript{aberr} falls from 15 μm to
+15 × 0.033 = \textbf{0.50 μm}. The Airy diameter meanwhile grows in
+proportion to f/\#, to 2.44 × 550 nm × 5.6 = \textbf{7.5 μm}. The RSS
+combination is √(0.50² + 7.5²) = 7.5 μm, so the system has not merely
+become better balanced: it has crossed over to being
+\textbf{diffraction-limited}, with the aberration now the negligible
+term. The best balance lies at an intermediate aperture where the two
+contributions are comparable.
 
 \subsection{Problem 18.6.5}\label{problem-18.6.5}
 
@@ -40975,8 +41076,11 @@ Option B: i\textsubscript{eff} = (1 + 0.087/2)² − 1 = (1.0435)² − 1 =
 1.08889 − 1 = \textbf{8.89\%}
 
 \textbf{Option A has the lower effective annual rate} (8.84\%
-vs.~8.89\%), so it is the less expensive financing option despite having
-a lower nominal rate.
+vs.~8.89\%), so it is the less expensive financing option. Note that A
+also quotes the lower nominal rate (8.5\% vs.~8.7\%), so here the two
+rankings agree --- but that is a coincidence of these numbers, not a
+rule. Compounding frequency can reverse the order, which is why the
+comparison must always be made on effective rates.
 
 \subsection{Problem 19.1.6}\label{problem-19.1.6}
 
@@ -41015,8 +41119,7 @@ Option X: F = 1,000,000 × (1.07)¹⁰ = 1,000,000 × 1.9672 =
 
 Option Y: i\textsubscript{period} = 0.068/365 = 0.000186301; n = 365 ×
 10 = 3,650\\
-F = 1,000,000 × (1.000186301)³⁶⁵⁰ = 1,000,000 × e\textsuperscript{0.068
-× 10} ≈ 1,000,000 × (1 + 0.068/365)³⁶⁵⁰
+F = 1,000,000 × (1.000186301)³⁶⁵⁰
 
 Effective annual rate for Y: i\textsubscript{eff} = (1 + 0.068/365)³⁶⁵ −
 1 = 1.07036 − 1 = 7.036\%\\
@@ -41368,7 +41471,7 @@ P = A₁ × {[}1 − (1 + g)ⁿ(1 + i)⁻ⁿ{]} / (i − g)\\
 (1.05)²⁰ = 2.6533; (1.10)²⁰ = 6.7275
 
 = 120,000 × {[}1 − 2.6533/6.7275{]} / 0.05\\
-= 120,000 × {[}1 − 0.3943{]} / 0.05\\
+= 120,000 × {[}1 − 0.3944{]} / 0.05\\
 = 120,000 × 0.6057 / 0.05\\
 = 120,000 × 12.114 = \textbf{\$1,453,680}
 
@@ -41967,8 +42070,11 @@ rate is 10\%.
 
 \textbf{Solution:}
 
-Sign changes: −, +, +, +, +, +, −, +, +, +, +, − → \textbf{3 sign
-changes} (need MIRR)
+Sign changes: −, +, +, +, +, +, −, +, +, +, +, − → the sequence reverses
+at year 1 (− to +), year 6 (+ to −), year 7 (− to +) and year 11 (+ to
+−), so there are \textbf{4 sign changes}. By Descartes' rule of signs
+the cash flow admits up to four positive real IRRs, which is precisely
+why MIRR is used instead.
 
 Future value of positive cash flows at 12\%, moved to year 11:\\
 FV₁₋₅ = 3 × (F/A, 12\%, 5) × (F/P, 12\%, 6)\\
@@ -42155,10 +42261,16 @@ B vs.~A: ΔB/ΔC = (480,000 − 300,000) / (340,960 − 214,350) = 180,000 /
 C vs.~B: ΔB/ΔC = (650,000 − 480,000) / (511,440 − 340,960) = 170,000 /
 170,480 = 0.997 \textless{} 1.0 → C not justified
 
-\textbf{Select Option B} --- the increment from B to C yields ΔB/ΔC =
-0.997 \textless{} 1.0, so the additional investment in Option C is not
-justified. Option D is also not justified since ΔB/ΔC = 200,000 /
-248,220 = 0.81 \textless{} 1.0.
+D vs.~B: once C is rejected it cannot serve as the defender --- the
+surviving alternative does. D must therefore be compared against B, not
+against C:\\
+ΔB/ΔC = (850,000 − 480,000) / (759,660 − 340,960) = 370,000 / 418,700 =
+0.88 \textless{} 1.0 → D not justified
+
+\textbf{Select Option B.} Note how close the C increment is: at 0.997 it
+fails by three parts in a thousand, so a small change in the O\&M
+estimates or the interest rate would flip it. An increment this marginal
+is worth reporting as such rather than presenting as a clean rejection.
 
 \section{19.8 Depreciation}\label{chapter-19-section-19.8-depreciation}
 
@@ -42217,7 +42329,8 @@ declining balance (DDB) depreciation with a 6-year life and a \$20,000
 salvage value.
 
 \textbf{Find:} The depreciation charge and book value for each year,
-switching to straight-line when it produces a larger deduction.
+stopping depreciation once the book value reaches the \$20,000 salvage
+value.
 
 \textbf{Solution:}
 
@@ -42479,7 +42592,8 @@ years. The equipment uses 7-year MACRS depreciation. The tax rate is
 25\% and the after-tax MARR is 10\%.
 
 \textbf{Find:} The after-tax cash flows for years 1 through 4 and year 8
-(year with no depreciation).
+(the final MACRS year, which under the 7-year half-year convention still
+carries a 4.46\% rate).
 
 \textbf{Solution:}
 
@@ -42852,7 +42966,7 @@ CR = (45,000 − 5,000) × 0.22961 + 5,000 × 0.10 = 40,000 × 0.22961 + 500
 EUAC\textsubscript{chall} = 9,684 + 4,000 = \$13,684/year
 
 \textbf{Option 1 --- Replace now} (challenger serves 6 years):\\
-PW = 13,684 × (P/A, 10\%, 6) = 13,684 × 4.3553 = \textbf{\$59,587}
+PW = 13,684 × (P/A, 10\%, 6) = 13,684 × 4.3553 = \textbf{\$59,598}
 
 \textbf{Option 2 --- Replace at year 2} (defender 2 years, challenger 4
 years):\\
@@ -42885,7 +42999,7 @@ PW of challenger = 20,584 × 2.4869 × 0.7513 = \$38,468
 
 PW₃ = 43,251 + 38,468 = \textbf{\$81,719}
 
-\textbf{Replace now (Option 1)} with PW = \$59,587 is the most
+\textbf{Replace now (Option 1)} with PW = \$59,598 is the most
 economical choice.
 
 \subsection{Problem 19.10.6}\label{problem-19.10.6}
@@ -42940,12 +43054,20 @@ maintenance using the constant-dollar approach.
 (0.11 − 0.035) / (1.035) = 0.075 / 1.035 = \textbf{7.246\%}
 
 (b) Constant-dollar approach:\\
-(P/A, 7.246\%, 10) = {[}(1.07246)¹⁰ − 1{]} / {[}0.07246 ×
-(1.07246)¹⁰{]}\\
-(1.07246)¹⁰ = 2.0108\\
-= {[}2.0108 − 1{]} / {[}0.07246 × 2.0108{]} = 1.0108 / 0.14572 = 6.936
+Carry the unrounded real rate, i\textsubscript{r} = 0.075/1.035 =
+7.24638\%, or the compounding will drift:\\
+(P/A, 7.24638\%, 10) = {[}(1.0724638)¹⁰ − 1{]} / {[}0.0724638 ×
+(1.0724638)¹⁰{]}\\
+(1.0724638)¹⁰ = 2.01292\\
+= {[}2.01292 − 1{]} / {[}0.0724638 × 2.01292{]} = 1.01292 / 0.14587 =
+6.9443
 
-PW = 80,000 × 6.936 = \textbf{\$554,880}
+PW = 80,000 × 6.9443 = \textbf{\$555,543}
+
+As a check, discounting the inflating actual-dollar amounts at the
+market rate gives the same figure: Σ
+80,000(1.035)\textsuperscript{t}/(1.11)\textsuperscript{t} for t =
+1\ldots10 = \$555,543.
 
 \subsection{Problem 19.11.2}\label{problem-19.11.2}
 
@@ -42961,12 +43083,13 @@ and (b) the actual-dollar approach. Verify both methods agree.
 (a) Constant-dollar approach:\\
 i\textsubscript{r} = (0.09 − 0.025) / (1.025) = 0.065 / 1.025 = 6.341\%
 
-(P/A, 6.341\%, 15) = {[}(1.06341)¹⁵ − 1{]} / {[}0.06341 ×
-(1.06341)¹⁵{]}\\
-(1.06341)¹⁵ = 2.5050\\
-= {[}2.5050 − 1{]} / {[}0.06341 × 2.5050{]} = 1.5050 / 0.15884 = 9.475
+(P/A, 6.34146\%, 15) = {[}(1.0634146)¹⁵ − 1{]} / {[}0.0634146 ×
+(1.0634146)¹⁵{]}\\
+(1.0634146)¹⁵ = 2.51501\\
+= {[}2.51501 − 1{]} / {[}0.0634146 × 2.51501{]} = 1.51501 / 0.15948 =
+9.4992
 
-PW\textsubscript{constant} = 200,000 × 9.475 = \textbf{\$1,895,000}
+PW\textsubscript{constant} = 200,000 × 9.4992 = \textbf{\$1,899,836}
 
 (b) Actual-dollar approach:\\
 Each year's cost in actual dollars: A\textsubscript{t} = 200,000 ×
@@ -42976,15 +43099,19 @@ PW = Σ {[}200,000 × (1.025)\textsuperscript{t} /
 = 200,000 × Σ {[}(1.025/1.09)\textsuperscript{t}{]} = 200,000 × Σ
 {[}(0.94037)\textsuperscript{t}{]}
 
-Geometric series: S = 0.94037 × {[}1 − (0.94037)¹⁵{]} / {[}1 −
-0.94037{]}\\
-(0.94037)¹⁵ = 0.3993\\
-= 0.94037 × {[}1 − 0.3993{]} / 0.05963\\
-= 0.94037 × 0.6007 / 0.05963 = 0.94037 × 10.074 = 9.475
+Geometric series: S = 0.940367 × {[}1 − (0.940367)¹⁵{]} / {[}1 −
+0.940367{]}\\
+(0.940367)¹⁵ = 0.39761\\
+= 0.940367 × {[}1 − 0.39761{]} / 0.059633\\
+= 0.940367 × 0.60239 / 0.059633 = 0.940367 × 10.1017 = 9.4992
 
-PW\textsubscript{actual} = 200,000 × 9.475 = \textbf{\$1,895,000} ✓
+PW\textsubscript{actual} = 200,000 × 9.4992 = \textbf{\$1,899,836} ✓
 
-Both methods yield the same present worth, confirming consistency.
+Both methods yield the same present worth to the dollar, confirming
+consistency. That exact agreement is the point of the check, and it only
+appears if the real rate is carried unrounded --- truncating
+i\textsubscript{r} to 6.341\% shifts the constant-dollar answer by about
+\$57 and destroys the match.
 
 \subsection{Problem 19.11.3}\label{problem-19.11.3}
 
@@ -43265,8 +43392,8 @@ budget.
 
 \textbf{Solution:}
 
-PI ranking: 5 (0.424), 1 (0.522), 2 (0.459), 4 (0.404), 3 (0.311)\\
-Reranked: 1 (0.522), 2 (0.459), 5 (0.424), 4 (0.404), 3 (0.311)
+PI ranking (descending): 1 (0.522), 2 (0.459), 5 (0.424), 4 (0.404), 3
+(0.311)
 
 By PI: 1 (\$2M) + 2 (\$3.5M) = \$5.5M (NPV \$2,651,000); remaining
 \$2.5M → 3 (\$1.5M) fits → total \$7M, NPV \$3,117,000; remaining \$1M

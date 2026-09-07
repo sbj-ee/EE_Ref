@@ -42,11 +42,11 @@ bleed — see below.
 
 ## Figures
 
-All 98 figures are regenerated at 300 dpi (`scripts/generate_images.py` and
-`scripts/generate_appendix_g_figures.py`). Placed at the 4.25 in text measure,
+All figures are regenerated at 300 dpi (`scripts/generate_images.py`). Placed
+at the 4.25 in text measure,
 the *lowest* effective resolution is now **445 dpi** and the median is 699 dpi,
 comfortably clear of the 300 dpi floor commercial printing expects. Previously
-the generators wrote 150 dpi and 93 of the 98 figures fell below 300 dpi at the
+the generator wrote 150 dpi and all but a handful of the figures fell below 300 dpi at the
 placed size, the worst at 147 dpi.
 
 Figures remain **RGB**. If the printer requires CMYK separations, that is a

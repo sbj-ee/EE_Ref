@@ -467,10 +467,6 @@ if phasors, decibels, or matrix methods are unfamiliar.
 \item
   \textbf{F --- Matrix Operations.} Matrix arithmetic, determinants,
   inverses, and linear system solutions for circuit and control work.
-\item
-  \textbf{G --- TCLab Control Lab.} A hardware exercise sequence: plant
-  identification, IMC tuning, and measured closed-loop results on a
-  physical thermal plant.
 \end{itemize}
 
 \chapter*{List of Figures}\label{list-of-figures}
@@ -553,7 +549,7 @@ Engineering}\label{chapter-2-communications-engineering}
 \item
   \hyperlink{fig-6-2}{Figure 6.2: Logic Gate Truth Tables}
 \item
-  \hyperlink{fig-6-5-3}{Figure 6.5.3: 3-Bit Binary Counter Timing Diagram}
+  \hyperlink{fig-6-3}{Figure 6.3: 3-Bit Binary Counter Timing Diagram}
 \end{itemize}
 
 \section{Chapter 7: Circuit Analysis}\label{chapter-7-circuit-analysis}
@@ -808,17 +804,6 @@ atan2}\label{appendix-b-arctangent-and-atan2}
   \hyperlink{fig-c-3-1}{Figure C.3.1: Fiber Optic Link Budget}
 \item
   \hyperlink{fig-c-4-1}{Figure C.4.1: Op-Amp Bode Plot}
-\end{itemize}
-
-\section{Appendix G: TCLab Control
-Lab}\label{appendix-g-tclab-control-lab}
-
-\begin{itemize}
-\tightlist
-\item
-  \hyperlink{fig-g-4-1}{Figure G.4.1: TCLab Single Setpoint Step Response — 50 °C, IMC-Tuned PID}
-\item
-  \hyperlink{fig-g-4-2}{Figure G.4.2: TCLab Multi-Setpoint Schedule — 50 → 35 → 40 °C}
 \end{itemize}
 
 \hypertarget{chapter-1}{}
@@ -7590,11 +7575,6 @@ decreasing, providing a braking effect that reduces overshoot. The
 integral term steadily increases (2.5 → 4.25 → 5.25) to eliminate
 steady-state error.
 
-The concepts in this chapter are demonstrated on real hardware in
-Appendix G (TCLab Control Lab), which documents a complete plant
-identification, IMC tuning, and measured closed-loop response on a
-dual-heater thermal plant.
-
 \end{examplebox}
 
 \hypertarget{chapter-5}{}
@@ -8514,7 +8494,7 @@ reduced to 5 seconds.
 t\textsubscript{active} + I\textsubscript{sleep} ×
 t\textsubscript{sleep}) / T\textsubscript{total}\\
 = (15 mA × 50 ms + 0.020 mA × 59,950 ms) / 60,000 ms\\
-= (0.75 + 1.199) / 60,000 = 1.949 mA·ms / 60,000 ms = \textbf{0.03248 mA
+= (750 + 1,199) / 60,000 = 1,949 mA·ms / 60,000 ms = \textbf{0.03248 mA
 = 32.5 μA}
 
 (b) Battery life: t = C / I\textsubscript{avg} = 1000 mAh / 0.03248 mA =
@@ -9531,8 +9511,13 @@ ensuring clean transitions and predictable timing, while asynchronous
 stage, introducing cumulative propagation delay. Counters are used in
 frequency division, event counting, timing generation, and as the basis
 for address generators and program counters in processors. Modulo-N
-counters reset to zero after reaching N-1, enabling division of a clock
-frequency by any integer value.
+counters return to zero after reaching N-1, enabling division of a clock
+frequency by any integer value. Two implementations are common. A
+\emph{synchronous} modulo-N counter decodes N-1 and loads zero on the
+next clock edge, so no state outside 0\ldots N-1 ever appears. An
+\emph{asynchronous} one decodes N itself and drives the clear input
+immediately, which is simpler but means the count N appears briefly as a
+glitch before the reset takes effect.
 
 \begin{examplebox}
 
@@ -9550,8 +9535,12 @@ time Q₂ and Q₁ are both high after reset).\\
 More precisely, detect count 110: RESET = Q₂ AND Q₁ AND (NOT Q₀).
 However, Q₀ is 0 at count 6, so RESET = Q₂ AND Q₁ suffices (count 6 =
 110 is the first occurrence of Q₂=Q₁=1).\\
-The counter cycles: 000, 001, 010, 011, 100, 101, 110 (reset) → 000.\\
-Count sequence is 0-5 (6 states).\\
+The counter cycles: 000, 001, 010, 011, 100, 101, then momentarily 110
+before the asynchronous clear returns it to 000.\\
+The counted sequence is therefore 0-5, six states. The 110 is not a
+sixth counted state but a glitch a few gate delays wide --- long enough
+to drive the reset, too short to be useful as an output --- which is the
+characteristic cost of the asynchronous approach described in §6.5.3.\\
 Output frequency = 12 MHz / 6 = 2 MHz, taken from the most significant
 bit (Q₂) or the reset signal.
 
@@ -9559,13 +9548,13 @@ bit (Q₂) or the reset signal.
 
 \begin{figure}[H]
 
-\hypertarget{fig-6-5-3}{}\label{fig-6-5-3}
+\hypertarget{fig-6-3}{}\label{fig-6-3}
 
 \centering
 
 \includegraphics[width=\linewidth,keepaspectratio]{images/ch06_counter_timing.png}
 
-\caption{Figure 6.5.3: 3-Bit Binary Counter Timing Diagram}
+\caption{Figure 6.3: 3-Bit Binary Counter Timing Diagram}
 
 \end{figure}
 
@@ -9653,8 +9642,10 @@ Q₁\textsuperscript{+} = Q₀ · X' (S1→S2 and S3→S2) + Q₁ · Q₀' · X
 (S2→S3).\\
 After K-map simplification: Q₁\textsuperscript{+} = Q₀ · X' + Q₁ · Q₀' ·
 X, Q₀\textsuperscript{+} = X.\\
-Output: Z = Q₁ · Q₀ (high only in state S3 = 11). This requires 2
-flip-flops, 2 AND gates, 1 OR gate, and 1 inverter.
+Output: Z = Q₁ · Q₀ (high only in state S3 = 11). Counting the hardware:
+2 flip-flops, three AND gates (two 2-input, for Q₀ · X' and for Z = Q₁ ·
+Q₀, plus one 3-input for Q₁ · Q₀' · X), one OR gate to combine the two
+Q₁\textsuperscript{+} terms, and two inverters to form X' and Q₀'.
 
 \end{examplebox}
 
@@ -24919,8 +24910,10 @@ rating.
 Required conductor ampacity: 1.25 × 185 = 231.25 A.\\
 From Table 310.16 at 75°C: 4/0 AWG = 230 A (insufficient, 230
 \textless{} 231.25). 250 kcmil = 255 A (sufficient).\\
-Per 240.4(B), the overcurrent device may be the next standard size above
-the conductor ampacity: the next standard size above 255 A is 300 A.\\
+Per 240.4(B) the overcurrent device may be taken to the next standard
+size above the conductor ampacity, which would be 300 A --- but that
+allowance is permissive, not required, and a smaller standard device
+that still carries the load is the better choice.\\
 However, the overcurrent device must also be rated at least 231.25 A for
 the continuous load rule.\\
 Select 250 kcmil conductors with a 250 A standard breaker, since 250 ≥
@@ -25115,8 +25108,9 @@ The AFCI breaker detects the characteristic irregular current waveform
 of the series arc (random variations in arc impedance as the gap ionizes
 and deionizes each half-cycle) and trips within 8--60 half-cycles
 (67--500 ms at 60 Hz).\\
-Per 210.12(A), living room outlets in a dwelling unit require AFCI
-protection.\\
+Per 210.12(B), living room outlets in a dwelling unit require AFCI
+protection. (In the 2023 NEC, 210.12(A) lists the six permitted means of
+AFCI protection; 210.12(B) is the dwelling-unit requirement.)\\
 The NM-B wiring method is permitted and does not affect the AFCI
 requirement.
 
@@ -25325,9 +25319,12 @@ that outlet and downstream outlets), and \textbf{portable devices}
 (cord-connected for temporary use on construction sites per 590.6).
 \textbf{Nuisance tripping} --- false trips caused by accumulated leakage
 current from long cable runs, VFDs, EMI filters, or multiple appliances
---- is a common field problem; NEC 210.8 now includes a provision
-(effective 2023) allowing self-test GFCI devices that automatically
-verify functionality. The total normal leakage current on a
+--- is a common field problem. Self-test capability, in which the device
+periodically verifies its own sensing circuitry, comes from UL 943
+rather than from the NEC; it has been required of Class A GFCIs since
+the 2015 edition of that standard. The substantive 2023 NEC changes to
+210.8 are the ones noted above: the extension to 250 V and to 50 A, and
+the added locations. The total normal leakage current on a
 GFCI-protected circuit should be kept below 1 mA to provide adequate
 margin against the 4--6 mA trip threshold.
 
@@ -25541,15 +25538,19 @@ the reflected voltage waves that can reach 2× the DC bus voltage
 branch circuit rules (Table 430.52), while the VFD itself provides
 electronic overload protection for the motor, eliminating the need for a
 separate thermal overload relay if the VFD is listed for that function
-per 430.130(A). \textbf{Grounding} is critical: 430.130(B) requires the
-equipment grounding conductor to be a wire-type EGC (conduit alone is
-insufficient for VFD circuits due to high-frequency common-mode currents
-that flow through stray capacitance) sized per Table 250.122 or larger.
-Many VFD manufacturers recommend a symmetrical EGC arrangement (three
-ground conductors in the motor cable) to provide a low-impedance path
-for common-mode current and reduce bearing damage from shaft voltage
-discharge. The VFD input circuit must include appropriate harmonic
-filtering or must be sized for the harmonic current content per
+per 430.130(A). \textbf{Grounding} is critical, though the Code is less
+prescriptive here than practice: 250.118 still recognizes RMC, IMC and
+EMT as equipment grounding conductors, and 430.130 governs overcurrent
+protection for the drive input rather than grounding. A wire-type EGC
+sized per Table 250.122 or larger is nevertheless the standard
+specification for VFD circuits, because high-frequency common-mode
+current flowing through stray capacitance returns poorly through conduit
+joints; treat it as manufacturer and EMC practice, not as a Code
+mandate. Many VFD manufacturers recommend a symmetrical EGC arrangement
+(three ground conductors in the motor cable) to provide a low-impedance
+path for common-mode current and reduce bearing damage from shaft
+voltage discharge. The VFD input circuit must include appropriate
+harmonic filtering or must be sized for the harmonic current content per
 310.15(E) when the neutral carries triplen harmonics.
 
 \begin{examplebox}
@@ -25577,7 +25578,9 @@ ns) / 2 = 10 m ≈ 33 feet. Since 200 feet \textgreater\textgreater{} 33
 feet, VFD-rated cable or an output reactor/dv/dt filter is recommended
 to limit motor terminal voltage to \textless{} 1000 V peak.\\
 \textbf{Equipment grounding conductor}: Per Table 250.122 for a 175 A
-OCPD: 6 AWG copper, wire-type per 430.130(B).
+OCPD: 6 AWG copper. A wire-type EGC is specified here as VFD
+manufacturer and EMC practice; 250.118 would also accept the raceway
+itself.
 
 \end{examplebox}
 
@@ -25838,11 +25841,13 @@ current from triplen harmonics can be calculated as I\textsubscript{N} =
 per phase. In severe cases, the neutral current can exceed the phase
 current --- a building with a 40\% third harmonic on each phase will
 have a neutral current of 3 × 40\% = 120\% of the phase fundamental
-current. NEC Section 220.61 normally permits reducing the neutral
-conductor for feeders based on the unbalanced load, but Section
-310.15(E) requires counting the neutral as a current-carrying conductor
-when it carries predominantly harmonic currents, applying the conduit
-fill derating factors. For this reason, many engineers specify a
+current. NEC Section 220.61 sizes the feeder neutral from the maximum
+unbalanced load rather than from the phase load --- it grants no blanket
+percentage reduction --- and 220.61(C) expressly forbids reducing it for
+the portion of the load consisting of nonlinear equipment. Section
+310.15(E) then requires counting the neutral as a current-carrying
+conductor when it carries predominantly harmonic currents, applying the
+conduit fill derating factors. For this reason, many engineers specify a
 full-sized or double-sized neutral for transformer secondaries serving
 nonlinear loads, and some separately derived systems use an oversized
 neutral bus or a separate neutral for each phase to prevent neutral
@@ -25866,9 +25871,9 @@ Total neutral current (dominated by third harmonic): I\textsubscript{N}
 ≈ 534.6 A.\\
 This is 534.6/540 = 99\% of the phase current --- the neutral carries
 nearly as much current as the phase conductors.\\
-A standard neutral sized at 60\% of phase ampacity (as permitted by
-220.61 for balanced loads) would be rated for only 0.60 × 540 = 324 A,
-resulting in dangerous overheating.\\
+A neutral sized at 60\% of phase ampacity --- a common rule of thumb for
+linear loads, not a 220.61 allowance --- would be rated for only 0.60 ×
+540 = 324 A, resulting in dangerous overheating.\\
 The neutral must be sized for at least 534.6 A.\\
 From Table 310.16 at 75°C: two 350 kcmil copper in parallel (2 × 310 A =
 620 A) or one 700 kcmil copper (460 A --- insufficient) or one 1000
@@ -25979,9 +25984,10 @@ feet, R and X are the conductor resistance and reactance per 1000 feet
 from NEC Chapter 9, Table 9, and θ is the power factor angle. The factor
 of 2 accounts for the current flowing through both the line and return
 conductors. While the NEC does not mandate a maximum voltage drop,
-Informational Notes in Sections 210.19(A) and 215.2(A)(4) recommend that
-branch circuit voltage drop not exceed 3\% and that the total voltage
-drop (feeder plus branch circuit) not exceed 5\%.
+Informational Notes in Sections 210.19(A) and 215.2(A)(1), Informational
+Note No.~2, recommend that branch circuit voltage drop not exceed 3\%
+and that the total voltage drop (feeder plus branch circuit) not exceed
+5\%.
 
 \begin{examplebox}
 
@@ -31895,8 +31901,12 @@ Magnification: m = -d\textsubscript{i}/d\textsubscript{o} = -66.7/200 =
 The negative magnification indicates the image is inverted, and
 \textbar m\textbar{} = 0.333 means the image is one-third the size of
 the object.\\
-This is the typical configuration for a camera lens imaging a distant
-scene.
+Note what this configuration is not: at d\textsubscript{o} = 4f the
+object is close, and the image lands well outside the focal plane. A
+camera imaging a distant scene has d\textsubscript{o} ≫ f, which drives
+d\textsubscript{i} → f and m → 0 --- the image forms essentially at the
+focal plane and is far smaller than the object. The case worked here is
+closer to a copy or macro setup.
 
 \end{examplebox}
 
@@ -31938,11 +31948,12 @@ Magnification: m = -d\textsubscript{i}/d\textsubscript{o} = -60/30 =
 The image is inverted (negative m) and twice the size of the object
 (\textbar m\textbar{} = 2).\\
 The object is between f and 2f from the mirror, producing a magnified
-real image beyond 2f. This configuration is used in dental examination
-mirrors and projectors where a real, enlarged image is needed. Shaving
-and makeup mirrors instead require the object inside the focal length
-(d\textsubscript{o} \textless{} f), which produces a virtual, upright,
-magnified image.
+real image beyond 2f. This configuration is used in projectors and
+similar systems where a real, enlarged image must be cast onto a
+surface. Mirrors meant to be \emph{looked into} --- shaving, makeup and
+dental examination mirrors alike --- work the other way, with the object
+inside the focal length (d\textsubscript{o} \textless{} f), which
+produces the virtual, upright, magnified image the viewer needs.
 
 \end{examplebox}
 
@@ -32361,10 +32372,13 @@ W/m²)) = √(0.4 / (π × 2.25 × 10⁻⁶ × 25)) = √(0.4 / (1.767 × 10⁻�
 (MPE = 2.5 mW/cm² = 25 W/m² in SI units.)\\
 The laser beam remains hazardous to the naked eye for approximately 48
 meters.\\
-Protective eyewear rated OD ≥ 2 at 532 nm is typically required for
-Class 3B green lasers within the NOHD; the exact OD depends on working
-distance and actual beam irradiance at that point (OD =
-log₁₀(I\textsubscript{beam}/MPE)).
+Eyewear is specified from the irradiance actually present, OD =
+log₁₀(I\textsubscript{beam}/MPE), and the worst case is at the aperture
+rather than at the NOHD. With a 1 mm beam there, A = π(0.5 mm)² = 7.85 ×
+10⁻⁷ m² and I = 0.1/7.85 × 10⁻⁷ = 1.27 × 10⁵ W/m², giving OD =
+log₁₀(1.27 × 10⁵/25) = \textbf{3.7}. Eyewear must therefore be rated OD
+4 at 532 nm --- the next standard step --- not the OD 2 that would
+suffice only well out toward the NOHD.
 
 \end{examplebox}
 
@@ -32688,9 +32702,14 @@ V number: V = πd × NA / λ = π × 9 × 10⁻⁶ × 0.1246 / (1550 × 10⁻⁹
 3.523 × 10⁻⁶ / (1.55 × 10⁻⁶) = 2.273.\\
 Since V = 2.273 \textless{} 2.405, the fiber is single-mode at 1550
 nm.\\
-At 1310 nm, V = 2.273 × (1550/1310) = 2.690 \textgreater{} 2.405, so the
-fiber would support two modes at 1310 nm (though in practice it is
-designed to be single-mode at both telecom windows).
+At 1310 nm, V = 2.273 × (1550/1310) = 2.690 \textgreater{} 2.405, so
+this fiber supports two modes at 1310 nm. The dividing line is the
+cutoff wavelength, λ\textsubscript{c} = πd × NA/2.405 = π × 9 × 10⁻⁶ ×
+0.1246/2.405 = \textbf{1465 nm}: single-mode above it, two-moded below.
+A 9 μm core at this NA is therefore a 1550 nm fiber, not a dual-window
+one. Standard G.652 fiber reaches a cutoff below 1260 nm --- clear of
+both telecom windows --- with a smaller core near 8 μm and a slightly
+lower NA.
 
 \end{examplebox}
 
@@ -32765,12 +32784,14 @@ cascaded amplifier spans.
 
 \begin{examplebox}
 
-\textbf{Example 18.5.3:} A DWDM system uses 80 channels at 100 GHz
-spacing in the C-band, each modulated at 100 Gbps using coherent
-DP-QPSK. The link has 10 amplifier spans of 80 km each, with EDFAs
-having 16 dB gain and 5 dB noise figure. Calculate the total capacity
-and the OSNR after 10 spans (assuming 0 dBm launch power per channel and
-0.2 dB/km fiber loss).
+\textbf{Example 18.5.3:} A DWDM system uses 80 channels at 50 GHz
+spacing in the C-band (80 × 50 GHz = 4 THz, which fits the roughly 4.4
+THz the C-band spans from 1530 to 1565 nm; the same 80 channels on a 100
+GHz grid would need 8 THz and would not), each modulated at 100 Gbps
+using coherent DP-QPSK. The link has 10 amplifier spans of 80 km each,
+with EDFAs having 16 dB gain and 5 dB noise figure. Calculate the total
+capacity and the OSNR after 10 spans (assuming 0 dBm launch power per
+channel and 0.2 dB/km fiber loss).
 
 \textbf{Solution:}\\
 Total capacity: 80 channels × 100 Gbps = 8 Tbps aggregate.\\
@@ -33234,11 +33255,11 @@ which option is more economical.
 1.08⁴){]}\\
 = 250,000 × {[}(1.3605 − 1) / (0.08 × 1.3605){]}\\
 = 250,000 × {[}0.3605 / 0.10884{]}\\
-= 250,000 × 3.3121 = \textbf{\$828,028}
+= 250,000 × 3.3121 = \textbf{\$828,025}
 
 (b) The lump-sum payment of \$800,000 is less than the present value of
-the installment plan (\$828,028), so the \textbf{lump-sum payment is
-more economical} by \$28,028.
+the installment plan (\$828,025), so the \textbf{lump-sum payment is
+more economical} by \$28,025.
 
 \end{examplebox}
 
@@ -33741,7 +33762,12 @@ Benefits are advantages to the public, disbenefits are disadvantages,
 and costs are expenditures by the government or utility. A modified B/C
 ratio moves operating and maintenance costs to the numerator:
 B/C\textsubscript{modified} = (Benefits − Disbenefits − O\&M) / Initial
-Investment. Both formulations give the same accept/reject decision.
+Investment. Both formulations give the same accept/reject decision
+\emph{against do-nothing}, since each is ≥ 1 exactly when benefits cover
+costs. They do not generally give the same ranking among mutually
+exclusive alternatives, because moving O\&M between numerator and
+denominator changes the increments --- which is why §19.7.2 ranks with
+incremental analysis rather than with the raw ratios.
 
 \begin{examplebox}
 
@@ -34377,10 +34403,11 @@ Select in order: B (\$1,200,000) + C (\$600,000) + A (\$800,000) + D
 (\$400,000) = \$3,000,000 ✓\\
 Total NPV = 210,000 + 95,000 + 120,000 + 55,000 = \textbf{\$480,000}
 
-Verify no better combination: B + E = \$2,700,000 (NPV \$400,000) + C or
-D fits → B + E + C = \$3,300,000 (exceeds budget) → B + E + D =
-\$3,100,000 (exceeds budget). So B + C + A + D at \textbf{\$480,000 NPV}
-is the optimal portfolio.
+Verify no better combination: B + E = \$2,700,000 (NPV \$400,000) leaves
+only \$300,000, and neither C (\$600,000) nor D (\$400,000) fits in it
+--- adding either exceeds the budget, at \$3,300,000 and \$3,100,000
+respectively. So B + C + A + D at \textbf{\$480,000 NPV} is the optimal
+portfolio.
 
 \end{examplebox}
 
@@ -37103,498 +37130,6 @@ system with ω₀ = √2 rad/s and ζ = 1/√2 ≈ 0.707.
 
 \end{examplebox}
 
-\hypertarget{appendix-g}{}
-
-\chapter{TCLab Control Lab}\label{tclab-control-lab}
-
-The TCLab (Temperature Control Lab) is an Arduino-based dual
-heater/temperature shield that makes Chapter 4 control theory physical.
-Each heater channel drives a small resistive element attached to an
-aluminum surface, and each sensor returns the surface temperature in°C
-over USB serial. The board's thermal dynamics are slow (time constant τ
-≈ 143 s) and well-behaved, making it an ideal plant for identifying a
-first-order plus dead-time (FOPDT) model and verifying a tuned PID
-controller against analytical predictions. This appendix documents the
-full identification-to-control workflow: step test, FOPDT fit, Internal
-Model Control (IMC) tuning, and measured closed-loop results including a
-multi-setpoint schedule.
-
-\section{G.1 Hardware and Software}\label{g.1-hardware-and-software}
-
-\subsection{G.1.1 TCLab Hardware}\label{g.1.1-tclab-hardware}
-
-The TCLab shield mounts on an Arduino Uno and exposes two independently
-controllable heater channels (Q1, Q2, each 0--100 \%) and two
-temperature sensors (T1, T2, each returning °C). Passive fin cooling is
-the only heat-removal mechanism --- there is no active fan --- so the
-board cools slowly after a heater reduction. The USB serial connection
-is used for both firmware commands and data streaming; only one process
-can hold the port at a time. The \texttt{tclab} Python package provides
-a context-manager API (\texttt{TCLab()} for the real board,
-\texttt{TCLabModel()} for the built-in simulator) that handles serial
-framing and unit conversion transparently.
-
-\begin{examplebox}
-
-\textbf{Example G.1.1:} Verify that the TCLab board is detected and
-streaming temperatures.
-
-\textbf{Solution:} With the board connected via USB, run:
-
-\begin{verbatim}
-uv run python3 -c "import tclab; lab = tclab.TCLab(); print(lab.T1, lab.T2); lab.close()"
-\end{verbatim}
-
-Expected output: two temperatures near ambient (e.g.,
-\texttt{24.2\ 23.8}). If the connection fails, check that no other
-process (Arduino IDE, another Python session) holds the serial port, and
-that the \texttt{tclab} package is installed
-(\texttt{uv\ pip\ install\ tclab}).
-
-\end{examplebox}
-
-\subsection{G.1.2 Software Setup}\label{g.1.2-software-setup}
-
-The \texttt{tclab\_control} package (public repo
-\texttt{sbj-ee/tclab\_control}) wraps the board with four command-line
-tools: \texttt{tclab-step} (open-loop step test), \texttt{tclab-fit}
-(FOPDT identification), \texttt{tclab-tune} (IMC/Ziegler-Nichols tuning
-comparison), and \texttt{tclab-run} (closed-loop PID on the real board
-or simulator). The project uses \texttt{uv} for dependency management
---- a virtual environment with no system-level \texttt{pip}.
-
-\begin{examplebox}
-
-\textbf{Example G.1.2:} Install the package and run a 60-second
-closed-loop test on the simulator.
-
-\textbf{Solution:}
-
-\begin{verbatim}
-git clone https://github.com/sbj-ee/tclab_control
-cd tclab_control
-uv venv
-uv pip install -e ".[hardware,dev]"
-uv run tclab-run --kp 2.7 --ki 0.018 --kd 25 --setpoint 50 --sim --seconds 60
-\end{verbatim}
-
-The simulator uses a built-in FOPDT model and requires no hardware.
-Substitute \texttt{-\/-hardware} (or omit \texttt{-\/-sim}) to connect
-to the real board.
-
-\end{examplebox}
-
-\section{G.2 Plant Identification}\label{g.2-plant-identification}
-
-\subsection{G.2.1 Open-Loop Step Test}\label{g.2.1-open-loop-step-test}
-
-A step test drives one heater from 0 \% to a fixed power level and
-records the temperature response at 1-sample-per-second. The test must
-start from thermal equilibrium (temperature stable at ambient) and run
-long enough to observe the full exponential rise --- typically 5--8 time
-constants (≥ 600 s for the TCLab). The heater step magnitude should be
-large enough to give a clear response above sensor noise (50--70 \% is
-typical) while keeping the final temperature safely below the hardware
-limit (≈ 65 °C for extended operation).
-
-\begin{examplebox}
-
-\textbf{Example G.2.1:} Run a 600-second step test on the real board at
-60 \% heater power.
-
-\textbf{Solution:}
-
-\begin{verbatim}
-uv run tclab-step --hardware --seconds 600 --power 60 --out data/step_hw.csv
-\end{verbatim}
-
-The output CSV has columns \texttt{t,\ T1,\ T2,\ Q1,\ Q2}. The
-temperature starts near ambient (≈ 24 °C), shows a dead-time delay of ≈
-20 s, then rises with a first-order exponential approach to a new steady
-state.
-
-\end{examplebox}
-
-\subsection{G.2.2 FOPDT Model
-Identification}\label{g.2.2-fopdt-model-identification}
-
-The FOPDT transfer function is G(s) = K e\textsuperscript{−θs} / (τs +
-1), where K (°C/\%) is the static gain, τ (s) is the time constant, and
-θ (s) is the dead time. The identification fits these three parameters
-to the step-test data using a graphical initialization followed by a
-nonlinear least-squares refinement. The static gain is K =
-ΔT\textsubscript{ss} / Δu; the initial guesses for τ and θ come from the
-28.3 \% and 63.2 \% response times on the tangent-line approximation.
-
-\begin{examplebox}
-
-\textbf{Example G.2.2:} Fit the FOPDT model to the measured step-test
-data.
-
-\textbf{Solution:}
-
-\begin{verbatim}
-uv run tclab-fit data/step_hw.csv --plot data/fit_hw.png
-\end{verbatim}
-
-Measured result (TCLab unit, 2026-05-31, 60 \% step from 24 °C
-ambient):\\
-- K = 0.694 °C/\% --- steady-state gain\\
-- τ = 142.9 s --- first-order time constant\\
-- θ = 19.9 s --- dead time (sensor and thermal lag)\\
-- RMSE (root mean square error) = 0.43 °C
-
-The steady-state output required to hold any setpoint
-T\textsubscript{sp} from ambient T₀ is u\textsubscript{ss} =
-(T\textsubscript{sp} − T₀) / K. For T\textsubscript{sp} = 50 °C and T₀ =
-23 °C, u\textsubscript{ss} = 27 / 0.694 = 38.9 \%.
-
-\end{examplebox}
-
-\section{G.3 Controller Design}\label{g.3-controller-design}
-
-\subsection{G.3.1 IMC Tuning from the FOPDT
-Model}\label{g.3.1-imc-tuning-from-the-fopdt-model}
-
-The Internal Model Control (IMC) λ-tuning rule converts the FOPDT
-parameters into PID gains with a single closed-loop speed knob λ (the
-desired closed-loop time constant). Larger λ gives slower, more robust
-response; smaller λ gives faster response at the cost of sensitivity to
-model mismatch. The formulas are:
-
-T\textsubscript{i} = τ + θ/2\\
-T\textsubscript{d} = τ(θ/2) / T\textsubscript{i}\\
-K\textsubscript{p} = (1/K) × T\textsubscript{i} / (λ + θ/2)
-
-where λ defaults to max(0.5τ, θ) as a conservative starting point. The
-discrete controller runs at 1 Hz with derivative-on-measurement
-(eliminating the setpoint kick) and clamping-based anti-windup (integral
-frozen when the heater output saturates at 0 or 100 \%).
-
-\begin{examplebox}
-
-\textbf{Example G.3.1:} Compute the IMC PID gains for the measured TCLab
-plant.
-
-\textbf{Solution:} Using K = 0.694, τ = 142.9 s, θ = 19.9 s, and λ =
-max(0.5 × 142.9, 19.9) = 71.45 s (quoted as 71.5 s elsewhere; the
-unrounded value is carried through here):
-
-T\textsubscript{i} = 142.9 + 9.95 = 152.85 s\\
-T\textsubscript{d} = 142.9 × 9.95 / 152.85 = 9.3 s\\
-K\textsubscript{p} = (1/0.694) × 152.85 / (71.45 + 9.95) = 1.441 ×
-152.85 / 81.40 = \textbf{2.71}
-
-Per-second gains: k\textsubscript{i} =
-K\textsubscript{p}/T\textsubscript{i} = 0.0177 s⁻¹, k\textsubscript{d} =
-K\textsubscript{p}T\textsubscript{d} = 25.2 s.
-
-\end{examplebox}
-
-\subsection{G.3.2 Ziegler-Nichols
-Comparison}\label{g.3.2-ziegler-nichols-comparison}
-
-The Ziegler-Nichols step-response method also derives PID gains from the
-FOPDT parameters but uses empirical correlations tuned for aggressive
-response: K\textsubscript{p} = 1.2τ/(KL), T\textsubscript{i} = 2L,
-T\textsubscript{d} = 0.5L, where L is the effective dead time from the
-tangent-line method (here L ≈ θ = 19.9 s). The result is a much higher
-proportional gain with a shorter integral time, producing faster rise at
-the cost of significant overshoot.
-
-\begin{examplebox}
-
-\textbf{Example G.3.2:} Compare IMC and Ziegler-Nichols gain sets for
-the TCLab plant.
-
-\textbf{Solution:} Computed from the fitted FOPDT:
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.0952}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1429}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1905}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1905}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1786}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2024}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Method
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-K\textsubscript{p}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-T\textsubscript{i} (s)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-T\textsubscript{d} (s)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Sim overshoot
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Sim settle ±2 \%
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-IMC (λ = 71.5 s) & 2.71 & 152.85 & 9.3 & 0.4 \% & 244 s \\
-Ziegler-Nichols & 12.42 & 39.8 & 9.95 & 5.1 \% & 163 s \\
-\end{longtable}
-}
-
-The Ziegler-Nichols entries follow directly from the formulas above:
-K\textsubscript{p} = 1.2 × 142.9/(0.694 × 19.9) = 12.42,
-T\textsubscript{i} = 2 × 19.9 = 39.8 s, T\textsubscript{d} = 0.5 × 19.9
-= 9.95 s. The simulated overshoot and settling figures come from the
-unrounded gains, so re-running with the values as printed will shift
-them slightly. Note also that the two overshoot columns are both
-percentages of the 27 °C step, not of the 50 °C setpoint --- 0.4 \% of
-the step is 0.11 °C.
-
-IMC is the preferred starting point for the TCLab because the plant
-model is accurate and low overshoot is valued over raw speed.
-Ziegler-Nichols is available via \texttt{-\/-tuning\ zn} for comparison.
-
-\end{examplebox}
-
-\section{G.4 Measured Results}\label{g.4-measured-results}
-
-\subsection{G.4.1 Single Setpoint Step
-Response}\label{g.4.1-single-setpoint-step-response}
-
-The first hardware run drives T1 from ambient to 50 °C using IMC gains
-with \texttt{tclab-run}. The preheat option (\texttt{-\/-preheat\ 80})
-runs the heater open-loop at 80 \% until the temperature reaches a
-threshold (default: setpoint − 5 °C), then hands off to the PID with the
-integral seeded at u\textsubscript{ss} so the heater output transitions
-smoothly without a sudden drop.
-
-\begin{examplebox}
-
-\textbf{Example G.4.1:} Run a single-setpoint closed-loop step to 50 °C
-on the real board.
-
-\textbf{Solution:}
-
-\begin{verbatim}
-uv run tclab-run --from-fit data/step_hw.csv --setpoint 50 --tuning imc \
-                 --out data/run_hw.csv --plot data/run_hw.png
-\end{verbatim}
-
-Measured result (run\_hw.csv, 600 samples, 873 s --- the run is 600 PID
-iterations from ambient with no preheat, at the measured 1.455 s per
-iteration):\\
-- Overshoot: +0.2 °C, which is 0.4 \% of the 50 °C setpoint\\
-- Steady-state error: −0.03 °C\\
-- Settling to ±2 \% of setpoint (49--51 °C): 587 s\\
-- Heater at steady state: ≈ 38 \% (matches u\textsubscript{ss} = 38.9 \%
-from the model)
-
-The real hardware settles approximately 2.4× slower than the FOPDT
-simulation predicts (587 s measured vs.~244 s simulated), reflecting
-additional thermal mass and heat losses not captured by the simple
-first-order model.
-
-Two cautions when reading that ratio. The measured 587 s is scored
-against ±2 \% of the \emph{setpoint} (49--51 °C), while the 244 s in
-Table G.3.2 is scored against ±2 \% of the 27 °C \emph{step} (±0.54 °C)
---- a tighter target, so re-scoring the simulation against the looser
-band would shorten it and widen the gap. The ratio therefore understates
-the model--hardware discrepancy rather than inflating it. Likewise the
-0.4 \% overshoot quoted here is of the setpoint, while the 0.4 \% in
-Table G.3.2 is of the step; the two agree by coincidence, not by
-construction.
-
-\end{examplebox}
-
-\begin{figure}[H]
-
-\hypertarget{fig-g-4-1}{}\label{fig-g-4-1}
-
-\centering
-
-\includegraphics[width=\linewidth,keepaspectratio]{images/G-4-1-tclab-step-response.png}
-
-\caption{Figure G.4.1: TCLab single setpoint step response, simulated from the identified FOPDT model and annotated with the measured values — temperature T1 and heater output Q1 vs. time. The simulation shown is the preheated variant: 80 \% open loop drives the plant from ambient to 46 °C, and the PID (with integral seeded at uss) takes over at the dotted boundary, illustrating the bumpless handoff of §G.5.1. The hardware run of Example G.4.1 used no preheat — it closes the loop at ambient — so the first ≈ 150 s of the plotted trajectory has no counterpart in the measured data; the annotated steady-state values do. The ±2 \% settling band (49–51 °C) is shaded; steady-state heater output of ≈ 38 \% matches the model prediction of uss = 38.9 \%.}
-
-\end{figure}
-
-\subsection{G.4.2 Multi-Setpoint
-Schedule}\label{g.4.2-multi-setpoint-schedule}
-
-The multi-setpoint schedule cycles T1 through a sequence of setpoints in
-a single run. The PID integral is not reset between segments to avoid
-output bumps at transitions; instead, whenever the new setpoint is above
-the current temperature, the integral is re-seeded at
-u\textsubscript{ss} for the new setpoint (bumpless transfer). The
-schedule below ramps to 50 °C, cools passively toward 35 °C, then heats
-back to 40 °C.
-
-\begin{examplebox}
-
-\textbf{Example G.4.2:} Run the multi-setpoint schedule on the real
-board.
-
-\textbf{Solution:}
-
-\begin{verbatim}
-uv run tclab-run --from-fit data/step_hw.csv \
-                 --schedule "50:300" "35:500" "40:500" \
-                 --out data/schedule_hw.csv --plot data/schedule_hw.png \
-                 --preheat 80:46
-\end{verbatim}
-
-Measured result (schedule\_hw.csv, 2026-06-02, 1365 samples, 1963 s
-total --- a mean of 1.438 s per iteration):
-
-A schedule entry is a count of PID iterations, not a number of seconds:
-\texttt{tclab-run} loops \texttt{for\ \_\ in\ range(seg\_seconds)}, so
-\texttt{"50:300"} is 300 control updates. The wall-clock duration of
-each segment is therefore the iteration count times the measured mean
-period, and the preheat accounts for the 65 samples not claimed by the
-three segments.
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1233}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1507}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1370}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0822}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1507}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2192}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1370}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Segment
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Iterations
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Duration
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Peak
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Overshoot
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-SS (last 60 s)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-SS error
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Preheat & 65 & ≈ 93 s & --- & --- & --- & --- \\
-50 °C & 300 & ≈ 431 s & 50.5 °C & +0.5 °C & 49.32 °C & −0.68 °C \\
-35 °C & 500 & ≈ 719 s & 36.0 °C (min) & --- & 36.18 °C & +1.18 °C \\
-40 °C & 500 & ≈ 719 s & 40.3 °C & +0.3 °C & 40.04 °C & +0.04 °C \\
-\end{longtable}
-}
-
-The 35 °C segment did not fully reach its setpoint in 500 iterations
-because passive cooling from 49.6 °C is limited by natural convection.
-Note that the FOPDT model is no guide here: with the heater at zero it
-predicts the plant reaching 35 °C in τ ln{[}(49.6 − 23)/(35 − 23){]} =
-142.9 × 0.796 ≈ 114 s. The hardware needs several times that, which is
-the same model--hardware gap quantified in §G.5.2 and the reason segment
-durations must come from observation. Extending to 650 iterations ---
-about 935 s of wall-clock time at this run's 1.438 s per iteration ---
-was enough in practice. The 50 °C and 40 °C segments track their
-setpoints within ±0.7 °C.
-
-\end{examplebox}
-
-\begin{figure}[H]
-
-\hypertarget{fig-g-4-2}{}\label{fig-g-4-2}
-
-\centering
-
-\includegraphics[width=\linewidth,keepaspectratio]{images/G-4-2-tclab-schedule.png}
-
-\caption{Figure G.4.2: TCLab multi-setpoint schedule, simulated from the identified FOPDT model and annotated with the measured values — T1 and Q1 across all three segments. The heater cuts to near zero at the 35 °C transition (passive cooling only), then stabilizes at ≈ 17 \% (uss for 35 °C). Bumpless transfer seeds the integral at each upward setpoint transition, eliminating the output dip described in §G.5.1.}
-
-\end{figure}
-
-\section{G.5 Implementation Notes}\label{g.5-implementation-notes}
-
-\subsection{G.5.1 Bumpless Transfer at Mode
-Transitions}\label{g.5.1-bumpless-transfer-at-mode-transitions}
-
-When control transitions from open-loop (preheat at 80 \%) to
-closed-loop PID, a cold integral (starting at zero) produces an initial
-output of only K\textsubscript{p} × e ≈ 2.71 × 5 = 13.6 \% --- a sudden
-drop from 80 \%. The delay buffer in the plant still carries 80 \%
-signals for the next ≈ 20 s (dead time), but the heater command has
-already collapsed, causing the temperature to dip ≈ 7 °C before the
-integrator catches up over T\textsubscript{i} = 153 s.
-
-The fix is to pre-seed the integral at handoff so the first PID output
-equals the plant steady-state requirement u\textsubscript{ss}, not the
-preheat power and not zero. Setting I₀ = u\textsubscript{ss} −
-K\textsubscript{p} × e gives an initial output exactly equal to
-u\textsubscript{ss} regardless of the error at the handoff point, and
-the integrator then winds naturally as the temperature approaches the
-setpoint. The same bumpless seed applies at segment boundaries where the
-setpoint rises above the current temperature --- without it, the
-integral wound down during a cooling segment produces a similarly low
-initial output when the next heating segment starts.
-
-\begin{examplebox}
-
-\textbf{Example G.5.1:} Compute the integral seed for a bumpless handoff
-at T = 46 °C targeting 50 °C.
-
-\textbf{Solution:} u\textsubscript{ss} = (50 − 23) / 0.694 = 38.9 \%,
-error e = 50 − 46 = 4 °C.\\
-Seed: I₀ = 38.9 − 2.71 × 4 = 38.9 − 10.8 = \textbf{28.1 \%}.\\
-First PID output = K\textsubscript{p} × e + I₀ = 10.8 + 28.1 =
-\textbf{38.9 \%}.\\
-Without the seed, the first output would be K\textsubscript{p} × e =
-10.8 \%. The plant needs 38.9 \% just to hold 50 °C, so at 10.8 \% the
-temperature stops rising and falls back --- it was climbing under the 80
-\% preheat at the moment of handoff --- and it keeps falling until the
-integrator has wound up over roughly T\textsubscript{i} = 153 s.
-
-\end{examplebox}
-
-\subsection{G.5.2 Model--Hardware
-Discrepancy}\label{g.5.2-modelhardware-discrepancy}
-
-The measured settling time (587 s to ±2 \%) is approximately 2.4× the
-FOPDT simulation prediction (244 s). The FOPDT captures the dominant
-first-order lag and dead time but omits secondary thermal effects: heat
-spreading laterally across the aluminum surface, radiation losses, and
-non-linear convection that depends on temperature difference with
-ambient. The model is accurate enough for gain selection (the
-steady-state heater output of ≈ 38 \% closely matches
-u\textsubscript{ss} = 38.9 \%) but underestimates the time needed for
-full settling.
-
-In practice, schedule segment durations should be set from hardware
-observation rather than simulation. The simulation is useful for
-comparing tuning rules (IMC vs.~Ziegler-Nichols) and for verifying that
-bumpless transfer initialization removes the dip before committing to a
-long hardware run.
-
-\begin{examplebox}
-
-\textbf{Example G.5.2:} Estimate whether a 300-iteration segment is
-sufficient to settle at 50 °C on the real board.
-
-\textbf{Solution:} The FOPDT simulation predicts settling at ≈ 244 s.
-Applying the observed 2.4× hardware factor gives a rough estimate of 244
-× 2.4 ≈ 586 s required. A schedule segment is counted in PID iterations,
-not in seconds of wall-clock time: \texttt{-\/-schedule\ "50:300"} runs
-300 iterations, and each takes ≈ 1.455 s because serial communication
-adds ≈ 0.45 s to the nominal 1 s sleep. The mean period differs slightly
-between runs --- 873/600 = 1.455 s in the single-setpoint run of §G.4.1,
-and 1963/1365 = 1.438 s in the schedule run whose 50 °C segment this
-example is about. At 1.438 s, 300 iterations ≈ 431 s real time --- short
-of the ≈ 586 s estimate. The measured steady-state error at the end of
-that segment is −0.68 °C, confirming the prediction. Extending to 450
-iterations (450 × 1.438 ≈ 647 s) would approach full settling; for a
-demonstration run, −0.68 °C is acceptable.
-
-\end{examplebox}
-
 \chapter*{References}\label{references}
 \addcontentsline{toc}{chapter}{References}
 
@@ -38269,11 +37804,6 @@ F)}
   \textbf{NumPy}, \textbf{SciPy}, and \textbf{Matplotlib.} The numerical
   and plotting libraries behind every figure in this book and every
   script in \texttt{scripts/}.
-\item
-  \textbf{Hedengren, J. D., et al.} \emph{Temperature Control Lab
-  (TCLab)}. APMonitor / BYU Process Dynamics and Control.
-  \url{https://apmonitor.com/pdc/index.php/Main/ArduinoTemperatureControl}
-  --- the hardware and Python package used throughout App. G.
 \item
   \textbf{Pandoc} and \textbf{XeLaTeX.} The typesetting pipeline that
   produces this volume; see \texttt{build-pdf.sh} in the source
@@ -41088,14 +40618,6 @@ requiring data association in multi-target environments. (Ch. 17)
 memory in routers and switches that performs parallel lookups on all
 entries simultaneously, enabling wire-speed forwarding table lookups
 with ternary (0, 1, don't-care) matching. (Ch. 15)
-
-\textbf{TCLab (Temperature Control Lab)} --- An Arduino-based dual
-heater/temperature shield used as an educational control systems plant.
-Two resistive heaters (Q1, Q2, 0--100 \%) and two surface temperature
-sensors (T1, T2) are accessible over USB serial. The plant behaves as a
-FOPDT system with time constant τ ≈ 143 s and dead time θ ≈ 20 s, making
-it well-suited for step-test identification and PID tuning exercises.
-(App. G)
 
 \textbf{TCP (Transmission Control Protocol)} --- A connection-oriented,
 reliable Layer 4 protocol that provides ordered delivery, flow control,
