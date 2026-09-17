@@ -148,6 +148,8 @@
   \newunicodechar{≪}{\ensuremath{\ll}}%
   \newunicodechar{≫}{\ensuremath{\gg}}%
   \newunicodechar{⊕}{\ensuremath{\oplus}}%
+  % Parallel resistor / geometry symbol (U+2225); missing from STIX Two Text
+  \newunicodechar{∥}{\ensuremath{\parallel}}%
   \newunicodechar{✓}{{\mathsymfont\char"2713}}%
   \newunicodechar{✗}{\textbf{×}}%
   % Floor and ceiling brackets
@@ -2597,9 +2599,8 @@ current spectrum (as a percentage of fundamental): 5th = 20\%, 7th =
 14\%, 11th = 9\%, 13th = 7.7\%, 17th = 5.9\%, 19th = 5.3\%. The VFD
 draws 150 A fundamental on a system where I\textsubscript{SC} = 10,000
 A. Determine (a) the current THD, (b) the total demand distortion (TDD),
-and (c) whether the installation meets IEEE 519 limits (for
-I\textsubscript{SC}/I\textsubscript{L} \textgreater{} 50, the TDD limit
-is 12\%).
+and (c) whether the installation meets IEEE 519 current distortion
+limits for the applicable I\textsubscript{SC}/I\textsubscript{L} band.
 
 \textbf{Solution:}
 
@@ -2609,16 +2610,21 @@ is 12\%).
 (b) TDD = THD × (I\textsubscript{fundamental} / I\textsubscript{L}).\\
 For this example, I\textsubscript{L} = maximum demand load current = 150
 A.\\
-I\textsubscript{SC}/I\textsubscript{L} = 10,000/150 = 66.7
-(\textgreater{} 50).\\
+I\textsubscript{SC}/I\textsubscript{L} = 10,000/150 = 66.7 (band
+50--100).\\
 TDD = √(Σ I\textsubscript{h}² / I\textsubscript{L}²) × 100\%.\\
 Since fundamental = load current here, TDD = THD = \textbf{28.3\%}
 
-(c) IEEE 519 limit for I\textsubscript{SC}/I\textsubscript{L}
-\textgreater{} 50: TDD ≤ 12\%, individual harmonics: 5th-7th ≤ 15\%,
-11th-13th ≤ 7\%.\\
-The 5th harmonic (20\%) exceeds the 15\% individual limit, and TDD
-(28.3\%) far exceeds 12\%.\\
+(c) I\textsubscript{SC}/I\textsubscript{L} = 66.7 falls in the IEEE 519
+Table 2 band 50 \textless{} I\textsubscript{SC}/I\textsubscript{L}
+\textless{} 100 (systems 120 V--69 kV): TDD ≤ 12\%; individual
+odd-harmonic limits h \textless{} 11 ≤ 10\%, 11 ≤ h \textless{} 17 ≤
+4.5\%, 17 ≤ h \textless{} 23 ≤ 4.0\% (even harmonics ≤ 25\% of the odd
+limits).\\
+Checks: 5th = 20\% \textgreater{} 10\%, 7th = 14\% \textgreater{} 10\%,
+11th = 9\% \textgreater{} 4.5\%, 13th = 7.7\% \textgreater{} 4.5\%, 17th
+= 5.9\% \textgreater{} 4.0\%, 19th = 5.3\% \textgreater{} 4.0\%; TDD =
+28.3\% \textgreater{} 12\%.\\
 The VFD \textbf{does not comply} --- harmonic mitigation such as a
 12-pulse drive, active filter, or passive LC filters would be required.
 
@@ -3565,9 +3571,9 @@ before frequency modulation, producing smoother phase transitions and
 significantly reduced spectral sidelobes compared to standard MSK. GMSK
 with a bandwidth-time product BT = 0.3 is used in the GSM cellular
 standard, achieving 99\% power containment within a bandwidth of
-approximately 0.57 × R\textsubscript{b}. Non-coherent detection of FSK
-is straightforward using envelope detectors or discriminators, making
-FSK receivers simpler than PSK receivers at the cost of a 1-3 dB power
+approximately 0.9 × R\textsubscript{b}. Non-coherent detection of FSK is
+straightforward using envelope detectors or discriminators, making FSK
+receivers simpler than PSK receivers at the cost of a 1-3 dB power
 penalty.
 
 \begin{examplebox}
@@ -4071,7 +4077,8 @@ bandpass filters to separate the individual channels. Traditional analog
 FDM was the backbone of the telephone network, where 12 voice channels
 (each 4 kHz wide with 300 Hz guard bands) were combined into a 48 kHz
 group, 5 groups into a supergroup (240 kHz), and so on up to master
-groups carrying 3,600 channels.
+groups carrying 600 channels (a jumbo group multiplexes six mastergroups
+for 3,600 channels).
 
 Orthogonal Frequency Division Multiplexing (OFDM) is a modern digital
 variant that uses closely-spaced orthogonal subcarriers, eliminating the

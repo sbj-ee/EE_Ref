@@ -148,6 +148,8 @@
   \newunicodechar{≪}{\ensuremath{\ll}}%
   \newunicodechar{≫}{\ensuremath{\gg}}%
   \newunicodechar{⊕}{\ensuremath{\oplus}}%
+  % Parallel resistor / geometry symbol (U+2225); missing from STIX Two Text
+  \newunicodechar{∥}{\ensuremath{\parallel}}%
   \newunicodechar{✓}{{\mathsymfont\char"2713}}%
   \newunicodechar{✗}{\textbf{×}}%
   % Floor and ceiling brackets
@@ -1298,8 +1300,8 @@ same base is 1.5\%. The system X/R ratio is 10.
 
 \textbf{Find:} (a) The base current, (b) the three-phase fault current
 in per-unit and amperes, (c) the fault MVA, and (d) the asymmetrical
-fault current (use asymmetry factor of 1.0 + e\textsuperscript{-π/(X/R)}
-for the peak).
+fault current (use peak asymmetry factor √2 × (1.0 +
+e\textsuperscript{-π/(X/R)})).
 
 \textbf{Solution:}
 
@@ -1511,17 +1513,21 @@ for that ratio, and (d) whether the installation is compliant.
 
 (b) I\textsubscript{SC}/I\textsubscript{L} = 25,000 / 200 = \textbf{125}
 
-(c) For I\textsubscript{SC}/I\textsubscript{L} \textgreater{} 100: IEEE
-519 TDD limit = \textbf{15.0\%}.\\
-Individual harmonic limits: 11th-16th ≤ 7.0\%, 17th-22nd ≤ 2.5\%,
-23rd-34th ≤ 1.4\%.
+(c) I\textsubscript{SC}/I\textsubscript{L} = 125 falls in the IEEE 519
+Table 2 band 100 \textless{} I\textsubscript{SC}/I\textsubscript{L}
+\textless{} 1000 (systems 120 V--69 kV): TDD limit = \textbf{15.0\%}.\\
+Individual odd-harmonic limits: 11 ≤ h \textless{} 17 ≤ \textbf{5.5\%},
+17 ≤ h \textless{} 23 ≤ \textbf{5.0\%}, 23 ≤ h \textless{} 35 ≤
+\textbf{2.0\%} (even harmonics ≤ 25\% of the odd limits).
 
 (d) TDD = 11.5\% \textless{} 15.0\%: TDD is compliant.\\
-Individual harmonics: 11th = 8.5\% \textgreater{} 7.0\%:
+Individual harmonics: 11th = 8.5\% \textgreater{} 5.5\%:
 \textbf{Non-compliant} on the 11th harmonic.\\
-The 23rd = 3.2\% \textgreater{} 1.4\%: \textbf{Non-compliant} on the
+The 13th = 6.5\% \textgreater{} 5.5\%: \textbf{Non-compliant} on the
+13th harmonic.\\
+The 23rd = 3.2\% \textgreater{} 2.0\%: \textbf{Non-compliant} on the
 23rd harmonic.\\
-The 25th = 2.8\% \textgreater{} 1.4\%: \textbf{Non-compliant} on the
+The 25th = 2.8\% \textgreater{} 2.0\%: \textbf{Non-compliant} on the
 25th harmonic.
 
 Overall: \textbf{Does not comply} due to individual harmonic violations.
@@ -2972,8 +2978,8 @@ like FSK.
 
 \textbf{Given:} A Gaussian Minimum Shift Keying (GMSK) system (as used
 in GSM) has a bit rate of 270.833 kbps and a bandwidth-time product BT =
-0.3. The 99\% power containment bandwidth for GMSK is approximately 1.22
-× R\textsubscript{b} × BT/0.3.
+0.3. The 99\% power containment bandwidth for GMSK with BT = 0.3 is
+approximately 0.9 × R\textsubscript{b}.
 
 \textbf{Find:} (a) The 99\% power containment bandwidth, (b) the
 spectral efficiency, (c) the number of voice channels (TDMA time slots)
@@ -2982,14 +2988,17 @@ MSK bandwidth (1.5 × R\textsubscript{b}).
 
 \textbf{Solution:}
 
-(a) 99\% power bandwidth for GMSK with BT = 0.3:\\
-B\textsubscript{99\%} = 1.22 × R\textsubscript{b} = 1.22 × 270,833 =
-\textbf{330,416 Hz ≈ 330.4 kHz}
+(a) 99\% power bandwidth for GMSK with BT = 0.3 (using the factor 0.9 ×
+R\textsubscript{b}):\\
+B\textsubscript{99\%} = 0.9 × R\textsubscript{b} = 0.9 × 270,833 =
+\textbf{243,750 Hz ≈ 243.7 kHz}
 
-However, GSM allocates 200 kHz per channel, which contains approximately
-99.8\% of the power due to the Gaussian filtering. The occupied
-bandwidth within the 200 kHz channel is effectively:\\
-B\textsubscript{GSM} = \textbf{200 kHz} (allocated channel bandwidth)
+GSM allocates \textbf{200 kHz} channel spacing (≈0.74 ×
+R\textsubscript{b}), which is tighter than the 99\% power bandwidth.
+Adjacent-channel interference (ACI) masks and the Gaussian prefilter
+make this channelization practical; the 200 kHz figure is the carrier
+spacing, not the 99\% containment bandwidth:\\
+B\textsubscript{GSM} = \textbf{200 kHz} (allocated channel spacing)
 
 (b) Spectral efficiency: η = R\textsubscript{b} / B = 270,833 / 200,000
 = \textbf{1.354 bits/s/Hz}
@@ -3003,8 +3012,8 @@ bits/s/Hz per user slot
 
 (d) Standard MSK bandwidth: B\textsubscript{MSK} = 1.5 ×
 R\textsubscript{b} = 1.5 × 270,833 = \textbf{406,250 Hz}\\
-GMSK with BT = 0.3 reduces the bandwidth by: 330.4/406.25 = 0.813, a
-\textbf{18.7\% reduction} over standard MSK, at the cost of slight
+GMSK with BT = 0.3 reduces the 99\% bandwidth by: 243.7/406.25 = 0.600,
+a \textbf{40.0\% reduction} over standard MSK, at the cost of slight
 intersymbol interference introduced by the Gaussian filter.
 
 \subsection{Problem 2.3.3}\label{problem-2.3.3}
@@ -5214,11 +5223,12 @@ The link is well-designed with adequate margin for carrier-grade
 \subsection{Problem 2.8.2}\label{problem-2.8.2}
 
 \textbf{Given:} A 5 GHz Wi-Fi 6 access point (802.11ax) operates at
-P\textsubscript{tx} = 23 dBm (200 mW, the EIRP regulatory limit) with
-G\textsubscript{tx} = 5 dBi. The client device has G\textsubscript{rx} =
-0 dBi. The receiver sensitivity at various MCS rates is: MCS 11
-(1024-QAM, 143 Mbps) = −55 dBm, MCS 7 (64-QAM, 86 Mbps) = −65 dBm, MCS 3
-(16-QAM, 43 Mbps) = −73 dBm, MCS 0 (BPSK, 8.6 Mbps) = −82 dBm.
+conducted P\textsubscript{tx} = 23 dBm (200 mW) with G\textsubscript{tx}
+= 5 dBi, so EIRP = P\textsubscript{tx} + G\textsubscript{tx} = 28 dBm.
+The client device has G\textsubscript{rx} = 0 dBi. The receiver
+sensitivity at various MCS rates is: MCS 11 (1024-QAM, 143 Mbps) = −55
+dBm, MCS 7 (64-QAM, 86 Mbps) = −65 dBm, MCS 3 (16-QAM, 43 Mbps) = −73
+dBm, MCS 0 (BPSK, 8.6 Mbps) = −82 dBm.
 
 \textbf{Find:} (a) The FSPL at 5 GHz and 20 m, (b) the received power at
 20 m (free space), (c) the maximum data rate achievable at 20 m, (d) the
@@ -5233,7 +5243,9 @@ penetration loss.
 FSPL = 20 log₁₀(4π × 20/0.06) = 20 log₁₀(4,189) = 20 × 3.622 =
 \textbf{72.4 dB}
 
-(b) P\textsubscript{rx} = 23 + 5 − 72.4 + 0 = \textbf{−44.4 dBm}
+(b) EIRP = P\textsubscript{tx} + G\textsubscript{tx} = 23 + 5 = 28 dBm\\
+P\textsubscript{rx} = EIRP − FSPL + G\textsubscript{rx} = 28 − 72.4 + 0
+= \textbf{−44.4 dBm}
 
 (c) At −44.4 dBm, the signal exceeds the sensitivity for all MCS rates.
 Maximum rate = \textbf{MCS 11, 143 Mbps} (margin = −44.4 − (−55) = 10.6
@@ -5242,15 +5254,15 @@ dB).
 (d) Maximum range for MCS 7 (−65 dBm) with 10 dB fade margin:\\
 Required P\textsubscript{rx} = −65 + 10 = −55 dBm (need 10 dB above
 sensitivity)\\
-Allowable FSPL = P\textsubscript{tx} + G\textsubscript{tx} +
-G\textsubscript{rx} − P\textsubscript{rx,req} = 23 + 5 + 0 − (−55) =
-83.0 dB\\
+Allowable FSPL = EIRP + G\textsubscript{rx} − P\textsubscript{rx,req} =
+28 + 0 − (−55) = 83.0 dB\\
 FSPL = 20 log₁₀(4πd/λ) = 83.0\\
 4πd/λ = 10\textsuperscript{83/20} = 10\textsuperscript{4.15} = 14,125\\
 d = 14,125 × λ / (4π) = 14,125 × 0.06 / 12.566 = \textbf{67.4 m}
 
 (e) Maximum range for MCS 0 (−82 dBm) with 15 dB wall loss:\\
-Allowable FSPL = 23 + 5 + 0 − (−82) − 15 = 95.0 dB\\
+Allowable FSPL = EIRP + G\textsubscript{rx} − P\textsubscript{rx,req} −
+L\textsubscript{wall} = 28 + 0 − (−82) − 15 = 95.0 dB\\
 4πd/λ = 10\textsuperscript{95/20} = 10\textsuperscript{4.75} = 56,234\\
 d = 56,234 × 0.06 / 12.566 = \textbf{268 m}
 
@@ -21279,8 +21291,8 @@ The maximum permissible ventilation slot length.
 
 (a) δ = 1/√(πfμ₀μ\textsubscript{r}σ) = 1/√(π × 10⁶ × 4π × 10⁻⁷ × 200 ×
 6.0 × 10⁶)\\
-= 1/√(π × 10⁶ × 1.508 × 10⁻³)\\
-= 1/√(4,736)\\
+= 1/√(π × 10⁶ × 1.508 × 10³)\\
+= 1/√(4.736 × 10⁹)\\
 = \textbf{14.5 μm}
 
 (b) A = 8.686 × (t/δ) = 8.686 × (2 × 10⁻³ / (14.5 × 10⁻⁶)) = 8.686 ×
@@ -27503,7 +27515,7 @@ Power reflected: \textbar gamma\textbar² = 0.0501² = 0.00251 =
 \textbf{0.251\%}.
 
 Power transmitted: \textbar S21\textbar² =
-10\textsuperscript{(S21(dB)}/10) = 10\textsuperscript{(-3.2/10)} =
+10\textsuperscript{(S21(dB)/10)} = 10\textsuperscript{(-3.2/10)} =
 10\textsuperscript{(-0.32)} = \textbf{0.4786 = 47.86\%}.
 
 Power dissipated in cable: 1 - \textbar S11\textbar² -
@@ -32107,10 +32119,10 @@ From Table 310.16 at 75°C: 6 AWG copper = 65 A (sufficient).
 
 \textbf{Overcurrent protection} per Table 430.52 (Design B, inverse-time
 breaker):\\
-250\% × 52 A (motor FLC from table) = 130 A. Next standard size:
-\textbf{125 A} (430.52(C)(1) permits using the next standard size up
-only if the standard size is insufficient for starting -- 125 A may be
-adequate). If motor won't start: use \textbf{150 A}.
+250\% × 52 A (motor FLC from table) = 130 A. The largest standard
+breaker size not exceeding 130 A is \textbf{125 A}. If the motor will
+not start on 125 A, 430.52(C)(1) Exception No.~1 permits the next higher
+standard size of \textbf{150 A}.
 
 \textbf{Motor-side conductors:}\\
 Ampacity = 1.25 × 52 = 65 A. Use \textbf{6 AWG copper}.
@@ -32246,15 +32258,19 @@ I\textsubscript{primary} = 300,000 / (√3 × 480) = 300,000 / 831.4 =
 \textbf{360.8 A}.
 
 Maximum primary OCPD (250\% with secondary protection):\\
-2.50 × 360.8 = 902.1 A. Next standard size: \textbf{900 A} (or 800 A for
-more conservative design).
+2.50 × 360.8 = 902.1 A. Largest standard size not exceeding this
+maximum: \textbf{900 A} (or 800 A for more conservative design). Table
+450.3(B) Note 1 also permits the next higher standard size of
+\textbf{1,000 A}.
 
 Secondary rated current:\\
 I\textsubscript{secondary} = 300,000 / (√3 × 208) = 300,000 / 360.3 =
 \textbf{832.6 A}.
 
 Maximum secondary OCPD (125\%):\\
-1.25 × 832.6 = 1,040.8 A. Next standard size: \textbf{1,000 A}.
+1.25 × 832.6 = 1,040.8 A. Largest standard size not exceeding this
+maximum: \textbf{1,000 A}. Note 1 also permits the next higher standard
+size of \textbf{1,200 A}.
 
 Check: The 1,000 A OCPD does not exceed the conductor ampacity.
 Secondary conductors must be rated for at least 832.6 A.
@@ -32310,16 +32326,19 @@ electrode conductor size per Article 250.30.
 
 \textbf{Solution:}\\
 System bonding jumper per 250.30(A)(1) and Table 250.102(C)(1):\\
-For the equivalent of 700 kcmil ungrounded conductors (between 500 and
-750 kcmil range):\\
-Minimum bonding jumper = \textbf{1/0 AWG copper}.
+For the equivalent of 700 kcmil ungrounded conductors (over 600 kcmil
+through 1,100 kcmil):\\
+Minimum bonding jumper = \textbf{2/0 AWG copper}.
 
 Grounding electrode conductor per 250.30(A)(5) and Table 250.66:\\
-For 700 kcmil equivalent: the GEC = \textbf{2/0 AWG copper}.
+For 700 kcmil equivalent (over 600 through 1,100 kcmil): the GEC =
+\textbf{2/0 AWG copper}.
 
-However, per 250.30(A)(5), if using a structural metal electrode or
-concrete-encased electrode, the GEC need not be larger than \textbf{3/0
-AWG copper} (the maximum per the exception).
+However, when the GEC is the sole connection to certain electrodes,
+Table 250.66 Exceptions limit the required size: to a concrete-encased
+electrode the GEC need not be larger than \textbf{4 AWG copper}
+(250.66(B)); to a rod, pipe, or plate electrode it need not be larger
+than \textbf{6 AWG copper} (250.66(A)).
 
 The neutral-to-ground bond is made at the transformer secondary terminal
 compartment only. Downstream, the neutral is kept isolated (insulated)
@@ -32419,13 +32438,17 @@ Primary rated current:\\
 I\textsubscript{primary} = 50,000 / 240 = \textbf{208.3 A}.
 
 Maximum primary OCPD (250\% with secondary protection):\\
-2.50 × 208.3 = 520.8 A. Next standard: \textbf{500 A}.
+2.50 × 208.3 = 520.8 A. Largest standard size not exceeding this
+maximum: \textbf{500 A}. Table 450.3(B) Note 1 also permits the next
+higher standard size of \textbf{600 A}.
 
 Secondary rated current:\\
 I\textsubscript{secondary} = 50,000 / 240 = \textbf{208.3 A}.
 
 Maximum secondary OCPD (125\%):\\
-1.25 × 208.3 = 260.4 A. Next standard: \textbf{250 A}.
+1.25 × 208.3 = 260.4 A. Largest standard size not exceeding this
+maximum: \textbf{250 A}. Note 1 also permits the next higher standard
+size of \textbf{300 A}.
 
 Maximum secondary fault current:\\
 I\textsubscript{fault} = I\textsubscript{secondary} /
@@ -34303,7 +34326,7 @@ data rate with 2 spatial streams.
 \textbf{Solution:}
 
 (a) Bits per subcarrier = log₂(4096) × (5/6) = 12 × 0.8333 =
-\textbf{10.0 coded bits/subcarrier/symbol}
+\textbf{10.0 information bits/subcarrier/symbol}
 
 (b) Symbol rate = 1 / (12.8 + 0.8) μs = 1 / 13.6 μs = \textbf{73,529
 symbols/s}

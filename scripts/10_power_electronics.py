@@ -1722,10 +1722,9 @@ def _(np, plt):
 
 
 @app.cell
-def _():
-    import marimo as mo
+def _(mo):
     mo.md("## §10.12.1  PV Module I-V and P-V Curves — Effect of Irradiance")
-    return (mo,)
+    return
 
 
 @app.cell
