@@ -7302,27 +7302,33 @@ Die: \$95\\
 Assembly + test: \$8\\
 \textbf{Total: \$103 per package}
 
-(c) The die costs above already assume testing, but not yield on final
-assembly. If the chiplet assembly yield is 95\% and monolithic assembly
-yield is 98\%:
+(c) Cross-check the given die prices against wafer yield. With a
+\$18,000 wafer and usable area 67,890 mm\textsuperscript{2} (as in
+Problem 3.7.5):
 
-Chiplet effective cost: \$194/0.95 = \textbf{\$204 per good package}\\
-Monolithic effective cost: \$103/0.98 = \textbf{\$105 per good package}
+Compute chiplet (80 mm\textsuperscript{2}, 75\% yield): 67,890/80 ≈ 849
+gross; edge loss π × 294/√(160) ≈ 73; net ≈ 776; good dies ≈ 582; raw
+cost ≈ \$18,000/582 ≈ \textbf{\$31/die} --- consistent with the given
+\$35.
 
-(d) However, the given die costs may not include yield. If we factor in
-raw die costs:
+Monolithic (250 mm\textsuperscript{2}, 55\% yield): 67,890/250 ≈ 272
+gross; edge loss π × 294/√(500) ≈ 41; net ≈ 231; good dies ≈ 127; raw
+cost ≈ \$18,000/127 = \textbf{\$142/die} (not the stated \$95). Use
+\$142 for a yield-consistent comparison.
 
-Chiplet: The 3 nm die at 75\% yield has a raw cost already factored in
-at \$35. The monolithic 3 nm die at 55\% yield costs more per good die.
+(d) For an equivalent product both packages need the same HBM memory.
+With assembly yields of 95\% (chiplet) and 98\% (monolithic):
 
-If raw wafer cost is \$18,000, the monolithic die gets 67,890/250
-\textasciitilde{} 272 gross dies. The edge correction used in Problem
-3.7.5, π × 294/√(2 × 250) \textasciitilde{} 41, leaves 231 net, so at
-55\% yield = 127 good dies and a raw cost of \$18,000/127 = \$142/die
-(not \$95). This demonstrates the \textbf{chiplet yield advantage}:
-smaller dies have exponentially better yield, making the chiplet
-approach more cost-effective for large designs despite higher assembly
-complexity.
+Chiplet: \$35 + \$24 + \$100 + \$15 + \$20 = \$194 → \$194/0.95 =
+\textbf{\$204 per good package}
+
+Monolithic (yield-corrected die + HBM + assembly): \$142 + \$100 + \$8 =
+\$250 → \$250/0.98 = \textbf{\$255 per good package}
+
+The chiplet approach saves about \textbf{\$51 per good package}. The
+large-die yield penalty on the monolithic 3 nm part outweighs the extra
+interposer and assembly cost once memory is held common to both designs
+--- the intended chiplet yield advantage.
 
 \chapter{Control Systems}\label{problems-4}
 

@@ -5349,16 +5349,19 @@ At minimum input voltage (9 V), R\textsubscript{S} must allow
 I\textsubscript{Z\_min} + I\textsubscript{L} to flow:\\
 R\textsubscript{S} = (V\textsubscript{in\_min} − V\textsubscript{Z}) /
 (I\textsubscript{Z\_min} + I\textsubscript{L}) = (9 − 5.1) / (0.005 +
-0.010) = 3.9 / 0.015 = \textbf{260 Ω} (use 270 Ω standard value)
+0.010) = 3.9 / 0.015 = \textbf{260 Ω}\\
+(The next-higher E24 value, 270 Ω, would drop I\textsubscript{Z} to ≈
+4.44 mA at V\textsubscript{in,min} --- below I\textsubscript{Z\_min} ---
+so keep the calculated 260 Ω rather than rounding up.)
 
-(b) At maximum input voltage (15 V) with R\textsubscript{S} = 270 Ω:\\
+(b) At maximum input voltage (15 V) with R\textsubscript{S} = 260 Ω:\\
 Total current: I\textsubscript{total} = (V\textsubscript{in\_max} −
-V\textsubscript{Z}) / R\textsubscript{S} = (15 − 5.1) / 270 = 9.9 / 270
-= 36.67 mA\\
+V\textsubscript{Z}) / R\textsubscript{S} = (15 − 5.1) / 260 = 9.9 / 260
+= 38.08 mA\\
 Zener current: I\textsubscript{Z\_max} = I\textsubscript{total} −
-I\textsubscript{L} = 36.67 − 10 = \textbf{26.67 mA}\\
+I\textsubscript{L} = 38.08 − 10 = \textbf{28.08 mA}\\
 Power dissipation: P\textsubscript{Z} = V\textsubscript{Z} ×
-I\textsubscript{Z\_max} = 5.1 × 0.02667 = \textbf{0.136 W} (well within
+I\textsubscript{Z\_max} = 5.1 × 0.02808 = \textbf{0.143 W} (well within
 the 1 W rating)
 
 \end{examplebox}
@@ -5410,8 +5413,11 @@ Total: P\textsubscript{Schottky} = \textbf{3.5 W per diode}
 The Schottky diode reduces rectifier losses by 9.24 − 3.5 = \textbf{5.74
 W per diode (62\% reduction)}, saving 11.5 W total for the two
 rectifiers.\\
-This improves converter efficiency by 11.5/(5 × 20) × 100 = \textbf{11.5
-percentage points}.
+With rectifier losses only (P\textsubscript{out} = 5 × 20 = 100 W), the
+efficiency change is not ΔP/P\textsubscript{out}:\\
+η\textsubscript{Si} = 100 / (100 + 2 × 9.24) = 100 / 118.48 ≈ 84.4\%\\
+η\textsubscript{Schottky} = 100 / (100 + 2 × 3.5) = 100 / 107 ≈ 93.5\%\\
+Δη ≈ \textbf{9.1 percentage points} (rectifier losses only).
 
 \end{examplebox}
 
