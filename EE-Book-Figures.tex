@@ -168,6 +168,10 @@
   enhanced,
   before upper={\setlength{\parindent}{0pt}},
 }
+
+% Cap all includegraphics so tall portraits fit above caption/footer
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,height=0.70\textheight,keepaspectratio}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -230,7 +234,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_generation.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_generation.png}
 
 \caption{Figure C1.1: Pressurized Water Reactor (PWR) Nuclear Power Plant Diagram}
 
@@ -242,7 +246,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_transmission.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_transmission.jpg}
 
 \caption{Figure C1.2: High-Voltage Transmission Tower}
 
@@ -254,7 +258,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_distribution.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_distribution.jpg}
 
 \caption{Figure C1.3: Outdoor Power Distribution Substation}
 
@@ -266,7 +270,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_protection.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_protection.jpg}
 
 \caption{Figure C1.4: Substation Power Circuit Breaker, Metal-Clad Switchgear}
 
@@ -278,7 +282,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_power_quality.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_power_quality.jpg}
 
 \caption{Figure C1.5: Fundamental and Harmonic Waveforms on an Oscilloscope}
 
@@ -290,7 +294,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_hvdc.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_hvdc.jpg}
 
 \caption{Figure C1.6: Celilo Converter Station, Pacific DC Intertie (HVDC Terminal)}
 
@@ -302,7 +306,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_loadflow.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_loadflow.png}
 
 \caption{Figure C1.7: One-Line Diagram of a Distribution Substation}
 
@@ -314,7 +318,7 @@ Engineering}\label{chapter-1-power-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch01_scada.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch01_scada.jpg}
 
 \caption{Figure C1.8: SCADA Operator Balancing Electrical Load}
 
@@ -329,7 +333,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_analog.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_analog.jpg}
 
 \caption{Figure C2.1: Analog Oscilloscope for Analog Signal Observation}
 
@@ -341,7 +345,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_dsp.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_dsp.jpg}
 
 \caption{Figure C2.2: FPGA-Based Digital Signal Processing Board}
 
@@ -353,7 +357,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_modulation.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_modulation.jpg}
 
 \caption{Figure C2.3: HackRF One Software-Defined Radio Transceiver}
 
@@ -365,7 +369,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_coding.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_coding.jpg}
 
 \caption{Figure C2.4: DSN Deep-Space Antenna (Canberra) — Channel Coding Heritage from Deep-Space Links}
 
@@ -377,7 +381,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_muxing.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_muxing.jpg}
 
 \caption{Figure C2.5: Manual Telephone Switchboard, Salt Lake City, 1907}
 
@@ -389,7 +393,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_infotheory.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_infotheory.jpg}
 
 \caption{Figure C2.6: Theseus, Claude Shannon’s Maze-Solving Mouse (1952)}
 
@@ -401,7 +405,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_noise.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_noise.jpg}
 
 \caption{Figure C2.7: Green Bank Radio Telescope — Low-Noise Receiver Systems}
 
@@ -413,7 +417,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch02_linkbudget.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch02_linkbudget.jpg}
 
 \caption{Figure C2.8: Relay 1 Ground Station Antenna — Early Satellite Communications Link Budget}
 
@@ -427,7 +431,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_fundamentals.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_fundamentals.jpg}
 
 \caption{Figure C3.1: Single-Crystal Silicon Boule and Wafer}
 
@@ -439,7 +443,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_materials.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_materials.jpg}
 
 \caption{Figure C3.2: Compound-Semiconductor Laser Diode Die (Shown Against a Penny for Scale)}
 
@@ -451,7 +455,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_pnjunction.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_pnjunction.png}
 
 \caption{Figure C3.3: Energy-Band Diagram of a PN Junction — Unbiased, Forward-Bias, and Reverse-Bias Conditions}
 
@@ -463,7 +467,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_diodes.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_diodes.png}
 
 \caption{Figure C3.4: Measured I-V Characteristic Curve of a 1N4001 Diode}
 
@@ -475,7 +479,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_transistors.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_transistors.jpg}
 
 \caption{Figure C3.5: Replica of the First Point-Contact Transistor (Bell Labs, 1947)}
 
@@ -487,7 +491,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_regulators.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_regulators.jpg}
 
 \caption{Figure C3.6: TS7805 Linear Voltage Regulator in a TO-220 Package}
 
@@ -499,7 +503,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch03_fabrication.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch03_fabrication.jpg}
 
 \caption{Figure C3.7: Etched Silicon Wafer Showing Individual Die}
 
@@ -513,7 +517,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_openloop.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_openloop.jpg}
 
 \caption{Figure C4.1: Watt Steam Engine (1780) — Uncontrolled (Open-Loop) Mechanism}
 
@@ -525,7 +529,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_closedloop.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_closedloop.jpg}
 
 \caption{Figure C4.2: Watt’s Centrifugal Flyball Governor — the First Widely Used Closed-Loop Feedback Controller}
 
@@ -537,7 +541,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_controlsignals.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_controlsignals.jpg}
 
 \caption{Figure C4.3: Function Generator for Producing Reference Control Signals}
 
@@ -549,7 +553,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_blockdiagram.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_blockdiagram.png}
 
 \caption{Figure C4.4: Apollo Block I Guidance System Block Diagram}
 
@@ -561,7 +565,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_timedomain.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_timedomain.jpg}
 
 \caption{Figure C4.5: Oscilloscope Capture of a Time-Domain Step/Fall Response}
 
@@ -573,7 +577,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_pid.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_pid.jpg}
 
 \caption{Figure C4.6: Honeywell Round Thermostat (1953) — Classic Bang-Bang/PID Feedback Control}
 
@@ -585,7 +589,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_stability.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_stability.png}
 
 \caption{Figure C4.7: Nyquist Stability Criterion Diagram}
 
@@ -597,7 +601,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_freqresponse.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_freqresponse.png}
 
 \caption{Figure C4.8: Bode Plot Template — Magnitude and Phase vs. Frequency}
 
@@ -609,7 +613,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_statespace.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_statespace.jpg}
 
 \caption{Figure C4.9: Apollo Guidance Computer DSKY (Display and Keyboard) — Onboard State Estimation and Control Interface}
 
@@ -621,7 +625,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch04_digitalcontrol.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch04_digitalcontrol.jpg}
 
 \caption{Figure C4.10: Arduino Uno Microcontroller Board — a Common Digital Control System Platform}
 
@@ -635,7 +639,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch05_microcontroller.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch05_microcontroller.jpg}
 
 \caption{Figure C5.1: Signetics SCN8051 (Intel 8051-Compatible) Microcontroller on a Circuit Board}
 
@@ -647,7 +651,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch05_comm.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch05_comm.jpg}
 
 \caption{Figure C5.2: RS-232 Wiring Adapter (DB-25) for Serial Communication Interfaces}
 
@@ -661,7 +665,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch06_numbers.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch06_numbers.jpg}
 
 \caption{Figure C6.1: ERA 1103 Computer — Early Binary/Digital Calculating Machine (1955)}
 
@@ -673,7 +677,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch06_boolean.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch06_boolean.jpg}
 
 \caption{Figure C6.2: George Boole, Originator of Boolean Algebra}
 
@@ -685,7 +689,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch06_gates.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch06_gates.png}
 
 \caption{Figure C6.3: Generic 14-Pin TTL Logic Gate IC Pinout}
 
@@ -697,7 +701,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch06_combinational.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch06_combinational.png}
 
 \caption{Figure C6.4: Full-Adder Combinational Logic Diagram}
 
@@ -709,7 +713,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch06_sequential.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch06_sequential.png}
 
 \caption{Figure C6.5: JK Flip-Flop Sequential Logic Diagram}
 
@@ -723,7 +727,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_charge.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_charge.jpg}
 
 \caption{Figure C7.1: Benjamin Franklin Drawing Electricity from the Sky (Benjamin West, c. 1816)}
 
@@ -735,7 +739,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_ohm.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_ohm.jpg}
 
 \caption{Figure C7.3: Georg Simon Ohm, Namesake of Ohm’s Law}
 
@@ -747,7 +751,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_dcanalysis.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_dcanalysis.jpg}
 
 \caption{Figure C7.4: Populated DC Circuit Board on Breadboard-Style Perfboard}
 
@@ -759,7 +763,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_kirchhoff.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_kirchhoff.jpg}
 
 \caption{Figure C7.5: Gustav Robert Kirchhoff, Originator of Kirchhoff’s Circuit Laws}
 
@@ -771,7 +775,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_thevenin.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_thevenin.jpg}
 
 \caption{Figure C7.6: Léon Charles Thévenin, Namesake of Thévenin’s Theorem}
 
@@ -783,7 +787,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_actheory.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_actheory.jpg}
 
 \caption{Figure C7.7: Nikola Tesla’s 1891 Patent Drawing for a System of Electric (AC) Lighting}
 
@@ -795,7 +799,7 @@ Engineering}\label{chapter-2-communications-engineering}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch07_twoport.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch07_twoport.jpg}
 
 \caption{Figure C7.9: Vector Network Analyzer Used for Two-Port Network Calibration}
 
@@ -810,7 +814,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch08_signals.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch08_signals.png}
 
 \caption{Figure C8.1: General Closed-Loop Feedback System Block Diagram}
 
@@ -822,7 +826,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch08_fourier.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch08_fourier.jpg}
 
 \caption{Figure C8.2: Joseph Fourier, Originator of Fourier Analysis}
 
@@ -834,7 +838,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch08_laplace.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch08_laplace.jpg}
 
 \caption{Figure C8.3: Pierre-Simon Laplace, Namesake of the Laplace Transform}
 
@@ -846,7 +850,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch08_ztransform.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch08_ztransform.png}
 
 \caption{Figure C8.4: Rotations on the Complex Plane — Basis for the Z-Plane Used in the Z-Transform}
 
@@ -858,7 +862,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch08_filters.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch08_filters.png}
 
 \caption{Figure C8.5: Graphic Equalizer — a Bank of Adjustable Digital/Analog Filters}
 
@@ -870,7 +874,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch08_spectral.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch08_spectral.jpg}
 
 \caption{Figure C8.6: DIY Arduino-Based LED Audio Spectrum Analyzer}
 
@@ -884,7 +888,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch09_electrostatics.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch09_electrostatics.jpg}
 
 \caption{Figure C9.1: Van de Graaff Generator — Electrostatic Charge Demonstration}
 
@@ -896,7 +900,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch09_magnetostatics.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch09_magnetostatics.png}
 
 \caption{Figure C9.2: Ørsted’s Experiment — Current-Carrying Wire Deflecting a Compass Needle}
 
@@ -908,7 +912,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch09_maxwell.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch09_maxwell.jpg}
 
 \caption{Figure C9.3: James Clerk Maxwell, Formulator of Maxwell’s Equations}
 
@@ -920,7 +924,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch09_hertz.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch09_hertz.jpg}
 
 \caption{Figure C9.4: Heinrich Hertz, First to Demonstrate Electromagnetic Waves}
 
@@ -932,7 +936,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch09_translines.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch09_translines.png}
 
 \caption{Figure C9.5: Ladder Line — an Open-Wire Balanced Transmission Line}
 
@@ -944,7 +948,7 @@ Processing}\label{chapter-8-signal-processing}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch09_antennas.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch09_antennas.jpg}
 
 \caption{Figure C9.6: Log-Periodic VHF TV Antenna (1963)}
 
@@ -959,7 +963,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_rectifiers.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_rectifiers.jpg}
 
 \caption{Figure C10.2: Twin-Anode Mercury-Arc Rectifier Bulb}
 
@@ -971,7 +975,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_dcdc.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_dcdc.jpg}
 
 \caption{Figure C10.3: XL4015-Based CC/CV Buck Converter Modules}
 
@@ -983,7 +987,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_acac.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_acac.png}
 
 \caption{Figure C10.5: Cycloconverter Circuit Diagram (Direct AC-AC Conversion)}
 
@@ -995,7 +999,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_thermal.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_thermal.jpg}
 
 \caption{Figure C10.6: Heatsinked Power Amplifier Output Transistors — Thermal Management in Power Electronics}
 
@@ -1007,7 +1011,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_pfc.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_pfc.jpg}
 
 \caption{Figure C10.7: Pole-Mounted Power Factor Correction Capacitor Bank}
 
@@ -1019,7 +1023,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_bms.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_bms.jpg}
 
 \caption{Figure C10.8: Generic Lithium Battery Management System (BMS) Boards, 3S/4S/6S}
 
@@ -1031,7 +1035,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_charging.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_charging.jpg}
 
 \caption{Figure C10.10: Tesla V3 Supercharger — High-Power DC Fast Charging Station}
 
@@ -1043,7 +1047,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_supercap.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_supercap.jpg}
 
 \caption{Figure C10.11: Commercial Supercapacitor (Ultracapacitor) Products}
 
@@ -1055,7 +1059,7 @@ Electronics}\label{chapter-10-power-electronics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch10_solarpv.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch10_solarpv.jpg}
 
 \caption{Figure C10.12: Roll-Out Solar Array (ROSA) Deployed on the International Space Station}
 
@@ -1070,7 +1074,7 @@ Measurement}\label{chapter-11-instrumentation-and-measurement}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch11_sensors.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch11_sensors.jpg}
 
 \caption{Figure C11.2: Breadboarded Sensor Module with Digital Readout — Field Data Collection}
 
@@ -1082,7 +1086,7 @@ Measurement}\label{chapter-11-instrumentation-and-measurement}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch11_instruments.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch11_instruments.jpg}
 
 \caption{Figure C11.4: Handheld Digital Multimeter — a Common Measurement Instrument}
 
@@ -1094,7 +1098,7 @@ Measurement}\label{chapter-11-instrumentation-and-measurement}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch11_daq.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch11_daq.jpg}
 
 \caption{Figure C11.5: Wind-Tunnel Data Acquisition System Computer Room}
 
@@ -1108,7 +1112,7 @@ Measurement}\label{chapter-11-instrumentation-and-measurement}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch12_dcmotors.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch12_dcmotors.jpg}
 
 \caption{Figure C12.1: DC Motor Armature with Commutator and Windings}
 
@@ -1120,7 +1124,7 @@ Measurement}\label{chapter-11-instrumentation-and-measurement}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch12_acmotors.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch12_acmotors.jpg}
 
 \caption{Figure C12.2: Squirrel-Cage Induction Motor Rotor (1909)}
 
@@ -1135,7 +1139,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch13_ideal.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch13_ideal.png}
 
 \caption{Figure C13.1: Ideal Op-Amp Symbol, With and Without Supply Rails Shown}
 
@@ -1147,7 +1151,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch13_inverting.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch13_inverting.png}
 
 \caption{Figure C13.2: Internal Transistor-Level Schematic of the μA702, the First Monolithic Op-Amp (Bob Widlar, 1964)}
 
@@ -1159,7 +1163,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch13_diffamp.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch13_diffamp.png}
 
 \caption{Figure C13.4: Fully-Differential Amplifier Symbol}
 
@@ -1171,7 +1175,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch13_comparator.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch13_comparator.png}
 
 \caption{Figure C13.6: Op-Amp Used as a Comparator — Symbol and Convention}
 
@@ -1186,7 +1190,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch14_conductorsizing.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch14_conductorsizing.png}
 
 \caption{Figure C14.2: Weatherproof Electrical Device Box for Conductor Terminations}
 
@@ -1198,7 +1202,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch14_transformers.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch14_transformers.jpg}
 
 \caption{Figure C14.6: Pad-Mounted Distribution Transformer}
 
@@ -1212,7 +1216,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_osi.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_osi.png}
 
 \caption{Figure C15.1: Peer-Layer Protocol Communication — the OSI Model’s Layered Abstraction}
 
@@ -1224,7 +1228,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_copper.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_copper.jpg}
 
 \caption{Figure C15.2: Twisted-Pair Copper Ethernet Cable}
 
@@ -1236,7 +1240,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_fiber.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_fiber.jpg}
 
 \caption{Figure C15.3: Installing Fiber-Optic Cabling for Rural Broadband (USDA Rural Development, 2024)}
 
@@ -1248,7 +1252,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_ethernet.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_ethernet.jpg}
 
 \caption{Figure C15.5: RJ45 (8P8C) Connector Used for Ethernet Twisted-Pair Cabling}
 
@@ -1260,7 +1264,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_ip.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_ip.png}
 
 \caption{Figure C15.6: Example Home LAN / IP Network Diagram}
 
@@ -1272,7 +1276,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_transport.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_transport.png}
 
 \caption{Figure C15.7: Wireshark Packet Capture — Inspecting Transport/Network-Layer Protocol Traffic}
 
@@ -1284,7 +1288,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_wifi.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_wifi.jpg}
 
 \caption{Figure C15.8: Ceiling-Mounted Wireless (Wi-Fi) Access Point}
 
@@ -1296,7 +1300,7 @@ Amplifiers}\label{chapter-13-operational-amplifiers}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch15_perf.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch15_perf.jpg}
 
 \caption{Figure C15.10: Network Cable Tester — Verifying Link Performance and Wiring Continuity}
 
@@ -1311,7 +1315,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch16_fundamentals.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch16_fundamentals.png}
 
 \caption{Figure C16.1: Half-Wave Dipole Antenna Field Patterns (Transmit and Receive)}
 
@@ -1323,7 +1327,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch16_wire.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch16_wire.jpg}
 
 \caption{Figure C16.2: UHF Ground-Plane (Quarter-Wave Whip) Antenna}
 
@@ -1335,7 +1339,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch16_aperture.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch16_aperture.jpg}
 
 \caption{Figure C16.3: Wilmer Barrow and the First Modern Horn Antenna (1938)}
 
@@ -1347,7 +1351,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch16_arrays.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch16_arrays.jpg}
 
 \caption{Figure C16.5: AN/FPS-85 Phased-Array Radar Antenna Building, Eglin AFB}
 
@@ -1359,7 +1363,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch16_matching.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch16_matching.png}
 
 \caption{Figure C16.6: Smith Chart Used for Antenna/Transmission-Line Impedance Matching}
 
@@ -1373,7 +1377,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch17_sigproc.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch17_sigproc.jpg}
 
 \caption{Figure C17.3: PAVE PAWS Radar Operator Console — Processed Track Display}
 
@@ -1385,7 +1389,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch17_applications.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch17_applications.jpg}
 
 \caption{Figure C17.4: WSR-1 Weather Radar and Radiosonde Dome, North Omaha Airport}
 
@@ -1397,7 +1401,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch17_comparison.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch17_comparison.jpg}
 
 \caption{Figure C17.5: NATO E-3 AWACS — Airborne Early-Warning Radar System}
 
@@ -1411,7 +1415,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch18_geometric.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch18_geometric.png}
 
 \caption{Figure C18.1: Ray Diagram Through a Perfect Convex (Converging) Lens}
 
@@ -1423,7 +1427,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch18_wave.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch18_wave.png}
 
 \caption{Figure C18.2: Emission Spectrum Resolved by a Diffraction Grating}
 
@@ -1435,7 +1439,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch18_lasers.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch18_lasers.jpg}
 
 \caption{Figure C18.3: NASA Researcher Aligning a Laser Device for a Laser-Powered Model Aircraft Demonstration}
 
@@ -1447,7 +1451,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch18_photodetectors.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch18_photodetectors.jpg}
 
 \caption{Figure C18.4: Germanium Photodiode}
 
@@ -1459,7 +1463,7 @@ Principles}\label{chapter-16-antenna-design-and-principles}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch18_systemdesign.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch18_systemdesign.jpg}
 
 \caption{Figure C18.6: Hubble Space Telescope Primary Mirror — a Precision Optical System}
 
@@ -1474,7 +1478,7 @@ Economics}\label{chapter-19-engineering-economics}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/ch19_inflation.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/ch19_inflation.jpg}
 
 \caption{Figure C19.11: U.S. Currency — Illustrating Purchasing Power and Inflation}
 
@@ -1489,7 +1493,7 @@ Phasors}\label{appendix-a-imaginary-numbers-and-phasors}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/appa_phasors.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/appa_phasors.jpg}
 
 \caption{Figure CA.4: Charles Proteus Steinmetz, Pioneer of the Phasor Method for AC Circuit Analysis}
 
@@ -1506,7 +1510,7 @@ atan2}\label{appendix-b-arctangent-and-atan2}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/appc_decibels.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/appc_decibels.jpg}
 
 \caption{Figure CC.1: Alexander Graham Bell, Namesake of the Bel/Decibel}
 
@@ -1521,7 +1525,7 @@ Units}\label{appendix-d-unit-prefixes-and-si-units}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images-companion/appd_units.jpg}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images-companion/appd_units.jpg}
 
 \caption{Figure CD.1: U.S. National Prototype Kilogram K20 — a Historical SI Base Unit Standard}
 
