@@ -1,0 +1,45 @@
+EE-Book Equipment Image Companion — SOURCES
+Retrieved: 2026-09-18 CT (America/Chicago)
+All images from Wikimedia Commons unless noted. Respect each source license for redistribution.
+
+filename | chapter | source name | URL | license | notes
+Ch01_substation.jpg | 1 | Monroe Substation.jpg (ThreePhaseAC) | https://commons.wikimedia.org/wiki/File:Monroe_Substation.jpg | CC BY-SA 4.0 | 500 kV BPA substation
+Ch01_transformer.jpg | 1 | Jackson Hydro Transformers.jpg (ThreePhaseAC) | https://commons.wikimedia.org/wiki/File:Jackson_Hydro_Transformers.jpg | CC BY-SA 4.0 | Step-up transformers, 115 kV
+Ch01_transmission_tower.jpg | 1 | Electricity pylon.jpg (Arnoldius) | https://commons.wikimedia.org/wiki/File:Electricity_pylon.jpg | CC BY-SA 2.5 | HV lattice transmission tower
+Ch01_generator.jpg | 1 | Generator-20071117.jpg | https://commons.wikimedia.org/wiki/File:Generator-20071117.jpg | CC BY-SA (per Commons page) | Ganz turbo-alternator 12.5 MW
+Ch01_circuit_breaker.jpg | 1 | Circuit Breaker 115 kV.jpg (Wtshymanski) | https://commons.wikimedia.org/wiki/File:Circuit_Breaker_115_kV.jpg | Public domain (PD-user) | 115 kV SF6 outdoor breaker
+Ch01_glen_canyon.jpg | 1 | Glen Canyon Dam and Bridge.JPG | https://commons.wikimedia.org/wiki/File:Glen_Canyon_Dam_and_Bridge.JPG | per Commons | Hydro context (folder only)
+Ch01_hydro_plant.jpg | 1 | DSCN1028.JPG | https://commons.wikimedia.org/wiki/File:DSCN1028.JPG | per Commons | Hydro facility (folder only)
+Ch02_cell_tower.jpg | 2 | Cell Phone Tower.jpg | https://commons.wikimedia.org/wiki/File:Cell_Phone_Tower.jpg | CC BY-SA (per Commons) | Cellular monopole / sector antennas
+Ch03_wafer_silizium.jpg | 3 | Siliziumwafer.JPG | https://commons.wikimedia.org/wiki/File:Siliziumwafer.JPG | CC BY-SA (per Commons) | Monocrystalline Si wafers
+Ch03_ic.jpg | 3 | Integrated circuit.jpg | https://commons.wikimedia.org/wiki/File:Integrated_circuit.jpg | CC BY-SA (per Commons) | Packaged/module IC with scale
+Ch04_plc_siemens.jpg | 4 | Siemens Simatic S7-416-3.jpg | https://commons.wikimedia.org/wiki/File:Siemens_Simatic_S7-416-3.jpg | CC BY-SA (per Commons) | SIMATIC S7-400 rack
+Ch04_plc_ab.jpg | 4 | BMA Automation Allen Bradley PLC 3.JPG | https://commons.wikimedia.org/wiki/File:BMA_Automation_Allen_Bradley_PLC_3.JPG | CC BY-SA (per Commons) | ControlLogix rack in panel
+Ch05_arduino.jpg | 5 | Arduino Uno - R3.jpg | https://commons.wikimedia.org/wiki/File:Arduino_Uno_-_R3.jpg | CC BY-SA (per Commons) | Arduino Uno MCU board
+Ch05_rpi.jpg | 5 | Raspberry Pi 4 Model B - Side.jpg | https://commons.wikimedia.org/wiki/File:Raspberry_Pi_4_Model_B_-_Side.jpg | CC BY-SA (per Commons) | Raspberry Pi 4 Model B
+Ch07_lab.jpg | 7 | Electronics workbench.jpg | https://commons.wikimedia.org/wiki/File:Electronics_workbench.jpg | CC BY-SA (per Commons) | Active electronics lab bench
+Ch07_fluke87.jpg | 7 | Fluke87-V Multimeter.jpg | https://commons.wikimedia.org/wiki/File:Fluke87-V_Multimeter.jpg | CC BY-SA (per Commons) | Fluke 87V DMM
+Ch07_dds_fg.jpg | 7 | DDS function generator.jpg | https://commons.wikimedia.org/wiki/File:DDS_function_generator.jpg | CC BY-SA (per Commons) | DDS function generator
+Ch07_benchtop_dmm.jpg | 7 | Benchtop multimeter.jpg | https://commons.wikimedia.org/wiki/File:Benchtop_multimeter.jpg | CC BY-SA (per Commons) | folder
+Ch07_function_gen.jpg | 7 | Function generator.jpg | https://commons.wikimedia.org/wiki/File:Function_generator.jpg | CC BY-SA (per Commons) | folder
+Ch07_multimeter.jpg | 7 | Fluke 179.jpg | https://commons.wikimedia.org/wiki/File:Fluke_179.jpg | CC BY-SA (per Commons) | folder
+Ch08_dso.jpg | 8 | Digital oscilloscope in use.jpg | https://commons.wikimedia.org/wiki/File:Digital_oscilloscope_in_use.jpg | CC BY-SA (per Commons) | Keysight DSO on bench
+Ch08_spectrum.jpg | 8 | A modern real time spectrum analyzer.jpg | https://commons.wikimedia.org/wiki/File:A_modern_real_time_spectrum_analyzer.jpg | CC BY-SA (per Commons) | Aaronia SPECTRAN V6
+Ch09_anechoic_usaf.jpg | 9 | 40th Flight Test Squadron F-16 anechoic chamber.jpg | https://commons.wikimedia.org/wiki/File:40th_Flight_Test_Squadron_F-16_Fighting_Falcon_sits_in_the_anechoic_chamber.jpg | Public domain (USAF / US gov work) | EMC/RF anechoic chamber
+Ch09_anechoic_wall.jpg | 9 | Anechoic chamber wall.JPG | https://commons.wikimedia.org/wiki/File:Anechoic_chamber_wall.JPG | CC BY-SA (per Commons) | RAM pyramid wall detail
+Ch10_inverter.jpg | 10 | SMA Sunny Boy.jpg | https://commons.wikimedia.org/wiki/File:SMA_Sunny_Boy.jpg | CC BY-SA (per Commons) | Grid-tied PV inverter
+Ch12_motors_group.jpg | 12 | Silniki by Zureks.jpg | https://commons.wikimedia.org/wiki/File:Silniki_by_Zureks.jpg | CC BY-SA (per Commons) | Induction motors
+Ch12_europort_motor.jpg | 12 | Rotterdam Ahoy Europort 2011 (14).JPG | https://commons.wikimedia.org/wiki/File:Rotterdam_Ahoy_Europort_2011_(14).JPG | CC BY-SA (per Commons) | Induction motor cutaway
+Ch14_panel_ext.jpg | 14 | ElectricalPanel.jpg | https://commons.wikimedia.org/wiki/File:ElectricalPanel.jpg | CC BY-SA (per Commons) | GE load center / panelboard
+Ch15_fiber.jpg | 15 | Optical fiber.jpg | https://commons.wikimedia.org/wiki/File:Optical_fiber.jpg | CC BY-SA (per Commons) | Fiber core/cladding micrograph
+Ch17_nexrad.jpg | 17 | KIWX NEXRAD Northern Indiana.jpg | https://commons.wikimedia.org/wiki/File:KIWX_National_Weather_Service_NEXRAD,_Northern_Indiana.jpg | CC BY-SA (per Commons) | NEXRAD WSR-88D radome
+Ch17_wsr57.jpg | 17 | WSR-57 antenna.jpg | https://commons.wikimedia.org/wiki/File:WSR-57_antenna.jpg | Public domain (PD-US NOAA) | Historic WSR-57 dish
+Ch17_asr_dayton.jpg | 17 | ASRDaytonBeach.jpg | https://commons.wikimedia.org/wiki/File:ASRDaytonBeach.jpg | per Commons (verify) | Airport surveillance radar
+Ch18_dye_laser.jpg | 18 | Coherent 899 dye laser.jpg | https://commons.wikimedia.org/wiki/File:Coherent_899_dye_laser.jpg | CC BY-SA (per Commons) | Tunable dye laser
+Ch18_diode_laser.jpg | 18 | Diode laser.jpg | https://commons.wikimedia.org/wiki/File:Diode_laser.jpg | CC BY-SA (per Commons) | folder
+Ch18_fusion_splicer.jpg | 18 | Fusion splicer working.jpg | https://commons.wikimedia.org/wiki/File:Fusion_splicer_working.jpg | CC BY-SA (per Commons) | Field fusion splicer
+Ch18_fusion_splice.jpg | 18 | Optical fiber fusion splicing.jpg | https://commons.wikimedia.org/wiki/File:Optical_fiber_fusion_splicing.jpg | CC BY-SA (per Commons) | folder
+Ch18_optical_bench.jpg | 18 | Optische.Bank.P1045781.jpg | https://commons.wikimedia.org/wiki/File:Optische.Bank.P1045781.jpg | CC BY-SA (per Commons) | Optical bench
+Ch19_wind_farm.jpg | 19 | GreenMountainWindFarm Fluvanna 2004.jpg | https://commons.wikimedia.org/wiki/File:GreenMountainWindFarm_Fluvanna_2004.jpg | CC BY-SA (per Commons) | Wind farm for econ context
+Ch19_plant.jpg | 19 | Thermal power station.jpg | https://commons.wikimedia.org/wiki/File:Thermal_power_station.jpg | CC BY-SA (per Commons) | folder
+Ch19_cooling_tower.jpg | 19 | Cooling tower power station Dresden.jpg | https://commons.wikimedia.org/wiki/File:Cooling_tower_power_station_Dresden.jpg | CC BY-SA (per Commons) | folder
