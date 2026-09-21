@@ -223,6 +223,10 @@
   enhanced,
   before upper={\setlength{\parindent}{0pt}},
 }
+
+% Cap all includegraphics so tall portraits fit above caption/footer
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,height=0.70\textheight,keepaspectratio}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -9357,7 +9361,7 @@ At ω = 2: \textbar G\textbar{} = 200/(2 × √29 × √404) = 200/(2 × 5.385 �
 20.1) = 200/216.5 = 0.924 → -0.69 dB.\\
 At ω = 1.9: \textbar G\textbar{} = 200/(1.9 × √28.61 × √403.61) =
 200/(1.9 × 5.349 × 20.09) = 200/204.1 = 0.980 → -0.18 dB.\\
-Gain crossover: ω\textsubscript{gc} ≈ \textbf{1.95 rad/s}
+Gain crossover: ω\textsubscript{gc} ≈ \textbf{1.87 rad/s}
 
 (c) Low frequency (ω \textless\textless{} 5): \textbar G\textbar{} ≈
 200/(ω × 5 × 20) = 2/ω → slope of \textbf{-20 dB/decade}.\\

@@ -223,6 +223,10 @@
   enhanced,
   before upper={\setlength{\parindent}{0pt}},
 }
+
+% Cap all includegraphics so tall portraits fit above caption/footer
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,height=0.70\textheight,keepaspectratio}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -861,7 +865,7 @@ Source & Million kWh \\
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch01_energy_mix.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch01_energy_mix.png}
 
 \caption{Figure 1.1: U.S. Electricity Generation by Source (2022)}
 
@@ -2290,7 +2294,7 @@ Capacitance per phase: C = 1 / (2πfX\textsubscript{C}) = 1 / (2π × 60 ×
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch01_power_factor.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch01_power_factor.png}
 
 \caption{Figure 1.3.6: Power Factor Correction Analysis}
 
@@ -2636,7 +2640,7 @@ The VFD \textbf{does not comply} --- harmonic mitigation such as a
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch01_harmonics_thd.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch01_harmonics_thd.png}
 
 \caption{Figure 1.5.1: Harmonic Spectrum and THD}
 
@@ -3256,7 +3260,7 @@ information.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch02_am_modulation.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch02_am_modulation.png}
 
 \caption{Figure 2.1.1: AM Modulation Waveform and Spectrum}
 
@@ -3505,7 +3509,7 @@ power requirements and sensitivity to noise.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch02_constellation.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch02_constellation.png}
 
 \caption{Figure 2.3: Digital Modulation Constellation Diagrams}
 
@@ -4384,7 +4388,7 @@ sophisticated trellis-coded modulation used in V.34.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch02_shannon_capacity.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch02_shannon_capacity.png}
 
 \caption{Figure 2.6.1: Shannon Channel Capacity vs SNR}
 
@@ -4790,7 +4794,7 @@ Gallium Nitride (GaN) & 3.40 & \textasciitilde10⁻¹⁰ & Direct \\
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch03_energy_bands.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch03_energy_bands.png}
 
 \caption{Figure 3.1.1: Energy Band Diagrams: Conductor vs Semiconductor vs Insulator}
 
@@ -5165,7 +5169,7 @@ avalanche or Zener breakdown and current increases rapidly.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch03_pn_junction.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch03_pn_junction.png}
 
 \caption{Figure 3.3.1: PN Junction I-V Characteristic}
 
@@ -5597,7 +5601,7 @@ mA/V}
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch03_mosfet.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch03_mosfet.png}
 
 \caption{Figure 3.5.2: MOSFET I-V Characteristics}
 
@@ -6195,15 +6199,15 @@ reference input to generate an error signal. This error signal is then
 processed by the controller to adjust the actuator input, driving the
 output toward the desired value and reducing the effect of disturbances
 and parameter variations. The canonical form of a closed-loop system
-with unity feedback has a transfer function of G(s) / (1 + G(s)H(s)),
-where G(s) is the forward path transfer function and H(s) is the
-feedback path transfer function. Closed-loop systems offer superior
-performance in terms of accuracy, stability, and disturbance rejection
-compared to open-loop systems, at the cost of increased complexity and
-the potential for instability if not properly designed. Stability
-analysis techniques such as Routh-Hurwitz criteria, root locus plots,
-and Bode plots are essential tools for designing closed-loop systems
-that meet transient and steady-state performance specifications.
+with unity feedback has a transfer function of T(s) = G(s) / (1 + G(s)),
+where G(s) is the forward path transfer function. Closed-loop systems
+offer superior performance in terms of accuracy, stability, and
+disturbance rejection compared to open-loop systems, at the cost of
+increased complexity and the potential for instability if not properly
+designed. Stability analysis techniques such as Routh-Hurwitz criteria,
+root locus plots, and Bode plots are essential tools for designing
+closed-loop systems that meet transient and steady-state performance
+specifications.
 
 \begin{examplebox}
 
@@ -6432,7 +6436,7 @@ parallel, and feedback. In a series connection, the overall transfer
 function is the product of individual transfer functions: H(s) = H₁(s) ×
 H₂(s). In a parallel connection, the outputs are summed: H(s) = H₁(s) +
 H₂(s). In a negative feedback configuration, the closed-loop transfer
-function is H(s) = G(s) / (1 + G(s)H(s)), where G(s) is the forward path
+function is T(s) = G(s) / (1 + G(s)H(s)), where G(s) is the forward path
 and H(s) is the feedback path.
 
 Block diagram reduction simplifies complex diagrams to a single
@@ -6529,7 +6533,7 @@ pole locations in the s-plane.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch04_step_response.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch04_step_response.png}
 
 \caption{Figure 4.5: Step Response: Second-Order System}
 
@@ -7056,7 +7060,7 @@ Auxiliary equation at K = 120: 8s² + 120 = 0 → s = ±j√15 =
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch04_root_locus.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch04_root_locus.png}
 
 \caption{Figure 4.7.2: Root Locus Plot}
 
@@ -7078,7 +7082,7 @@ compensators.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch04_bode_plot.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch04_bode_plot.png}
 
 \caption{Figure 4.8: Bode Plot: Second-Order System}
 
@@ -8242,7 +8246,7 @@ Mbps (1 byte per 8 clock cycles at 8 MHz).
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch05_spi_timing.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch05_spi_timing.png}
 
 \caption{Figure 5.4.2: SPI Mode 0 timing diagram showing an 8-bit transfer (MOSI: 0xA5, MISO: 0x3C). Data is sampled on rising clock edges; the CS line is held low for the duration of the 8-cycle transfer.}
 
@@ -8529,7 +8533,7 @@ because the active-mode current dominates even at short duty cycles.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch05_sleep_power.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch05_sleep_power.png}
 
 \caption{Figure 5.7.1: Average current (log scale) and battery life vs wake interval for a sensor node (Iactive = 15 mA for 50 ms, Isleep = 20 μA, C = 1000 mAh). Markers show the 60 s and 5 s operating points from §5.7.1.}
 
@@ -8604,7 +8608,7 @@ Battery life improves from 1000/30 = 33 hours to 1000/4.61 = 217 hours
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch05_lowpower_opt.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch05_lowpower_opt.png}
 
 \caption{Figure 5.7.2: Average current and percentage power saving vs idle fraction for an IoT device using frequency scaling (168 MHz → 48 MHz) and Stop mode. At 70\% idle, the optimized design draws 4.61 mA vs 30 mA unoptimized — an 84.6\% reduction.}
 
@@ -8763,7 +8767,7 @@ diagnosing digital logic behavior.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch06_number_systems.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch06_number_systems.png}
 
 \caption{Figure 6.1: Number System Conversion Table (Decimal, Binary, Hex, Octal)}
 
@@ -8905,7 +8909,7 @@ propagation delay.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch06_logic_gates.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch06_logic_gates.png}
 
 \caption{Figure 6.2: Logic Gate Truth Tables}
 
@@ -9565,7 +9569,7 @@ bit (Q₂) or the reset signal.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch06_counter_timing.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch06_counter_timing.png}
 
 \caption{Figure 6.3: 3-Bit Binary Counter Timing Diagram}
 
@@ -10941,7 +10945,7 @@ The current lags the voltage by 10.68°.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch07_impedance_rl.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch07_impedance_rl.png}
 
 \caption{Figure 7.7.1: Series RL Impedance vs Frequency}
 
@@ -10981,7 +10985,7 @@ Bandwidth: BW = f₀ / Q = 50,329 / 31.62 = 1,591 Hz ≈ 1.59 kHz.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch07_resonance_rlc.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch07_resonance_rlc.png}
 
 \caption{Figure 7.7.2: Series RLC Resonance}
 
@@ -11112,7 +11116,7 @@ is consistent with being slightly past one time constant.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch07_rc_charging.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch07_rc_charging.png}
 
 \caption{Figure 7.8.1: RC Charging Curve}
 
@@ -11157,7 +11161,7 @@ e\textsuperscript{-0.5} = 24 × 0.6065 = 14.56 V.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch07_rl_transient.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch07_rl_transient.png}
 
 \caption{Figure 7.8.2: RL Circuit Transient Response}
 
@@ -11202,7 +11206,7 @@ The damped natural frequency is ω\textsubscript{d} = ω₀√(1 - ζ²) =
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch07_rlc_underdamped.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch07_rlc_underdamped.png}
 
 \caption{Figure 7.8.3: Underdamped RLC Step Response}
 
@@ -11589,7 +11593,7 @@ realizable filter.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_aliasing.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_aliasing.png}
 
 \caption{Figure 8.1.5: Sampling and Aliasing}
 
@@ -11662,7 +11666,7 @@ The series is x(t) = 6.366 sin(2π × 500t) + 2.122 sin(2π × 1500t) +
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_fourier_series.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_fourier_series.png}
 
 \caption{Figure 8.2.1: Fourier Series Harmonics of a Square Wave}
 
@@ -11710,7 +11714,7 @@ spectral width is inversely proportional to the pulse duration.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_fourier_transform.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_fourier_transform.png}
 
 \caption{Figure 8.2.2: Rectangular Pulse and Sinc Spectrum}
 
@@ -11774,7 +11778,7 @@ the same fundamental resolving ability (still limited by the original
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_dft_bins.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_dft_bins.png}
 
 \caption{Figure 8.2.3: DFT Frequency Bins}
 
@@ -11943,7 +11947,7 @@ The envelope is then A{[}n{]} = \textbar z{[}n{]}\textbar.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_hilbert.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_hilbert.png}
 
 \caption{Figure 8.2.6: Hilbert Transform Envelope Extraction}
 
@@ -12362,7 +12366,7 @@ confirming the cutoff is correctly placed at 2 kHz.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_bilinear.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_bilinear.png}
 
 \caption{Figure 8.4.4: Bilinear Transform: Analog vs Digital Filter}
 
@@ -12497,7 +12501,7 @@ signal.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_fir_filter.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_fir_filter.png}
 
 \caption{Figure 8.5.1: FIR Lowpass Filter Response}
 
@@ -12546,7 +12550,7 @@ Nyquist frequency.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_iir_filter.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_iir_filter.png}
 
 \caption{Figure 8.5.2: IIR Lowpass Filter Response}
 
@@ -12839,7 +12843,7 @@ need consideration.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_allpass.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_allpass.png}
 
 \caption{Figure 8.5.7: Allpass Filter: Magnitude and Group Delay}
 
@@ -12896,7 +12900,7 @@ noise-reduction technique.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_psd.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_psd.png}
 
 \caption{Figure 8.6.1: White Noise Power Spectral Density}
 
@@ -13172,7 +13176,7 @@ localized features at each scale independently.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch08_wavelet.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch08_wavelet.png}
 
 \caption{Figure 8.6.6: Wavelet Transform Multi-Level Decomposition}
 
@@ -14026,7 +14030,7 @@ would increase the saturation current.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch09_hysteresis.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch09_hysteresis.png}
 
 \caption{Figure 9.2.5: B-H Hysteresis Loop}
 
@@ -14596,7 +14600,7 @@ The AC resistance is nearly 4× the DC resistance due to the skin effect.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch09_skin_depth.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch09_skin_depth.png}
 
 \caption{Figure 9.4.4: Skin Depth vs Frequency}
 
@@ -15001,7 +15005,7 @@ becomes essential.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch09_microstrip_Z0.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch09_microstrip_Z0.png}
 
 \caption{Figure 9.5.5: Microstrip characteristic impedance Z₀ and effective dielectric constant εeff vs trace width ratio W/h for FR-4 (εᵣ = 4.3), Rogers RO4003 (εᵣ = 3.55), and PTFE (εᵣ = 2.2). The W/h = 1.81 point (FR-4, 50 Ω) corresponds to the §9.5.5 example.}
 
@@ -15074,7 +15078,7 @@ bounces would occur, each diminished by Γ\textsubscript{L} ×
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch09_tdr.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch09_tdr.png}
 
 \caption{Figure 9.5.6: TDR Lattice Diagram and Voltage Waveforms}
 
@@ -15522,7 +15526,7 @@ gaskets.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch09_shielding.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch09_shielding.png}
 
 \caption{Figure 9.7.1: Shielding Effectiveness vs Frequency}
 
@@ -16163,7 +16167,7 @@ cos(α) = 100/108.0 = 0.926.\\
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_rectifier.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_rectifier.png}
 
 \caption{Figure 10.2.1: Full-Wave Bridge Rectifier}
 
@@ -16271,7 +16275,7 @@ are most difficult to filter.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_harmonics.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_harmonics.png}
 
 \caption{Figure 10.2.3: Rectifier Harmonic Spectrum: 6-Pulse vs 12-Pulse}
 
@@ -16335,7 +16339,7 @@ Use a standard value of 10 μH to ensure CCM operation with margin.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_buck.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_buck.png}
 
 \caption{Figure 10.3.1: Buck Converter Inductor Current}
 
@@ -16386,7 +16390,7 @@ The inductor must carry the full 5.33 A input current continuously.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_boost.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_boost.png}
 
 \caption{Figure 10.3.2: Boost Converter Inductor Current}
 
@@ -16653,7 +16657,7 @@ filter.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_spwm.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_spwm.png}
 
 \caption{Figure 10.4.1: SPWM Inverter Output}
 
@@ -16761,7 +16765,7 @@ the switching frequency, reducing switching losses by 50\%.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_multilevel.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_multilevel.png}
 
 \caption{Figure 10.4.3: Multilevel Inverter: 2-Level vs 3-Level NPC}
 
@@ -16975,7 +16979,7 @@ Total MOSFET loss: P\textsubscript{total} = 1.92 + 2.88 + 0.09 = 4.89 W.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_power_losses.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_power_losses.png}
 
 \caption{Figure 10.6.1: MOSFET Power Losses vs Switching Frequency}
 
@@ -17241,7 +17245,7 @@ reduction.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_pfc.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_pfc.png}
 
 \caption{Figure 10.7.1: Active PFC Current Shaping}
 
@@ -17464,7 +17468,7 @@ voltage to 355.2 − 28.8 = \textbf{326.4 V} under load.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_bms_discharge.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_bms_discharge.png}
 
 \caption{Figure 10.8.1: 96s NMC Pack Voltage vs SOC}
 
@@ -17520,7 +17524,7 @@ Example 10.8.1) --- about 0.013\% of that reference pack.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_bms_balancing.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_bms_balancing.png}
 
 \caption{Figure 10.8.2: Passive Cell Balancing Convergence}
 
@@ -17575,7 +17579,7 @@ percent.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_bms_soc.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_bms_soc.png}
 
 \caption{Figure 10.8.3: SOC Estimation with Coulomb Counting Drift}
 
@@ -17845,7 +17849,7 @@ Average power: P\textsubscript{avg} = 0.95 MW. Energy over 15 min: E =
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_bess_droop.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_bess_droop.png}
 
 \caption{Figure 10.9.3: BESS Frequency Regulation Droop Response}
 
@@ -17903,7 +17907,7 @@ depending on available module sizes)
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_bess_peak_shaving.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_bess_peak_shaving.png}
 
 \caption{Figure 10.9.4: BESS Peak Shaving Load Profile}
 
@@ -17988,7 +17992,7 @@ mid-life augmentation.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_bess_degradation.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_bess_degradation.png}
 
 \caption{Figure 10.9.5: BESS Capacity Degradation and LCOS}
 
@@ -18085,7 +18089,7 @@ result indicates negligible side reactions; in practice,
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_cccv_charging.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_cccv_charging.png}
 
 \caption{Figure 10.10.1: CC/CV Charging Profile}
 
@@ -18286,7 +18290,7 @@ this limit significantly.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_fast_charging_thermal.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_fast_charging_thermal.png}
 
 \caption{Figure 10.10.4: Fast Charging Thermal Analysis}
 
@@ -18369,7 +18373,7 @@ accounting for inverter, rectifier, and compensation network losses.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_wireless_charging_efficiency.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_wireless_charging_efficiency.png}
 
 \caption{Figure 10.10.5: Wireless Charging Efficiency vs Coupling Coefficient}
 
@@ -18454,7 +18458,7 @@ C\textsubscript{cell} = C\textsubscript{electrode}/2 = 1,500/2 =
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_supercap_edlc_energy.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_supercap_edlc_energy.png}
 
 \caption{Figure 10.11.1: EDLC Energy Storage vs Voltage — Usable 75\% and Electrolyte Comparison}
 
@@ -18518,7 +18522,7 @@ rate-limited by ion diffusion.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_supercap_ragone.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_supercap_ragone.png}
 
 \caption{Figure 10.11.2: Ragone Plot — Specific Power vs Specific Energy for Energy Storage Technologies}
 
@@ -18585,7 +18589,7 @@ exactly 75\% of stored energy.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_supercap_discharge.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_supercap_discharge.png}
 
 \caption{Figure 10.11.3: Supercapacitor Constant-Current Discharge Voltage Profile}
 
@@ -18656,7 +18660,7 @@ requirement)
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_supercap_bank_design.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_supercap_bank_design.png}
 
 \caption{Figure 10.11.4: Series-Parallel Bank Design — Voltage, Capacitance, and Energy vs Series Cell Count}
 
@@ -18729,7 +18733,7 @@ during charging)
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_supercap_regen.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_supercap_regen.png}
 
 \caption{Figure 10.11.5: Regenerative Braking Cycle — Voltage, Current, and Power for a Light Rail Tram}
 
@@ -18837,7 +18841,7 @@ days even at constant irradiance.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch10_pv_iv_curves.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch10_pv_iv_curves.png}
 
 \caption{Figure 10.12.1: PV Module I-V and P-V Curves — Effect of Irradiance at 25 °C}
 
@@ -19177,7 +19181,7 @@ offset requiring calibration.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch11_accuracy_precision.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch11_accuracy_precision.png}
 
 \caption{Figure 11.1.1: Accuracy vs Precision: Target Analogy}
 
@@ -19391,7 +19395,7 @@ measurements.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch11_wheatstone_bridge.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch11_wheatstone_bridge.png}
 
 \caption{Figure 11.1.5: Wheatstone Bridge Response}
 
@@ -19560,7 +19564,7 @@ measurements.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch11_thermocouple.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch11_thermocouple.png}
 
 \caption{Figure 11.2.1: Thermocouple Voltage vs Temperature}
 
@@ -21819,7 +21823,7 @@ The speed at 1,000 steps/s is 1000 × 1.8 / 360 × 60 = 300 RPM.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch12_stepper_torque.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch12_stepper_torque.png}
 
 \caption{Figure 12.3.4: Stepper Motor Torque vs Speed}
 
@@ -22092,7 +22096,7 @@ A 160 V or higher DC bus is required.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch12_foc_vectors.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch12_foc_vectors.png}
 
 \caption{Figure 12.4.5: FOC Vector Diagram}
 
@@ -22733,7 +22737,7 @@ hours as expected.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch12_insulation_life.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch12_insulation_life.png}
 
 \caption{Figure 12.5.6: Motor Insulation Life vs Temperature}
 
@@ -23094,7 +23098,7 @@ Ramp rate (slew): dV\textsubscript{out}/dt = 2000 V/s = 2.0 V/ms.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_integrator.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_integrator.png}
 
 \caption{Figure 13.2.3: Op-Amp Integrator Step Response}
 
@@ -23146,7 +23150,7 @@ transitions in the output.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_differentiator.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_differentiator.png}
 
 \caption{Figure 13.2.4: Op-Amp Differentiator Response}
 
@@ -23224,7 +23228,7 @@ produce a convenient -1 V/decade output.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_log_amp.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_log_amp.png}
 
 \caption{Figure 13.2.5: Log Amplifier Transfer Curve}
 
@@ -23730,7 +23734,7 @@ Q = √(R²C₁C₂) / (C₂ × 2R) = R√(C₁C₂) / (2RC₂) = √(C₁/C₂)
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_sallen_key.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_sallen_key.png}
 
 \caption{Figure 13.5.2: Sallen-Key Butterworth Bode Plot}
 
@@ -23845,7 +23849,7 @@ Hz and the Q to 2.6 --- half of both targets.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_mfb_bandpass.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_mfb_bandpass.png}
 
 \caption{Figure 13.5.4: MFB Bandpass Filter Frequency Response}
 
@@ -23917,7 +23921,7 @@ of the spectrum.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_notch_filter.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_notch_filter.png}
 
 \caption{Figure 13.5.5: Active Twin-T Notch Filter}
 
@@ -24038,7 +24042,7 @@ false triggering.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_schmitt_trigger.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_schmitt_trigger.png}
 
 \caption{Figure 13.6.2: Schmitt Trigger Hysteresis}
 
@@ -24164,7 +24168,7 @@ than the β = 0.5 case.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_relaxation_osc.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_relaxation_osc.png}
 
 \caption{Figure 13.6.4: Relaxation Oscillator Waveforms}
 
@@ -24278,7 +24282,7 @@ wave output will have noticeably sloped edges but will reach the full
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch13_slew_rate.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch13_slew_rate.png}
 
 \caption{Figure 13.7.2: Slew Rate Limiting}
 
@@ -26957,7 +26961,7 @@ budget would suffice.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch15_fiber_link_budget.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch15_fiber_link_budget.png}
 
 \caption{Figure 15.3.5: SMF link power margin vs fiber length for three common attenuation values (0.20, 0.25, 0.35 dB/km). Budget = 31 dB; fixed losses = 1.4 dB (2 connectors + 4 splices); system margin = 3 dB. The §15.3.5 example (40 km, 0.25 dB/km) is marked with a 16.6 dB margin.}
 
@@ -27259,7 +27263,7 @@ to 54.8\% (46 payload / 84 bytes on-wire)).
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch15_ethernet_efficiency.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch15_ethernet_efficiency.png}
 
 \caption{Figure 15.5.1: Ethernet protocol efficiency vs payload size (46–9000 bytes). Fixed on-wire overhead is 38 bytes (8 preamble/SFD + 14 header + 4 FCS + 12 IFG). Efficiency rises from 54.8\% at the minimum 46-byte payload to 97.5\% at 1500 bytes and exceeds 99\% for jumbo frames.}
 
@@ -29296,7 +29300,7 @@ ms per hop, while LLQ keeps it under 0.12 ms per hop.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch15_qos_llq.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch15_qos_llq.png}
 
 \caption{Figure 15.10.5: LLQ bandwidth allocation (left) and voice packet queuing delay comparison (right) for a 100 Mbps WAN link. EF receives 10 Mbps (43.6\% utilized by 50 VoIP calls), AF21 receives 50 Mbps, and BE receives 40 Mbps. LLQ reduces worst-case voice queuing delay from 360 μs to 120 μs — a 3× improvement.}
 
@@ -30260,7 +30264,7 @@ log₁₀(0.7071) = \textbf{−1.5 dB}. The broadside beamwidth of 0.886λ/(Nd)
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch16_phased_array.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch16_phased_array.png}
 
 \caption{Figure 16.5.3: Phased Array Pattern}
 
@@ -30792,7 +30796,7 @@ for automotive forward-collision applications.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch17_fmcw_beat.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch17_fmcw_beat.png}
 
 \caption{Figure 17.2.2: FMCW Beat Frequency vs Range}
 
@@ -32233,7 +32237,7 @@ Total stack thickness for 15 pairs (30 layers + 1): 15 × (115.7 + 182.2)
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch18_mirror_reflectivity.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch18_mirror_reflectivity.png}
 
 \caption{Figure 18.2.4: Dielectric Mirror Reflectivity}
 
@@ -33138,7 +33142,7 @@ F = P(1 + i)ⁿ = 100,000 × (1.0125)¹⁶ = 100,000 × 1.2199 =
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch19_compound_interest.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch19_compound_interest.png}
 
 \caption{Figure 19.1.2: Simple vs Compound vs Continuous Interest Growth}
 
@@ -33930,7 +33934,7 @@ depreciation charged is \$120,000 − \$49,152 = \textbf{\$70,848}.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch19_depreciation.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch19_depreciation.png}
 
 \caption{Figure 19.8.2: Depreciation Methods: Book Value Comparison}
 
@@ -34553,7 +34557,7 @@ pessimistic estimate.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/ch19_sensitivity.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/ch19_sensitivity.png}
 
 \caption{Figure 19.13.2: NPV Sensitivity Analysis}
 
@@ -34888,7 +34892,7 @@ Therefore Z = 5∠126.87°.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_a_polar_form.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_a_polar_form.png}
 
 \caption{Figure A.3.1: Complex Plane: Polar Form}
 
@@ -35053,7 +35057,7 @@ Note that the combined voltage (116.6 V) is less than the arithmetic sum
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_a_phasor_addition.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_a_phasor_addition.png}
 
 \caption{Figure A.4.3: Phasor Addition}
 
@@ -35100,7 +35104,7 @@ axis.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_a_phasor_diagram.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_a_phasor_diagram.png}
 
 \caption{Figure A.4.4: Series RL Phasor Diagram}
 
@@ -35220,7 +35224,7 @@ reactive power with the source.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_a_power_triangle.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_a_power_triangle.png}
 
 \caption{Figure A.5.3: Power Triangle}
 
@@ -35311,7 +35315,7 @@ parts gives a 180° error for Z₂.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_b_quadrant_ambiguity.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_b_quadrant_ambiguity.png}
 
 \caption{Figure B.1.2: Quadrant Ambiguity: arctan vs atan2}
 
@@ -35365,7 +35369,7 @@ cases.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_b_four_quadrants.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_b_four_quadrants.png}
 
 \caption{Figure B.2.1: atan2 in All Four Quadrants}
 
@@ -35440,7 +35444,7 @@ angle (voltage lags current).
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_b_axis_points.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_b_axis_points.png}
 
 \caption{Figure B.2.3: atan2 Special Cases: Axis Points}
 
@@ -35667,7 +35671,7 @@ The exact value is 10\textsuperscript{23/10} = 10\textsuperscript{2.3} =
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_c_db_scale.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_c_db_scale.png}
 
 \caption{Figure C.1.3: Decibel Scale: Power and Voltage Ratios}
 
@@ -35794,7 +35798,7 @@ providing a comfortable buffer for aging and environmental degradation.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_c_link_budget.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_c_link_budget.png}
 
 \caption{Figure C.3.1: Fiber Optic Link Budget}
 
@@ -35904,7 +35908,7 @@ begins to roll off.
 
 \centering
 
-\includegraphics[width=\linewidth,keepaspectratio]{images/app_c_bode_plot.png}
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{images/app_c_bode_plot.png}
 
 \caption{Figure C.4.1: Op-Amp Bode Plot}
 
