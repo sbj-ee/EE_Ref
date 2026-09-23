@@ -10679,7 +10679,7 @@ ADC requirement: 4 channels × 10,000 samples/s = 40,000 samples/s total
 --- achievable by all three families.
 
 PID computation: 500 MAC operations per ms = 500,000 MAC/s.\\
-- 8-bit AVR (16 MHz): software multiply takes \textasciitilde2 cycles,
+- 8-bit AVR (16 MHz): hardware \textbf{MUL} (\textasciitilde2 cycles),
 total = 500 × 2 = 1000 cycles/ms. At 16 MHz, that is 1000/16,000 =
 6.25\% CPU --- feasible but leaves little headroom.\\
 - Cortex-M0+ (48 MHz): single-cycle 32-bit multiply, 500 cycles/ms =

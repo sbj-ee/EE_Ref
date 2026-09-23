@@ -7708,8 +7708,9 @@ appropriate?
 \textbf{Solution:}\\
 Total ADC throughput required = 8 channels * 1000 samples/s = 8000
 samples/s, which is easily within the capability of all families.\\
-The 256-point FFT requires approximately 256 * log₂(256) = 256 * 8 =
-2048 butterfly operations, each involving multiply-accumulate steps.\\
+The 256-point FFT requires approximately (N/2)log₂N = (256/2) ×
+log₂(256) = 128 × 8 = 1024 butterfly operations, each involving
+multiply-accumulate steps.\\
 An 8-bit AVR lacks hardware multiply efficiency and floating-point
 support, making it a poor fit.\\
 A Cortex-M4 (e.g., STM32F4 at 168 MHz) provides a hardware FPU and DSP
