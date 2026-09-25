@@ -12602,23 +12602,20 @@ common variables B' and D. \textbf{Term: B'D}
 Group 3: cells 4, 5, 12, 13 (4=AB01,CD00; 5=AB01,CD01; 12=AB11,CD00;
 13=AB11,CD01). Common: B=1, C=0. \textbf{Term: BC'}
 
-Include don't-cares 6 and 14 to enlarge groups:\\
+Consider the don't-cares 6 and 14:\\
 Cell 6 (AB=01, CD=10) and cell 14 (AB=11, CD=10): with cells 4 and 12
 forms a quad: 4, 6, 12, 14 → common: B and D'. \textbf{Term: BD'}
 
-Coverage check: C'D covers \{1,5,9,13\} and B'D covers \{1,3,9,11\}, so
-together they account for every minterm with D = 1. The only minterms
-left are 4 and 12, which share B = 1, C = 0, D = 0. Taken alone they
-would require the three-literal term BC'D'; absorbing the don't-cares at
-6 and 14 enlarges the group to \{4, 6, 12, 14\}, giving the two-literal
-term BD'.
+Coverage check: B'D covers \{1,3,9,11\} and BC' covers \{4,5,12,13\}, so
+these two quads together cover all eight minterms, and C'D is redundant.
+Using the don't-cares to form BD' (\{4, 6, 12, 14\}) does not help:
+minterms 5 and 13 would still need C'D or BC', giving three terms
+instead of two. Both don't-cares are therefore taken as 0.
 
-\textbf{F = B'D + C'D + BD'}
+\textbf{F = B'D + BC'}
 
-Simplify further: B'D + C'D = D(B' + C') = D(BC)' by De Morgan's. And
-BD' is separate.
-
-\textbf{F = B'D + C'D + BD'}
+No further simplification is possible: this is 2 terms and 4 literals,
+compared with 3 terms and 6 literals for B'D + C'D + BD'.
 
 \subsection{Problem 6.2.4}\label{problem-6.2.4}
 
@@ -12990,14 +12987,15 @@ Two is even, so \textbf{even parity is confirmed}.
 V\textsubscript{DD} = 5 V with the following specifications:
 V\textsubscript{OH} = 4.9 V, V\textsubscript{OL} = 0.1 V,
 V\textsubscript{IH} = 3.5 V, V\textsubscript{IL} = 1.5 V. It drives a
-74LVC04 CMOS inverter operating at V\textsubscript{DD} = 3.3 V with
-specifications: V\textsubscript{IH} = 2.0 V, V\textsubscript{IL} = 0.8
-V, absolute maximum input voltage = 4.3 V.
+generic 3.3 V CMOS inverter whose inputs are not 5 V-tolerant, operating
+at V\textsubscript{DD} = 3.3 V with specifications: V\textsubscript{IH}
+= 2.0 V, V\textsubscript{IL} = 0.8 V, absolute maximum input voltage =
+V\textsubscript{DD} + 0.5 V = 3.8 V.
 
 \textbf{Find:} (a) The noise margins of the 74HC04. (b) Whether the
-74HC04 can directly drive the 74LVC04 for logic-low outputs. (c) Whether
-the 74HC04 can directly drive the 74LVC04 for logic-high outputs. (d) A
-solution if direct driving is not safe.
+74HC04 can directly drive the 3.3 V inverter for logic-low outputs. (c)
+Whether the 74HC04 can directly drive the 3.3 V inverter for logic-high
+outputs. (d) A solution if direct driving is not safe.
 
 \textbf{Solution:}
 
@@ -13008,15 +13006,15 @@ NM\textsubscript{L} = V\textsubscript{IL} - V\textsubscript{OL} = 1.5 -
 0.1 = \textbf{1.4 V}
 
 (b) Logic-low: V\textsubscript{OL}(74HC04) = 0.1 V \textless{}
-V\textsubscript{IL}(74LVC04) = 0.8 V.\\
+V\textsubscript{IL}(3.3 V inverter) = 0.8 V.\\
 The low output is well within the acceptable range. \textbf{Compatible
 for logic low.}
 
 (c) Logic-high: V\textsubscript{OH}(74HC04) = 4.9 V \textgreater{}
-V\textsubscript{max}(74LVC04) = 4.3 V.\\
+V\textsubscript{max}(3.3 V inverter) = 3.8 V.\\
 The 5 V output \textbf{exceeds the absolute maximum rating} of the 3.3 V
-device by 0.6 V. This will damage the 74LVC04. \textbf{Not safe for
-direct connection.}
+device by 1.1 V. This will damage the 3.3 V inverter. \textbf{Not safe
+for direct connection.}
 
 (d) Solutions:
 
@@ -13030,8 +13028,8 @@ direct connection.}
   Insert a bidirectional level shifter (e.g., TXS0108E) between the two
   devices.
 \item
-  Use a series resistor (e.g., 1 kΩ) to limit current through the
-  74LVC04 input clamping diodes, provided the data sheet allows this
+  Use a series resistor (e.g., 1 kΩ) to limit current through the 3.3 V
+  inverter input clamping diodes, provided the data sheet allows this
   approach.
 \end{enumerate}
 
@@ -13509,11 +13507,13 @@ and 4 cannot be grouped together.
 Groups:\\
 Group 1: \{0, 2, 8, 10\} (D₃D₂=00/10, D₁D₀=00/10) → common: D₂'D₀'.
 Includes don't-care 10. \textbf{D₂'D₀'}\\
-Group 2: \{2, 3, 6, 7\} (D₃D₂=00/01, D₁D₀=11/10) → common: D₁.
+Group 2: \{2, 3, 6, 7\} (D₃D₂=00/01, D₁D₀=11/10) → common: D₃'D₁; adding
+don't-cares \{10, 11, 14, 15\} doubles it to the 8-cell group D₁.
 \textbf{D₁}\\
 Group 3: \{5, 7, 13, 15\} → common: D₂D₀. Using don't-cares.
 \textbf{D₂D₀}\\
-Group 4: \{8, 9, 10, 11\} → D₃ covers all. \textbf{D₃}
+Group 4: \{8, 9, 10, 11\} → common: D₃D₂'; adding don't-cares \{12, 13,
+14, 15\} doubles it to the 8-cell group D₃ (cells 8--15). \textbf{D₃}
 
 Check coverage:
 
@@ -14025,8 +14025,8 @@ a sequence of length 2ⁿ - 1 before repeating.\\
 Maximum sequence length = 2⁸ - 1 = \textbf{255 states}
 
 (b) The polynomial x⁸ + x⁶ + x⁵ + x⁴ + 1 means the feedback is: new bit
-= Q₈ XOR Q₆ XOR Q₅ XOR Q₄ (using 1-indexed positions where Q₈ is the MSB
-being shifted out and Q₁ is the LSB).
+= Q₈ XOR Q₆ XOR Q₅ XOR Q₄ (using 1-indexed positions where Q₁ is the MSB
+at the input end and Q₈ is the LSB being shifted out).
 
 The tap positions must be indexed against the direction of the shift, or
 the seed 00000001 immediately produces zero feedback and the register
@@ -14034,8 +14034,8 @@ collapses into the all-zeros lockup state. Using the Fibonacci
 convention with the taps read from the end the data shifts
 \emph{toward}:
 
-Register {[}b₁ b₂ b₃ b₄ b₅ b₆ b₇ b₈{]}, shift right (b₁ is MSB input
-side):\\
+Register {[}b₁ b₂ b₃ b₄ b₅ b₆ b₇ b₈{]}, shift right (b₁ is the MSB at
+the input end, b₈ is the LSB being shifted out):\\
 Feedback to b₁ = b₈ XOR b₆ XOR b₅ XOR b₄.
 
 State 0: {[}0 0 0 0 0 0 0 1{]} (b₈ = 1)\\
@@ -14047,7 +14047,7 @@ Feedback = 0 XOR 0 XOR 0 XOR 0 = 0\\
 State 3: {[}0 0 1 0 0 0 0 0{]}\\
 Feedback = 0 XOR 0 XOR 0 XOR 0 = 0\\
 State 4: {[}0 0 0 1 0 0 0 0{]}\\
-Feedback = 0 XOR 0 XOR 1 XOR 0 = 1
+Feedback = 0 XOR 0 XOR 0 XOR 1 = 1
 
 First 5 states: \textbf{00000001, 10000000, 01000000, 00100000,
 00010000}
@@ -14391,11 +14391,11 @@ t\textsubscript{data} = t\textsubscript{cq} + t\textsubscript{route1} +
 t\textsubscript{data} = 0.5 + 0.8 + 3 × 0.4 + 0.6 = 0.5 + 0.8 + 1.2 +
 0.6 = \textbf{3.1 ns}
 
-(b) Setup time analysis (with clock skew --- late arrival at destination
-means less time for data):\\
-Setup slack = T\textsubscript{clk} - t\textsubscript{data} -
-t\textsubscript{su} - t\textsubscript{skew}\\
-Setup slack = 6.25 - 3.1 - 0.3 - 0.2 = \textbf{2.65 ns (positive ---
+(b) Setup time analysis (with clock skew --- a late-arriving destination
+clock gives the data more time to arrive before the capturing edge):\\
+Setup slack = T\textsubscript{clk} + t\textsubscript{skew} -
+t\textsubscript{data} - t\textsubscript{su}\\
+Setup slack = 6.25 + 0.2 - 3.1 - 0.3 = \textbf{3.05 ns (positive ---
 met)}
 
 (c) Hold time analysis (minimum path delay):\\
@@ -14405,20 +14405,19 @@ t\textsubscript{route,min} + t\textsubscript{logic,min} = 0.5 + 0.2 +
 Hold slack = t\textsubscript{data,min} - t\textsubscript{h} -
 t\textsubscript{skew}
 
-With late-arriving destination clock, hold is easier to meet (the data
-has more time):\\
-Hold slack = t\textsubscript{data,min} + t\textsubscript{skew} -
-t\textsubscript{h} = 1.0 + 0.2 - 0.15 = \textbf{1.05 ns (positive ---
-met)}
+With a late-arriving destination clock, hold is harder to meet (the new
+data must not reach the destination before the delayed capturing edge
+plus the hold time):\\
+Hold slack = 1.0 - 0.15 - 0.2 = \textbf{0.65 ns (positive --- met)}
 
-(d) Both setup slack (2.65 ns) and hold slack (1.05 ns) are positive.
+(d) Both setup slack (3.05 ns) and hold slack (0.65 ns) are positive.
 \textbf{The design meets timing at 160 MHz.}
 
 (e) Maximum frequency (setup-limited):\\
-T\textsubscript{clk,min} = t\textsubscript{data} + t\textsubscript{su} +
-t\textsubscript{skew} = 3.1 + 0.3 + 0.2 = 3.6 ns\\
-f\textsubscript{max} = 1 / T\textsubscript{clk,min} = 1 / 3.6 ns =
-\textbf{277.8 MHz}
+T\textsubscript{clk,min} = t\textsubscript{data} + t\textsubscript{su} -
+t\textsubscript{skew} = 3.1 + 0.3 - 0.2 = 3.2 ns\\
+f\textsubscript{max} = 1 / T\textsubscript{clk,min} = 1 / 3.2 ns =
+\textbf{312.5 MHz}
 
 \subsection{Problem 6.6.4}\label{problem-6.6.4}
 
