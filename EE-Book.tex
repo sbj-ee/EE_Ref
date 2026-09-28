@@ -10338,7 +10338,7 @@ Typical Application
 4/0 (0000) & 11.68 & 107.2 & 0.161 & Service entrance, large feeders \\
 2/0 (00) & 9.27 & 67.4 & 0.256 & Subpanels, large branch circuits \\
 1/0 (0) & 8.25 & 53.5 & 0.323 & Service entrance, grounding electrode \\
-4 & 5.19 & 21.2 & 0.815 & Range, dryer circuits (240 V) \\
+4 & 5.19 & 21.2 & 0.815 & Large feeders, 70--85 A circuits (240 V) \\
 6 & 4.11 & 13.3 & 1.296 & Large appliances, subpanels \\
 8 & 3.26 & 8.37 & 2.061 & Range and dryer feeders, 40--50 A circuits \\
 10 & 2.59 & 5.26 & 3.277 & Dryers, water heaters, 30 A circuits \\
@@ -10435,10 +10435,10 @@ R\textsubscript{one-way} = 5.211 × 0.0457 = \textbf{0.238 Ω}
 V\textsubscript{drop} = 2 × I × R = 2 × 20 × 0.238 = \textbf{9.52 V}
 
 (c) Percentage: V\textsubscript{drop}\% = 9.52/120 × 100 =
-\textbf{7.93\%}
+\textbf{7.94\%}
 
 (d) The NEC recommends ≤ 3\% for branch circuits (3.6 V at 120 V). At
-7.93\%, this circuit \textbf{does not meet} the recommendation.
+7.94\%, this circuit \textbf{does not meet} the recommendation.
 Solutions include upsizing to 10 AWG (R = 3.277 Ω/km,
 V\textsubscript{drop} = 5.99 V = 4.99\% --- still over 3\%) or
 shortening the run. Using 8 AWG (R = 2.061 Ω/km): V\textsubscript{drop}
@@ -10684,10 +10684,12 @@ current.
 
 \begin{examplebox}
 
-\textbf{Example 7.5.2:} A single-loop circuit has a 30 V source, a 5 kΩ
-resistor, and a 10 kΩ resistor in series. A second mesh shares the 10 kΩ
-resistor and contains a 15 V source and a 20 kΩ resistor. Find the mesh
-currents I₁ (left loop, clockwise) and I₂ (right loop, clockwise).
+\textbf{Example 7.5.2:} A single-loop circuit has a 30 V source oriented
+to produce a rise of 30 V in the clockwise direction, a 5 kΩ resistor,
+and a 10 kΩ resistor in series. A second mesh shares the 10 kΩ resistor
+and contains a 15 V source oriented to produce a rise of 15 V in the
+clockwise direction and a 20 kΩ resistor. Find the mesh currents I₁
+(left loop, clockwise) and I₂ (right loop, clockwise).
 
 \textbf{Solution:}\\
 KVL for mesh 1: 30 = 5000I₁ + 10000(I₁ - I₂), giving 30 = 15000I₁ -
@@ -11057,10 +11059,11 @@ and (c) whether this transformer provides a reasonable impedance match.
 
 (a) Reflected impedance, using the ideal-transformer relation:
 Z\textsubscript{reflected} = (N₁/N₂)² × Z\textsubscript{load} = (5)² × 8
-= \textbf{200 Ω}. (Strictly this holds for k = 1; at k = 0.98 the
-leakage inductance adds a small series reactance and the reflected value
-differs by a few percent, which is well inside the tolerance of a real
-audio transformer.)
+= \textbf{200 Ω}. (Strictly this holds for k = 1. At k = 0.98, near
+mid-band --- about 1--3 kHz for these inductances --- the resistive part
+of the coupled-coil input impedance is ≈ k² × 200 = 192 Ω, a few percent
+low; at the band edges magnetizing or leakage reactance dominates and
+the magnitude departs further.)
 
 (b) L₂ = L₁/(N₁/N₂)² = 100 mH/25 = 4 mH. M = k√(L₁L₂) = 0.98 × √(0.100 ×
 0.004) = 0.98 × √(4 × 10⁻⁴) = 0.98 × 0.02 = \textbf{19.6 mH}.
@@ -11105,7 +11108,7 @@ constant and the capacitor voltage at t = 0.5 s.
 Time constant: τ = R × C = 47,000 × 10 × 10⁻⁶ = 0.47 s.\\
 At t = 0.5 s: V\textsubscript{c}(0.5) = 9 × (1 -
 e\textsuperscript{-0.5/0.47}) = 9 × (1 - e\textsuperscript{-1.064}) = 9
-× (1 - 0.3453) = 9 × 0.6547 = 5.89 V.\\
+× (1 - 0.3451) = 9 × 0.6549 = 5.89 V.\\
 The capacitor has charged to about 65.5\% of the source voltage, which
 is consistent with being slightly past one time constant.
 
@@ -11135,7 +11138,7 @@ generating a back-EMF proportional to the rate of current change
 (V\textsubscript{L} = L × dI/dt). After 5τ, the current reaches
 approximately 99.3\% of its final value and the inductor behaves as a
 short circuit in DC steady state. RL circuits appear in relay coils,
-motor windings, and inductive loads, where the stored energy (E = ½ × L
+motor windings, and inductive loads, where the stored energy (W = ½ × L
 × I²) must be managed during switching to prevent voltage spikes.
 
 \begin{examplebox}
