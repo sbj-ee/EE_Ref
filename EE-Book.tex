@@ -11583,7 +11583,8 @@ This 19.1 kHz alias falls within the audible band and would appear as a
 spurious tone that cannot be distinguished from a genuine 19.1 kHz
 signal.\\
 To prevent this, the anti-aliasing filter must attenuate 25 kHz by at
-least 90 dB (below the 16-bit noise floor of −96 dB).\\
+least 96 dB (to push the alias below the 16-bit noise floor, about 98 dB
+below full scale for the ideal 16-bit SQNR).\\
 CD systems use steep analog filters with a transition band from 20 kHz
 to 22.05 kHz, which is why the sampling rate was chosen as 44.1 kHz
 rather than exactly 40 kHz --- the extra 10\% provides margin for a
@@ -11904,7 +11905,7 @@ signal whose spectrum exists only at positive frequencies --- the
 negative-frequency content has been suppressed. From the analytic
 signal, the \textbf{instantaneous envelope} (amplitude) is A(t) =
 \textbar z(t)\textbar{} = √(x² + x̂²), and the \textbf{instantaneous
-phase} is φ(t) = arctan(x̂(t)/x(t)), from which the \textbf{instantaneous
+phase} is φ(t) = atan2(x̂(t), x(t)), from which the \textbf{instantaneous
 frequency} f\textsubscript{i}(t) = (1/2π)(dφ/dt) can be derived. These
 quantities are essential for analyzing amplitude-modulated and
 frequency-modulated signals, characterizing non-stationary vibration
@@ -11936,11 +11937,11 @@ This cleanly recovers the 8 Hz modulating envelope without rectification
 or lowpass filtering, ranging from 0.5 (minimum) to 1.5 (maximum).\\
 The modulation index is m = 0.5/1.0 = 50\%.\\
 In practice, this is computed by FFT: for N = 1024 samples at
-f\textsubscript{s} = 2048 Hz, take the FFT, zero bins 514--1024 (the
-negative frequencies), double bins 2--512 (the positive frequencies),
-and leave bin 1 (DC) and bin 513 (Nyquist) unchanged --- both are their
-own conjugates and must not be doubled --- then take the inverse FFT to
-obtain z{[}n{]}.\\
+f\textsubscript{s} = 2048 Hz, take the FFT, zero bins k = 513--1023 (the
+negative frequencies), double bins k = 1--511 (the positive
+frequencies), and leave bin k = 0 (DC) and bin k = 512 (Nyquist)
+unchanged --- both are their own conjugates and must not be doubled ---
+then take the inverse FFT to obtain z{[}n{]}.\\
 The envelope is then A{[}n{]} = \textbar z{[}n{]}\textbar.
 
 \end{examplebox}
@@ -12321,18 +12322,19 @@ when Re\{s\} \textless{} 0, \textbar z\textbar{} \textless{} 1. The
 bilinear transform introduces \textbf{frequency warping}: the
 relationship between analog frequency Ω and digital frequency ω is
 nonlinear, Ω = (2/T)tan(ω/2), compressing the infinite analog frequency
-range into the finite digital range {[}0, π/T{]}. To compensate,
-\textbf{pre-warping} adjusts the critical analog prototype frequencies
-before the transformation so that the digital filter's passband edges,
-cutoff frequencies, or center frequency land at the desired locations.
-For a cutoff frequency ω\textsubscript{c} in the digital domain
-(rad/sample), the pre-warped analog frequency is Ω\textsubscript{c} =
-(2/T)tan(ω\textsubscript{c}/2). The bilinear transform is preferred over
-impulse invariance (which can alias) because it avoids aliasing entirely
---- the price is the nonlinear frequency mapping, which distorts the
-shape of wideband filters but is negligible for narrowband designs. All
-standard IIR filter design procedures (Butterworth, Chebyshev, Elliptic)
-in DSP software use the bilinear transform internally.
+range into the finite digital range {[}0, π{]} rad/sample. To
+compensate, \textbf{pre-warping} adjusts the critical analog prototype
+frequencies before the transformation so that the digital filter's
+passband edges, cutoff frequencies, or center frequency land at the
+desired locations. For a cutoff frequency ω\textsubscript{c} in the
+digital domain (rad/sample), the pre-warped analog frequency is
+Ω\textsubscript{c} = (2/T)tan(ω\textsubscript{c}/2). The bilinear
+transform is preferred over impulse invariance (which can alias) because
+it avoids aliasing entirely --- the price is the nonlinear frequency
+mapping, which distorts the shape of wideband filters but is negligible
+for narrowband designs. All standard IIR filter design procedures
+(Butterworth, Chebyshev, Elliptic) in DSP software use the bilinear
+transform internally.
 
 \begin{examplebox}
 
@@ -12446,8 +12448,10 @@ condition 3: a₂ \textless{} 1. Combined with condition 2 (always
 satisfied for a₁ = −1.5, a₂ \textgreater{} 0): the maximum a₂ for
 stability is a₂ \textless{} \textbf{1.0}. In Q15 fixed-point with the
 pole radius at √a₂ = √0.72 = 0.8485, quantizing a₂ = 0.72 to Q15 gives
-0.72 × 32768 = 23593 → 23593/32768 = 0.71997, which remains safely
-within the stability triangle.
+0.72 × 32768 = 23593 → 23593/32768 = 0.720001, which remains safely
+within the stability triangle. (Note that a₁ = −1.5 lies outside the Q15
+range {[}−1, 1), so in practice the coefficients are stored in Q14 or
+the section is scaled by 1/2.)
 
 \end{examplebox}
 
@@ -12586,12 +12590,12 @@ minimum stopband attenuation of 40 dB, and a sampling rate of 16 kHz.
 Estimate the required order for a Butterworth IIR filter.
 
 \textbf{Solution:}\\
-Normalized frequencies: Ω\textsubscript{p} = 2π × 2000/16000 = 0.25π
-rad/sample, Ω\textsubscript{s} = 2π × 3000/16000 = 0.375π rad/sample.\\
-Using the bilinear transform pre-warping: ω\textsubscript{p} =
-tan(Ω\textsubscript{p}/2) = tan(0.125π) = 0.4142, ω\textsubscript{s} =
-tan(Ω\textsubscript{s}/2) = tan(0.1875π) = 0.6682.\\
-Selectivity ratio: k = ω\textsubscript{p}/ω\textsubscript{s} =
+Normalized frequencies: ω\textsubscript{p} = 2π × 2000/16000 = 0.25π
+rad/sample, ω\textsubscript{s} = 2π × 3000/16000 = 0.375π rad/sample.\\
+Using the bilinear transform pre-warping: Ω\textsubscript{p} =
+tan(ω\textsubscript{p}/2) = tan(0.125π) = 0.4142, Ω\textsubscript{s} =
+tan(ω\textsubscript{s}/2) = tan(0.1875π) = 0.6682.\\
+Selectivity ratio: k = Ω\textsubscript{p}/Ω\textsubscript{s} =
 0.4142/0.6682 = 0.6198.\\
 The Butterworth order formula: n ≥ log{[}(10\textsuperscript{As/10} -
 1)/(10\textsuperscript{Ap/10} - 1){]} / (2 × log(1/k)) = log{[}(10⁴ -
@@ -12680,7 +12684,7 @@ in Q15 fixed-point (16-bit) on a DSP. The filter is realized as a
 cascade of three second-order sections (biquads). Each biquad has a
 32-bit accumulator. Estimate the output roundoff noise power if each
 biquad contributes an independent roundoff noise variance of σ² =
-2⁻²ᴮ/12, where B = 15 bits, and compare to a single direct-form VI
+2⁻²ᴮ/12, where B = 15 bits, and compare to a single direct-form I
 implementation.
 
 \textbf{Solution:}\\
@@ -12764,8 +12768,8 @@ Equalization}\label{allpass-filters-and-group-delay-equalization}
 An allpass filter is a system with unity magnitude response at all
 frequencies --- \textbar H(e\textsuperscript{jω})\textbar{} = 1 for all
 ω --- but a frequency-dependent phase response. For a first-order
-digital allpass filter, the transfer function is H(z) = (a* + z⁻¹) / (1
-+ az⁻¹), where a is a real coefficient with \textbar a\textbar{}
+digital allpass filter, the transfer function is H(z) = (a + z⁻¹) / (1 +
+az⁻¹), where a is a real coefficient with \textbar a\textbar{}
 \textless{} 1. For a second-order allpass section: H(z) = (a₂ + a₁z⁻¹ +
 z⁻²) / (1 + a₁z⁻¹ + a₂z⁻²) --- the numerator coefficients are the
 denominator coefficients in reversed order, which places the zeros at
@@ -12797,9 +12801,12 @@ highpass (power complementary if \textbar H\textbar² +
 \textbar G\textbar² = 1). Allpass-based complementary pairs use two
 allpass filters A₀(z) and A₁(z) to create H\textsubscript{LP}(z) =
 (A₀(z²) + z⁻¹A₁(z²))/2 and H\textsubscript{HP}(z) = (A₀(z²) −
-z⁻¹A₁(z²))/2, guaranteeing perfect reconstruction (the sum exactly
-equals a pure delay). This structure is used in QMF (Quadrature Mirror
-Filter) banks for audio coding and subband processing.
+z⁻¹A₁(z²))/2, which are power complementary
+(\textbar H\textsubscript{LP}\textbar² +
+\textbar H\textsubscript{HP}\textbar² = 1) and allpass complementary
+(the sum H\textsubscript{LP} + H\textsubscript{HP} = A₀(z²) is itself an
+allpass, not a pure delay). This structure is used in QMF (Quadrature
+Mirror Filter) banks for audio coding and subband processing.
 
 \begin{examplebox}
 
@@ -13378,7 +13385,8 @@ using a constant-velocity Kalman filter. The state vector is x =
 {[}position, velocity{]}\textsuperscript{T}, the state transition matrix
 (for Δt = 1 s) is A = {[}{[}1, 1{]}, {[}0, 1{]}{]}, the observation
 matrix is H = {[}1, 0{]} (GPS measures position only), the process noise
-covariance is Q = {[}{[}0.25, 0.5{]}, {[}0.5, 1.0{]}{]} m², and the
+covariance is Q = {[}{[}0.25, 0.5{]}, {[}0.5, 1.0{]}{]} (units m², m²/s,
+and m²/s² for the position, cross, and velocity terms), and the
 measurement noise variance is R = 9 m². At time n−1, the estimated state
 is x̂ = {[}100 m, 2 m/s{]}\textsuperscript{T} with error covariance P =
 {[}{[}4, 0{]}, {[}0, 1{]}{]}. A GPS measurement of z = 105 m arrives.
@@ -13529,9 +13537,9 @@ y − Φx̂, adds its index to the support set, and solves a least-squares
 problem over the selected columns.\\
 After K = 8 iterations, the algorithm has identified all 8 nonzero DCT
 coefficients and their values.\\
-In practice, M is chosen 3--5× larger than the theoretical minimum to
-provide robustness against noise, so M = 80--120 measurements would be
-typical for reliable recovery at moderate SNR.\\
+In practice, M is chosen about 1.5--2× larger than the theoretical
+minimum to provide robustness against noise, so M = 80--120 measurements
+would be typical for reliable recovery at moderate SNR.\\
 For an MRI application, this means a 256 × 256 image with sparsity K =
 2000 in the wavelet domain could be reconstructed from approximately
 20,000 k-space samples instead of 65,536, reducing scan time by roughly

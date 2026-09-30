@@ -17012,9 +17012,10 @@ The 800 Hz component exceeds 500 Hz, so it \textbf{aliases}.
 signal.\\
 The 800 Hz component aliases to: f\textsubscript{alias} =
 f\textsubscript{s} - 800 = 1000 - 800 = \textbf{200 Hz}.\\
-Both components appear at 200 Hz and \textbf{cannot be separated}. The
-sampled signal appears as a single 200 Hz tone with amplitude between 3
-and 5 (depending on phase alignment).
+Both components appear at 200 Hz and \textbf{cannot be separated}.
+Because both cosines have zero phase, the aliased samples add
+coherently: the sampled signal appears as a single 200 Hz tone with
+amplitude exactly 4 + 1 = 5.
 
 (d) To sample both components without aliasing:\\
 f\textsubscript{s} ≥ 2 × f\textsubscript{max} × 1.25 = 2 × 800 × 1.25 =
@@ -17096,8 +17097,18 @@ of the signal in the sampled spectrum.
 
 \textbf{Solution:}
 
-(a) The minimum bandpass sampling rate is:\\
-f\textsubscript{s,min} = 2B = 2 × 5 = \textbf{10 MHz}
+(a) The theoretical lower bound is 2B = 10 MHz, but it is achievable
+only when f\textsubscript{upper}/B is an integer. Here
+f\textsubscript{upper}/B = 72.5/5 = 14.5, and at 10 MHz the band
+67.5--72.5 MHz straddles the Nyquist-zone boundary at 14 ×
+(f\textsubscript{s}/2) = 70 MHz, so the images overlap. The minimum
+usable rate uses the largest integer m = ⌊f\textsubscript{upper}/B⌋ =
+14:\\
+f\textsubscript{s,min} =
+2f\textsubscript{upper}/⌊f\textsubscript{upper}/B⌋ = 2 × 72.5/14 =
+\textbf{10.36 MHz}\\
+(valid range for m = 14: 2f\textsubscript{upper}/14 = 10.357 MHz ≤
+f\textsubscript{s} ≤ 2f\textsubscript{lower}/13 = 10.385 MHz)
 
 (b) For bandpass sampling, the sampling rate must satisfy
 f\textsubscript{s} = 2f\textsubscript{upper}/m for integer m, where the
@@ -17155,11 +17166,11 @@ P₁ = 3.183²/2 = 5.066 W\\
 P₂ = 1.592²/2 = 1.267 W\\
 P₃ = 1.061²/2 = 0.563 W\\
 P₄ = 0.796²/2 = 0.317 W\\
-Sum = 7.213 W
+Sum = 7.212 W
 
 Total power: P\textsubscript{total} = A²/3 = 25/3 = 8.333 W (for a
 sawtooth).\\
-Fraction: 7.213 / 8.333 = \textbf{86.6\%}
+Fraction: 7.212 / 8.333 = \textbf{86.5\%}
 
 \subsection{Problem 8.2.2}\label{problem-8.2.2}
 
@@ -17188,14 +17199,14 @@ The two-sided 3 dB bandwidth is 2 × 166.1 = 332.2 Hz.
 
 (c) Time-bandwidth product:\\
 The pulse duration at the 3 dB level: setting e\textsuperscript{-πt²/τ²}
-= 1/√2 gives t\textsubscript{3dB} = τ√(ln2/π) = 0.002 × √(0.2206) =
-0.002 × 0.4697 = 0.939 ms.\\
-Two-sided pulse width = 2 × 0.939 = 1.879 ms.\\
-TBP = 1.879 × 10⁻³ × 332.2 = \textbf{0.624}
+= 1/√2 gives πt²/τ² = ln2/2, so t\textsubscript{3dB} = τ√(ln2/(2π)) =
+0.002 × √(0.1103) = 0.002 × 0.3321 = 0.664 ms.\\
+Two-sided pulse width = 2 × 0.664 = 1.329 ms.\\
+TBP = 1.329 × 10⁻³ × 332.2 = \textbf{0.441}
 
-This is close to the theoretical minimum of 0.44 (for a Gaussian),
-confirming that Gaussian pulses have near-optimal time-bandwidth
-product.
+This equals the theoretical minimum of 2ln2/π ≈ 0.44 (for a Gaussian,
+using half-power widths in both domains), confirming that Gaussian
+pulses achieve the optimal time-bandwidth product.
 
 \subsection{Problem 8.2.3}\label{problem-8.2.3}
 
@@ -17220,14 +17231,18 @@ window (main lobe width = 2 bins), the tones are \textbf{barely
 resolvable} --- they fall in adjacent main lobes with a visible dip
 between them.
 
-(d) A Hanning window has a main lobe width of approximately 4 bins. To
-resolve two tones separated by Δf\textsubscript{sep} = 100 Hz, we need 4
-× (f\textsubscript{s}/N) ≤ 100:\\
-N ≥ 4 × f\textsubscript{s} / 100 = 4 × 10,000 / 100 = \textbf{400
+(d) A Hanning window has a main lobe width of approximately 4 bins, so
+its Rayleigh resolution (half the main lobe, as in Example 8.6.2) is
+approximately 2 bins. To resolve two tones separated by
+Δf\textsubscript{sep} = 100 Hz, we need 2 × (f\textsubscript{s}/N) ≤
+100:\\
+N ≥ 2 × f\textsubscript{s} / 100 = 2 × 10,000 / 100 = \textbf{200
 points}
 
-With N = 400: Δf = 25 Hz, and the Hanning main lobe width = 4 × 25 = 100
-Hz, just sufficient to resolve the two tones.
+With N = 200: Δf = 50 Hz, and the Hanning resolution = 2 × 50 = 100 Hz,
+which places the tones exactly at the resolution limit (only a very
+shallow dip between the peaks). A modest margin such as N = 256 (Hanning
+resolution 78 Hz) gives a clear dip of about 8 dB.
 
 \subsection{Problem 8.2.4}\label{problem-8.2.4}
 
@@ -17378,8 +17393,9 @@ frequencies.
 \subsection{Problem 8.2.8}\label{problem-8.2.8}
 
 \textbf{Given:} A periodic triangular wave has amplitude A = 3 V and
-period T = 5 ms. The Fourier series contains only odd harmonics with
-coefficients aₙ = 8A/(n²π²) for odd n.
+period T = 5 ms. The Fourier series contains only odd harmonics: x(t) =
+Σ aₙ(−1)\textsuperscript{(n−1)/2}sin(2πnf₀t) with coefficients aₙ =
+8A/(n²π²) for odd n.
 
 \textbf{Find:} (a) The fundamental frequency, (b) the amplitudes of the
 first three nonzero harmonics, (c) the total harmonic distortion (THD)
@@ -17403,13 +17419,14 @@ THD = 0.287 / 2.432 = \textbf{11.8\%}
 
 (d) At t = T/4 = 1.25 ms, the triangular wave reaches its peak of A = 3
 V.\\
-Fourier approximation: x(T/4) = a₁sin(π/2) + a₃sin(3π/2) + a₅sin(5π/2)\\
-= 2.432(1) + 0.270(-1) + 0.097(1) = 2.432 - 0.270 + 0.097 =
-\textbf{2.259 V}
+Fourier approximation: x(T/4) = a₁sin(π/2) − a₃sin(3π/2) + a₅sin(5π/2)\\
+= 2.432(1) − 0.270(-1) + 0.097(1) = 2.432 + 0.270 + 0.097 =
+\textbf{2.799 V}
 
-The 3-term approximation gives 2.259 V versus the exact value of 3.0 V,
-showing 24.7\% error at the peak --- more terms are needed for accurate
-peak representation.
+The 3-term approximation gives 2.799 V versus the exact value of 3.0 V,
+showing 6.7\% error at the peak --- because the coefficients fall off as
+1/n², the triangle-wave series converges quickly, and the remaining
+error comes from the higher odd harmonics, which all add at the peak.
 
 \subsection{Problem 8.2.9}\label{problem-8.2.9}
 
@@ -17549,13 +17566,18 @@ system is \textbf{stable}.
 (d) DC gain:\\
 H(0) = 50(2)/25 = 100/25 = \textbf{4.0}
 
-(e) The peak resonant frequency for an underdamped second-order
-system:\\
-ω\textsubscript{r} = ω\textsubscript{n}√(1 - 2ζ²) = 5√(1 - 2(0.36)) =
-5√(0.28) = 5 × 0.5292 = \textbf{2.65 rad/s} (f\textsubscript{r} = 0.421
-Hz)
-
-Since 1 - 2ζ² = 0.28 \textgreater{} 0, a resonant peak exists.
+(e) The textbook formula ω\textsubscript{r} = ω\textsubscript{n}√(1 -
+2ζ²) = 2.65 rad/s applies only to the zero-free prototype
+ω\textsubscript{n}²/(s² + 2ζω\textsubscript{n}s + ω\textsubscript{n}²).
+Here the zero at s = -2 raises the high-frequency response and moves the
+peak, so the peak must be found from \textbar H(jω)\textbar{}
+directly:\\
+\textbar H(jω)\textbar² = 2500(ω² + 4)/{[}(25 - ω²)² + 36ω²{]}\\
+Setting the derivative with respect to u = ω² to zero gives u² + 8u -
+681 = 0 → u = -4 + √697 = 22.40\\
+ω\textsubscript{r} = √22.40 = \textbf{4.73 rad/s} (f\textsubscript{r} =
+0.753 Hz), with peak \textbar H(jω\textsubscript{r})\textbar{} ≈
+\textbf{9.01} (2.25× the DC gain, +7.1 dB).
 
 \subsection{Problem 8.3.3}\label{problem-8.3.3}
 
@@ -17786,8 +17808,8 @@ y(∞) = lim\textsubscript{s→0} sY(s) = lim\textsubscript{s→0} 20/(s + 5)
 y(∞) = lim\textsubscript{s→0} sY(s) = lim\textsubscript{s→0} 20/{[}s(s +
 5){]} = ∞\\
 The final value theorem indicates the output \textbf{grows without
-bound} (the system has zero steady-state error for a step but infinite
-error for a ramp when there is no integrator in the loop).
+bound} (the stable first-order system passes the ramp with DC gain 4, so
+the output ramps indefinitely).
 
 (c) Sinusoidal input: X(s) = 3/(s² + 9)\\
 The \textbf{final value theorem does not apply} because the output Y(s)
@@ -17968,7 +17990,7 @@ magnitude response at DC and at 4 kHz (Nyquist).
 (a) Digital cutoff frequency: ω\textsubscript{c} = 2π × 1000/8000 =
 0.25π rad/sample\\
 Pre-warped analog frequency:\\
-Ω\textsubscript{c} = (2/T)tan(ω\textsubscript{c}T/2) = 2 × 8000 ×
+Ω\textsubscript{c} = (2/T)tan(ω\textsubscript{c}/2) = 2 × 8000 ×
 tan(0.25π/2) = 16,000 × tan(0.3927)\\
 = 16,000 × 0.4142 = \textbf{6,627 rad/s}
 
@@ -18104,31 +18126,34 @@ function coefficients.
 Pre-warped frequencies:\\
 Ω₀ = (2/T)tan(ω₀/2) = 2 × 16,000 × tan(0.125π) = 32,000 × 0.4142 =
 \textbf{13,255 rad/s}\\
-Ω\textsubscript{L} = 32,000 × tan(0.1125π) = 32,000 × 0.3640 =
-\textbf{11,647 rad/s}\\
-Ω\textsubscript{H} = 32,000 × tan(0.1375π) = 32,000 × 0.4680 =
-\textbf{14,977 rad/s}\\
-Pre-warped BW = Ω\textsubscript{H} - Ω\textsubscript{L} = 14,977 -
-11,647 = \textbf{3,330 rad/s}
+Ω\textsubscript{L} = 32,000 × tan(0.1125π) = 32,000 × 0.3689 =
+\textbf{11,805 rad/s}\\
+Ω\textsubscript{H} = 32,000 × tan(0.1375π) = 32,000 × 0.4610 =
+\textbf{14,752 rad/s}\\
+Pre-warped BW = Ω\textsubscript{H} - Ω\textsubscript{L} = 14,752 -
+11,805 = \textbf{2,947 rad/s}
 
 (b) Analog prototype:\\
-H\textsubscript{a}(s) = 3,330s / (s² + 3,330s + 13,255²) =
-\textbf{3,330s / (s² + 3,330s + 1.757 × 10⁸)}
+H\textsubscript{a}(s) = 2,947s / (s² + 2,947s + 13,255²) =
+\textbf{2,947s / (s² + 2,947s + 1.757 × 10⁸)}
 
 (c) Applying the bilinear transform s = 32,000(z - 1)/(z + 1) and
 simplifying (normalizing by the coefficient of z² in the denominator):
 
 The denominator becomes: {[}32,000(z-1)/(z+1){]}² +
-3,330{[}32,000(z-1)/(z+1){]} + 1.757 × 10⁸
+2,947{[}32,000(z-1)/(z+1){]} + 1.757 × 10⁸
 
 After algebraic simplification (expanding and collecting terms in z², z,
 and constant):\\
 Numerator ∝ (z² - 1) (bandpass: zero at DC and Nyquist)\\
 Denominator coefficients yield:
 
-H(z) ≈ \textbf{0.0940(1 - z⁻²) / (1 - 1.6629z⁻¹ + 0.8120z⁻²)}
+H(z) ≈ \textbf{0.0729(1 - z⁻²) / (1 - 1.3111z⁻¹ + 0.8542z⁻²)}
 
-The pole magnitude is √0.8120 = 0.9011 (stable, inside unit circle).\\
+The pole magnitude is √0.8542 = 0.9243 (stable, inside unit circle). As
+a check, \textbar H(e\textsuperscript{jω})\textbar{} = 1.000 at exactly
+2 kHz, and the −3 dB points fall at about 1,808 Hz and 2,208 Hz (≈400 Hz
+bandwidth).\\
 The Q factor is f₀/BW = 2000/400 = 5, producing sharp resonance at 2
 kHz.
 
@@ -18149,8 +18174,8 @@ locations.
 Necessary conditions for the Jury test (n = 3):\\
 Condition 1: D(1) \textgreater{} 0 → 1 - 1.8 + 1.2 - 0.3 = \textbf{0.1
 \textgreater{} 0} ✓\\
-Condition 2: (-1)ⁿD(-1) \textgreater{} 0 → (-1)³(-1 - 1.8 - 1.2 + 0.3) =
-(-1)(-2.7) = \textbf{2.7 \textgreater{} 0} ✓\\
+Condition 2: (-1)ⁿD(-1) \textgreater{} 0 → (-1)³(-1 - 1.8 - 1.2 - 0.3) =
+(-1)(-4.3) = \textbf{4.3 \textgreater{} 0} ✓\\
 Condition 3: \textbar a₃\textbar{} \textless{} \textbar a₀\textbar{} →
 \textbar-0.3\textbar{} \textless{} \textbar1\textbar{} → \textbf{0.3
 \textless{} 1} ✓
@@ -18170,12 +18195,14 @@ Check \textbar b₀\textbar{} \textgreater{} \textbar b₂\textbar:
 
 All conditions satisfied → \textbf{Stable}
 
-(c) Trying z = 0.5: D(0.5) = 0.125 - 0.45 + 0.6 - 0.3 = -0.025 ≈ 0\\
-Refining, one real pole near z ≈ \textbf{0.48}.\\
-The remaining quadratic: z² - 1.32z + 0.625 = 0 → z = (1.32 ± √(1.7424 -
-2.5))/2 = (1.32 ± j0.870)/2\\
-z = \textbf{0.66 ± j0.435}, \textbar z\textbar{} = √(0.4356 + 0.1892) =
-√0.6248 = \textbf{0.791}\\
+(c) Since D(0.6) = 0.216 - 0.648 + 0.72 - 0.3 = -0.012 \textless{} 0 and
+D(0.7) = 0.343 - 0.882 + 0.84 - 0.3 = +0.001 \textgreater{} 0, there is
+a real root between them.\\
+Refining, one real pole at z ≈ \textbf{0.693} (D(0.693) ≈ 0).\\
+The remaining quadratic: z² - 1.107z + 0.4327 = 0 → z = (1.107 ±
+√(1.2249 - 1.7310))/2 = (1.107 ± j0.711)/2\\
+z = \textbf{0.553 ± j0.356}, \textbar z\textbar{} = √0.4327 =
+\textbf{0.658}\\
 All poles inside the unit circle --- confirmed stable.
 
 \subsection{Problem 8.4.9}\label{problem-8.4.9}
@@ -18191,8 +18218,7 @@ response magnitude at 1 kHz and 5 kHz.
 
 (a) Numerator: 1 + 2z⁻¹ + z⁻² = (1 + z⁻¹)² → zeros at z = \textbf{-1}
 (double zero)\\
-Denominator: 1 - 0.5z⁻¹ → pole at z = \textbf{0.5}\\
-This is an \textbf{IIR} filter (has a non-trivial pole at z = 0.5).
+Denominator: 1 - 0.5z⁻¹ → pole at z = \textbf{0.5}
 
 (b) This is \textbf{IIR} --- the feedback pole at z = 0.5 creates an
 infinite impulse response.
@@ -18331,16 +18357,20 @@ Center frequency: f₀ = (θ/2π) × f\textsubscript{s} = (45/360) × 8000 =
 \textbf{1000 Hz}
 
 (d) The 3 dB bandwidth for a second-order bandpass filter:\\
-BW ≈ (1 - r²) × f\textsubscript{s} / (2π) where r = pole radius = 0.9\\
-BW ≈ (1 - 0.81) × 8000 / (2π) = 0.19 × 8000 / 6.283 = \textbf{241.9 Hz}
+BW ≈ (1 - r) × f\textsubscript{s} / π where r = pole radius = 0.9\\
+BW ≈ (1 - 0.9) × 8000 / π = 800 / 3.1416 = \textbf{254.6 Hz}
 
-The Q factor is Q = f₀/BW = 1000/241.9 ≈ 4.1.
+This narrowband approximation is about 4\% low for r = 0.9: evaluating
+\textbar H(e\textsuperscript{jω})\textbar{} directly gives a peak of
+1.00 near 1,007 Hz and −3 dB points at about 881 Hz and 1,147 Hz, an
+exact bandwidth of ≈ \textbf{266 Hz}.\\
+The Q factor is Q = f₀/BW = 1000/266 ≈ 3.8.
 
 \subsection{Problem 8.5.3}\label{problem-8.5.3}
 
 \textbf{Given:} A digital lowpass filter is required with passband edge
 f\textsubscript{p} = 3 kHz (1 dB ripple), stopband edge
-f\textsubscript{s} = 4.5 kHz (50 dB attenuation), and sampling rate
+f\textsubscript{stop} = 4.5 kHz (50 dB attenuation), and sampling rate
 f\textsubscript{s} = 20 kHz. Compare the required orders for Butterworth
 and Chebyshev Type I IIR designs.
 
@@ -18351,15 +18381,15 @@ order.
 \textbf{Solution:}
 
 (a) Normalized digital frequencies:\\
-Ω\textsubscript{p} = 2π × 3000/20,000 = 0.3π rad/sample\\
-Ω\textsubscript{s} = 2π × 4500/20,000 = 0.45π rad/sample
+ω\textsubscript{p} = 2π × 3000/20,000 = 0.3π rad/sample\\
+ω\textsubscript{s} = 2π × 4500/20,000 = 0.45π rad/sample
 
 (b) Pre-warped analog frequencies:\\
-ω\textsubscript{p} = tan(Ω\textsubscript{p}/2) = tan(0.15π) = tan(27°) =
+Ω\textsubscript{p} = tan(ω\textsubscript{p}/2) = tan(0.15π) = tan(27°) =
 \textbf{0.5095}\\
-ω\textsubscript{s} = tan(Ω\textsubscript{s}/2) = tan(0.225π) =
+Ω\textsubscript{s} = tan(ω\textsubscript{s}/2) = tan(0.225π) =
 tan(40.5°) = \textbf{0.8541}\\
-Selectivity ratio: k = ω\textsubscript{p}/ω\textsubscript{s} =
+Selectivity ratio: k = Ω\textsubscript{p}/Ω\textsubscript{s} =
 0.5095/0.8541 = 0.5965
 
 (c) Butterworth order:\\
@@ -18420,12 +18450,14 @@ from 1440 at the intermediate rate.
 
 \textbf{Given:} A second-order IIR notch filter centered at 60 Hz (for
 power line rejection) is designed for f\textsubscript{s} = 1000 Hz. For
-a notch at ω₀ the denominator coefficient is a₁ = −2r·cos(ω₀), and with
-ω₀ = 2π × 60/1000 = 0.37699 rad/sample and pole radius r = √a₂ this
-gives a₁ = \textbf{−1.85955}, with a₂ = 0.95. The filter is implemented
-in Q15 fixed-point (16-bit signed).
+a notch at ω₀ = 2π × 60/1000 = 0.37699 rad/sample, the zeros sit on the
+unit circle and the numerator coefficient that sets the notch frequency
+is b₁ = −2cos(ω₀) = \textbf{−1.85955}. The poles share the same angle at
+radius r = √a₂, with a₂ = 0.95 and denominator coefficient a₁ =
+−2r·cos(ω₀) = −1.81247. The filter is implemented in Q15 fixed-point
+(16-bit signed).
 
-\textbf{Find:} (a) The Q15 representations of a₁ and a₂, (b) the
+\textbf{Find:} (a) The Q15 representations of b₁ and a₂, (b) the
 quantized coefficient values, (c) the quantization error for each
 coefficient, and (d) the shift in notch frequency due to quantization.
 
@@ -18433,36 +18465,37 @@ coefficient, and (d) the shift in notch frequency due to quantization.
 
 (a) Q15 represents values from -1.0 to +0.99997 with resolution 2⁻¹⁵ =
 3.052 × 10⁻⁵.\\
-However, \textbar a₁\textbar{} = 1.85955 \textgreater{} 1.0, which
+However, \textbar b₁\textbar{} = 1.85955 \textgreater{} 1.0, which
 \textbf{exceeds Q15 range} --- a recurring practical problem, since the
-a₁ coefficient of any narrowband second-order section is close to −2.
+first-order (b₁ and a₁) coefficients of any narrowband second-order
+section are close to −2.
 
-Use Q14 scaling (one guard bit): a₁\textsubscript{Q14} = round(−1.85955
+Use Q14 scaling (one guard bit): b₁\textsubscript{Q14} = round(−1.85955
 × 2¹⁴) = round(−30,466.9) = \textbf{−30,467}\\
 a₂ fits in Q15: a₂\textsubscript{Q15} = round(0.95 × 2¹⁵) =
 round(31,129.6) = \textbf{31,130}
 
 (b) Quantized values (divide the integer code by its scale factor):\\
-a₁\textsubscript{quant} = −30,467 / 2¹⁴ = −30,467 / 16,384 =
+b₁\textsubscript{quant} = −30,467 / 2¹⁴ = −30,467 / 16,384 =
 \textbf{−1.859558}\\
 a₂\textsubscript{quant} = 31,130 / 2¹⁵ = 31,130 / 32,768 =
 \textbf{0.950012}
 
 (c) Quantization errors (quantized minus ideal):\\
-Δa₁ = −1.859558 − (−1.85955) = \textbf{−8.1 × 10⁻⁶} (−0.00044\%)\\
+Δb₁ = −1.859558 − (−1.85955) = \textbf{−8.1 × 10⁻⁶} (−0.00044\%)\\
 Δa₂ = 0.950012 − 0.95 = \textbf{+1.2 × 10⁻⁵} (+0.0013\%)\\
 Each error is at most half an LSB of its format --- 2⁻¹⁵ = 3.05 × 10⁻⁵
-for a₁ in Q14 and 1.53 × 10⁻⁵ for a₂ in Q15 --- as rounding guarantees.
+for b₁ in Q14 and 1.53 × 10⁻⁵ for a₂ in Q15 --- as rounding guarantees.
 
-(d) The notch frequency depends on a₁: for a second-order notch, ω₀ =
-arccos(−a₁/2).\\
+(d) The notch frequency is set by the unit-circle zeros, i.e.~by b₁: ω₀
+= arccos(−b₁/2).\\
 Ideal: ω₀ = arccos(1.85955/2) = arccos(0.929775) = 0.376995 rad/sample →
 f₀ = (0.376995/2π) × 1000 = \textbf{60.00 Hz}\\
 Quantized: ω₀ = arccos(1.859558/2) = arccos(0.929779) = 0.376984
 rad/sample → f₀ = \textbf{59.999 Hz}\\
 Shift ≈ \textbf{0.002 Hz}, negligible for power-line rejection: a 60 Hz
 notch typically has a 3 dB bandwidth of several hertz, so a 2 mHz centre
-shift is four orders of magnitude smaller than the notch width.
+shift is about three orders of magnitude smaller than the notch width.
 
 \subsection{Problem 8.5.6}\label{problem-8.5.6}
 
@@ -18531,8 +18564,8 @@ After: approximately flat at 32 samples\\
 Added latency = 32 - 5.8 = 26.2 samples = 26.2/48,000 = \textbf{0.546
 ms}
 
-(d) Each biquad section requires 5 multiply-accumulate operations (2
-feedforward + 2 feedback + 1 input scaling, using Direct Form II
+(d) Each biquad section requires 5 multiply-accumulate operations (3
+feedforward (b₀, b₁, b₂) + 2 feedback, using Direct Form II
 Transposed):\\
 Total MACs = 5 × 5 sections = \textbf{25 multiply-accumulate operations
 per sample}
@@ -18667,12 +18700,12 @@ This is the unnormalized gain. The DC gain is M\textsuperscript{N} =
 100³ = 10⁶. Normalized:\\
 \textbar H(40 kHz)\textbar{}\textsubscript{norm} =
 \textbar sin(0.4π)/(100 × sin(0.004π))\textbar³\\
-= (0.9511/(100 × 0.01257))³ = (0.9511/1.257)³ = (0.7565)³ =
-\textbf{0.4328}
+= (0.9511/(100 × 0.012566))³ = (0.9511/1.2566)³ = (0.7568)³ =
+\textbf{0.4335}
 
-Droop in dB: 20log₁₀(0.4328) = \textbf{-7.28 dB}
+Droop in dB: 20log₁₀(0.4335) = \textbf{-7.26 dB}
 
-(d) A passband droop of 7.28 dB at 40 kHz is \textbf{severe} --- a
+(d) A passband droop of 7.26 dB at 40 kHz is \textbf{severe} --- a
 compensation (droop correction) FIR filter operating at the decimated
 rate of 100 kHz is \textbf{required}. The compensator has an
 inverse-sinc response that boosts frequencies near the passband edge to
@@ -18742,21 +18775,25 @@ Main lobe width (rectangular) = 2 × Δf = 46.88 Hz.
 resolved} with the rectangular window. However, sidelobes at -13 dB may
 cause artifacts.
 
-(c) Hanning window main lobe width = 4 × Δf = 4 × 23.44 = 93.75 Hz.
+(c) Hanning window main lobe width = 4 × Δf = 4 × 23.44 = 93.75 Hz, so
+its Rayleigh resolution (half the main lobe, as in Example 8.6.2) is
+approximately 2 × Δf = \textbf{46.88 Hz}.
 
-Since 80 Hz \textless{} 93.75 Hz, the two tones \textbf{cannot be
-resolved} with a Hanning window at N = 2048.
+Since 80 Hz \textgreater{} 46.88 Hz, the two tones \textbf{can be
+resolved} with a Hanning window at N = 2048 --- the spectrum shows a dip
+of about 20 dB between the two peaks, with the benefit of −31 dB
+sidelobes instead of −13 dB.
 
-(d) For the Hanning window to resolve the tones, the main lobe width
+(d) For the Hanning window to resolve the tones, the Rayleigh resolution
 must be less than the separation:\\
-4 × (f\textsubscript{s}/N) \textless{} 80 → N \textgreater{} 4 ×
-48,000/80 = 2,400
+2 × (f\textsubscript{s}/N) \textless{} 80 → N \textgreater{} 2 ×
+48,000/80 = 1,200
 
-The minimum FFT length is \textbf{N = 2,400} (next power of 2 would be N
-= 4,096 for computational efficiency).
-
-With N = 4,096: Δf = 48,000/4,096 = 11.72 Hz; Hanning main lobe = 46.88
-Hz \textless{} 80 Hz → \textbf{resolved}.
+The minimum FFT length is \textbf{N = 1,200}, which places the tones
+exactly at the resolution limit (only a very shallow dip). The next
+power of 2, N = 2,048, is therefore the practical choice for
+computational efficiency, and as shown in (c) it already resolves the
+tones clearly.
 
 \subsection{Problem 8.6.3}\label{problem-8.6.3}
 
@@ -18876,18 +18913,22 @@ Alternatively, the MUSIC algorithm with a 32 × 32 correlation matrix and
 N ≥ f\textsubscript{s} / Δf\textsubscript{required} = 8,000 / 30 =
 \textbf{267 samples} (minimum)
 
-With a Hanning window (main lobe = 4 × Δf):\\
-N ≥ 4 × 8,000 / 30 = \textbf{1,067 samples}
+With a Hanning window (main lobe = 4 × Δf, Rayleigh resolution ≈ 2 ×
+Δf):\\
+N ≥ 2 × 8,000 / 30 = \textbf{534 samples}
 
 At f\textsubscript{s} = 8 kHz, this corresponds to 267/8,000 = 33 ms
-(rectangular) or 1,067/8,000 = 133 ms (Hanning) of data.
+(rectangular) or 534/8,000 = 67 ms (Hanning) of data. These are Rayleigh
+limits at which the tones are only just separable; a margin of roughly
+30\% (e.g., N ≈ 700 with Hanning) gives a clear dip of about 10 dB.
 
 \subsection{Problem 8.6.6}\label{problem-8.6.6}
 
 \textbf{Given:} A speech signal is sampled at f\textsubscript{s} = 16
 kHz. A 20 ms Hamming window is used for frame analysis (N = 320 samples,
 zero-padded to 512). The speaker's fundamental frequency is f₀ = 200 Hz
-(male speaker). A 24-channel mel filter bank is applied from 0 to 8 kHz.
+(female speaker). A 24-channel mel filter bank is applied from 0 to 8
+kHz.
 
 \textbf{Find:} (a) The mel frequency range, (b) the pitch period in
 samples, (c) the quefrency index of the pitch peak in the cepstrum, and
@@ -19045,14 +19086,14 @@ for comparison.
 
 \textbf{Solution:}
 
-(a) With 3 sinusoidal components (each producing a complex conjugate
-pair in the correlation matrix but counted as one signal dimension for
-real sinusoids observed via real-valued data --- for the general complex
-case, each sinusoid uses one eigenvector):
+(a) With 3 real sinusoidal components observed via real-valued data,
+each real sinusoid is the sum of two complex exponentials (at +f and
+−f), so each contributes two dimensions to the correlation matrix (for
+complex-valued data, each complex exponential would use only one
+eigenvector):
 
-Signal subspace dimension: \textbf{3 eigenvectors} (one per sinusoidal
-component, for the complex data model)\\
-Noise subspace dimension: M - 3 = 64 - 3 = \textbf{61 eigenvectors}
+Signal subspace dimension: 2 × 3 = \textbf{6 eigenvectors}\\
+Noise subspace dimension: M - 6 = 64 - 6 = \textbf{58 eigenvectors}
 
 MUSIC forms the pseudospectrum by projecting the frequency steering
 vector onto the noise subspace. The pseudospectrum peaks sharply where
@@ -19067,8 +19108,8 @@ needed.
 
 (c) MUSIC's resolution is not limited by the data record length N or the
 FFT bin width. It is determined by the correlation matrix size M and the
-SNR. For M = 64 and adequate SNR, MUSIC can resolve sinusoids separated
-by as little as:
+SNR. For M = 64 and adequate SNR, a rough rule-of-thumb (a heuristic,
+not a formal bound) for the resolvable separation is:
 
 Δf\textsubscript{MUSIC} ≈ f\textsubscript{s} / (M ×
 √SNR\textsubscript{linear})
@@ -19112,8 +19153,8 @@ Level 3 approximation (a₃): \textbf{0--1 kHz} (256 coefficients)
 The transient will appear in \textbf{all detail levels} (d₁, d₂, d₃)
 because its broadband energy spans all frequency bands. However, the
 transient is best localized in \textbf{level 1 (d₁)} because:\\
-- d₁ has the finest time resolution (1 sample = 0.0625 ms per Haar
-wavelet coefficient at this level)\\
+- d₁ has the finest time resolution (each Haar coefficient spans 2
+samples = 0.125 ms at this level)\\
 - The transient's energy in the 4--8 kHz band produces a sharp spike in
 d₁ near coefficient index 500 (corresponding to sample 1000)
 
@@ -19125,9 +19166,10 @@ Level 3: 8 samples = 8/16,000 = \textbf{0.5 ms}
 (d) The 200 Hz sinusoid falls in the 0--1 kHz band, which is captured by
 the \textbf{level 3 approximation coefficients (a₃)}. The a₃
 coefficients contain all energy from 0 to 1 kHz, including the 200 Hz
-component. With 256 coefficients representing this band, the effective
-frequency resolution is 1,000/256 = 3.91 Hz --- sufficient to represent
-the 200 Hz sinusoid.
+component. The 256 a₃ coefficients are sampled at 16,000/8 = 2,000
+samples/s and span the full 0.128 s record, so a spectral analysis of a₃
+has a resolution of 2,000/256 = 7.81 Hz --- sufficient to represent the
+200 Hz sinusoid.
 
 This illustrates the DWT's multi-resolution property: the transient is
 well-localized in time at level 1, while the sinusoid is well-localized
@@ -19263,18 +19305,24 @@ segment):\\
 μ\textsubscript{eff} = 0.5 / (0.1 + 0.001) = 0.5 / 0.101 = \textbf{4.95}
 
 Without the regularization parameter, μ\textsubscript{eff} = 0.5/0.1 =
-5.0, which would cause instability. The regularization δ = 0.001 limits
-the effective step size during very low-power segments but does not
-prevent the large value here. A more robust choice would be δ = 0.01 or
-using a power-estimated NLMS variant.
+5.0. This large value does not by itself cause instability: NLMS is
+stable for 0 \textless{} μ̃ \textless{} 2 independent of the input power,
+because the step is normalized by
+\textbar\textbar x{[}n{]}\textbar\textbar² (the normalized step here is
+still μ̃ = 0.5). The danger is noise amplification: the weight correction
+magnitude is μ̃ × \textbar e{[}n{]}\textbar{} /
+\textbar\textbar x{[}n{]}\textbar\textbar, which grows without bound as
+\textbar\textbar x{[}n{]}\textbar\textbar{} → 0, so during quiet
+segments the update is driven mostly by noise in e{[}n{]}. The
+regularization δ guards against this by bounding μ\textsubscript{eff} ≤
+μ̃/δ, but δ = 0.001 is too small to have much effect here. A more robust
+choice would be δ = 0.01 or using a power-estimated NLMS variant.
 
 In practice, the NLMS step size μ̃ should satisfy 0 \textless{} μ̃
-\textless{} 2 for stability, and the normalization automatically
-prevents the update from becoming too large relative to the input energy
---- the weight correction magnitude is bounded by μ̃ ×
-\textbar e{[}n{]}\textbar{} /
-\textbar\textbar x{[}n{]}\textbar\textbar{} regardless of the input
-power level.
+\textless{} 2 for stability, and δ should be chosen comparable to the
+smallest expected \textbar\textbar x{[}n{]}\textbar\textbar² so that
+low-power segments do not produce excessively large, noise-dominated
+weight corrections.
 
 \subsection{Problem 8.7.4}\label{problem-8.7.4}
 
@@ -19443,11 +19491,14 @@ P{[}3{]} = (1 - 0.310) × 0.1125 = 0.690 × 0.1125 = \textbf{0.0776 V²}
 The Kalman gain decreases (0.800 → 0.446 → 0.310) as the estimate
 becomes more confident. The error variance drops from 1.0 to 0.0776 V²
 (standard deviation from 1.0 V to 0.279 V). The filter converges toward
-a steady-state gain of K\textsubscript{ss} ≈ Q/(Q + Q) × (something),
-which can be found by solving P\textsubscript{ss} = (P\textsubscript{ss}
-+ Q)R / (P\textsubscript{ss} + Q + R). Eventually, the Kalman gain will
-settle at approximately \textbf{K\textsubscript{ss} ≈ 0.06}, balancing
-the slow process drift against measurement noise.
+a steady-state gain that can be found by solving P\textsubscript{ss} =
+(P\textsubscript{ss} + Q)R / (P\textsubscript{ss} + Q + R): the
+steady-state predicted variance is P⁻\textsubscript{ss} =
+P\textsubscript{ss} + Q = (Q + √(Q² + 4QR))/2 = 0.01632 V², giving
+K\textsubscript{ss} = P⁻\textsubscript{ss}/(P⁻\textsubscript{ss} + R) =
+0.0613. Eventually, the Kalman gain will settle at approximately
+\textbf{K\textsubscript{ss} ≈ 0.06}, balancing the slow process drift
+against measurement noise.
 
 \subsection{Problem 8.7.7}\label{problem-8.7.7}
 
@@ -19602,20 +19653,20 @@ number of OMP iterations for recovery.
 
 (a) Minimum measurements:\\
 M ≥ C × K × log(N/K) = 3 × 10 × log(512/10) = 30 × log(51.2) = 30 ×
-3.934
+3.936
 
-Using natural logarithm: M ≥ 30 × 3.934 = 118.0
+Using natural logarithm: M ≥ 30 × 3.936 = 118.07
 
-M = \textbf{118 measurements} (minimum)
+M = \textbf{119 measurements} (minimum, rounding up)
 
 (b) Compression ratio:\\
-CR = N/M = 512/118 = \textbf{4.34:1}
+CR = N/M = 512/119 = \textbf{4.30:1}
 
 (c) Percentage saved:\\
-Savings = (1 - M/N) × 100 = (1 - 118/512) × 100 = (1 - 0.2305) × 100 =
-\textbf{76.9\%}
+Savings = (1 - M/N) × 100 = (1 - 119/512) × 100 = (1 - 0.2324) × 100 =
+\textbf{76.8\%}
 
-(d) Measurement matrix Φ is \textbf{118 × 512}. Each of the 118
+(d) Measurement matrix Φ is \textbf{119 × 512}. Each of the 119
 measurements is a random linear combination of all 512 signal values,
 with entries drawn from a Gaussian distribution N(0, 1/M).
 
@@ -19636,7 +19687,7 @@ support. At each iteration, OMP:
   1 to 10 columns)
 \end{enumerate}
 
-Total computation: approximately 10 × 512 × 118 ≈ 604,160
+Total computation: approximately 10 × 512 × 119 ≈ 609,280
 multiply-accumulate operations, plus the growing least-squares
 solutions.
 
@@ -19660,12 +19711,12 @@ N = 256 × 256 = \textbf{65,536 samples}
 M ≥ C × K × log(N/K) = 4 × 3,000 × log(65,536/3,000) = 12,000 ×
 log(21.85)
 
-log(21.85) = 3.085 (natural logarithm)
+log(21.85) = 3.084 (natural logarithm)
 
-M ≥ 12,000 × 3.085 = \textbf{37,016 measurements}
+M ≥ 12,000 × 3.084 = \textbf{37,008 measurements}
 
 (c) Scan time reduction:\\
-Reduction factor = N/M = 65,536/37,016 = \textbf{1.77×}
+Reduction factor = N/M = 65,536/37,008 = \textbf{1.77×}
 
 (d) New scan time:\\
 t\textsubscript{CS} = 8 / 1.77 = \textbf{4.52 minutes}
@@ -19678,7 +19729,7 @@ This is a modest reduction because the sparsity ratio K/N = 3,000/65,536
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Minimum M = 37,016}: fastest scan but highest reconstruction
+  \textbf{Minimum M = 37,008}: fastest scan but highest reconstruction
   error, potential artifacts near edges and fine structures
 \item
   \textbf{Practical M = 45,000--50,000}: 20--35\% safety margin, scan
