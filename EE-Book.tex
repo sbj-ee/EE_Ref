@@ -13655,7 +13655,7 @@ negative gradient of the potential: E = -∇V, meaning the field points in
 the direction of steepest potential decrease. Equipotential surfaces are
 perpendicular to electric field lines at every point. For a point
 charge, V = Q/(4πε₀r), and for multiple charges, the total potential is
-the algebraic (scalar) sum of individual potentials -- simpler than
+the algebraic (scalar) sum of individual potentials --- simpler than
 vector addition of electric fields.
 
 \begin{examplebox}
@@ -13866,7 +13866,7 @@ are related by B = μH, where μ = μ₀μ\textsubscript{r} is the
 permeability (μ₀ = 4π × 10⁻⁷ H/m for free space). The Biot-Savart law
 provides the most general method for calculating B from an arbitrary
 current distribution: dB = (μ₀/4π)(Idl × r̂)/r², integrating over the
-current path. For geometries with high symmetry, Ampere's law ∮H·dl =
+current path. For geometries with high symmetry, Ampère's law ∮H·dl =
 I\textsubscript{enclosed} offers a far simpler approach, directly
 yielding the field around long straight conductors (B = μ₀I/(2πr) with
 concentric circular field lines), inside solenoids (B = μ₀nI), and
@@ -13910,7 +13910,7 @@ configurations with high symmetry, such as long straight conductors,
 solenoids, and toroidal coils. For a solenoid of n turns per unit length
 carrying current I, Ampère's Law yields a uniform interior field B =
 μ₀nI. Maxwell later added a displacement current term μ₀ε₀(∂E/∂t) to
-Ampere's Law to account for time-varying electric fields, completing the
+Ampère's Law to account for time-varying electric fields, completing the
 set of equations that predict electromagnetic wave propagation.
 
 \begin{examplebox}
@@ -13921,7 +13921,7 @@ carries 2 A of current. Find the magnetic field inside the solenoid.
 \textbf{Solution:}\\
 The number of turns per unit length: n = N/l = 500 / 0.25 = 2000
 turns/m.\\
-By Ampere's Law, the interior magnetic field is B = μ₀nI = (4π ×
+By Ampère's Law, the interior magnetic field is B = μ₀nI = (4π ×
 10⁻⁷)(2000)(2) = 4π × 10⁻⁷ × 4000 = 16π × 10⁻⁴ = 5.027 × 10⁻³ T ≈ 5.03
 mT.\\
 The field is uniform and directed along the axis of the solenoid.
@@ -13938,8 +13938,9 @@ of length L in a uniform field, the force is F = IL × B, which is the
 operating principle behind electric motors, loudspeakers, and
 galvanometers. Two parallel conductors carrying currents in the same
 direction attract each other, while currents in opposite directions
-repel --- this force between current-carrying conductors is the basis
-for the SI definition of the ampere. The torque on a current loop
+repel --- this force between current-carrying conductors was the basis
+for the SI definition of the ampere until the 2019 redefinition (which
+now fixes the elementary charge e). The torque on a current loop
 (magnetic dipole) in a uniform field is τ = m × B, where m = NIA is the
 magnetic moment (N turns, current I, area A).
 
@@ -14031,8 +14032,9 @@ The maximum current before saturation: B\textsubscript{sat} = μ₀μᵣ ×
 NI\textsubscript{max}/l, so I\textsubscript{max} = B\textsubscript{sat}
 × l / (μ₀μᵣN) = 1.8 × 0.20 / (4π × 10⁻⁷ × 3000 × 200) = 0.36 / 0.7540 =
 0.477 A.\\
-The core saturates just below 0.5 A; a larger core area or an air gap
-would increase the saturation current.
+The core saturates just below 0.5 A; an air gap, a longer magnetic path,
+or fewer turns would increase the saturation current (a larger core area
+raises the flux and inductance but not B for a given NI).
 
 \end{examplebox}
 
@@ -14109,10 +14111,16 @@ Verify: ℛ\textsubscript{gap} = l\textsubscript{g}/(μ₀A\textsubscript{e})
 ℛ\textsubscript{core} = l\textsubscript{e}/(μ₀μᵣA\textsubscript{e}) =
 0.077 / (4π × 10⁻⁷ × 2500 × 1.27 × 10⁻⁴) = 1.935 × 10⁵ A-turns/Wb.\\
 Gap reluctance is 7.5× the core reluctance, confirming the gap
-dominates.\\
+dominates. Including the core reluctance, however, L =
+N²/(ℛ\textsubscript{gap} + ℛ\textsubscript{core}) = 144/(1.442 × 10⁶ +
+1.935 × 10⁵) = 88 μH; to obtain the full 100 μH, shorten the gap to
+l\textsubscript{g} = (N²/L − ℛ\textsubscript{core})μ₀A\textsubscript{e}
+= (1.44 × 10⁶ − 1.935 × 10⁵) × 1.596 × 10⁻¹⁰ = 0.199 mm.\\
 B\textsubscript{max} = LI\textsubscript{max}/(NA\textsubscript{e}) = 100
 × 10⁻⁶ × 5 / (12 × 1.27 × 10⁻⁴) = 0.328 T \textless{} 0.35 T --- the
-core operates at 94\% of saturation, providing adequate margin.
+core operates at 94\% of saturation, only a thin 6\% margin for
+production tolerances (and B\textsubscript{sat} falls further at
+elevated temperature).
 
 \end{examplebox}
 
@@ -14816,7 +14824,7 @@ ln(b/a), where a and b are the inner and outer conductor radii. Common
 transmission line impedances include 50 Ω (RF and test equipment), 75 Ω
 (video and cable TV), and 100 Ω (differential data lines). When a
 transmission line is terminated in a load equal to Z₀, all power is
-delivered to the load with no reflections -- the matched condition.
+delivered to the load with no reflections --- the matched condition.
 
 \begin{examplebox}
 
@@ -15104,11 +15112,12 @@ Impedance matching transforms a load impedance to the source impedance
 are minimized. The simplest narrowband matching technique is the
 \textbf{L-network}, which uses two reactive elements (inductors and/or
 capacitors) to transform a real load R\textsubscript{L} to the desired
-source resistance R\textsubscript{S}. For R\textsubscript{L} \textless{}
-R\textsubscript{S}, the shunt element is placed across the load and the
-series element connects to the source; for R\textsubscript{L}
-\textgreater{} R\textsubscript{S}, the topology reverses. The design
-equations use the quality factor Q =
+source resistance R\textsubscript{S}. The shunt element always sits
+across the higher resistance: for R\textsubscript{L} \textless{}
+R\textsubscript{S}, the series element is placed in series with the load
+and the shunt element is placed across the source (high-resistance)
+side; for R\textsubscript{L} \textgreater{} R\textsubscript{S}, the
+topology reverses. The design equations use the quality factor Q =
 √(R\textsubscript{high}/R\textsubscript{low} − 1), which also determines
 the bandwidth: BW ≈ f₀/Q. The shunt reactance is X\textsubscript{shunt}
 = R\textsubscript{high}/Q and the series reactance is
@@ -15141,24 +15150,25 @@ bandwidth.
 
 \textbf{Solution:}\\
 Since R\textsubscript{L} = 15 Ω \textless{} R\textsubscript{S} = 50 Ω,
-the shunt element goes across the load.\\
+the series element goes in series with the load and the shunt element
+goes across the source (high-resistance) side.\\
 Q = √(R\textsubscript{high}/R\textsubscript{low} − 1) = √(50/15 − 1) =
 √(2.333) = 1.528.\\
 Shunt reactance: X\textsubscript{shunt} = R\textsubscript{high}/Q =
 50/1.528 = 32.72 Ω.\\
 Series reactance: X\textsubscript{series} = Q × R\textsubscript{low} =
 1.528 × 15 = 22.92 Ω.\\
-\textbf{Low-pass solution} (shunt inductor + series capacitor):
+\textbf{High-pass solution} (shunt inductor + series capacitor):
 L\textsubscript{shunt} = X\textsubscript{shunt}/(2πf) = 32.72/(2π × 915
 × 10⁶) = 5.69 nH. C\textsubscript{series} =
 1/(2πfX\textsubscript{series}) = 1/(2π × 915 × 10⁶ × 22.92) = 7.58 pF.\\
-\textbf{High-pass solution} (shunt capacitor + series inductor):
+\textbf{Low-pass solution} (shunt capacitor + series inductor):
 C\textsubscript{shunt} = 1/(2πf × 32.72) = 5.32 pF.
 L\textsubscript{series} = 22.92/(2π × 915 × 10⁶) = 3.99 nH.\\
 Matching bandwidth: BW ≈ f₀/Q = 915/1.528 = 599 MHz.\\
-The VSWR stays below 2:1 over approximately ±300 MHz around 915 MHz,
-which is more than adequate for the \textasciitilde26 MHz ISM band
-(902--928 MHz).\\
+For the low-pass network, the VSWR stays below 2:1 from approximately
+612 MHz to 1,140 MHz (about −300/+225 MHz around 915 MHz), which is more
+than adequate for the \textasciitilde26 MHz ISM band (902--928 MHz).\\
 The low-pass solution is typically preferred because it provides
 harmonic rejection.
 
@@ -15180,16 +15190,16 @@ traces, and \textbf{inductive (magnetic field) coupling} through the
 mutual inductance L\textsubscript{m} between the current loops. These
 mechanisms produce two distinct crosstalk components. \textbf{Near-end
 crosstalk (NEXT)} appears at the end of the victim line nearest the
-aggressor's source, combining forward-traveling capacitive coupling with
-backward-traveling inductive coupling --- both components arrive at the
-near end simultaneously, reinforcing each other. \textbf{Far-end
-crosstalk (FEXT)} appears at the opposite end of the victim line, where
-the capacitive and inductive components travel in the same direction but
-with opposite polarity --- in a homogeneous medium (stripline), the two
-components cancel perfectly, making FEXT zero, but in an inhomogeneous
-medium (microstrip, where ε\textsubscript{eff} ≠ ε\textsubscript{r}),
-the velocity difference between even and odd modes prevents perfect
-cancellation, producing nonzero FEXT.
+aggressor's source, where the backward-traveling capacitive and
+inductive coupled components have the same polarity and add, reinforcing
+each other. \textbf{Far-end crosstalk (FEXT)} appears at the opposite
+end of the victim line, where the capacitive and inductive components
+travel in the same direction but with opposite polarity --- in a
+homogeneous medium (stripline), the two components cancel perfectly,
+making FEXT zero, but in an inhomogeneous medium (microstrip, where
+ε\textsubscript{eff} ≠ ε\textsubscript{r}), the velocity difference
+between even and odd modes prevents perfect cancellation, producing
+nonzero FEXT.
 
 The crosstalk coefficients for weakly coupled lines are: NEXT
 coefficient K\textsubscript{b} = (C\textsubscript{m}/C₀ +
@@ -15214,7 +15224,8 @@ is the single-ended impedance and k is the coupling coefficient,
 typically yielding Z\textsubscript{diff} = 85--100 Ω for standard PCB
 designs. Design rules to minimize crosstalk include: maintaining a
 separation of ≥ 3h between adjacent single-ended traces (where h is the
-height above the ground plane, the ``3W'' rule), using ground guard
+height above the ground plane), together with the related ``3W'' rule
+(center-to-center spacing ≥ 3 × trace width W), using ground guard
 traces between sensitive signals, routing differential pairs with
 consistent tight coupling, and minimizing parallel run lengths of
 dissimilar signals.
@@ -15325,9 +15336,10 @@ receiver sensitivity of about −70 dBm (100 pW).
 
 The half-wave dipole is the most fundamental resonant antenna,
 consisting of two conductive elements each approximately λ/4 in length,
-fed at the center. At resonance, a half-wave dipole has an input
-impedance of approximately 73 + j42.5 Ω, a gain of 2.15 dBi, and a
-toroidal (doughnut-shaped) radiation pattern with maximum radiation
+fed at the center. An exact half-wavelength dipole has an input
+impedance of approximately 73 + j42.5 Ω (slightly shortening it to
+resonance removes the reactance, leaving ≈73 Ω), a gain of 2.15 dBi, and
+a toroidal (doughnut-shaped) radiation pattern with maximum radiation
 perpendicular to the antenna axis and nulls along the axis. The short
 dipole (length \textless\textless{} λ) has a similar radiation pattern
 but lower radiation resistance and efficiency. Dipole variants include
@@ -15351,8 +15363,9 @@ account for end effects: L\textsubscript{practical} ≈ 0.95 × 1.5 = 1.425
 m.\\
 The radiation resistance at resonance is approximately 73 Ω, and the
 gain is 2.15 dBi (1.64 linear).\\
-The input impedance is approximately 73 + j42.5 Ω; the reactive part can
-be eliminated by slight length adjustment or a matching network.
+At the exact λ/2 length the input impedance is approximately 73 + j42.5
+Ω; the \textasciitilde5\% shortening (or a matching network) eliminates
+the reactive part, leaving ≈73 Ω at resonance.
 
 \end{examplebox}
 
@@ -15399,29 +15412,31 @@ Regions}\label{near-field-and-far-field-regions}
 
 The electromagnetic field surrounding an antenna is divided into
 distinct spatial regions with fundamentally different behavior. The
-\textbf{reactive near-field} (Fresnel region) extends from the antenna
-surface to approximately r \textless{} 0.62√(D³/λ), where D is the
-largest antenna dimension; in this region, the fields store energy
-reactively (oscillating between electric and magnetic forms each
-half-cycle), field strength decays as 1/r² or 1/r³, and the E/H ratio is
-not the free-space impedance η₀ --- it can be much higher (for
-electrically short dipoles, dominated by the electric field) or much
-lower (for small loop antennas, dominated by the magnetic field). The
-\textbf{radiating near-field} (Fresnel region) spans from the reactive
-boundary to r = 2D²/λ; here, the fields begin to radiate but the angular
-pattern varies with distance, making this region unsuitable for
-far-field antenna measurements. The \textbf{far-field} (Fraunhofer
-region) begins at r \textgreater{} 2D²/λ (and r
-\textgreater\textgreater{} λ, r \textgreater\textgreater{} D); in this
-region, the wave front is approximately planar, the radiation pattern is
-independent of distance, E and H are perpendicular and related by η₀ =
-377 Ω, and power density decays as 1/r². The far-field boundary distance
-is critical for antenna measurement: a half-wave dipole at 900 MHz (D ≈
-0.17 m, λ = 0.33 m) has a far-field boundary of 2D²/λ = 0.17 m --- close
-enough for indoor testing. However, a 1 m parabolic dish at 10 GHz (λ =
-0.03 m) has 2D²/λ = 67 m, requiring either outdoor test ranges, compact
-antenna test ranges (CATR) using a reflector to create a plane wave in a
-shorter distance, or near-field scanning with mathematical
+\textbf{reactive near-field} extends from the antenna surface to
+approximately r \textless{} 0.62√(D³/λ), where D is the largest antenna
+dimension; in this region, the fields store energy reactively
+(oscillating between electric and magnetic forms each half-cycle), field
+strength decays as 1/r² or 1/r³, and the E/H ratio is not the free-space
+impedance η₀ --- it can be much higher (for electrically short dipoles,
+dominated by the electric field) or much lower (for small loop antennas,
+dominated by the magnetic field). The \textbf{radiating near-field}
+(Fresnel region) spans from the reactive boundary to r = 2D²/λ; here,
+the fields begin to radiate but the angular pattern varies with
+distance, making this region unsuitable for far-field antenna
+measurements. The \textbf{far-field} (Fraunhofer region) begins at r
+\textgreater{} 2D²/λ (and r \textgreater\textgreater{} λ, r
+\textgreater\textgreater{} D); in this region, the wave front is
+approximately planar, the radiation pattern is independent of distance,
+E and H are perpendicular and related by η₀ = 377 Ω, and power density
+decays as 1/r². The far-field boundary distance is critical for antenna
+measurement: a half-wave dipole at 900 MHz (D ≈ 0.17 m, λ = 0.33 m) has
+2D²/λ = 0.17 m, but because the antenna is only about λ/2 long the r
+\textgreater\textgreater{} λ condition governs, placing the practical
+far-field boundary at a few wavelengths (\textasciitilde1 m) --- still
+close enough for indoor testing. However, a 1 m parabolic dish at 10 GHz
+(λ = 0.03 m) has 2D²/λ = 67 m, requiring either outdoor test ranges,
+compact antenna test ranges (CATR) using a reflector to create a plane
+wave in a shorter distance, or near-field scanning with mathematical
 transformation to far-field patterns. \textbf{Near-field communication
 (NFC)} at 13.56 MHz deliberately operates in the reactive near-field (λ
 = 22 m, so all practical distances \textless\textless{} λ), using
@@ -15452,18 +15467,20 @@ Reactive near-field extent: r\textsubscript{reactive} = 0.62√(D³/λ) =
 An anechoic chamber for far-field measurement would have to be over 90 m
 long --- impractical for indoor facilities. A compact antenna test range
 (CATR) or planar near-field scanner would be used instead.\\
-For the NFC system: λ = 3 × 10⁸ / (13.56 × 10⁶) = 22.12 m. D = 0.05 m.\\
-Far-field boundary: 2 × 0.05² / 22.12 = 0.000226 m = 0.23 mm ---
-essentially at the antenna surface.\\
-Reactive near-field: 0.62√(0.05³/22.12) = 0.62√(5.66 × 10⁻⁶) = 0.62 ×
-2.38 × 10⁻³ = 1.47 mm.\\
+For the NFC system: λ = 3 × 10⁸ / (13.56 × 10⁶) = 22.12 m. D = 0.05 m,
+so D \textless\textless{} λ.\\
+The 2D²/λ and 0.62√(D³/λ) formulas apply only to electrically large
+apertures (D ≳ λ) and do not apply here (they would give a meaningless
+0.23 mm and 1.47 mm). For an electrically small loop, the reactive
+near-field extends to approximately r = λ/(2π) = 22.12/(2π) =
+\textbf{3.52 m}, and the far field requires r \textgreater\textgreater{}
+λ = 22 m.\\
 The entire practical NFC operating range (up to \textasciitilde100 mm)
 is deep in the reactive near-field where the magnetic field from the
 loop antenna decays as 1/r³, providing the short-range security
 characteristic of NFC.\\
-At 100 mm, the field is (1.47/100)³ = 3.2 × 10⁻⁶ times weaker than at
-the reactive boundary --- a 110 dB natural path loss that limits
-eavesdropping range.
+Between 10 mm and 100 mm, the 1/r³ field falls by a factor of 10³ (60
+dB) --- a steep natural path loss that limits eavesdropping range.
 
 \end{examplebox}
 
@@ -15523,10 +15540,15 @@ Reflection loss for aluminum at 100 MHz: R ≈ 168 - 10 log₁₀(10⁸ × 1 /
 0.604) = 168 - 10 log₁₀(1.656 × 10⁸) = 168 - 82.2 = 85.8 dB.\\
 Total SE = A + R = 1531 + 85.8 \textgreater\textgreater{} 60 dB. The
 solid walls are not the concern.\\
-Maximum aperture: λ = c/f = 3 × 10⁸/10⁸ = 3 m. λ/20 = 150 mm.\\
-Any slot, seam, or opening longer than 150 mm will begin to compromise
-shielding.\\
-At 1 GHz (λ = 30 cm), the limit drops to 15 mm --- highlighting why
+Maximum aperture: λ = c/f = 3 × 10⁸/10⁸ = 3 m. A single slot of length l
+provides only SE ≈ 20 log₁₀(λ/(2l)), so the λ/20 = 150 mm rule-of-thumb
+length gives just \textasciitilde20 dB. For the 60 dB target:
+l\textsubscript{max} ≈ λ/(2 × 10\textsuperscript{60/20}) = 3/2000 =
+\textbf{1.5 mm}.\\
+Any slot, seam, or opening longer than about 1.5 mm will compromise the
+60 dB target, and openings beyond 150 mm reduce SE to \textasciitilde20
+dB or less.\\
+At 1 GHz (λ = 30 cm), the limit drops to 0.15 mm --- highlighting why
 high-frequency EMC requires tight seam control and extensive use of
 gaskets.
 
@@ -15580,8 +15602,8 @@ mixed-signal boards) minimizes ground-coupled interference.
 \textbf{Example 9.7.2:} A switching power supply produces conducted
 common-mode noise of 75 dBμV at 1 MHz on its AC input, measured with a
 LISN (Line Impedance Stabilization Network). The CISPR 32 Class B
-quasi-peak limit at 1 MHz is 46 dBμV. Design an EMI filter to achieve
-compliance with 6 dB of margin.
+average limit at 1 MHz is 46 dBμV (the quasi-peak limit is 56 dBμV).
+Design an EMI filter to achieve compliance with 6 dB of margin.
 
 \textbf{Solution:}\\
 Required attenuation: 75 - 46 + 6 = 35 dB at 1 MHz.\\
@@ -15589,10 +15611,11 @@ A common-mode choke is the primary component for common-mode
 suppression.\\
 The choke impedance at 1 MHz must provide 35 dB attenuation across the
 50 Ω LISN impedance.\\
-Attenuation of an L-filter: A = 20 log₁₀(1 + Z\textsubscript{L}/(2 ×
-R\textsubscript{LISN})). For 35 dB: 10\textsuperscript{35/20} = 1 +
-Z\textsubscript{L}/100, so 56.23 = 1 + Z\textsubscript{L}/100,
-Z\textsubscript{L} = 5523 Ω.\\
+Attenuation of an L-filter (a rough approximation assuming 50 Ω source
+and load; the actual common-mode LISN impedance is 25 Ω): A = 20 log₁₀(1
++ Z\textsubscript{L}/(2 × R\textsubscript{LISN})). For 35 dB:
+10\textsuperscript{35/20} = 1 + Z\textsubscript{L}/100, so 56.23 = 1 +
+Z\textsubscript{L}/100, Z\textsubscript{L} = 5523 Ω.\\
 At 1 MHz: L\textsubscript{CM} = Z\textsubscript{L}/(2πf) = 5523/(2π ×
 10⁶) = 879 μH.\\
 A practical common-mode choke of \textasciitilde1 mH (standard value)
@@ -15602,8 +15625,8 @@ common-mode attenuation: at 1 MHz, X\textsubscript{C} = 1/(2π × 10⁶ ×
 2.2 × 10⁻⁹) = 72.3 Ω.\\
 The combined LC filter (1 mH choke + 2.2 nF Y-cap) forms a second-order
 filter with resonance at f₀ = 1/(2π√(LC)) = 1/(2π√(10⁻³ × 2.2 × 10⁻⁹)) =
-107 kHz, providing -40 dB/decade roll-off above resonance and
-approximately 35 + 20 = 55 dB attenuation at 1 MHz --- well beyond the
+107 kHz, providing -40 dB/decade roll-off above resonance and roughly 35
++ 20 ≈ 55 dB attenuation at 1 MHz (a rough estimate) --- well beyond the
 requirement, allowing margin for component tolerances and aging.
 
 \end{examplebox}
@@ -15666,10 +15689,10 @@ At 100 MHz (λ = 3 m), both loops are electrically small (loop dimension
 approximately E ∝ f²IA/r, where I is the current.\\
 For a 20 mA clock signal on the 4-layer board: the estimated radiated
 field at 3 m is E ≈ 1.316 × 10⁻¹⁴ × (10⁸)² × 0.02 × 10 × 10⁻⁶ / 3 = 8.8
-μV/m --- below the FCC Class B limit of \textasciitilde100 μV/m at 3
-m.\\
+μV/m --- below the FCC Class B limit of 150 μV/m (43.5 dBμV/m) at 3 m
+for 88--216 MHz.\\
 The same signal on the 2-layer board would produce \textasciitilde440
-μV/m, exceeding the limit by 13 dB.
+μV/m, exceeding the limit by about 9.3 dB.
 
 \end{examplebox}
 
@@ -15689,23 +15712,24 @@ discharged through 1.5 kΩ, producing \textasciitilde1.3 A peak with
 grounded surface (\textless1 ns rise, 5--15 A peak, most damaging to
 gate oxides); and the \textbf{Machine Model (MM)}, which simulates
 discharge from equipment (200 pF, 0 Ω, producing higher peak current).
-ICs are classified by their ESD withstand voltage (e.g., Class 1A:
-\textless250 V HBM, Class 3B: \textgreater8 kV HBM per ANSI/ESDA/JEDEC
-JS-001). \textbf{On-chip ESD protection} uses clamp circuits ---
-typically a grounded-gate NMOS (ggNMOS) or silicon-controlled rectifier
-(SCR) structure --- that shunt the ESD current to ground before it
-reaches the protected circuitry. \textbf{Board-level ESD protection} for
-I/O ports exposed to human contact (USB, HDMI, Ethernet, touchscreens)
-uses TVS (Transient Voltage Suppressor) diodes that clamp the voltage to
-a safe level within nanoseconds. Key TVS parameters include breakdown
-voltage V\textsubscript{BR}, clamping voltage V\textsubscript{C} at peak
-pulse current, junction capacitance (must be low for high-speed data
-lines --- \textless1 pF for USB 3.x), and peak pulse power rating.
-\textbf{Design practices} to minimize ESD vulnerability include: routing
-sensitive traces away from board edges and connectors, providing a
-low-impedance ground path from the connector shell to the ground plane,
-placing TVS devices as close to the connector as possible, and using
-series resistors (22--100 Ω) on sensitive inputs to limit peak current.
+ICs are classified by their ESD withstand voltage (e.g., Class 0:
+\textless250 V HBM, Class 1A: 250 to \textless500 V HBM, Class 3B:
+\textgreater8 kV HBM per ANSI/ESDA/JEDEC JS-001). \textbf{On-chip ESD
+protection} uses clamp circuits --- typically a grounded-gate NMOS
+(ggNMOS) or silicon-controlled rectifier (SCR) structure --- that shunt
+the ESD current to ground before it reaches the protected circuitry.
+\textbf{Board-level ESD protection} for I/O ports exposed to human
+contact (USB, HDMI, Ethernet, touchscreens) uses TVS (Transient Voltage
+Suppressor) diodes that clamp the voltage to a safe level within
+nanoseconds. Key TVS parameters include breakdown voltage
+V\textsubscript{BR}, clamping voltage V\textsubscript{C} at peak pulse
+current, junction capacitance (must be low for high-speed data lines ---
+\textless1 pF for USB 3.x), and peak pulse power rating. \textbf{Design
+practices} to minimize ESD vulnerability include: routing sensitive
+traces away from board edges and connectors, providing a low-impedance
+ground path from the connector shell to the ground plane, placing TVS
+devices as close to the connector as possible, and using series
+resistors (22--100 Ω) on sensitive inputs to limit peak current.
 
 \begin{examplebox}
 
@@ -15789,15 +15813,16 @@ Hz.\\
 This current flows through the cable shield, inducing a voltage in the
 signal conductors via mutual inductance between the shield and the
 twisted pair.\\
-For a typical shielded cable, the transfer impedance is
-Z\textsubscript{T} ≈ 10 mΩ/m at 60 Hz (dominated by shield resistance),
-so the induced noise voltage is V\textsubscript{noise} =
-I\textsubscript{loop} × Z\textsubscript{T} × length = 13.3 × 0.01 × 50 =
-6.65 V.\\
+At 60 Hz the transfer impedance equals the shield resistance per unit
+length, Z\textsubscript{T} ≈ R\textsubscript{shield}/length = 0.15/50 =
+3 mΩ/m, so the induced noise voltage is V\textsubscript{noise} =
+I\textsubscript{loop} × Z\textsubscript{T} × length = 13.3 × 0.003 × 50
+= 2.0 V --- the entire 2 V ground difference appears as the shield IR
+drop coupled into the signal circuit.\\
 This far exceeds the 10 mV signal --- the measurement is completely
 buried in noise.\\
 Even if the shield provides 20 dB of additional common-mode rejection,
-the noise (0.665 V) still overwhelms the signal by 36 dB.\\
+the noise (0.2 V) still overwhelms the signal by 26 dB.\\
 \textbf{Solution:} Use differential signaling with an instrumentation
 amplifier (CMRR ≥ 80 dB at 60 Hz) and ground the shield at the receiver
 end only, breaking the ground loop.\\

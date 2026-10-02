@@ -19818,7 +19818,7 @@ E = kQ / r² = (8.99 × 10⁹)(10 × 10⁻⁹) / (0.25)² = 89.9 / 0.0625 =
 V = kQ / r = (8.99 × 10⁹)(10 × 10⁻⁹) / 0.25 = 89.9 / 0.25 =
 \textbf{359.6 V}
 
-Potential at r = 10 cm: Inside a conducting shell, the potential is
+Potential at r = 10 cm: Inside the charged shell, the potential is
 constant and equal to the potential at the surface.\\
 V = kQ / R = (8.99 × 10⁹)(10 × 10⁻⁹) / 0.15 = 89.9 / 0.15 =
 \textbf{599.3 V}
@@ -19946,10 +19946,11 @@ Surface charge density on the top surface:\\
 σ\textsubscript{top} = -ε₀E = \textbf{-590.3 nC/m²} (negative, facing
 the +200 V plate)
 
-The conductor redistributes the field but does not change its magnitude
-in this symmetric geometry. The conducting slab reduces the effective
-capacitor gap from 4 mm to 3 mm, increasing capacitance by a factor of
-4/3.
+The conductor raises the field in the air gaps from 200/4 mm = 50 kV/m
+(without the conductor) to 66.7 kV/m, while keeping it equal in both
+gaps in this symmetric geometry. The conducting slab reduces the
+effective capacitor gap from 4 mm to 3 mm, increasing capacitance by a
+factor of 4/3.
 
 \subsection{Problem 9.1.7}\label{problem-9.1.7}
 
@@ -19980,11 +19981,11 @@ D = Q / (4πr²) = 20 × 10⁻⁹ / (4π × (0.0501)²) = 20 × 10⁻⁹ / (3.15
 E = D / ε₀ = 0.6339 × 10⁻⁶ / (8.854 × 10⁻¹²) = \textbf{71,590 V/m ≈ 71.6
 kV/m}
 
-The field is 1.43× stronger just outside the sphere than at the same
-radius inside, because the dielectric reduces the internal field by a
-factor of ε\textsubscript{r}. At the boundary, the normal D is
-continuous (no free surface charge), but E jumps by a factor of
-ε\textsubscript{r}.
+The field just outside the sphere (71.6 kV/m) is 1.43× the field at r =
+3 cm inside and 4× the field just inside the surface (18.0 kV/m at r = 5
+cm), because the dielectric reduces the internal field by a factor of
+ε\textsubscript{r}. At the boundary, the normal D is continuous (no free
+surface charge), but E jumps by a factor of ε\textsubscript{r}.
 
 \subsection{Problem 9.1.8}\label{problem-9.1.8}
 
@@ -20013,8 +20014,8 @@ This energy was dissipated as heat in the resistance of the connecting
 wires and contact resistance during the transient equalization current.
 Even with ideal (zero resistance) wires, the energy is radiated as an
 electromagnetic pulse. Energy is always lost when capacitors at
-different voltages are connected in parallel; the fraction lost is
-C₁C₂(V₁ - V₂)² / {[}2(C₁ + C₂){]}.
+different voltages are connected in parallel; the energy lost is C₁C₂(V₁
+- V₂)² / {[}2(C₁ + C₂){]} (= 34.4 mJ here).
 
 \subsection{Problem 9.1.9}\label{problem-9.1.9}
 
@@ -20078,7 +20079,7 @@ result.
 
 \section{9.2 Magnetostatics}\label{chapter-9-section-9.2-magnetostatics}
 
-Practice problems covering magnetic fields, Ampere's law, magnetic
+Practice problems covering magnetic fields, Ampère's law, magnetic
 force, inductance, magnetic materials, hysteresis, magnetic circuits,
 and eddy currents.
 
@@ -20267,6 +20268,13 @@ By symmetry, the flux splits equally between the two outer legs:\\
 Φ\textsubscript{each outer} = Φ\textsubscript{center} / 2 =
 \textbf{0.754 mWb}
 
+Note: Φ\textsubscript{center} = 1.508 mWb in 4 cm² corresponds to B =
+3.77 T in the center leg (1.89 T in each outer leg), far above the
+\textasciitilde1.5--1.8 T saturation of silicon steel. In practice the
+core would saturate, so NI would have to be reduced (below
+\textasciitilde95 A-turns to keep the center leg under 1.8 T) for this
+linear result to hold.
+
 \subsection{Problem 9.2.7}\label{problem-9.2.7}
 
 \textbf{Given:} An induction heating system operates at f = 50 kHz to
@@ -20298,8 +20306,9 @@ The ratio radius/δ = 12.5/0.174 = 71.8. Since the skin depth is only
 1.4\% of the radius, \textbf{this is surface-only heating}. The surface
 heats first and heat conducts inward. At 50 kHz, this setup is suitable
 for surface hardening (case hardening) of steel, not through-heating.
-For through-heating, a much lower frequency (1-3 kHz, giving δ of
-several mm) would be needed.
+For through-heating, a much lower frequency would be needed (at 1--3
+kHz, δ ≈ 1.2--0.7 mm with μ\textsubscript{r} = 200; δ reaches several mm
+only above the Curie point, where μ\textsubscript{r} → 1).
 
 \subsection{Problem 9.2.8}\label{problem-9.2.8}
 
@@ -20338,7 +20347,7 @@ of B vanishing at the midpoint.
 Equations}\label{chapter-9-section-9.3-maxwells-equations}
 
 Practice problems covering Gauss's law for electricity, Gauss's law for
-magnetism, Faraday's law, the Ampere-Maxwell law, electromagnetic
+magnetism, Faraday's law, the Ampère-Maxwell law, electromagnetic
 boundary conditions, and electromagnetic potentials.
 
 \subsection{Problem 9.3.1}\label{problem-9.3.1}
@@ -20445,8 +20454,8 @@ circuit.
 I\textsubscript{d} = ε₀A(dE/dt) = 8.854 × 10⁻¹² × 0.03142 × 2 × 10¹³ =
 8.854 × 10⁻¹² × 6.283 × 10¹¹ = \textbf{5.564 A}
 
-(b) Using Ampere-Maxwell law with a circular Amperian loop of radius r =
-10 cm around the axis:\\
+(b) Using the Ampère-Maxwell law with a circular Amperian loop of radius
+r = 10 cm around the axis:\\
 ∮B·dl = μ₀I\textsubscript{d(enclosed)}\\
 B × 2πr = μ₀I\textsubscript{d} (the full displacement current is
 enclosed at r = plate radius)\\
@@ -20610,8 +20619,8 @@ distance.
 (a) λ = c / f = 3 × 10⁸ / (77 × 10⁹) = \textbf{3.896 × 10⁻³ m = 3.9 mm}
 
 (b) This falls in the \textbf{millimeter-wave band} (30-300 GHz,
-wavelengths 1-10 mm), at the boundary of EHF (Extremely High Frequency)
-in the radio spectrum.
+wavelengths 1-10 mm), within the EHF (Extremely High Frequency, 30--300
+GHz) band of the radio spectrum.
 
 (c) Far-field distance: r\textsubscript{ff} = 2D² / λ = 2 × (0.025)² /
 (3.896 × 10⁻³) = 2 × 6.25 × 10⁻⁴ / (3.896 × 10⁻³) = 1.25 × 10⁻³ / (3.896
@@ -20815,7 +20824,11 @@ R ≈ 168 - 10 log₁₀(f × μ\textsubscript{r}/σ\textsubscript{r}) where
 σ\textsubscript{r} = σ/σ\textsubscript{Cu} = 1.0\\
 R = 168 - 10 log₁₀(10⁵ × 1/1) = 168 - 50 = \textbf{118 dB}
 
-Total SE = A + R = 4.16 + 118 = \textbf{122 dB
+Because A \textless{} 15 dB, the multiple-reflection correction applies:
+B = 20 log₁₀\textbar1 − e\textsuperscript{−2(1+j)t/δ}\textbar{} ≈ −1.5
+dB.
+
+Total SE = A + R + B = 4.16 + 118 − 1.5 ≈ \textbf{120.6 dB
 \textgreater\textgreater{} 40 dB}
 
 (c) \textbf{Yes, the shield is more than adequate.} At low frequencies,
@@ -20978,7 +20991,9 @@ less than λ/10 (electrically short).
 
 (a) Using the microstrip impedance approximation Z₀ ≈
 (87/√(ε\textsubscript{r} + 1.41)) × ln(5.98h/(0.8w + t)):\\
-Solving iteratively for Z₀ = 50 Ω: w ≈ \textbf{1.12 mm} (w/h ≈ 2.2)
+Solving iteratively for Z₀ = 50 Ω, this IPC approximation gives w ≈ 1.01
+mm; the more accurate Hammerstad--Jensen equations (with thickness
+correction, used here) give w ≈ \textbf{1.12 mm} (w/h ≈ 2.2)
 
 (b) ε\textsubscript{eff} ≈ (ε\textsubscript{r} + 1)/2 +
 (ε\textsubscript{r} - 1)/(2√(1 + 12h/w))\\
@@ -21056,28 +21071,29 @@ Shunt reactance: X\textsubscript{shunt} = R\textsubscript{high}/Q = 50/2
 Series reactance: X\textsubscript{series} = Q × R\textsubscript{low} = 2
 × 10 = \textbf{20 Ω}
 
-(b) \textbf{Low-pass solution (preferred for harmonic rejection):} shunt
-inductor + series capacitor.\\
+(b) \textbf{High-pass solution:} shunt inductor + series capacitor.\\
 L\textsubscript{shunt} = X\textsubscript{shunt}/(2πf) = 25/(2π × 433 ×
 10⁶) = \textbf{9.19 nH}\\
 C\textsubscript{series} = 1/(2πfX\textsubscript{series}) = 1/(2π × 433 ×
 10⁶ × 20) = \textbf{18.4 pF}
 
-\textbf{High-pass solution:} shunt capacitor + series inductor.\\
+\textbf{Low-pass solution (preferred for harmonic rejection):} shunt
+capacitor + series inductor.\\
 C\textsubscript{shunt} = 1/(2πf × 25) = 14.7 pF\\
 L\textsubscript{series} = 20/(2πf) = 7.35 nH
 
 (c) Bandwidth: BW ≈ f₀/Q = 433/2.0 = \textbf{216.5 MHz}
 
-The VSWR \textless{} 2:1 bandwidth spans approximately ±108 MHz around
-433 MHz, which is far wider than the ISM band (433.05-434.79 MHz). The
-match easily covers the full band.
+The VSWR \textless{} 2:1 bandwidth (low-pass network) spans
+approximately 337--511 MHz (about −96/+78 MHz around 433 MHz), which is
+far wider than the ISM band (433.05-434.79 MHz). The match easily covers
+the full band.
 
 \subsection{Problem 9.5.8}\label{problem-9.5.8}
 
 \textbf{Given:} Two 50 Ω microstrip traces on a 4-layer PCB (h = 0.15
-mm, ε\textsubscript{eff} = 3.0) run parallel with edge-to-edge spacing s
-= 0.15 mm for a coupled length of 50 mm. The aggressor carries a 1.8 V
+mm, ε\textsubscript{eff} ≈ 2.72) run parallel with edge-to-edge spacing
+s = 0.15 mm for a coupled length of 50 mm. The aggressor carries a 1.8 V
 LVCMOS signal with 0.3 ns rise time. The coupling parameters are:
 C\textsubscript{m} = 35 pF/m, L\textsubscript{m} = 80 nH/m, C₀ = 110
 pF/m, L₀ = 275 nH/m.
@@ -21116,8 +21132,9 @@ V\textsubscript{FEXT} = K\textsubscript{f} × V\textsubscript{step} ×
 
 FEXT is much smaller than NEXT because C\textsubscript{m}/C₀ and
 L\textsubscript{m}/L₀ are nearly equal. The design should increase
-spacing to at least 3h = 0.45 mm (the ``3W'' rule) to reduce NEXT to
-acceptable levels.
+spacing to at least 3h = 0.45 mm edge-to-edge (and observe the related
+``3W'' rule: center-to-center spacing ≥ 3 × trace width) to reduce NEXT
+to acceptable levels.
 
 \subsection{Problem 9.5.9}\label{problem-9.5.9}
 
@@ -21149,15 +21166,16 @@ At center frequency: \textbar Γ\textsubscript{0}\textbar{} =
 (Z\textsubscript{L} - Z₀)/(Z\textsubscript{L} + Z₀) = (100 - 50)/(100 +
 50) = 1/3
 
-The bandwidth where \textbar Γ\textbar{} \textless{} 0.2: BW/f₀ ≈ (2/π)
-×
-arccos(\textbar Γ\textsubscript{max}\textbar/\textbar Γ\textsubscript{0}\textbar{}
-× 1/√(1 - \textbar Γ\textsubscript{max}\textbar²))
+The bandwidth where \textbar Γ\textbar{} \textless{} 0.2 (TEM line):\\
+Δf/f₀ = 2 - (4/π) × arccos{[}(\textbar Γ\textsubscript{max}\textbar/√(1
+- \textbar Γ\textsubscript{max}\textbar²)) ×
+2√(Z₀Z\textsubscript{L})/\textbar Z\textsubscript{L} - Z₀\textbar{]}\\
+= 2 - (4/π) × arccos{[}(0.2/0.9798) × (2 × 70.71/50){]} = 2 - (4/π) ×
+arccos(0.5774) = 2 - (4/π) × 0.9553 = 2 - 1.2163 = 0.784
 
-A simplified estimate: fractional BW ≈ 2 - 4f\textsubscript{c}/f₀,
-giving approximately \textbf{40-50\% bandwidth}, or roughly 2.3-3.5 GHz
-around 5.8 GHz. The quarter-wave transformer provides reasonably
-broadband matching for a 2:1 impedance ratio.
+This gives approximately \textbf{78\% bandwidth}, or about \textbf{4.55
+GHz} (≈3.53--8.07 GHz) around 5.8 GHz. The quarter-wave transformer
+provides reasonably broadband matching for a 2:1 impedance ratio.
 
 \section{9.6 Antennas}\label{chapter-9-section-9.6-antennas}
 
@@ -21290,30 +21308,35 @@ near-field or far-field.
 \textbf{Solution:}
 
 \textbf{5G mmWave (39 GHz):}\\
-λ = 3 × 10⁸ / (39 × 10⁹) = 7.69 mm, D = 0.3 m
+λ = 3 × 10⁸ / (39 × 10⁹) = 7.69 mm. For a square panel, D is the
+diagonal (Example 9.6.4): D = √(0.3² + 0.3²) = 0.424 m
 
-(a) r\textsubscript{ff} = 2D²/λ = 2 × 0.09 / 0.00769 = \textbf{23.4 m}
+(a) r\textsubscript{ff} = 2D²/λ = 2 × 0.18 / 0.00769 = \textbf{46.8 m}
 
-(b) r\textsubscript{reactive} = 0.62√(D³/λ) = 0.62√(0.027/0.00769) =
-0.62√3.512 = 0.62 × 1.874 = \textbf{1.16 m}
+(b) r\textsubscript{reactive} = 0.62√(D³/λ) = 0.62√(0.0764/0.00769) =
+0.62√9.93 = 0.62 × 3.151 = \textbf{1.95 m}
 
 (c) A 5G base station communicates at typical distances of 50-300 m,
-which is well into the \textbf{far-field region}. Antenna measurements
-require at least 23.4 m of clear range.
+which is in the \textbf{far-field region} (only marginally so at the 50
+m lower end). Antenna measurements require at least 46.8 m of clear
+range.
 
 \textbf{NFC (13.56 MHz):}\\
 λ = 3 × 10⁸ / (13.56 × 10⁶) = 22.12 m, D = 0.04 m
 
-(a) r\textsubscript{ff} = 2D²/λ = 2 × 0.0016 / 22.12 = \textbf{0.145 mm}
---- essentially zero.
+(a) Because D = 0.04 m \textless\textless{} λ = 22.12 m, the 2D²/λ
+formula (which would give a meaningless 0.145 mm) does not apply. For an
+electrically small loop, the far field requires r
+\textgreater\textgreater{} λ, i.e., well beyond \textasciitilde22 m.
 
-(b) r\textsubscript{reactive} = 0.62√(D³/λ) = 0.62√(6.4 × 10⁻⁵ / 22.12)
-= 0.62√(2.89 × 10⁻⁶) = 0.62 × 1.70 × 10⁻³ = \textbf{1.05 mm}
+(b) Likewise, 0.62√(D³/λ) applies only to electrically large apertures.
+The reactive near-field of a small loop extends to approximately r =
+λ/(2π) = 22.12/(2π) = \textbf{3.52 m}.
 
 (c) NFC operates at ranges up to \textasciitilde100 mm, which is deep in
-the \textbf{reactive near-field}. At 100 mm, the field decays as
-approximately (1.05/100)³ ≈ 10⁻⁶ relative to the reactive boundary,
-providing the security advantage of NFC's extremely limited range.
+the \textbf{reactive near-field}. Between 10 mm and 100 mm the 1/r³
+field falls by a factor of 10³ (60 dB), providing the security advantage
+of NFC's extremely limited range.
 
 \subsection{Problem 9.6.6}\label{problem-9.6.6}
 
@@ -21384,17 +21407,20 @@ the solid walls.
 
 However, any aperture in the enclosure is the limiting factor.
 
-(e) At 1 MHz: λ = c/f = 3 × 10⁸ / 10⁶ = 300 m. For SE \textgreater{} 80
-dB, the maximum slot length should be less than λ/20 for good practice,
-but the actual limit depends on the required attenuation. A slot of
-length l resonates at λ = 2l and degrades SE dramatically.
+(e) At 1 MHz: λ = c/f = 3 × 10⁸ / 10⁶ = 300 m. A single slot of length l
+provides only SE ≈ 20 log₁₀(λ/(2l)), so the common λ/20 rule-of-thumb
+length yields just \textasciitilde20 dB --- far short of the 80 dB
+target. A slot of length l resonates at λ = 2l and degrades SE
+dramatically.
 
-Maximum slot: l \textless{} λ/20 = 300/20 = \textbf{15 m} --- at 1 MHz,
-even large ventilation openings are not a concern.
+Maximum slot for SE \textgreater{} 80 dB: l \textless{} λ/(2 ×
+10\textsuperscript{80/20}) = 300/20,000 = \textbf{15 mm}.
 
-At higher frequencies, slots become the bottleneck. At 300 MHz (λ = 1
-m), l\textsubscript{max} = 50 mm; at 1 GHz (λ = 0.3 m),
-l\textsubscript{max} = \textbf{15 mm}.
+At higher frequencies, slots become the bottleneck: the λ/20
+(\textasciitilde20 dB) threshold falls to 50 mm at 300 MHz (λ = 1 m) and
+15 mm at 1 GHz (λ = 0.3 m), while the 80 dB target would require slots
+under 0.05 mm and 0.015 mm --- achievable only with gasketed seams and
+waveguide-below-cutoff ventilation panels.
 
 \subsection{Problem 9.7.2}\label{problem-9.7.2}
 
@@ -21421,13 +21447,14 @@ filter (choose L and C values) to achieve compliance.
 16 dB}\\
 At 500 kHz: limit = 56 dBμV, emission = 70 dBμV → \textbf{exceeds by 14
 dB}\\
-At 5 MHz: limit = 60 dBμV, emission = 55 dBμV → \textbf{within limit by
-5 dB} (but need 6 dB margin, so need 1 dB reduction)
+At 5 MHz: at the band edge the lower limit applies, so limit = 56 dBμV,
+emission = 55 dBμV → \textbf{within limit by 1 dB} (but need 6 dB
+margin, so need 5 dB reduction)
 
 (b) Required attenuation (including 6 dB margin):\\
 At 150 kHz: 16 + 6 = \textbf{22 dB}\\
 At 500 kHz: 14 + 6 = \textbf{20 dB}\\
-At 5 MHz: 1 dB (already close to margin)
+At 5 MHz: \textbf{5 dB}
 
 (c) The critical requirement is 22 dB at 150 kHz. A single-stage LC
 filter with -40 dB/decade roll-off:\\
@@ -21442,10 +21469,12 @@ Choose L\textsubscript{DM} = 470 μH. Then: C = 1/(4π²f₀²L) = 1/(4π² ×
 
 Use a 33 nF X2 capacitor (standard value).
 
-Verify at 500 kHz: A = (500/42.3)² = (11.82)² = 139.7 = 21.45 dB (needs
-20 dB --- passes).\\
-At 5 MHz: A = (5000/42.3)² = (118.2)² = 13,971 = 41.5 dB (far exceeds
-the 1 dB needed).
+Verify at 500 kHz: A = (500/42.3)² = (11.82)² = 139.7 → 20 log₁₀(139.7)
+= 42.9 dB (needs 20 dB --- passes).\\
+At 5 MHz: A = (5000/42.3)² = (118.2)² = 13,971 → 20 log₁₀(13,971) = 82.9
+dB (far exceeds the 5 dB needed).\\
+With the chosen 33 nF, f₀ = 1/(2π√(470 μH × 33 nF)) = 40.4 kHz, so the
+attenuation is slightly higher still.
 
 Add a 10 mH common-mode choke and 2.2 nF Y-capacitors for common-mode
 filtering.
@@ -21464,8 +21493,8 @@ current is approximately 15 mA for the fundamental.
 \textbf{Find:} (a) The loop area formed by the clock trace and its
 return current. (b) Compare to the same trace on Sig2 (h₂ = 0.2 mm to
 GND). (c) Estimate whether the radiated emission from the Sig1 trace is
-likely to pass FCC Class B at 3 m (limit \textasciitilde100 μV/m at 100
-MHz).
+likely to pass FCC Class B at 3 m (limit 150 μV/m at 100 MHz, for
+88--216 MHz).
 
 \textbf{Solution:}
 
@@ -21487,8 +21516,8 @@ E ≈ 1.316 × 10⁻¹⁴ × (10⁸)² × 0.015 × 8 × 10⁻⁶ / 3\\
 = 131.6 × 1.2 × 10⁻⁷ / 3\\
 = 5.26 × 10⁻⁶ V/m = \textbf{5.26 μV/m}
 
-This is well below the FCC Class B limit of \textasciitilde100 μV/m at 3
-m. \textbf{The design is likely to pass.}
+This is well below the FCC Class B limit of 150 μV/m at 3 m. \textbf{The
+design is likely to pass.}
 
 However, harmonics (300 MHz, 500 MHz) will have higher radiation due to
 the f² factor, and actual PCB emissions include contributions from all
@@ -21514,14 +21543,14 @@ acceptable.
 of approximately \textbf{30 A} (with 0.7-1 ns rise time and
 characteristic double-exponential waveform).
 
-The 8 kV voltage is applied through a 330 Ω + 150 pF network defined by
-the standard. The initial peak is I\textsubscript{peak} = V /
-Z\textsubscript{contact} ≈ 8000/330 ≈ 24 A for the first pulse, followed
-by a 30 A peak from the discharge network resonance.
+The standard's discharge network is 150 pF discharged through 330 Ω. The
+sub-nanosecond \textasciitilde30 A first peak comes from the discharge
+tip/relay capacitance, while the 330 Ω/150 pF network produces the
+slower second hump (≈16 A at 30 ns and ≈8 A at 60 ns at 8 kV).
 
 (b) The TVS capacitance of 0.25 pF per line is critical for USB 3.2.\\
-With a 45 Ω differential line impedance: the 3 dB bandwidth due to the
-TVS capacitance:\\
+With a 45 Ω single-ended (90 Ω differential) line impedance: the 3 dB
+bandwidth due to the TVS capacitance:\\
 f\textsubscript{3dB} = 1/(π × Z₀ × C\textsubscript{J}) = 1/(π × 45 ×
 0.25 × 10⁻¹²) = \textbf{28.3 GHz}
 
@@ -21530,10 +21559,12 @@ capacitance causes:\\
 Insertion loss at 5 GHz ≈ (f/f\textsubscript{3dB})² = (5/28.3)² = 0.031
 = 0.14 dB --- \textbf{negligible impact}.
 
-The S11 (return loss) is more important: \textbar S11\textbar{} ≈
-2πfC\textsubscript{J}Z₀ = 2π × 5 × 10⁹ × 0.25 × 10⁻¹² × 45 = 0.354 →
-return loss = 9.0 dB. This is marginal but acceptable for ESD
-protection.
+The S11 (return loss) is more important: \textbar S11\textbar{} =
+ωC\textsubscript{J}Z₀/\textbar2 + jωC\textsubscript{J}Z₀\textbar{} with
+ωC\textsubscript{J}Z₀ = 2π × 5 × 10⁹ × 0.25 × 10⁻¹² × 45 = 0.354:
+\textbar S11\textbar{} = 0.354/\textbar2 + j0.354\textbar{} =
+0.354/2.031 = 0.174 → return loss = 15.2 dB. This is comfortably
+acceptable for ESD protection.
 
 (c) A series resistor increases insertion loss: at 10 Gbps, even 5 Ω of
 series resistance degrades the eye diagram significantly due to the high
@@ -21555,9 +21586,10 @@ ground potential difference between the microphone location and the
 preamplifier location. The cable shield has 0.2 Ω resistance.
 
 \textbf{Find:} (a) The ground loop current if the shield is grounded at
-both ends. (b) The noise voltage induced in the signal conductor (assume
-transfer impedance Z\textsubscript{T} = 15 mΩ/m). (c) The SNR. (d)
-Propose a practical solution.
+both ends. (b) The noise voltage induced in the signal conductor (at 60
+Hz the transfer impedance equals the shield resistance per unit length,
+Z\textsubscript{T} = 0.2 Ω/30 m ≈ 6.7 mΩ/m). (c) The SNR. (d) Propose a
+practical solution.
 
 \textbf{Solution:}
 
@@ -21565,11 +21597,12 @@ Propose a practical solution.
 R\textsubscript{shield} = 3 / 0.2 = \textbf{15 A}
 
 (b) V\textsubscript{noise} = I\textsubscript{loop} × Z\textsubscript{T}
-× length = 15 × 0.015 × 30 = \textbf{6.75 V}
+× length = 15 × 0.00667 × 30 = \textbf{3.0 V} (the full 3 V ground
+difference)
 
 (c) SNR = 20 log₁₀(V\textsubscript{signal}/V\textsubscript{noise}) = 20
-log₁₀(50 × 10⁻⁶ / 6.75) = 20 log₁₀(7.41 × 10⁻⁶) = 20 × (-5.13) =
-\textbf{-102.6 dB}
+log₁₀(50 × 10⁻⁶ / 3.0) = 20 log₁₀(1.67 × 10⁻⁵) = 20 × (-4.78) =
+\textbf{-95.6 dB}
 
 The noise completely buries the signal. The measurement is impossible in
 this configuration.
