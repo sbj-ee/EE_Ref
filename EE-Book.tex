@@ -91,9 +91,6 @@
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -16005,13 +16002,13 @@ faster, more reliable turn-off and lower conduction losses.
 
 \begin{examplebox}
 
-\textbf{Example 10.1.4:} A thyristor (SCR) is used in a phase-controlled
-rectifier fed from a 480 V\textsubscript{rms} single-phase supply. The
-thyristor has a forward voltage drop V\textsubscript{T} = 1.5 V, a
-holding current I\textsubscript{H} = 80 mA, and a latching current
-I\textsubscript{L} = 250 mA. If the load is purely resistive at R = 10 Ω
-and the firing angle is α = 45°, what is the average load current and
-the power dissipated in the thyristor?
+\textbf{Example 10.1.4:} A thyristor (SCR) is used in a single-phase
+half-wave phase-controlled rectifier fed from a 480 V\textsubscript{rms}
+single-phase supply. The thyristor has a forward voltage drop
+V\textsubscript{T} = 1.5 V, a holding current I\textsubscript{H} = 80
+mA, and a latching current I\textsubscript{L} = 250 mA. If the load is
+purely resistive at R = 10 Ω and the firing angle is α = 45°, what is
+the average load current and the power dissipated in the thyristor?
 
 \textbf{Solution:}\\
 Peak supply voltage: V\textsubscript{peak} = 480√2 = 678.8 V.\\
@@ -16183,14 +16180,16 @@ varying the firing angle α: V\textsubscript{dc} =
 
 \textbf{Example 10.2.1:} A single-phase full-wave bridge rectifier is
 fed from a 120 V\textsubscript{rms}, 60 Hz source and supplies a load
-requiring 100 V DC. A capacitor filter is used. Calculate the ideal
-(no-load) DC output voltage and determine the firing angle α needed if
-thyristors are used to regulate the output to exactly 100 V DC.
+requiring 100 V DC (continuous conduction, no large capacitor filter).
+Calculate the average DC output voltage of the uncontrolled diode bridge
+and determine the firing angle α needed if thyristors are used to
+regulate the output to exactly 100 V DC.
 
 \textbf{Solution:}\\
 V\textsubscript{peak} = 120 × √2 = 169.7 V.\\
-Ideal uncontrolled DC output: V\textsubscript{dc} =
-2V\textsubscript{peak}/π = 2 × 169.7 / π = 108.0 V.\\
+Ideal uncontrolled average DC output (continuous conduction):
+V\textsubscript{dc} = 2V\textsubscript{peak}/π = 2 × 169.7 / π = 108.0
+V.\\
 For a fully controlled bridge rectifier to produce V\textsubscript{dc} =
 100 V: 100 = (2 × 169.7 / π) cos(α) = 108.0 cos(α).\\
 cos(α) = 100/108.0 = 0.926.\\
@@ -16516,9 +16515,11 @@ Output power: P\textsubscript{out} = 12 × 3 = 36 W. Assuming 90\%
 efficiency, P\textsubscript{in} = 36 / 0.90 = 40 W.\\
 Average primary current: I\textsubscript{p(avg)} = P\textsubscript{in} /
 V\textsubscript{in} = 40 / 375 = 0.107 A.\\
-Peak primary current (CCM, assuming 40\% ripple):
-I\textsubscript{p(peak)} ≈ I\textsubscript{p(avg)} / D + ΔI/2 ≈ 0.107 /
-0.39 × (1 + 0.20) ≈ 0.329 A.
+Peak primary current (CCM, assuming 40\% ripple): the on-time average is
+I\textsubscript{on,avg} = I\textsubscript{p(avg)} / D = 0.107 / 0.39 =
+0.274 A; with ΔI = 0.4 × I\textsubscript{on,avg},
+I\textsubscript{p(peak)} = I\textsubscript{on,avg} + ΔI/2 = 0.274 × (1 +
+0.20) = \textbf{0.329 A}.
 
 \end{examplebox}
 
@@ -16890,12 +16891,13 @@ output of the constituent controlled rectifier bridges.\\
 For a three-phase fully controlled bridge: V\textsubscript{dc(max)} =
 (3/π) × V\textsubscript{peak(L-L)} = 0.9549 × 678.8 = 648.2 V (average
 DC output at firing angle α = 0°).\\
-The RMS output voltage at maximum is approximately
-V\textsubscript{out(rms)} ≈ V\textsubscript{dc(max)} / √2 = 648.2 /
-1.414 ≈ 458.4 V.\\
-In practice, the output is limited to about 75--80\% of the input
-voltage due to commutation overlap, yielding approximately
-V\textsubscript{out} ≈ 0.75 × 480 = 360 V\textsubscript{rms}.
+The theoretical RMS output voltage at maximum (sinusoidal synthesis from
+the DC envelope) is approximately V\textsubscript{out(rms)} ≈
+V\textsubscript{dc(max)} / √2 = 648.2 / 1.414 ≈ 458.4 V.\\
+In practice, commutation overlap and circulating-current margins limit
+the usable voltage to about 75--80\% of the input, so the design maximum
+is V\textsubscript{out} ≈ 0.75 × 480 = \textbf{360
+V\textsubscript{rms}}.
 
 \end{examplebox}
 
@@ -17181,30 +17183,32 @@ device capacitance, reducing high-frequency spectral content.
 
 \textbf{Example 10.6.4:} A 200 W flyback converter operating at
 f\textsubscript{sw} = 100 kHz fails conducted emission testing per CISPR
-32 Class B, exceeding the quasi-peak limit by 18 dB at the fundamental
-switching frequency (100 kHz) and by 12 dB at the third harmonic (300
-kHz). Design an input EMI filter to achieve compliance with at least 6
-dB of margin.
+32 Class B, exceeding the quasi-peak limit by 18 dB at the third
+harmonic (300 kHz). (The 100 kHz fundamental lies below the 150 kHz
+start of the CISPR 32 conducted band, so it is not a compliance
+frequency.) Design an input EMI filter to achieve compliance with at
+least 6 dB of margin.
 
 \textbf{Solution:}\\
-Required attenuation at 100 kHz: 18 + 6 = 24 dB. At 300 kHz: 12 + 6 = 18
-dB.\\
+Required attenuation at 300 kHz: 18 + 6 = 24 dB.\\
 A single-stage LC filter has a roll-off of −40 dB/decade above its
-corner frequency. For 24 dB of attenuation at 100 kHz, the corner
-frequency must be below 100 kHz.\\
+corner frequency.\\
 Using a second-order LC filter: attenuation A = (f/f₀)² at frequencies
 well above f₀. 24 dB = 10\textsuperscript{24/20} = 15.85×.\\
-f₀ = f/√A = 100 kHz / √15.85 = 100 / 3.98 = 25.1 kHz.\\
+f₀ = f/√A = 300 kHz / √15.85 = 300 / 3.98 = 75.4 kHz.\\
 Choose L\textsubscript{DM} = 100 μH (DM inductor) and calculate C: f₀ =
-1/(2π√(LC)), so C = 1/(4π²f₀²L) = 1/(4π² × (25,100)² × 100 × 10⁻⁶) =
-1/(4 × 9.87 × 6.3 × 10⁸ × 10⁻⁴) = 1/(2.49 × 10⁶) = 0.40 μF.\\
-Use a 0.47 μF X2 film capacitor.\\
-Verify at 300 kHz: attenuation = (300/25.1)² = (11.95)² = 142.8 = 43.1
-dB ≫ 18 dB required.\\
+1/(2π√(LC)), so C = 1/(4π²f₀²L) = 1/(4π² × (75,400)² × 100 × 10⁻⁶) =
+1/(4 × 9.87 × 5.685 × 10⁹ × 10⁻⁴) = 1/(2.24 × 10⁷) = 0.045 μF.\\
+Use a 0.047 μF X2 film capacitor.\\
+With L = 100 μH and C = 0.047 μF: f₀ = 1/(2π√(100 × 10⁻⁶ × 0.047 ×
+10⁻⁶)) = 73.4 kHz.\\
+Verify at 300 kHz: attenuation = (300/73.4)² = (4.087)² = 16.7 = 24.5 dB
+(meets the 24 dB requirement with margin).\\
 Add a common-mode choke (10 mH, rated for line current) and two 2.2 nF
 Y-capacitors for CM filtering.\\
-Total filter: CM choke → X-cap (0.47 μF) → DM inductor (100 μH) → second
-X-cap (0.47 μF), providing both CM and DM attenuation with 6+ dB margin.
+Total filter: CM choke → X-cap (0.047 μF) → DM inductor (100 μH) →
+second X-cap (0.047 μF), providing both CM and DM attenuation with 6+ dB
+margin.
 
 \end{examplebox}
 
@@ -17694,13 +17698,13 @@ differentiate a hard short from a normal transient.
 
 \begin{examplebox}
 
-\textbf{Example 10.8.5:} A 400 V, 100 Ah EV battery pack uses a 0.5 mΩ
-current-sense resistor and a BMS with a 10-bit ADC referenced to 50 mV
-full-scale. The pack has overvoltage, undervoltage, and overcurrent
-protection. Determine (a) the ADC current resolution, (b) the maximum
-measurable current, (c) the OVP and UVP thresholds for a 96-series NMC
-pack, and (d) the energy that must be safely dissipated if the pack is
-disconnected at maximum current.
+\textbf{Example 10.8.5:} A nominal \textasciitilde400 V-class, 100 Ah EV
+battery pack uses a 0.5 mΩ current-sense resistor and a BMS with a
+10-bit ADC referenced to 50 mV full-scale. The pack has overvoltage,
+undervoltage, and overcurrent protection. Determine (a) the ADC current
+resolution, (b) the maximum measurable current, (c) the OVP and UVP
+thresholds for a 96-series NMC pack, and (d) the energy that must be
+safely dissipated if the pack is disconnected at maximum current.
 
 \textbf{Solution:}
 
@@ -17814,8 +17818,9 @@ losses, and (d) the annual auxiliary energy consumption.
 
 \textbf{Solution:}
 
-(a) Round-trip efficiency: η\textsubscript{RT} = η\textsubscript{inv}² ×
-(1 − aux)² = 0.965² × (1 − 0.012)² = 0.9312 × 0.9761 = \textbf{90.9\%}
+(a) Round-trip efficiency (aux applied on both charge and discharge
+legs): η\textsubscript{RT} = η\textsubscript{inv}² × (1 − aux)² = 0.965²
+× (1 − 0.012)² = 0.9312 × 0.9761 = \textbf{90.9\%}
 
 (b) Annual energy throughput: E\textsubscript{annual} = 40 × 0.80 × 365
 = \textbf{11,680 MWh} (discharge side)
@@ -18246,9 +18251,9 @@ Level 1 time: t = 52.5 / 1.4 = \textbf{37.5 hours}
 (c) DCFC time: t = 52.5 / 150 = 0.35 hours = \textbf{21 minutes}
 
 (d) EVSE current: I = 7,700 / 240 = 32.1 A. NEC continuous load (125\%):
-I\textsubscript{CB} = 32.1 × 1.25 = 40.1 A → \textbf{40 A circuit
-breaker} (standard size per NEC 240.6(A)), requiring 8 AWG copper
-conductors (ampacity 50 A at 75°C from NEC Table 310.16)
+I\textsubscript{CB} = 32.1 × 1.25 = 40.1 A → \textbf{45 A circuit
+breaker} (next standard size ≥ 40.1 A per NEC 240.6(A)), requiring 8 AWG
+copper conductors (ampacity 50 A at 75°C from NEC Table 310.16)
 
 \end{examplebox}
 

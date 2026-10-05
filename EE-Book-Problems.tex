@@ -91,9 +91,6 @@
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -21853,11 +21850,13 @@ I\textsubscript{avg} = 2 × 1.5 × 50 = \textbf{150 W}
 
 \textbf{Given:} A 1,200 V silicon IGBT module has
 V\textsubscript{CE(sat)} = 2.1 V and switching energies
-E\textsubscript{on} = 12 mJ, E\textsubscript{off} = 8 mJ at 100 A. A
-1,200 V SiC MOSFET has R\textsubscript{DS(on)} = 13 mΩ and switching
-energies E\textsubscript{on} = 1.5 mJ, E\textsubscript{off} = 0.8 mJ at
-100 A. Both devices operate at I\textsubscript{D} = 100 A with a duty
-cycle of 0.5 in a DC-DC converter with V\textsubscript{bus} = 800 V.
+E\textsubscript{on} = 12 mJ, E\textsubscript{off} = 8 mJ at 100 A / 800
+V. A 1,200 V SiC MOSFET has R\textsubscript{DS(on)} = 13 mΩ and
+switching energies E\textsubscript{on} = 1.5 mJ, E\textsubscript{off} =
+0.8 mJ at 100 A / 800 V. Both devices operate at I\textsubscript{D} =
+100 A with a duty cycle of 0.5 in a DC-DC converter with
+V\textsubscript{bus} = 800 V (matching the datasheet test voltage, so no
+E ∝ V scaling is required).
 
 \textbf{Find:} (a) The conduction loss for each device, (b) the
 switching loss for each at f\textsubscript{sw} = 20 kHz, (c) the total
@@ -23539,7 +23538,8 @@ Testing α = 97° = 1.6930 rad: π − 1.6930 + sin(194°)/2 = 1.4486 +
 Testing α = 98° = 1.7104 rad: π − 1.7104 + sin(196°)/2 = 1.4312 +
 (−0.2756)/2 = 1.4312 − 0.1378 = 1.2934
 
-Interpolating between 97° and 95°: \textbf{α ≈ 96°}
+Target = 1.3084 lies between 97° (1.3276) and 98° (1.2934).
+Interpolating: \textbf{α ≈ 97.6°}
 
 (c) Input power factor = P\textsubscript{out} / S\textsubscript{in}. The
 input apparent power:\\
@@ -24084,43 +24084,46 @@ confirming that liquid cooling is energy-efficient.
 \textbf{Given:} A two-stage EMI filter must be designed for a 500 W PFC
 converter switching at f\textsubscript{sw} = 65 kHz. Conducted emission
 testing shows the converter exceeds CISPR 32 Class B quasi-peak limits
-by 22 dB at 65 kHz and 15 dB at 130 kHz. A 6 dB design margin is
+by 22 dB at 195 kHz (3rd harmonic) and 15 dB at 325 kHz (5th harmonic).
+(The 65 kHz fundamental and 130 kHz second harmonic lie below the 150
+kHz start of the CISPR 32 conducted band.) A 6 dB design margin is
 required.
 
-\textbf{Find:} (a) The required attenuation at the fundamental and
-second harmonic, (b) the filter corner frequency for a single-stage LC
-filter, (c) suitable component values, and (d) whether a single stage is
-sufficient at 130 kHz.
+\textbf{Find:} (a) The required attenuation at the 3rd and 5th
+harmonics, (b) the filter corner frequency for a single-stage LC filter,
+(c) suitable component values, and (d) whether a single stage is
+sufficient at 325 kHz.
 
 \textbf{Solution:}
 
 (a) Required attenuation:\\
-At 65 kHz: 22 + 6 = \textbf{28 dB}\\
-At 130 kHz: 15 + 6 = \textbf{21 dB}
+At 195 kHz: 22 + 6 = \textbf{28 dB}\\
+At 325 kHz: 15 + 6 = \textbf{21 dB}
 
 (b) A single-stage LC (second-order) filter has −40 dB/decade
 roll-off.\\
-Required attenuation of 28 dB = 10\textsuperscript{28/20} = 25.1× at 65
+Required attenuation of 28 dB = 10\textsuperscript{28/20} = 25.1× at 195
 kHz.\\
 For a second-order filter: attenuation = (f/f₀)²\\
-f₀ = f / √(attenuation) = 65,000 / √25.1 = 65,000 / 5.01 =
-\textbf{12,974 Hz ≈ 13 kHz}
+f₀ = f / √(attenuation) = 195,000 / √25.1 = 195,000 / 5.01 =
+\textbf{38,922 Hz ≈ 39 kHz}
 
 (c) Choose L\textsubscript{DM} = 200 μH:\\
-C = 1 / (4π²f₀²L) = 1 / (4 × 9.87 × (13,000)² × 200 × 10⁻⁶)\\
-C = 1 / (4 × 9.87 × 1.69 × 10⁸ × 2 × 10⁻⁴) = 1 / (1.332 × 10⁶) =
-\textbf{0.75 μF}\\
-Use \textbf{L = 200 μH} and \textbf{C = 0.82 μF} (standard X2 capacitor
+C = 1 / (4π²f₀²L) = 1 / (4 × 9.87 × (38,922)² × 200 × 10⁻⁶)\\
+C = 1 / (4 × 9.87 × 1.515 × 10⁹ × 2 × 10⁻⁴) = 1 / (1.195 × 10⁷) =
+\textbf{0.084 μF}\\
+Use \textbf{L = 200 μH} and \textbf{C = 0.10 μF} (standard X2 capacitor
 value).
 
-(d) Verify at 130 kHz with actual component values:\\
-f₀ = 1/(2π√(200 × 10⁻⁶ × 0.82 × 10⁻⁶)) = 1/(2π × 1.281 × 10⁻⁵) = 1/(8.05
-× 10⁻⁵) = 12,422 Hz\\
-Attenuation at 130 kHz = (130,000/12,422)² = (10.47)² = 109.5 = 40.8
-dB\\
-Required: 21 dB. The single-stage filter provides \textbf{40.8 dB},
-which exceeds the 21 dB requirement by 19.8 dB. A single stage is
-\textbf{sufficient} at both frequencies.
+(d) Verify at 325 kHz with actual component values:\\
+f₀ = 1/(2π√(200 × 10⁻⁶ × 0.10 × 10⁻⁶)) = 1/(2π × 1.414 × 10⁻⁵) = 1/(8.89
+× 10⁻⁵) = \textbf{35,588 Hz}\\
+Attenuation at 195 kHz = (195,000/35,588)² = (5.480)² = 30.0 = 29.5 dB
+(meets 28 dB).\\
+Attenuation at 325 kHz = (325,000/35,588)² = (9.133)² = 83.4 = 38.4 dB\\
+Required: 21 dB. The single-stage filter provides \textbf{38.4 dB},
+which exceeds the 21 dB requirement by 17.4 dB. A single stage is
+\textbf{sufficient} at both in-band frequencies.
 
 \subsection{Problem 10.6.7}\label{problem-10.6.7}
 
@@ -24213,7 +24216,8 @@ reliability outweighs the modest thermal penalty.
 exceeding CISPR 32 Class B limits. Measurements with a LISN show:
 differential-mode (DM) noise dominates below 500 kHz at 85 dBμV peak,
 and common-mode (CM) noise dominates above 1 MHz at 72 dBμV peak. The
-Class B quasi-peak limit is 56 dBμV at 500 kHz and 60 dBμV at 1 MHz.
+Class B quasi-peak limit is 56 dBμV at 500 kHz and 56 dBμV at 1 MHz
+(0.5--5 MHz band).
 
 \textbf{Find:} (a) The required DM attenuation at 500 kHz, (b) the
 required CM attenuation at 1 MHz, (c) suitable X-capacitor and DM
@@ -24226,7 +24230,7 @@ and Y-capacitor values.
 Excess = 85 − 56 = 29 dB. With 6 dB margin: \textbf{35 dB required}
 
 (b) CM attenuation required at 1 MHz:\\
-Excess = 72 − 60 = 12 dB. With 6 dB margin: \textbf{18 dB required}
+Excess = 72 − 56 = 16 dB. With 6 dB margin: \textbf{22 dB required}
 
 (c) DM filter design (second-order LC, −40 dB/decade):\\
 35 dB = 10\textsuperscript{35/20} = 56.2× attenuation\\
@@ -24241,17 +24245,17 @@ Use \textbf{L\textsubscript{DM} = 15 μH} and \textbf{C\textsubscript{X}
 = 0.47 μF} for margin.
 
 (d) CM filter design:\\
-18 dB = 10\textsuperscript{18/20} = 7.94× attenuation at 1 MHz\\
-f₀\textsubscript{(CM)} = 1,000,000 / √7.94 = 1,000,000 / 2.82 = 354,900
+22 dB = 10\textsuperscript{22/20} = 12.59× attenuation at 1 MHz\\
+f₀\textsubscript{(CM)} = 1,000,000 / √12.59 = 1,000,000 / 3.55 = 281,800
 Hz
 
 Choose C\textsubscript{Y} = 2.2 nF (Y2 ceramic, limited by safety
 leakage current):\\
-L\textsubscript{CM} = 1/(4π²f₀²C) = 1/(4 × 9.87 × (354,900)² × 2.2 ×
+L\textsubscript{CM} = 1/(4π²f₀²C) = 1/(4 × 9.87 × (281,800)² × 2.2 ×
 10⁻⁹)\\
-L\textsubscript{CM} = 1/(4 × 9.87 × 1.260 × 10¹¹ × 2.2 × 10⁻⁹) =
-1/(10,940) = \textbf{91 μH}\\
-Use a \textbf{100 μH common-mode choke} and \textbf{2.2 nF Y2
+L\textsubscript{CM} = 1/(4 × 9.87 × 7.941 × 10¹⁰ × 2.2 × 10⁻⁹) =
+1/(6,900) = \textbf{145 μH}\\
+Use a \textbf{150 μH common-mode choke} and \textbf{2.2 nF Y2
 capacitors} (two, one per line to ground).
 
 \subsection{Problem 10.6.10}\label{problem-10.6.10}
@@ -26290,8 +26294,9 @@ inverter delivers 15 kW at unity power factor with a 20 kHz switching
 frequency.
 
 \textbf{Find:} (a) Phase voltage (V\textsubscript{rms} per phase). (b)
-RMS line current. (c) SPWM modulation index m = V̂\textsubscript{phase} /
-V\textsubscript{DC}. (d) Number of switching cycles in the 2-second
+RMS line current. (c) The SVPWM modulation index m\textsubscript{a} =
+V̂\textsubscript{phase} / (V\textsubscript{DC}/√3), and whether linear
+SPWM would suffice. (d) Number of switching cycles in the 2-second
 anti-islanding detection window required by IEEE 1547.
 
 \textbf{Solution:}
@@ -26302,8 +26307,14 @@ anti-islanding detection window required by IEEE 1547.
 (b) I\textsubscript{line} = P / (√3 × V\textsubscript{L-L}) = 15,000 /
 (√3 × 480) = 15,000 / 831.4 = \textbf{18.0 A\textsubscript{rms}}
 
-(c) V̂\textsubscript{phase} = 277.1 × √2 = 391.9 V; m = 391.9 / 750 =
-\textbf{0.523}
+(c) V̂\textsubscript{phase} = 277.1 × √2 = 391.9 V.\\
+Linear SPWM allows at most V̂\textsubscript{phase} =
+V\textsubscript{DC}/2 = 375 V (V\textsubscript{LL,rms} ≤ 459 V), which
+cannot reach 480 V\textsubscript{L-L}.\\
+With SVPWM, V̂\textsubscript{phase,max} = V\textsubscript{DC}/√3 =
+750/1.732 = 433.0 V \textgreater{} 391.9 V, so 480 V\textsubscript{L-L}
+is reachable:\\
+m\textsubscript{a} = 391.9 / 433.0 = \textbf{0.905}
 
 (d) N\textsubscript{cycles} = f\textsubscript{sw} × t = 20,000 × 2 =
 \textbf{40,000 switching cycles}
