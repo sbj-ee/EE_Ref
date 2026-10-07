@@ -19265,7 +19265,7 @@ V\textsubscript{true} = 1.003 - 1.00250 × 1.000 = 1.003 - 1.00250 = 0.50
 mV.\\
 Gain error = (G - 1) × 100\% = 0.250\%.\\
 Verification at 3.000 V: predicted reading = 1.00250 × 3.000 + 0.00050 =
-3.0080 V, actual reading = 3.008 V -- confirming the linear model.\\
+3.0080 V, actual reading = 3.008 V --- confirming the linear model.\\
 Corrected measurement: V\textsubscript{true} = (V\textsubscript{reading}
 - 0.00050) / 1.00250.
 
@@ -19307,8 +19307,8 @@ SNR = 20log₁₀(V\textsubscript{signal} / V\textsubscript{noise}) =
 dB.\\
 To achieve 60 dB: improvement needed = 60 - 54.8 = 5.2 dB, corresponding
 to a voltage ratio improvement of 10\textsuperscript{5.2/20} = 1.82×.\\
-Since averaging improves SNR by √N: √N = 1.82, so N = 3.3 -- round up to
-N = 4 averages.
+Since averaging improves SNR by √N: √N = 1.82, so N = 3.3 --- round up
+to N = 4 averages.
 
 \end{examplebox}
 
@@ -19580,23 +19580,31 @@ conditioning, simplifying interfacing with microcontrollers.
 \textbf{Example 11.2.1:} A Pt100 RTD (R₀ = 100 Ω at 0°C, α = 0.00385
 Ω/Ω/°C) is used to measure furnace temperature. The measured resistance
 is 247.1 Ω. Using the linear approximation R(T) = R₀(1 + αT), calculate
-the temperature. A Type K thermocouple at the same location reads 10.57
+the temperature. A Type K thermocouple at the same location reads 16.40
 mV (reference junction at 0°C). Using the approximate sensitivity of 41
-μV/°C, what temperature does the thermocouple indicate?
+μV/°C, what temperature does the thermocouple indicate? Compare both
+linear estimates with the standard reference functions.
 
 \textbf{Solution:}\\
 For the Pt100: R(T) = R₀(1 + αT), so 247.1 = 100(1 + 0.00385T).\\
 2.471 = 1 + 0.00385T.\\
 T = 1.471 / 0.00385 = 382.1°C.\\
-For the Type K thermocouple: T = V / sensitivity = 10.57 × 10⁻³ / (41 ×
-10⁻⁶) = 257.8°C.\\
-The significant discrepancy (382°C vs.~258°C) suggests the linear
-thermocouple approximation is too crude at this temperature; using the
-Type K thermocouple tables, 10.57 mV actually corresponds to
-approximately 260°C.\\
-This illustrates why RTDs provide superior accuracy and why thermocouple
-linearization tables or polynomial corrections are essential for precise
-measurements.
+For the Type K thermocouple: T = V / sensitivity = 16.40 × 10⁻³ / (41 ×
+10⁻⁶) = 400.0°C.\\
+The two linear estimates disagree by about 18°C (382°C vs.~400°C). The
+Type K reference tables put 16.40 mV at 400.1°C (NIST: 16.397 mV at
+400°C), so the thermocouple estimate is good here --- 41 μV/°C happens
+to be Type K's average sensitivity over 0--400°C, which is not true in
+general.\\
+The error is in the RTD's linear model: α = 0.00385 is the mean
+coefficient over 0--100°C, and platinum's R(T) curve bends downward. The
+Callendar--Van Dusen equation R(T) = R₀(1 + AT + BT²), with A = 3.9083 ×
+10⁻³ and B = −5.775 × 10⁻⁷, gives T = 400.0°C for 247.1 Ω, so the
+linear-α model under-reads by about 18°C at furnace temperatures.\\
+This illustrates why both sensor types need their standard nonlinear
+reference functions --- Callendar--Van Dusen for RTDs and ITS-90 tables
+or polynomials for thermocouples --- for precise measurements far from
+0--100°C.
 
 \end{examplebox}
 
@@ -19722,7 +19730,7 @@ excitation of 3 V\textsubscript{rms} at 5 kHz. The LVDT has a linear
 range of ±10 mm. If the signal conditioning electronics have a noise
 floor of 0.5 mV\textsubscript{rms}, what is the maximum measurable
 displacement, the resolution limited by noise, and the position accuracy
-if the LVDT nonlinearity is ±0.1\% of full range?
+if the LVDT nonlinearity is ±0.1\% of full scale (10 mm)?
 
 \textbf{Solution:}\\
 Maximum displacement: ±10 mm (linear range).\\
@@ -19730,7 +19738,7 @@ Maximum output voltage: V\textsubscript{max} = 25 mV/mm × 10 mm = 250
 mV.\\
 Resolution (limited by noise floor): Δx = V\textsubscript{noise} /
 sensitivity = 0.5 mV / 25 mV/mm = 0.020 mm = 20 μm.\\
-Nonlinearity error: ±0.1\% of full range = ±0.001 × 10 mm = ±0.010 mm =
+Nonlinearity error: ±0.1\% of full scale = ±0.001 × 10 mm = ±0.010 mm =
 ±10 μm.\\
 Total position accuracy (RSS of noise-limited resolution and
 nonlinearity): ±√(20² + 10²) = ±√(400 + 100) = ±√500 = ±22.4 μm.\\
@@ -19761,16 +19769,17 @@ vibration analysis.
 
 \begin{examplebox}
 
-\textbf{Example 11.2.5:} A MEMS accelerometer has a sensitivity of 1000
-LSB/g, a 16-bit ADC output, a noise density of 100 μg/√Hz, and a
-measurement bandwidth of 500 Hz. Calculate the noise floor in
-mg\textsubscript{rms} and the dynamic range.
+\textbf{Example 11.2.5:} A MEMS accelerometer has a sensitivity of 2048
+LSB/g, a 16-bit ADC output (±16 g full scale), a noise density of 100
+μg/√Hz, and a measurement bandwidth of 500 Hz. Calculate the noise floor
+in mg\textsubscript{rms} and the dynamic range.
 
 \textbf{Solution:}\\
 Total noise: a\textsubscript{noise} = noise density × √BW = 100 × 10⁻⁶ ×
 √500 = 100 × 10⁻⁶ × 22.36 = 2.236 × 10⁻³ g = 2.24
 mg\textsubscript{rms}.\\
-Full-scale range for a ±16 g device (using 16-bit output): 32 g.\\
+Full-scale range: 2¹⁶ counts / 2048 LSB/g = 65,536 / 2048 = 32 g (±16
+g).\\
 Dynamic range: DR = 20 × log₁₀(full-scale / noise) = 20 × log₁₀(32 /
 (2.24 × 10⁻³)) = 20 × log₁₀(14,286) = 20 × 4.155 = 83.1 dB.\\
 The noise floor of 2.24 mg means the sensor can resolve accelerations as
@@ -19965,9 +19974,10 @@ St × v̄ / d is proportional to velocity, where St is the Strouhal number
 (\textasciitilde0.27) and d is the shedder width. \textbf{Differential
 pressure} flow meters (orifice plates, Venturi tubes, flow nozzles)
 infer velocity from the pressure drop across a constriction using
-Bernoulli's principle: Q = C\textsubscript{d} × A₂ × √(2ΔP / ρ), where
-C\textsubscript{d} is the discharge coefficient --- the oldest and still
-most widely installed flow technology in industrial plants.
+Bernoulli's principle: Q = C\textsubscript{d} × A₂ × √(2ΔP / {[}ρ(1 −
+β⁴){]}), where C\textsubscript{d} is the discharge coefficient and 1/√(1
+− β⁴) is the velocity-of-approach factor (β = d/D) --- the oldest and
+still most widely installed flow technology in industrial plants.
 
 \begin{examplebox}
 
@@ -19988,11 +19998,13 @@ Volumetric flow: Q = v̄ × A = 0.3133 × 0.01767 = 5.536 × 10⁻³ m³/s =
 19.93 m³/h.\\
 Orifice plate (high-flow condition, ΔP = 18.5 kPa): orifice area A₂ =
 π/4 × (β × D)² = π/4 × (0.090)² = 6.362 × 10⁻³ m².\\
-Q = C\textsubscript{d} × A₂ × √(2ΔP/ρ) = 0.61 × 6.362 × 10⁻³ × √(2 ×
-18,500 / 1000) = 3.881 × 10⁻³ × √37.0 = 3.881 × 10⁻³ × 6.083 = 23.61 ×
-10⁻³ m³/s = 85.0 m³/h.\\
+Velocity-of-approach factor: 1/√(1 − β⁴) = 1/√(1 − 0.6⁴) = 1/√0.8704 =
+1.0719.\\
+Q = C\textsubscript{d} × A₂ × √(2ΔP / {[}ρ(1 − β⁴){]}) = 0.61 × 6.362 ×
+10⁻³ × 1.0719 × √(2 × 18,500 / 1000) = 4.160 × 10⁻³ × 6.083 = 25.30 ×
+10⁻³ m³/s = 91.1 m³/h.\\
 The two sensors are operating at different flow conditions (19.93 vs
-85.0 m³/h), illustrating the measurement range of each technology on the
+91.1 m³/h), illustrating the measurement range of each technology on the
 same pipe geometry.\\
 The mag meter's advantage is zero pressure drop and no moving parts; the
 orifice plate permanently reduces pressure by approximately 60\% of the
@@ -20169,7 +20181,7 @@ V\textsubscript{error(input)} = 500 × 15 μV = 7.5 mV.\\
 Signal-to-error ratio: V\textsubscript{out(signal)} /
 V\textsubscript{error(output)} = 1.000 / 0.0075 = 133.3, or
 20log₁₀(133.3) = 42.5 dB.\\
-The error is 0.75\% of the output signal -- acceptable for many
+The error is 0.75\% of the output signal --- acceptable for many
 industrial measurements but may require additional 60 Hz notch filtering
 for higher-precision applications.
 
@@ -20311,8 +20323,8 @@ For R = 6,530 Ω: ln(6,530) = 8.7842.\\
 T = 1 / (3.227 × 10⁻³) = 309.9 K = 36.7°C.\\
 Without linearization (using a simple linear interpolation between 25°C
 and 50°C): T ≈ 25 + 25 × (10,000 - 6,530) / (10,000 - 4,160) = 25 + 25 ×
-0.594 = 39.9°C --- a 3.2°C error demonstrating the importance of proper
-linearization.
+0.5942 = 39.85°C --- a 3.1°C error demonstrating the importance of
+proper linearization.
 
 \end{examplebox}
 
@@ -20426,7 +20438,8 @@ R\textsubscript{DMM} / (R\textsubscript{source} + R\textsubscript{DMM})
 Loading error: ΔV = 8.500 - 8.4158 = 0.0842 V.\\
 Percent error: 0.0842 / 8.500 × 100 = 0.99\%.\\
 This is significant for a precision instrument.\\
-Resolution: 10 V / 1,999,999 counts = 5.0 μV per count, so the DMM
+Resolution: on the 10 V range a 6½-digit display reads to 10.00000 V
+(its 1,999,999 counts would span 20 V), so 1 count = 10 μV, and the DMM
 itself is far more accurate than the loading error.\\
 Using a high-impedance (\textgreater10 GΩ) DMM would reduce the loading
 error to \textless{} 0.001\%.
@@ -20472,10 +20485,17 @@ Measured rise time: t\textsubscript{rise(measured)} = √(2² + 1.75²) =
 √(4 + 3.0625) = √7.0625 = 2.66 ns.\\
 The scope significantly affects the measurement (33\% error).\\
 A 500 MHz scope would give t\textsubscript{rise(scope)} = 0.7 ns and
-t\textsubscript{rise(measured)} = √(4 + 0.49) = 2.12 ns (6\% error) --
+t\textsubscript{rise(measured)} = √(4 + 0.49) = 2.12 ns (6\% error) ---
 much better.\\
 Time window at full sample rate: T = memory depth / sample rate = 10 ×
-10⁶ / (1 × 10⁹) = 10 ms.
+10⁶ / (1 × 10⁹) = 10 ms.\\
+At reduced sample rate the window grows as T = 10 × 10⁶ /
+f\textsubscript{s}: for example, 100 ms at 100 MS/s or 1 s at 10 MS/s.
+The longest usable window depends on the slowest sample rate you can
+accept. Below about 1 GS/s (5× the 200 MHz bandwidth) the 2 ns edge is
+no longer resolved --- at 100 MS/s the 10 ns sample interval is five
+times the rise time --- so long windows are useful only for
+slow-timescale context.
 
 \end{examplebox}
 
@@ -20730,8 +20750,11 @@ digits.\\
 The reciprocal method is 10⁷× better.\\
 \textbf{Absolute accuracy} for 10 MHz with GPSDO: uncertainty = f ×
 stability = 10⁷ × 10⁻¹¹ = 10⁻⁴ Hz = 0.1 mHz.\\
-The measurement reads 10,000,000.000 0 ± 0.000 1 Hz --- 11 significant
-digits, traceable to the GPS satellite constellation's atomic clocks.
+The 1 s gate limits resolution to 100 ps / 1 s = 10⁻¹⁰, or ±1 mHz at 10
+MHz, which is ten times the timebase uncertainty. The measurement
+therefore reads 10,000,000.000 ± 0.001 Hz --- 11 significant digits,
+resolution-limited, with the timebase traceable to the GPS satellite
+constellation's atomic clocks.
 
 \end{examplebox}
 
@@ -20767,10 +20790,10 @@ device modeling.
 
 \begin{examplebox}
 
-\textbf{Example 11.4.8:} A VNA measures a bandpass filter from 800 MHz
-to 1200 MHz. At the center frequency of 1000 MHz, S₂₁ = -1.2 dB ∠-45°
-and S₁₁ = -18 dB ∠+135°. Calculate the insertion loss, return loss, VSWR
-at the input port, the fraction of power reflected, and the fraction of
+\textbf{Example 11.4.8:} A VNA sweeps a bandpass filter from 800 MHz to
+1200 MHz. At the center frequency of 1000 MHz, S₂₁ = -1.2 dB ∠-45° and
+S₁₁ = -18 dB ∠+135°. Calculate the insertion loss, return loss, VSWR at
+the input port, the fraction of power reflected, and the fraction of
 power transmitted through the filter.
 
 \textbf{Solution:}\\
@@ -20791,8 +20814,9 @@ Power absorbed/dissipated in the filter: 1 - \textbar S₁₁\textbar² -
 The filter has good input matching (VSWR \textless{} 1.3) but dissipates
 nearly a quarter of the input power --- suggesting resistive losses in
 the filter elements or substrate.\\
-At the band edges (800 and 1200 MHz), S₂₁ drops to -25 dB (0.316\% power
-transmission), providing 23.8 dB of out-of-band rejection.
+At the sweep limits (800 and 1200 MHz), well outside the filter's
+passband, S₂₁ drops to -25 dB (0.316\% power transmission), providing
+23.8 dB of out-of-band rejection.
 
 \end{examplebox}
 
@@ -20925,15 +20949,20 @@ The corrected temperature is 92.2°C --- significantly higher than the
 78°C apparent reading due to the lower-than-assumed emissivity.\\
 Temperature rise above the reference connection: ΔT = 92.2 − 42 =
 50.2°C.\\
-Per NETA MTS severity criteria: ΔT \textgreater{} 40°C above a similar
-component under similar loading is classified as \textbf{immediate
-action required} (the most severe category), indicating a
-high-resistance connection that should be de-energized and repaired
-immediately to prevent equipment failure or fire.\\
+Per NETA MTS Table 100.18: ΔT \textgreater{} 15°C between similar
+components under similar loading (or \textgreater{} 40°C above ambient
+air) is classified as a major discrepancy requiring \textbf{immediate
+repair} (the most severe category), indicating a high-resistance
+connection that should be de-energized and repaired immediately to
+prevent equipment failure or fire.\\
 This example demonstrates why accurate emissivity settings are critical
 --- the 0.25 difference in emissivity (0.95 assumed vs.~0.70 actual)
-caused a 14.2°C underestimate that could have led to an incorrect
-severity classification.
+caused a 14.2°C underestimate. Here the apparent ΔT of 36°C already
+exceeds the 15°C threshold, so the action level does not change, but the
+true rise (50.2°C) is understated by 14.2°C. On a connection reading
+only 50°C (apparent ΔT = 8°C, nominally a lower-priority finding), the
+same emissivity error would hide an actual temperature of 57.7°C (ΔT =
+15.7°C), which requires immediate repair.
 
 \end{examplebox}
 
@@ -21166,9 +21195,12 @@ Actual throughput: 4 boards per 11.3 s = 1,274 boards/hour --- only a
 True parallel testing requires duplicating the instruments: 4 DMMs and 4
 counters testing simultaneously would give 4 × 1,125 = 4,500
 boards/hour, but at 4× the instrument cost.\\
-A better approach: overlap handler time with test time using a conveyor
-and dual-site fixturing, achieving \textbf{\textasciitilde1,800
-boards/hour with a single instrument set}.
+A better approach: overlap the 0.5 s handler time with test time using a
+conveyor and dual-site fixturing (load one site while the other is
+tested), so each board costs only its 2.7 s of measurement time,
+achieving 3600/2.7 = \textbf{\textasciitilde1,333 boards/hour with a
+single instrument set} --- an 18.5\% gain over the 1,125 boards/hour
+baseline.
 
 \end{examplebox}
 

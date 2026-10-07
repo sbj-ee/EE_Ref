@@ -24116,8 +24116,8 @@ Use \textbf{L = 200 μH} and \textbf{C = 0.10 μF} (standard X2 capacitor
 value).
 
 (d) Verify at 325 kHz with actual component values:\\
-f₀ = 1/(2π√(200 × 10⁻⁶ × 0.10 × 10⁻⁶)) = 1/(2π × 1.414 × 10⁻⁵) = 1/(8.89
-× 10⁻⁵) = \textbf{35,588 Hz}\\
+f₀ = 1/(2π√(200 × 10⁻⁶ × 0.10 × 10⁻⁶)) = 1/(2π × 4.472 × 10⁻⁶) =
+1/(2.810 × 10⁻⁵) = \textbf{35,588 Hz}\\
 Attenuation at 195 kHz = (195,000/35,588)² = (5.480)² = 30.0 = 29.5 dB
 (meets 28 dB).\\
 Attenuation at 325 kHz = (325,000/35,588)² = (9.133)² = 83.4 = 38.4 dB\\
@@ -26494,7 +26494,7 @@ Gain error = (G - 1) × 100\% = \textbf{0.300\%}.\\
 Offset error = \textbf{0.50 mV}.
 
 Verification at 2.500 V: predicted = 1.00300 × 2.500 + 0.00050 = 2.50800
-V, actual = 2.508 V -- confirmed.
+V, actual = 2.508 V --- confirmed.
 
 Corrected reading when DMM displays 2.000 V:\\
 V\textsubscript{true} = (V\textsubscript{reading} -
@@ -26516,19 +26516,20 @@ Temperature in Kelvin: T = 30 + 273.15 = 303.15 K.
 
 Thermal noise voltage: V\textsubscript{n} = √(4kTR Δf)\\
 = √(4 × 1.381 × 10⁻²³ × 303.15 × 120,000 × 200,000)\\
-= √(4 × 1.381 × 10⁻²³ × 7.276 × 10⁹)\\
-= √(4.021 × 10⁻¹³)\\
+= √(4 × 1.381 × 10⁻²³ × 7.276 × 10¹²)\\
+= √(4.019 × 10⁻¹⁰)\\
 = \textbf{20.05 μV\textsubscript{rms}}.
 
 SNR = 20 log₁₀(V\textsubscript{signal} / V\textsubscript{noise}) = 20
 log₁₀(12 × 10⁻³ / (20.05 × 10⁻⁶)) = 20 log₁₀(598.5) = 20 × 2.777 =
 \textbf{55.5 dB}.
 
-Improvement needed for 70 dB: 70 - 55.5 = 14.5 dB.\\
-Voltage ratio improvement = 10\textsuperscript{(14.5/20)} = 5.31.\\
-Since averaging improves SNR by √(N): √(N) = 5.31, so N = 28.2.
+Improvement needed for 70 dB: 70 - 55.54 = 14.46 dB.\\
+Voltage ratio improvement = 10\textsuperscript{(14.46/20)} = 5.28.\\
+Since averaging improves SNR by √(N): √(N) = 5.28, so N = 27.9.
 
-\textbf{Round up to N = 29 averages to achieve 70 dB SNR.}
+\textbf{Round up to N = 28 averages to achieve 70 dB SNR (55.54 + 10
+log₁₀(28) = 70.01 dB).}
 
 \subsection{Problem 11.1.4}\label{problem-11.1.4}
 
@@ -26543,15 +26544,15 @@ estimated as ±0.10 kPa (rectangular distribution).
 uncertainty at 95\% confidence (k = 2).
 
 \textbf{Solution:}\\
-Type A: u1 = s / √(N) = 0.35 / √(10) = 0.35 / 3.162 = \textbf{0.1107
+Type A: u₁ = s / √(N) = 0.35 / √(10) = 0.35 / 3.162 = \textbf{0.1107
 kPa}.
 
 Type B components:\\
-Calibration: u2 = 0.20 / 2 = \textbf{0.100 kPa} (convert from k = 2).\\
-Resolution: u3 = 0.1 / (2 √(3)) = 0.1 / 3.464 = \textbf{0.0289 kPa}
+Calibration: u₂ = 0.20 / 2 = \textbf{0.100 kPa} (convert from k = 2).\\
+Resolution: u₃ = 0.1 / (2 √(3)) = 0.1 / 3.464 = \textbf{0.0289 kPa}
 (half-width, rectangular).\\
-Temperature: u4 = 0.25 / √(3) = \textbf{0.1443 kPa} (rectangular).\\
-Hysteresis: u5 = 0.10 / √(3) = \textbf{0.0577 kPa} (rectangular).
+Temperature: u₄ = 0.25 / √(3) = \textbf{0.1443 kPa} (rectangular).\\
+Hysteresis: u₅ = 0.10 / √(3) = \textbf{0.0577 kPa} (rectangular).
 
 Combined standard uncertainty:\\
 u\textsubscript{c} = √(0.1107² + 0.100² + 0.0289² + 0.1443² + 0.0577²)\\
@@ -26567,16 +26568,16 @@ The temperature effect is the dominant contributor (44\% of variance).
 \subsection{Problem 11.1.5}\label{problem-11.1.5}
 
 \textbf{Given:} A Wheatstone bridge measures a platinum RTD. The bridge
-has R1 = 100 Ω, R2 = 100 Ω, and R3 (decade box) is adjusted to 138.5 Ω
+has R₁ = 100 Ω, R₂ = 100 Ω, and R₃ (decade box) is adjusted to 138.5 Ω
 for a null reading. The excitation voltage is 5 V. The galvanometer
 sensitivity is 8 μA/mV and the minimum detectable current is 0.05 μA.
 
 \textbf{Find:} The unknown RTD resistance, the corresponding temperature
 (using Pt100: R(T) = 100(1 + 0.00385T)), and the measurement resolution
-in ohms and°C.
+in ohms and °C.
 
 \textbf{Solution:}\\
-At balance: R\textsubscript{x} = R2 × R3 / R1 = 100 × 138.5 / 100 =
+At balance: R\textsubscript{x} = R₂ × R₃ / R₁ = 100 × 138.5 / 100 =
 \textbf{138.5 Ω}.
 
 Temperature from Pt100 equation:\\
@@ -26588,31 +26589,31 @@ Minimum detectable imbalance voltage:\\
 V\textsubscript{min} = I\textsubscript{min} / sensitivity = 0.05 μA / 8
 μA/mV = 0.00625 mV.
 
-Bridge sensitivity near balance (all arms \textasciitilde{} R):\\
-R \textasciitilde{} √(R1 × R2) = √(100 × 100) = 100 Ω (geometric mean of
-fixed arms).\\
-dV/dR \textasciitilde{} V\textsubscript{ex} / (4R) = 5 / (4 × 100) =
-12.5 mV/Ω.
+Bridge sensitivity near balance: the output depends on the divider
+containing R\textsubscript{x} (R₃ and R\textsubscript{x}, both 138.5 Ω),
+not on the 100 Ω ratio arms:\\
+dV/dR\textsubscript{x} = V\textsubscript{ex} × R₃ / (R₃ +
+R\textsubscript{x})² = 5 × 138.5 / (277)² = 9.03 mV/Ω.
 
 Minimum detectable resistance change:\\
-ΔR = V\textsubscript{min} / (dV/dR) = 0.00625 / 12.5 = \textbf{0.0005
+ΔR = V\textsubscript{min} / (dV/dR) = 0.00625 / 9.03 = \textbf{0.00069
 Ω}.
 
 Temperature resolution:\\
-dR/dT = R0 × α = 100 × 0.00385 = 0.385 Ω/°C.\\
-ΔT = ΔR / (dR/dT) = 0.0005 / 0.385 = \textbf{0.0013°C}.
+dR/dT = R₀ × α = 100 × 0.00385 = 0.385 Ω/°C.\\
+ΔT = ΔR / (dR/dT) = 0.00069 / 0.385 = \textbf{0.0018°C}.
 
-The bridge achieves millidegree temperature resolution -- far superior
+The bridge achieves millidegree temperature resolution --- far superior
 to direct resistance measurement with a DMM.
 
 \subsection{Problem 11.1.6}\label{problem-11.1.6}
 
 \textbf{Given:} A Kelvin double bridge measures a 0.001 Ω shunt resistor
 used for current sensing. The bridge uses a standard resistor
-R\textsubscript{s} = 0.001000 Ω (certified), ratio arms R1 = R3 = 10 Ω,
-and auxiliary ratio arms r1 = r3 = 10 Ω. The link resistance between the
-standard and unknown is r\textsubscript{link} = 0.005 Ω. At balance, R2
-= 10.045 Ω and r2 = 10.045 Ω.
+R\textsubscript{s} = 0.001000 Ω (certified), ratio arm R₁ = 10 Ω, and
+auxiliary ratio arm r₁ = 10 Ω. The link resistance between the standard
+and unknown is r\textsubscript{link} = 0.005 Ω. At balance, R₂ = 10.045
+Ω and r₂ = 10.045 Ω.
 
 \textbf{Find:} The unknown shunt resistance and the error that would
 result from using a simple Wheatstone bridge (ignoring lead resistance
@@ -26620,15 +26621,15 @@ effects).
 
 \textbf{Solution:}\\
 For a Kelvin double bridge at balance:\\
-R\textsubscript{x} = R\textsubscript{s} × (R2/R1) +
-r\textsubscript{link} × {[}(R2/R1) - (r2/r1){]} / {[}1 + (r1 + r2 +
-r\textsubscript{link})/r3\ldots{} {]}
+R\textsubscript{x} = R\textsubscript{s} × (R₂/R₁) + {[}r₁ ×
+r\textsubscript{link} / (r₁ + r₂ + r\textsubscript{link}){]} ×
+{[}(R₂/R₁) − (r₂/r₁){]}
 
-With matched ratio arms (R2/R1 = r2/r1):\\
-R\textsubscript{x} = R\textsubscript{s} × (R2/R1) = 0.001000 ×
-(10.045/10) = 0.001000 × 1.0045 = \textbf{0.0010045 Ω = 1.0045 mOhm}.
+With matched ratio arms (R₂/R₁ = r₂/r₁):\\
+R\textsubscript{x} = R\textsubscript{s} × (R₂/R₁) = 0.001000 ×
+(10.045/10) = 0.001000 × 1.0045 = \textbf{0.0010045 Ω = 1.0045 mΩ}.
 
-The matched ratio condition (R2/R1 = r2/r1 = 1.0045) eliminates the link
+The matched ratio condition (R₂/R₁ = r₂/r₁ = 1.0045) eliminates the link
 resistance term entirely.
 
 In a simple Wheatstone bridge, the lead resistances (say 0.005 Ω per
@@ -26639,8 +26640,8 @@ R\textsubscript{measured} = R\textsubscript{x} + R\textsubscript{leads}
 
 Error = (0.0110 - 0.0010045) / 0.0010045 × 100\% = \textbf{995\% error}.
 
-\textbf{The Kelvin bridge eliminates the 10 mOhm lead resistance that
-would completely swamp the 1 mOhm measurement in a simple Wheatstone
+\textbf{The Kelvin bridge eliminates the 10 mΩ lead resistance that
+would completely swamp the 1 mΩ measurement in a simple Wheatstone
 bridge.}
 
 \subsection{Problem 11.1.7}\label{problem-11.1.7}
@@ -26688,8 +26689,8 @@ peak-to-peak noise (\textasciitilde{} 6.6 × V\textsubscript{n} for
 \subsection{Problem 11.1.8}\label{problem-11.1.8}
 
 \textbf{Given:} A Maxwell bridge is used to measure an unknown inductor
-at 1 kHz. The bridge components are: R1 = 1,000 Ω, R2 = 2,200 Ω, C3 = 47
-nF (in parallel with R3), and R3 = 4,700 Ω. At balance, the detector
+at 1 kHz. The bridge components are: R₁ = 1,000 Ω, R₂ = 2,200 Ω, C₃ = 47
+nF (in parallel with R₃), and R₃ = 4,700 Ω. At balance, the detector
 reads null.
 
 \textbf{Find:} The unknown inductance L\textsubscript{x} and its series
@@ -26698,10 +26699,10 @@ kHz.
 
 \textbf{Solution:}\\
 For a Maxwell bridge at balance:\\
-L\textsubscript{x} = R1 × R2 × C3 = 1,000 × 2,200 × 47 × 10⁻⁹ =
+L\textsubscript{x} = R₁ × R₂ × C₃ = 1,000 × 2,200 × 47 × 10⁻⁹ =
 \textbf{103.4 mH}.
 
-R\textsubscript{x} = R1 × R2 / R3 = 1,000 × 2,200 / 4,700 =
+R\textsubscript{x} = R₁ × R₂ / R₃ = 1,000 × 2,200 / 4,700 =
 \textbf{468.1 Ω}.
 
 Inductive reactance at 1 kHz:\\
@@ -26710,8 +26711,8 @@ X\textsubscript{L} = 2π f L = 2π × 1,000 × 0.1034 = \textbf{649.8 Ω}.
 Q factor: Q = X\textsubscript{L} / R\textsubscript{x} = 649.8 / 468.1 =
 \textbf{1.39}.
 
-Equivalently: Q = ω × C3 × R3 = 2π × 1,000 × 47 × 10⁻⁹ × 4,700 = 1.39 --
-confirmed.
+Equivalently: Q = ω × C₃ × R₃ = 2π × 1,000 × 47 × 10⁻⁹ × 4,700 = 1.39
+--- confirmed.
 
 \textbf{The inductor has L = 103.4 mH, R\textsubscript{x} = 468.1 Ω, and
 Q = 1.39 at 1 kHz, indicating a lossy inductor typical of a small
@@ -26726,7 +26727,7 @@ sensors, current sensors, optical sensors, and flow sensors.
 
 \subsection{Problem 11.2.1}\label{problem-11.2.1}
 
-\textbf{Given:} A Pt1000 RTD (R0 = 1,000 Ω at 0°C, α = 0.00385 Ω/Ω/°C)
+\textbf{Given:} A Pt1000 RTD (R₀ = 1,000 Ω at 0°C, α = 0.00385 Ω/Ω/°C)
 is used in a cooling system. The measured resistance is 1,154.0 Ω. A
 Type T thermocouple at the same location produces a voltage of 1.612 mV
 (reference junction at 0°C). The Type T sensitivity is approximately 43
@@ -26736,7 +26737,7 @@ Type T thermocouple at the same location produces a voltage of 1.612 mV
 estimate, and the error in the linear thermocouple approximation.
 
 \textbf{Solution:}\\
-RTD temperature: R(T) = R0(1 + α T)\\
+RTD temperature: R(T) = R₀(1 + α T)\\
 1,154.0 = 1,000(1 + 0.00385T)\\
 1.154 = 1 + 0.00385T\\
 T = 0.154 / 0.00385 = \textbf{40.0°C}.
@@ -26746,8 +26747,8 @@ Thermocouple linear estimate: T = V / sensitivity = 1.612 × 10⁻³ / (43 ×
 
 Error = 40.0 - 37.5 = 2.5°C (6.3\% error).
 
-From Type T tables, 1.612 mV corresponds to approximately 39.8°C, very
-close to the RTD reading.
+From Type T tables, 1.612 mV corresponds to 40.0°C, agreeing with the
+RTD reading.
 
 \textbf{The RTD reads 40.0°C. The linear thermocouple approximation
 gives 37.5°C (2.5°C error), demonstrating the need for thermocouple
@@ -26851,8 +26852,8 @@ absolute reference every 2 mm of linear travel.}
 \subsection{Problem 11.2.5}\label{problem-11.2.5}
 
 \textbf{Given:} A 3-axis MEMS accelerometer has a sensitivity of 16,384
-LSB/g, a ±2 g measurement range, a noise density of 80 ug/√(Hz), and a
--3 dB bandwidth of 1,000 Hz. The accelerometer is used to measure tilt
+LSB/g, a ±2 g measurement range, a noise density of 80 μg/√Hz, and a -3
+dB bandwidth of 1,000 Hz. The accelerometer is used to measure tilt
 angle by sensing the gravity vector.
 
 \textbf{Find:} The RMS noise floor in mg, the minimum detectable tilt
@@ -26881,21 +26882,21 @@ resolution).}
 
 \subsection{Problem 11.2.6}\label{problem-11.2.6}
 
-\textbf{Given:} A Hall effect current sensor (open-loop type) has a
-turns ratio of N = 1,000 (equivalent turns), a core with a cross-section
-of 60 mm² and an air gap of 1.0 mm. The Hall element sensitivity is 1.4
-mV/mT with a 5 V supply. A primary current of 200 A flows through a
-single-turn conductor.
+\textbf{Given:} A Hall effect current sensor (open-loop type) has a core
+with a cross-section of 60 mm² and an air gap of 1.0 mm. The Hall
+element sensitivity is 1.4 mV/mT with a 5 V supply. A primary current of
+200 A flows through a single-turn conductor.
 
 \textbf{Find:} The magnetic flux density in the air gap, the Hall sensor
 output voltage, and the overall current-to-voltage sensitivity.
 
 \textbf{Solution:}\\
 Magnetic field in the air gap from the primary current.\\
-Applying Ampere's law around the magnetic circuit, the air gap dominates
+Applying Ampère's law around the magnetic circuit, the air gap dominates
 the reluctance and the core drop is negligible because
 μ\textsubscript{r} \textgreater\textgreater{} 1:\\
-H\textsubscript{gap} × l\textsubscript{gap} = N × I.\\
+H\textsubscript{gap} × l\textsubscript{gap} = N × I, with N = 1
+(single-turn primary).\\
 H\textsubscript{gap} = N × I / l\textsubscript{gap} = 1 × 200 / 0.001 =
 200,000 A/m.\\
 B\textsubscript{gap} = μ₀ × H\textsubscript{gap} = 4π × 10⁻⁷ × 200,000 =
@@ -26907,11 +26908,13 @@ Hall sensor output: V\textsubscript{H} = sensitivity × B = 1.4 mV/mT ×
 Current-to-voltage sensitivity: V\textsubscript{H} / I = 351.8 / 200 =
 \textbf{1.759 mV/A}.
 
-\textbf{At 200 A, the Hall sensor produces 351.8 mV. The core would
-saturate well before this point (typical saturation at
-\textasciitilde1.5 T), so in practice the core uses multiple turns or
-the turns ratio is adjusted so that the air gap field stays within the
-linear range (\textless{} 100 mT).}
+\textbf{At 200 A the Hall sensor would produce 351.8 mV. The core itself
+is far from saturation (B ≈ 0.25 T vs.~\textasciitilde1.5 T for typical
+core material), but 251 mT exceeds the Hall element's linear range
+(typically \textless{} 100 mT). To keep the gap field within range at
+200 A, widen the gap to about 2.6 mm (B = 4π × 10⁻⁷ × 200 / 0.0026 =
+96.7 mT), or use a closed-loop design whose feedback winding nulls the
+core flux.}
 
 \subsection{Problem 11.2.7}\label{problem-11.2.7}
 
@@ -26935,8 +26938,8 @@ V\textsubscript{coil} = M × di/dt = 0.5 × 10⁻⁶ × 5 × 10⁷ = \textbf{25
 V}.
 
 Integrator output (represents the actual current waveform):\\
-V\textsubscript{int}(t) = (1/RC) × integral(V\textsubscript{coil} dt) =
-(M/RC) × I(t).\\
+V\textsubscript{int}(t) = (1/RC) × ∫V\textsubscript{coil} dt = (M/RC) ×
+I(t).\\
 At end of ramp (I = 500 A):\\
 V\textsubscript{int} = (0.5 × 10⁻⁶ / (100 × 10⁻⁶)) × 500 = 0.005 × 500 =
 \textbf{2.5 V}.
@@ -26981,7 +26984,7 @@ Stress in steel (E = 200 GPa): σ = E × ε = 200 × 10⁹ × 237.5 × 10⁻⁶ 
 \textbf{The FBG sensor reads 237.5 microstrain (47.5 MPa stress) after
 compensating for the 10°C temperature change. Without temperature
 compensation, the apparent strain would be 385/1.2 = 320.8 microstrain
--- a 35\% overestimate.}
+--- a 35\% overestimate.}
 
 \subsection{Problem 11.2.9}\label{problem-11.2.9}
 
@@ -27005,10 +27008,10 @@ In m³/h: Q = 7.384 × 10⁻³ × 3,600 = \textbf{26.6 m³/h}.
 
 Daily volume: V\textsubscript{day} = 26.6 × 24 = \textbf{638.4 m³/day}.
 
-\textbf{The flow meter measures 26.6 m³/h (117 GPM). At this moderate
-velocity of 0.235 m/s, the flow is well within the mag meter's optimal
-range of 0.3-10 m/s, though slightly below the minimum recommended
-velocity for best accuracy.}
+\textbf{The flow meter measures 26.6 m³/h (117 GPM). At 0.235 m/s, the
+flow is just below the mag meter's optimal range of 0.3--10 m/s, so
+accuracy will be somewhat degraded; a smaller-bore meter would raise the
+velocity into the optimal range.}
 
 \subsection{Problem 11.2.10}\label{problem-11.2.10}
 
@@ -27079,10 +27082,14 @@ Total error (RSS): V\textsubscript{error} = √(1.90² + 6.0²) = √(3.61 +
 Signal-to-error ratio: 100 / 6.29 = 15.9, or 20 log₁₀(15.9) =
 \textbf{24.0 dB}.
 
-\textbf{The offset drift dominates the error budget. Chopper-stabilized
-instrumentation amplifiers (with \textless{} 1 μV offset and \textless{}
-10 nV/°C drift) would reduce the offset error by 30x, improving the
-signal-to-error ratio to approximately 44 dB.}
+\textbf{Offset (initial plus drift) dominates the error budget. A
+chopper-stabilized instrumentation amplifier (\textless{} 1 μV offset,
+\textless{} 10 nV/°C drift) would cut the input offset from 30 μV to
+about 1.3 μV (0.26 mV at the output). The 1.90 mV common-mode error then
+dominates: √(1.90² + 0.26²) = 1.92 mV, so the signal-to-error ratio
+improves to 100 / 1.92 = 52, or about 34 dB. Going further requires
+higher CMRR or less common-mode pickup (shielded twisted pair, better
+grounding).}
 
 \subsection{Problem 11.3.2}\label{problem-11.3.2}
 
@@ -27121,7 +27128,7 @@ At -45.9 dB, the noise is reduced by a factor of 197.8 and is
 well-suppressed in the stopband.
 
 \textbf{For applications requiring \textgreater{} 60 dB rejection,
-either increase the filter order to 8th-order (giving -79.6 dB at 15
+either increase the filter order to 8th-order (giving -91.8 dB at 15
 kHz) or increase the sample rate to 50 kS/s (pushing Nyquist to 25 kHz
 and placing the 15 kHz signal well within the passband for direct
 measurement rather than aliasing).}
@@ -27216,7 +27223,7 @@ NTC sensitivity at 25°C (β \textasciitilde{} 3,950 K): dR/dT
 ADC count}.
 
 \textbf{The thermistor + voltage divider combination with a 12-bit ADC
-provides 0.022°C resolution at 25°C -- excellent for environmental
+provides 0.022°C resolution at 25°C --- excellent for environmental
 monitoring.}
 
 \subsection{Problem 11.3.5}\label{problem-11.3.5}
@@ -27234,7 +27241,7 @@ Required resolution: 0.01\% of full scale = 0.0001 × 20 mV = \textbf{2.0
 μV}.
 
 Number of bits: 2\textsuperscript{N} = 20 mV / 2.0 μV = 10,000.\\
-N = log2(10,000) = 13.3 bits minimum.\\
+N = log₂(10,000) = 13.3 bits minimum.\\
 With noise margin (typically add 2-3 bits): \textbf{16 bits minimum}.
 
 Nyquist rate: 2 × 50 Hz = 100 S/s minimum.
@@ -27246,22 +27253,35 @@ and separate anti-aliasing filter. No inherent 60 Hz rejection.\\
 \textasciitilde19-20 noise-free bits, integrated PGA, and built-in sinc
 digital filter.
 
-For a Σ-Δ with sinc3 filter at 50 Hz output rate:\\
-The sinc filter has notches at multiples of the output data rate.\\
-Setting output rate = 60 Hz (or 50 Hz with notch at 60 Hz): many 24-bit
-Σ-Δ ADCs provide a specific 50/60 Hz rejection mode.
+60 Hz rejection with the built-in sinc3 filter:\\
+The sinc3 response is \textbar H(f)\textbar{} = \textbar sin(π f /
+f\textsubscript{ODR}) / (N sin(π f / (N
+f\textsubscript{ODR})))\textbar³, with notches at multiples of the
+output data rate (ODR).\\
+- At 50 S/s ODR: the rejection at 60 Hz is only -48.4 dB, and there is a
+notch at 50 Hz, which lies inside the signal band.\\
+- At 100 S/s ODR (needed for the 50 Hz bandwidth): the rejection at 60
+Hz is only -17.8 dB.\\
+- The \textgreater{} 80 dB simultaneous 50/60 Hz rejection quoted in
+datasheets applies only at low ODRs (about 10--17 S/s), where the
+bandwidth is a few hertz.
 
-At 50 Hz output rate with a sinc3 filter, the rejection at 60 Hz:\\
-sinc3 rejection = \textbar sin(π × 60/f\textsubscript{mod}) / (sin(π ×
-60/(N × f\textsubscript{mod})))\textbar³, but practically these ADCs
-specify \textgreater{} 80 dB rejection of 50/60 Hz.
+Passing 50 Hz while rejecting 60 Hz by 60 dB cannot be done with the
+sinc filter alone, so \textbf{the requirement is not met by the built-in
+filter as specified.}
 
-\textbf{The 60 dB requirement is met with margin.}
+Remedy (keeping the 50 Hz bandwidth): run the Σ-Δ ADC at about 1 kS/s
+ODR (sinc3 droop only -0.11 dB at 50 Hz), then apply a post-decimation
+FIR lowpass in firmware. A Kaiser-window design with about 400 taps at 1
+kS/s gives \textless{} 0.01 dB passband ripple to 50 Hz and ≥ 64 dB
+attenuation from 60 Hz upward, at the cost of about 0.2 s latency. The
+FIR also limits the noise bandwidth to 50 Hz.
 
-\textbf{Selection: 24-bit Σ-Δ ADC with integrated PGA (such as ADS1234
-or AD7190). Provides 20+ noise-free bits, built-in 60 Hz rejection
-\textgreater{} 80 dB, integrated excitation current, and \textless{} 1
-mA power consumption at 3.3-5 V.}
+\textbf{Selection: 24-bit Σ-Δ ADC with integrated PGA (such as the
+AD7190, which supports output rates to several kS/s) running at about 1
+kS/s, followed by the \textasciitilde400-tap FIR post-filter to meet the
+≥ 60 dB requirement at 60 Hz. The 16-bit resolution requirement is
+easily met.}
 
 \subsection{Problem 11.3.6}\label{problem-11.3.6}
 
@@ -27292,7 +27312,7 @@ C\textsubscript{f}) = 1 / (2π × 10 × 10⁶ × 1.6 × 10⁻¹²)\\
 Check stability: the noise gain intersection with the op-amp open-loop
 gain determines stability.\\
 f\textsubscript{noise} \textasciitilde{} √(GBW / (2π R\textsubscript{f}
-C\textsubscript{f})) -- with proper C\textsubscript{f} selection, this
+C\textsubscript{f})) --- with proper C\textsubscript{f} selection, this
 should be stable.
 
 Bias current error: V\textsubscript{error} = I\textsubscript{bias} ×
@@ -27306,7 +27326,7 @@ Error as percentage of full scale: 10 μV / 1.0 V × 100 =
 \textbf{0.001\%}.
 
 \textbf{The TIA converts 0-100 nA to 0-1 V with 9.95 kHz bandwidth and
-0.001\% error from bias current -- excellent performance for optical
+0.001\% error from bias current --- excellent performance for optical
 sensing applications.}
 
 \section{11.4 Measurement
@@ -27342,7 +27362,8 @@ Reading error = 0.005\% × 0.40686 + 0.003\% × 1.0\\
 = 0.0000500 × 0.40686 + 0.0000300 × 1.0\\
 = 0.02034 mV + 0.03000 mV = \textbf{0.05034 mV}.
 
-DMM resolution: 1 V / 199,999 counts = \textbf{5.0 μV per count}.
+DMM resolution: on the 1 V range a 5½-digit display reads to 1.00000 V
+(its 199,999 counts would span 2 V), so 1 count = \textbf{10 μV}.
 
 Total uncertainty: loading error (8.14 mV) completely dominates the DMM
 accuracy error (0.05 mV).
@@ -27384,17 +27405,20 @@ Rise time error: (1.712 - 1.2) / 1.2 × 100 = \textbf{42.7\%}.
 \textbf{This is unacceptable.} A 1 GHz oscilloscope with a 1.5 GHz probe
 would give:\\
 BW\textsubscript{system} = 832 MHz, t\textsubscript{r,system} = 0.42 ns,
-t\textsubscript{r,meas} = √(1.44 + 0.177) = 1.27 ns (5.8\% error).
+t\textsubscript{r,meas} = √(1.44 + 0.177) = 1.272 ns (6.0\% error).
 
 Maximum capture at full sample rate:\\
 T = memory / sample rate = 20 × 10⁶ / (2.5 × 10⁹) = \textbf{8.0 ms}.
 
-At 100 MHz signal, this captures 800,000 cycles -- more than adequate
+At 100 MHz signal, this captures 800,000 cycles --- more than adequate
 for signal analysis.
 
-\textbf{For accurate rise time measurements, the rule of thumb is
-oscilloscope bandwidth ≥ 5x the signal bandwidth (1/rise time). Here, 5
-/ 1.2 ns = 4.2 GHz bandwidth would give \textless{} 1\% error.}
+\textbf{For accurate rise time measurements, a common rule of thumb is a
+measurement-system rise time ≤ 1/5 of the signal's, i.e.~system
+bandwidth ≥ 5 × the signal bandwidth (0.35 / t\textsubscript{r}). Here 5
+× 0.35 / 1.2 ns = 1.46 GHz gives about 2\% error. For \textless{} 1\%
+error the system rise time must be \textless{} 0.17 ns (system bandwidth
+\textgreater{} 2.1 GHz).}
 
 \subsection{Problem 11.4.3}\label{problem-11.4.3}
 
@@ -27462,13 +27486,14 @@ negligible current.
 Bandwidth for square wave: BW ≥ 0.35 / t\textsubscript{rise} = 0.35 / (8
 × 10⁻⁹) = \textbf{43.75 MHz}.
 
-Fundamental frequency: f1 = 500 kHz.\\
-Number of significant harmonics: N = BW / f1 = 43.75 × 10⁶ / (500 × 10³)
-= \textbf{87.5}.
+Fundamental frequency: f₁ = 500 kHz.\\
+Ratio of bandwidth to fundamental: BW / f₁ = 43.75 × 10⁶ / (500 × 10³) =
+87.5.
 
-Approximately \textbf{88 harmonics} (odd only: 1st, 3rd, 5th, \ldots{}
-up to the 175th) are needed to reconstruct the square wave with the
-specified rise time.
+Harmonics up to the 87th (87 × 500 kHz = 43.5 MHz) fall within this
+bandwidth. A square wave contains only odd harmonics, so \textbf{44
+significant harmonics} (1st, 3rd, 5th, \ldots{} 87th) are needed to
+reconstruct the square wave with the specified rise time.
 
 \textbf{When connecting the generator to a high-impedance load, the 50 Ω
 source impedance causes a reflection coefficient of (1000-50)/(1000+50)
@@ -27507,7 +27532,7 @@ Distortion power factor: DstPF = 1 / √(1 + THD²) = 1 / √(1 + 0.28²) = 1
 / √(1.0784) = 1 / 1.0385 = \textbf{0.963}.
 
 Displacement power factor: DPF = PF / DstPF = 0.798 / 0.963 =
-\textbf{0.829} (corresponding to phi = 34.0 degrees).
+\textbf{0.829} (corresponding to φ = 34.0 degrees).
 
 Voltage unbalance (NEMA): maximum deviation from average / average
 voltage.\\
@@ -27543,9 +27568,12 @@ Series reactance: X\textsubscript{s} = \textbar Z\textbar{} × sin(θ) =
 Inductance at 1 MHz: L = X\textsubscript{s} / (2π f) = 71.00 / (2π ×
 10⁶) = 71.00 / (6.283 × 10⁶) = \textbf{11.30 μH}.
 
-The measured inductance (11.30 μH) is higher than the nominal 10 μH
-because at 1 MHz, the parasitic capacitance partially resonates with the
-inductance, increasing the apparent impedance.
+The measured inductance (11.30 μH) is 13\% above the nominal 10 μH.
+Self-capacitance cannot explain this: with C\textsubscript{p} = 5 pF the
+self-resonant frequency is about 22 MHz (computed below), so at 1 MHz
+the apparent inductance rises by only 1/(1 − (1/22.5)²) = 1.002, or
+0.2\%. The difference is more plausibly component tolerance (commonly
+±10--20\%) or core permeability at this frequency.
 
 Quality factor: Q = X\textsubscript{s} / R\textsubscript{s} = 71.00 /
 14.70 = \textbf{4.83}.
@@ -27554,12 +27582,14 @@ Self-resonant frequency (SRF): f\textsubscript{SRF} = 1 / (2π √(L ×
 C\textsubscript{p}))\\
 = 1 / (2π √(10 × 10⁻⁶ × 5 × 10⁻¹²))\\
 = 1 / (2π √(5 × 10⁻¹⁷))\\
-= 1 / (2π × 7.071 × 10⁻⁹) = 1 / (4.443 × 10⁻⁸) = \textbf{22.5 MHz}.
+= 1 / (2π × 7.071 × 10⁻⁹) = 1 / (4.443 × 10⁻⁸) = \textbf{22.5 MHz} (21.2
+MHz using the measured 11.3 μH).
 
-\textbf{Above the 22.5 MHz SRF, the inductor behaves as a capacitor. At
-1 MHz (well below SRF), the inductance increase from 10 to 11.3 μH is
-the early effect of the parasitic capacitance beginning to resonate with
-the inductance.}
+\textbf{Above the \textasciitilde21--22 MHz SRF, the inductor behaves as
+a capacitor. At 1 MHz (well below SRF) the self-capacitance raises the
+apparent inductance by only about 0.2\%, so the 10 → 11.3 μH difference
+reflects tolerance or core permeability rather than parasitic
+resonance.}
 
 \subsection{Problem 11.4.7}\label{problem-11.4.7}
 
@@ -27612,34 +27642,34 @@ where the gate was a full second. Hence Δf = 50,000 × 5 × 10⁻⁸ =
 \subsection{Problem 11.4.8}\label{problem-11.4.8}
 
 \textbf{Given:} A VNA measures a 50 Ω coaxial cable at 2 GHz. The
-measurements are: S11 = -26 dB angle -90 degrees, S21 = -3.2 dB angle
--210 degrees, S12 = -3.2 dB angle -210 degrees, and S22 = -28 dB angle
+measurements are: S₁₁ = -26 dB angle -90 degrees, S₂₁ = -3.2 dB angle
+-210 degrees, S₁₂ = -3.2 dB angle -210 degrees, and S₂₂ = -28 dB angle
 -85 degrees.
 
 \textbf{Find:} The cable insertion loss, input VSWR, the fraction of
 power delivered to the output, and the electrical length.
 
 \textbf{Solution:}\\
-Insertion loss = -S21 = \textbf{3.2 dB}.
+Insertion loss = -S₂₁ = \textbf{3.2 dB}.
 
-Input reflection coefficient: \textbar gamma\textbar{} =
-10\textsuperscript{(S11/20)} = 10\textsuperscript{(-26/20)} =
+Input reflection coefficient: \textbar Γ\textbar{} =
+10\textsuperscript{(S₁₁/20)} = 10\textsuperscript{(-26/20)} =
 10\textsuperscript{(-1.3)} = \textbf{0.0501}.
 
-Input VSWR = (1 + \textbar gamma\textbar) / (1 - \textbar gamma\textbar)
-= (1 + 0.0501) / (1 - 0.0501) = 1.0501 / 0.9499 = \textbf{1.106:1}.
+Input VSWR = (1 + \textbar Γ\textbar) / (1 - \textbar Γ\textbar) = (1 +
+0.0501) / (1 - 0.0501) = 1.0501 / 0.9499 = \textbf{1.106:1}.
 
-Power reflected: \textbar gamma\textbar² = 0.0501² = 0.00251 =
+Power reflected: \textbar Γ\textbar² = 0.0501² = 0.00251 =
 \textbf{0.251\%}.
 
-Power transmitted: \textbar S21\textbar² =
-10\textsuperscript{(S21(dB)/10)} = 10\textsuperscript{(-3.2/10)} =
+Power transmitted: \textbar S₂₁\textbar² =
+10\textsuperscript{(S₂₁(dB)/10)} = 10\textsuperscript{(-3.2/10)} =
 10\textsuperscript{(-0.32)} = \textbf{0.4786 = 47.86\%}.
 
-Power dissipated in cable: 1 - \textbar S11\textbar² -
-\textbar S21\textbar² = 1 - 0.00251 - 0.4786 = \textbf{0.519 = 51.9\%}.
+Power dissipated in cable: 1 - \textbar S₁₁\textbar² -
+\textbar S₂₁\textbar² = 1 - 0.00251 - 0.4786 = \textbf{0.519 = 51.9\%}.
 
-Electrical length from S21 phase:\\
+Electrical length from S₂₁ phase:\\
 Phase shift = -210 degrees. At 2 GHz, one wavelength = 360 degrees.\\
 Electrical length = 210 / 360 = \textbf{0.583 wavelengths}.
 
@@ -27666,7 +27696,7 @@ logging, and automated test systems.
 \textbf{Given:} A 16-bit SAR ADC with a ±5 V bipolar input range samples
 a vibration sensor at f\textsubscript{s} = 100 kS/s. The signal of
 interest has frequencies from 10 Hz to 5 kHz, with a strong 5 kHz
-component at 2 V\textsubscript{pp} and broadband noise extending to 50
+component at 2 V\textsubscript{pp} and broadband noise extending to 100
 kHz.
 
 \textbf{Find:} The ADC resolution (LSB size), the ideal SINAD, the ENOB,
@@ -27693,20 +27723,23 @@ back into the baseband --- a signal at 95 kHz aliases to 100,000 −
 95,000 = 5 kHz, landing squarely inside the band of interest.
 
 To limit aliased noise to \textless{} 1 LSB = 152.6 μV:\\
-If broadband noise spectral density is approximately
-V\textsubscript{noise}/√(BW), we need the filter to attenuate the noise
-in the 50-100 kHz band (which aliases into 0-50 kHz).
+Noise in the 50--100 kHz band folds back into 0--50 kHz, so the filter
+must attenuate everything above Nyquist. Specifying the attenuation from
+45 kHz upward leaves a 5 kHz guard band below Nyquist for filter
+tolerance.
 
-For 1 LSB at the 5 V signal level, the required attenuation is:\\
-Assuming worst-case noise of 10 mV\textsubscript{rms} in the 45-50 kHz
-band:\\
+Assuming worst-case noise of 10 mV\textsubscript{rms} near the band
+edge:\\
 Attenuation needed = 20 log₁₀(0.1526 / 10) = 20 log₁₀(0.01526) =
 \textbf{-36.3 dB}.
 
-\textbf{A 4th-order Butterworth filter with f\textsubscript{c} = 10 kHz
-provides -40 dB/decade × log₁₀(45/10) = -40 × 0.653 = -26.1 dB at 45
-kHz. This is insufficient; a 6th-order filter (-39.2 dB at 45 kHz) or an
-8th-order (-52.3 dB) would be needed for 1-LSB aliasing performance.}
+\textbf{An nth-order Butterworth filter rolls off at 20n dB/decade, with
+\textbar H\textbar{} = 1/√(1 + (f/f\textsubscript{c})²ⁿ). With
+f\textsubscript{c} = 10 kHz, a 2nd-order filter gives only -10 log₁₀(1 +
+4.5⁴) = -26.1 dB at 45 kHz, which is insufficient. A 4th-order filter
+gives -10 log₁₀(1 + 4.5⁸) = -52.3 dB at 45 kHz and -78.2 dB at 95 kHz
+(the frequency that aliases to 5 kHz), meeting the 1-LSB requirement
+with about 16 dB of margin.}
 
 \subsection{Problem 11.5.2}\label{problem-11.5.2}
 
@@ -27737,7 +27770,7 @@ per count}.
 After PGA: 0-2 V signal to ADC.\\
 ADC range 0-10 V, resolution = 38.15 μV per count.\\
 Referred to input: 38.15 / 100 = \textbf{0.3815 μV per count}.\\
-In 18 bits over 20 mV: 20 mV / 262,144 = \textbf{0.0763 μV} --
+In 18 bits over 20 mV: 20 mV / 262,144 = \textbf{0.0763 μV} ---
 significantly finer than the 0.38 μV from the ADC-limited case. The PGA
 noise and ADC noise will limit the effective resolution.
 
@@ -27806,8 +27839,8 @@ drive provides margin. For reliability over 1 year of continuous
 writing, an industrial SSD (rated for high write endurance) is
 preferred.}
 
-Write speed requirement: 1.812 kB/s (CSV) -- trivially met by any modern
-storage medium.
+Write speed requirement: 1.812 kB/s (CSV) --- trivially met by any
+modern storage medium.
 
 \subsection{Problem 11.5.4}\label{problem-11.5.4}
 
@@ -27878,11 +27911,14 @@ MHz.\\
 After decimation to 8 kHz bandwidth: noise is reduced by the
 oversampling ratio.
 
-For a sinc3 filter, the noise reduction is:\\
-SNR improvement = 10 log₁₀(OSR) × (2n+1)/2 for nth-order noise
-shaping.\\
-For a first-order Σ-Δ with sinc3:\\
-SNR \textasciitilde{} 6.02N + 1.76 + 30 log₁₀(OSR) - 10 log₁₀(pi²/3)
+For an nth-order Σ-Δ modulator, the ideal quantization-noise improvement
+from oversampling and noise shaping is:\\
+SNR improvement = (2n + 1) × 10 log₁₀(OSR) − 10 log₁₀(π²ⁿ / (2n + 1)).\\
+The sinc3 decimation filter removes the shaped out-of-band noise; its
+order (3) is chosen to be at least n + 1 and is not the modulator
+order.\\
+For a first-order Σ-Δ modulator (n = 1):\\
+SNR \textasciitilde{} 6.02N + 1.76 + 30 log₁₀(OSR) - 10 log₁₀(π²/3)
 (approximately).
 
 More practically, Σ-Δ ADCs specify noise performance directly.\\
@@ -27892,8 +27928,8 @@ on a 2.5 V reference.
 Assuming 2 μV\textsubscript{rms} noise:\\
 Noise referred to 20 mV full scale: 2 μV / 20 mV = 10⁻⁴ = 0.01\%.
 
-Effective resolution: ENOB = log2(full-scale / noise\_pp) = log2(20 mV /
-(6.6 × 2 μV)) = log2(20,000/13.2) = log2(1,515) = \textbf{10.6 bits} for
+Effective resolution: ENOB = log₂(full-scale / noise\_pp) = log₂(20 mV /
+(6.6 × 2 μV)) = log₂(20,000/13.2) = log₂(1,515) = \textbf{10.6 bits} for
 peak-to-peak noise-free resolution.
 
 This seems low because we are using only 20 mV of the 2.5 V input range.
@@ -27904,7 +27940,7 @@ Noise at gain 128 referred to input: typically 0.3
 μV\textsubscript{rms}.\\
 Noise-free resolution: 20 mV / (6.6 × 0.3 μV) = 20,000 / 1.98 =
 10,101.\\
-ENOB = log2(10,101) = \textbf{13.3 noise-free bits}.
+ENOB = log₂(10,101) = \textbf{13.3 noise-free bits}.
 
 \textbf{At 16 kS/s with PGA gain of 128, the effective resolution is
 approximately 13.3 noise-free bits on the 20 mV range, sufficient for
@@ -27955,10 +27991,11 @@ For 100 DUTs: 100 × 440 = 44,000 ms = \textbf{44.0 s}.\\
 Time saved: 46.0 - 44.0 = \textbf{2.0 s (4.3\% improvement)}.
 
 \textbf{The improvement is modest because the DMM measurement time
-dominates. For higher throughput, use a faster DMM (NPLC=0.1 for
-\textasciitilde20 ms per reading instead of 80 ms), reducing the voltage
-scan to 3 × 20 = 60 ms and cutting total per-DUT time to 55 + 50 + 70 +
-25 = 200 ms = 18,000 DUTs/hour -- a 2.3x improvement.}
+dominates. For higher throughput, use a faster DMM (NPLC = 0.1 for
+\textasciitilde20 ms per reading instead of 100/80 ms). The current
+measurement becomes 2 × 5 + 20 = 30 ms and the voltage scan 5 + 3 × 20 +
+5 = 70 ms, cutting total per-DUT time to 55 + 30 + 70 + 25 = 180 ms =
+20,000 DUTs/hour --- a 2.6x improvement.}
 
 \chapter{Electric Motors}\label{problems-12}
 
