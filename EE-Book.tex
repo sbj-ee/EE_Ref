@@ -21443,7 +21443,7 @@ correction in industrial plants. Permanent magnet synchronous motors
 and are the preferred choice for electric vehicle traction drives,
 industrial servo systems, and high-performance applications. Starting a
 synchronous motor requires special provisions since it has no starting
-torque at standstill -- methods include variable frequency drives (most
+torque at standstill --- methods include variable frequency drives (most
 common), damper (amortisseur) windings that provide induction motor
 starting torque, or an auxiliary starting motor.
 
@@ -21553,8 +21553,8 @@ and supply-chain concerns are factors.
 from a 60 Hz VFD supply. The motor has a d-axis inductance
 L\textsubscript{d} = 120 mH and a q-axis inductance L\textsubscript{q} =
 20 mH. The rated stator current is 10 A. Calculate the synchronous
-speed, the saliency ratio, and the maximum reluctance torque per phase
-using the torque equation τ = (3/2) × (P/2) × (L\textsubscript{d} -
+speed, the saliency ratio, and the maximum reluctance torque using the
+torque equation τ = (3/2) × (P/2) × (L\textsubscript{d} -
 L\textsubscript{q}) × I\textsubscript{d} × I\textsubscript{q}, where the
 maximum torque occurs at I\textsubscript{d} = I\textsubscript{q} =
 I\textsubscript{s}/√2.
@@ -21784,7 +21784,7 @@ Pulse frequency: f\textsubscript{pulse} = 25 rev/s × 3,200 pulses/rev =
 80,000 Hz = 80 kHz.\\
 Pulses for 25.4 mm: N = 25.4 / 0.000625 = 40,640 pulses.\\
 Travel time at 50 mm/s: t = 25.4 / 50 = 0.508 s.\\
-Verification: 40,640 / 80,000 = 0.508 s -- confirmed.
+Verification: 40,640 / 80,000 = 0.508 s --- confirmed.
 
 \end{examplebox}
 
@@ -21845,21 +21845,28 @@ the maximum load torque the motor can sustain while running at a given
 speed --- it is always higher than the pull-in torque because the rotor
 has momentum. Between these curves is a ``slew range'' where the motor
 can run but cannot start directly; it must be ramped up from a lower
-speed. \textbf{Mid-band resonance} occurs at a characteristic speed
-(typically 100--400 full steps/s for NEMA 17/23 motors) where the rotor
-oscillation frequency matches the motor's natural mechanical resonance
-f\textsubscript{n} = (1/2π)√(K\textsubscript{h}/J), where
-K\textsubscript{h} is the holding torque stiffness and J is the total
-moment of inertia. At resonance, the rotor oscillates violently, causing
-missed steps, excessive vibration, and audible noise. Mitigation
-strategies include: microstepping (distributes the energy impulses more
-smoothly), adding external damping (viscous dampers), avoiding the
-resonant speed range in the acceleration profile, increasing the rotor
-inertia (adding a flywheel, which shifts resonance to a lower
-frequency), and using advanced driver features such as StealthChop (TMC
-drivers) that shape the current waveform for quiet operation. The
-motor's \textbf{detent torque} (cogging torque when unpowered) also
-contributes to vibration in variable-reluctance and hybrid steppers.
+speed. \textbf{Low-frequency resonance} occurs when the step rate
+(typically 100--400 full steps/s for NEMA 17/23 motors) matches the
+rotor's natural mechanical frequency f\textsubscript{n} =
+(1/2π)√(K\textsubscript{h}/J), where K\textsubscript{h} is the
+small-angle holding stiffness (K\textsubscript{h} =
+T\textsubscript{hold} × N\textsubscript{r} = T\textsubscript{hold} ×
+π/(2θ\textsubscript{step}) for a hybrid stepper with N\textsubscript{r}
+rotor teeth) and J is the total moment of inertia. \textbf{Mid-band
+resonance} is a separate instability at higher step rates (often several
+hundred to a few thousand full steps/s) caused by interaction between
+the drive, the winding inductance, and the back-EMF. At resonance, the
+rotor oscillates violently, causing missed steps, excessive vibration,
+and audible noise. Mitigation strategies include: microstepping
+(distributes the energy impulses more smoothly), adding external damping
+(viscous dampers), avoiding the resonant speed range in the acceleration
+profile, increasing the rotor inertia (adding a flywheel, which shifts
+resonance to a lower frequency), and using advanced driver features such
+as StealthChop (TMC drivers) that shape the current waveform for quiet
+operation. The motor's \textbf{detent torque} (cogging torque when
+unpowered) also contributes to vibration in permanent-magnet and hybrid
+steppers (variable-reluctance steppers have no magnet and therefore no
+detent torque).
 
 \begin{examplebox}
 
@@ -21874,16 +21881,16 @@ maximum continuous load torque at that speed with a 50\% safety margin.
 \textbf{Solution:}\\
 Total inertia: J\textsubscript{total} = J\textsubscript{rotor} +
 J\textsubscript{load} = 3.0 × 10⁻⁵ + 2.0 × 10⁻⁵ = 5.0 × 10⁻⁵ kg·m².\\
-Holding torque stiffness: K\textsubscript{h} = T\textsubscript{hold} /
-θ\textsubscript{step} = 1.9 / (1.8 × π/180) = 1.9 / 0.03142 = 60.5
-N·m/rad.\\
+Holding torque stiffness (hybrid, N\textsubscript{r} =
+π/(2θ\textsubscript{step}) = 50 rotor teeth): K\textsubscript{h} =
+T\textsubscript{hold} × N\textsubscript{r} = 1.9 × 50 = 95.0 N·m/rad.\\
 Natural frequency: f\textsubscript{n} = (1/2π)√(K\textsubscript{h}/J) =
-(1/2π)√(60.5 / (5.0 × 10⁻⁵)) = (1/2π)√(1.21 × 10⁶) = (1/2π) × 1100 = 175
+(1/2π)√(95.0 / (5.0 × 10⁻⁵)) = (1/2π)√(1.90 × 10⁶) = (1/2π) × 1378 = 219
 Hz.\\
-Resonant step rate: 175 full steps/s (since each step excites the
+Resonant step rate: 219 full steps/s (since each step excites the
 resonance).\\
-At 1.8°/step: resonant speed = 175 × 1.8 / 360 × 60 = 52.5 RPM.\\
-The acceleration profile should ramp quickly through the 150--200
+At 1.8°/step: resonant speed = 219 × 1.8 / 360 × 60 = 65.7 RPM.\\
+The acceleration profile should ramp quickly through the 190--250
 steps/s region.\\
 Maximum continuous load at 1,000 steps/s: T\textsubscript{max} = 0.50 ×
 0.8 = 0.4 N·m.\\
@@ -21968,15 +21975,16 @@ trajectory. The system typically consists of a servo motor (BLDC or
 PMSM), a position/velocity feedback device (encoder or resolver), a
 servo drive (current-regulated inverter with control algorithms), and a
 motion controller that generates the desired trajectory. The control
-loop hierarchy includes an inner current loop (fastest, typically 10-20
-kHz bandwidth), a velocity loop (intermediate, 100-500 Hz bandwidth),
-and a position loop (outermost, 10-100 Hz bandwidth), each tuned using
-PID or advanced control algorithms. Servo systems provide high dynamic
-response, precise positioning (sub-micrometer in precision
-applications), and the ability to follow complex multi-axis coordinated
-motion profiles. Applications include CNC machining, robotics,
-semiconductor manufacturing, packaging machinery, and any application
-requiring accurate, responsive motion control.
+loop hierarchy includes an inner current loop (fastest, typically 1--5
+kHz bandwidth, sampled at the 10--20 kHz PWM rate), a velocity loop
+(intermediate, 100-500 Hz bandwidth), and a position loop (outermost,
+10-100 Hz bandwidth), each tuned using PID or advanced control
+algorithms. Servo systems provide high dynamic response, precise
+positioning (sub-micrometer in precision applications), and the ability
+to follow complex multi-axis coordinated motion profiles. Applications
+include CNC machining, robotics, semiconductor manufacturing, packaging
+machinery, and any application requiring accurate, responsive motion
+control.
 
 \begin{examplebox}
 
@@ -22017,7 +22025,7 @@ compared to 6--8× for direct-on-line (DOL) starting. Soft starters also
 provide controlled deceleration (soft stop) by gradually reducing the
 voltage, which is beneficial for pump applications where sudden stopping
 causes water hammer. While less expensive and simpler than VFDs, soft
-starters do not provide continuous speed control -- they are used only
+starters do not provide continuous speed control --- they are used only
 during starting and stopping, with the motor running at full speed
 during normal operation.
 
@@ -22083,8 +22091,8 @@ takes 8 seconds.
 \textbf{Solution:}\\
 Initial kinetic energy: KE₁ = ½mv² = 0.5 × 1800 × 22.2² = 0.5 × 1800 ×
 492.84 = 443,556 J = 443.6 kJ.\\
-Final kinetic energy: KE₂ = 0.5 × 1800 × 5.56² = 0.5 × 1800 × 30.9 =
-27,810 J = 27.8 kJ.\\
+Final kinetic energy: KE₂ = 0.5 × 1800 × 5.56² = 0.5 × 1800 × 30.91 =
+27,822 J = 27.8 kJ.\\
 Energy available for recovery: ΔKE = 443,556 - 27,822 = 415,734 J =
 415.7 kJ.\\
 Energy stored in battery: E\textsubscript{stored} = ΔKE ×
@@ -22110,33 +22118,40 @@ vector is resolved into two orthogonal components in a rotating
 reference frame aligned with the rotor flux: the d-axis (direct)
 component I\textsubscript{d} controls the rotor flux magnitude, and the
 q-axis (quadrature) component I\textsubscript{q} controls the torque.
-This decomposition requires knowledge of the rotor flux angle, obtained
-either from a shaft encoder (direct or sensored FOC) or estimated from
-the motor voltage and current measurements using an observer algorithm
-(indirect or sensorless FOC). The Park transform converts three-phase
-stator quantities (abc) to the two-axis rotating frame (dq) through the
-intermediate Clarke transform (abc → αβ), and inverse transforms convert
-the dq-frame voltage commands back to three-phase PWM duty cycles for
-the inverter. FOC achieves fast dynamic torque response
-(millisecond-level step changes), smooth low-speed operation down to
-zero speed, and near-optimal efficiency by maintaining the flux at its
-rated value during normal operation and reducing it during light loads
-(flux weakening). It is the standard control method for high-performance
-drives in electric vehicles, industrial robots, machine tools, and
-elevator systems.
+This decomposition requires knowledge of the rotor flux angle. In
+\textbf{direct FOC} the rotor flux vector is measured or estimated
+directly (e.g., by a flux observer from stator voltages and currents);
+in \textbf{indirect FOC} the flux angle is computed by integrating the
+measured rotor speed plus the calculated slip frequency (the common
+encoder-based scheme for induction motors). In PM motors the flux angle
+is simply the rotor position, from an encoder/resolver or a sensorless
+observer. The Park transform converts three-phase stator quantities
+(abc) to the two-axis rotating frame (dq) through the intermediate
+Clarke transform (abc → αβ), and inverse transforms convert the dq-frame
+voltage commands back to three-phase PWM duty cycles for the inverter.
+FOC achieves fast dynamic torque response (millisecond-level step
+changes), smooth low-speed operation down to zero speed, and
+near-optimal efficiency by maintaining the flux at its rated value
+during normal operation and reducing it at light load (flux optimization
+--- distinct from flux weakening, which reduces flux above base speed).
+It is the standard control method for high-performance drives in
+electric vehicles, industrial robots, machine tools, and elevator
+systems.
 
 \begin{examplebox}
 
 \textbf{Example 12.4.5:} A 4-pole (P = 4), 3-phase PMSM has the
 following parameters: rated torque T\textsubscript{rated} = 12 N·m,
 torque constant K\textsubscript{t} = 1.5 N·m/A, rated flux linkage
-λ\textsubscript{m} = 0.25 Wb, stator resistance R\textsubscript{s} = 0.5
-Ω, d-axis inductance L\textsubscript{d} = 8 mH, q-axis inductance
-L\textsubscript{q} = 12 mH, and the motor operates at 1,500 RPM. Using
-FOC with I\textsubscript{d} = 0 control (simplified --- for a true IPM
-motor, MTPA shifts I\textsubscript{d} negative, but I\textsubscript{d} =
-0 is used here for clarity), calculate the required q-axis current, the
-stator voltage magnitude, and the inverter DC bus voltage needed.
+λ\textsubscript{m} = 0.50 Wb (consistent with K\textsubscript{t} =
+(3/2)(P/2)λ\textsubscript{m} = 1.5 N·m/A), stator resistance
+R\textsubscript{s} = 0.5 Ω, d-axis inductance L\textsubscript{d} = 8 mH,
+q-axis inductance L\textsubscript{q} = 12 mH, and the motor operates at
+1,500 RPM. Using FOC with I\textsubscript{d} = 0 control (simplified ---
+for a true IPM motor, MTPA shifts I\textsubscript{d} negative, but
+I\textsubscript{d} = 0 is used here for clarity), calculate the required
+q-axis current, the stator voltage magnitude, and the inverter DC bus
+voltage needed.
 
 \textbf{Solution:}\\
 Required q-axis current for rated torque: I\textsubscript{q} =
@@ -22153,14 +22168,14 @@ V\textsubscript{d} = R\textsubscript{s} × I\textsubscript{d} -
 314.2 × 0.012 × 8.0 = -30.2 V.\\
 V\textsubscript{q} = R\textsubscript{s} × I\textsubscript{q} +
 ω\textsubscript{e} × L\textsubscript{d} × I\textsubscript{d} +
-ω\textsubscript{e} × λ\textsubscript{m} = 0.5 × 8.0 + 0 + 314.2 × 0.25 =
-4.0 + 78.6 = 82.6 V.\\
+ω\textsubscript{e} × λ\textsubscript{m} = 0.5 × 8.0 + 0 + 314.2 × 0.50 =
+4.0 + 157.1 = 161.1 V.\\
 Stator voltage magnitude: V\textsubscript{s} = √(V\textsubscript{d}² +
-V\textsubscript{q}²) = √(912.0 + 6,822.8) = √7,734.8 = 87.9 V (phase
+V\textsubscript{q}²) = √(912.0 + 25,953.2) = √26,865.2 = 163.9 V (phase
 peak).\\
 Minimum DC bus voltage (for space vector PWM): V\textsubscript{DC} = √3
-× V\textsubscript{s} = √3 × 87.9 = 152.3 V.\\
-A 160 V or higher DC bus is required.
+× V\textsubscript{s} = √3 × 163.9 = 283.9 V.\\
+A 300 V or higher DC bus is required.
 
 \end{examplebox}
 
@@ -22181,13 +22196,13 @@ A 160 V or higher DC bus is required.
 
 Direct torque control (DTC) is an alternative to field-oriented control
 that directly controls the motor's stator flux magnitude and
-electromagnetic torque without requiring a rotor position sensor or
-coordinate transformations (Park/Clarke). DTC estimates the stator flux
-vector and instantaneous torque from measured stator voltages and
-currents using a voltage model integrator: ψ\textsubscript{s} =
-∫(V\textsubscript{s} − R\textsubscript{s}I\textsubscript{s})dt, and
-torque is computed as T\textsubscript{e} =
-(3/2)(P/2)(ψ\textsubscript{sα}I\textsubscript{sβ} −
+electromagnetic torque without requiring a rotor position sensor or the
+rotating-frame Park transformation (the stationary-frame Clarke
+transform is still used). DTC estimates the stator flux vector and
+instantaneous torque from measured stator voltages and currents using a
+voltage model integrator: ψ\textsubscript{s} = ∫(V\textsubscript{s} −
+R\textsubscript{s}I\textsubscript{s})dt, and torque is computed as
+T\textsubscript{e} = (3/2)(P/2)(ψ\textsubscript{sα}I\textsubscript{sβ} −
 ψ\textsubscript{sβ}I\textsubscript{sα}). Two hysteresis comparators ---
 one for flux error and one for torque error --- compare the estimated
 values against their references, producing binary outputs that feed an
@@ -22232,8 +22247,9 @@ from the flux angle), the optimal switching table selects a voltage
 vector that both increases the flux magnitude and advances the flux
 vector in the direction of rotation --- this simultaneously corrects the
 flux deficit and increases torque.\\
-The magnitude of each active voltage vector is V\textsubscript{DC} ×
-√(2/3) = 540 × 0.816 = 441 V.\\
+The magnitude of each active voltage vector (amplitude-invariant αβ
+frame, consistent with the (3/2) torque expression) is (2/3) ×
+V\textsubscript{DC} = (2/3) × 540 = 360 V.\\
 The torque will increase rapidly (within 1--2 switching cycles at 25
 kHz, or \textasciitilde40--80 μs) until it enters the hysteresis band
 around the 55 N·m reference, at which point the controller switches to
@@ -22332,9 +22348,10 @@ detection. The DC bus voltage is 48 V, the phase resistance is
 R\textsubscript{ph} = 0.6 Ω, and the zero-crossing detection circuit
 requires a minimum back-EMF of 3.0 V for reliable detection. The motor
 is driving a fan load at steady state, and the measured back-EMF
-zero-crossing period (time between consecutive zero-crossings on one
-phase) is 1.25 ms. Calculate the minimum operating speed for sensorless
-control and the rotor speed from the zero-crossing measurement.
+zero-crossing period (time between consecutive zero-crossing events,
+taken across all three phases, i.e., 60 electrical degrees) is 1.25 ms.
+Calculate the minimum operating speed for sensorless control and the
+rotor speed from the zero-crossing measurement.
 
 \textbf{Solution:}\\
 Minimum back-EMF for detection: E\textsubscript{min} = 3.0 V.\\
@@ -22443,25 +22460,26 @@ L\textsubscript{d} = 0.18 / 0.004 = 45.0 A.\\
 Since I\textsubscript{ch} = 45 A \textless{} I\textsubscript{max} = 200
 A, the voltage ellipse center is well inside the current circle,
 indicating a wide constant-power speed range is achievable.\\
-At maximum speed, the operating point approaches I\textsubscript{d} =
-−I\textsubscript{ch} = −45 A, I\textsubscript{q} ≈ 0 (minimum torque,
-maximum speed).\\
-Maximum electrical speed: ω\textsubscript{e,max} = V\textsubscript{max}
-/ (L\textsubscript{d} × \textbar I\textsubscript{d} +
-I\textsubscript{ch}\textbar) --- but at I\textsubscript{d} =
-−I\textsubscript{max} = −200 A:\\
-V\textsubscript{s} = ω\textsubscript{e} ×
-√((L\textsubscript{d}I\textsubscript{d} + λ\textsubscript{m})² +
-(L\textsubscript{q}I\textsubscript{q})²) with I\textsubscript{q} = 0:\\
-ω\textsubscript{e,max} = V\textsubscript{max} /
-\textbar L\textsubscript{d} × (−200) + λ\textsubscript{m}\textbar{} =
-202.1 / \textbar0.004 × (−200) + 0.18\textbar{} = 202.1 / \textbar−0.80
-+ 0.18\textbar{} = 202.1 / 0.62 = 326.0 rad/s (electrical).\\
-Mechanical max speed: ω\textsubscript{m,max} = 326.0 / 2 = 163.0 rad/s =
-1,557 RPM.\\
-Speed range ratio: 1,557 / 480 = 3.24:1.\\
-This 3.2:1 speed extension is typical for IPM traction motors, allowing
-the vehicle to reach highway speeds without a multi-speed gearbox.
+Because the ellipse center (−I\textsubscript{ch}, 0) = (−45 A, 0) lies
+inside the current circle, the drive can hold the operating point at
+I\textsubscript{d} ≈ −45 A, I\textsubscript{q} ≈ 0 using only 45 A of
+its 200 A rating. The required voltage ω\textsubscript{e} ×
+\textbar L\textsubscript{d}I\textsubscript{d} +
+λ\textsubscript{m}\textbar{} then approaches zero, so the voltage limit
+never caps the speed: the theoretical maximum speed is
+\textbf{unlimited}, although the available torque falls toward zero.
+(Evaluating at I\textsubscript{d} = −I\textsubscript{max} = −200 A is
+not a limit: \textbar0.004 × (−200) + 0.18\textbar{} = 0.62 Wb exceeds
+λ\textsubscript{m}, so it overshoots the ellipse center and needs more
+voltage, not less.)\\
+In practice, the maximum speed is set by the rotor's mechanical rating
+and by uncontrolled-generator-mode (UGM) safety. If the inverter trips
+at speed, the open-circuit back-EMF λ\textsubscript{m}ω\textsubscript{e}
+exceeds V\textsubscript{max} once ω\textsubscript{e} \textgreater{}
+202.1 / 0.18 = 1,123 rad/s (ω\textsubscript{m} = 561 rad/s ≈ 5,360 RPM,
+about 11× base speed), and the motor then rectifies uncontrolled current
+into the DC bus through the inverter diodes. EV drives therefore cap the
+speed at or below this point, or add UGM protection.
 
 \end{examplebox}
 
@@ -22547,23 +22565,27 @@ current of 62 A, a service factor of 1.15, and a locked-rotor current of
 determine the minimum circuit breaker size per NEC guidelines.
 
 \textbf{Solution:}\\
-Overload relay setting: the trip current is set at 115\% of FLA (to
-allow operation at service factor): I\textsubscript{trip} = 1.15 × 62 =
+Overload relay setting: NEC 430.32(A)(1) permits up to 125\% of
+nameplate FLA for SF ≥ 1.15; a closer 115\% setting is used here (still
+allowing service-factor operation): I\textsubscript{trip} = 1.15 × 62 =
 71.3 A.\\
 Select a Class 20 thermal overload relay (trips within 20 seconds at 6×
-setting -- standard for most industrial motors).\\
+setting --- standard for most industrial motors).\\
 Verify: at locked-rotor current I\textsubscript{LR} = 6 × 62 = 372 A,
 the relay must trip before winding damage occurs.\\
+Branch-circuit conductor and breaker sizing use the NEC Table 430.250
+full-load current (430.6(A)(1)), not nameplate FLA: 50 HP at 460 V gives
+FLC = 65 A.\\
 Circuit breaker sizing (NEC 430.52 for inverse-time breaker, Design B
-motor): maximum = 250\% of FLA = 2.50 × 62 = 155 A.\\
-Since 155 A is not a standard ampere rating, NEC 430.52 Exception No.~1
-permits the next higher standard size: select 175 A breaker
+motor): maximum = 250\% of FLC = 2.50 × 65 = 162.5 A.\\
+Since 162.5 A is not a standard ampere rating, NEC 430.52 Exception
+No.~1 permits the next higher standard size: select 175 A breaker
 (alternatively, the next lower standard size of 150 A is also
 code-compliant but may nuisance-trip during starting).\\
 Short-circuit interrupting capacity must exceed the available fault
 current at the motor terminals.\\
-The branch circuit conductors must be rated at minimum 125\% of FLA =
-1.25 × 62 = 77.5 A, requiring 4 AWG copper (rated 85 A at 75°C).
+The branch circuit conductors must be rated at minimum 125\% of FLC =
+1.25 × 65 = 81.3 A, requiring 4 AWG copper (rated 85 A at 75°C).
 
 \end{examplebox}
 
@@ -22666,11 +22688,12 @@ Total torque during acceleration: τ\textsubscript{total} =
 N·m.\\
 Select a motor rated at least 8 kW continuous with adequate breakdown
 torque.\\
-A standard 11 kW (15 HP), 4-pole induction motor has a rated torque of
-approximately 11,000 / 125.7 = 87.5 N·m and a typical breakdown torque
-of 2.5 × 87.5 = 218.8 N·m.\\
-The acceleration torque of 99.3 N·m is 113\% of rated torque, well
-within the motor's capability.\\
+A standard 11 kW (15 HP), 6-pole induction motor (1,200 RPM synchronous
+at 60 Hz; run at 1,200 RPM on a VFD with slip compensation) has a rated
+torque of approximately 11,000 / 125.7 = 87.5 N·m and a typical
+breakdown torque of 2.5 × 87.5 = 218.8 N·m.\\
+The total torque during acceleration of 99.3 N·m is 113\% of rated
+torque, well within the motor's capability.\\
 The 11 kW motor provides a 37.5\% power margin for the continuous 8 kW
 load.
 
@@ -22701,12 +22724,15 @@ at the ball pass frequency outer (BPFO), an inner race defect at BPFI, a
 ball defect at BSF (ball spin frequency), and cage defects at FTF
 (fundamental train frequency) --- each calculated from the bearing
 geometry, number of balls, and shaft speed. Overall vibration severity
-is classified by ISO 10816 (velocity in mm/s RMS): Zone A (\textless{}
-1.8 mm/s, new condition), Zone B (1.8--4.5 mm/s, acceptable), Zone C
-(4.5--11.2 mm/s, marginal), Zone D (\textgreater{} 11.2 mm/s, danger)
-for Group 2 machines (15--75 kW). Trending vibration levels over time
-detects degradation months before catastrophic failure, enabling planned
-maintenance rather than unplanned downtime.
+is classified by ISO 10816-3 (velocity in mm/s RMS): for Group 2
+machines (15--300 kW) on rigid foundations, Zone A (\textless{} 1.4
+mm/s, new condition), Zone B (1.4--2.8 mm/s, acceptable), Zone C
+(2.8--4.5 mm/s, marginal), Zone D (\textgreater{} 4.5 mm/s, danger); on
+flexible foundations the A/B, B/C, and C/D boundaries are 2.3, 4.5, and
+7.1 mm/s (ISO 10816-3, now superseded by ISO 20816-3 with the same
+values). Trending vibration levels over time detects degradation months
+before catastrophic failure, enabling planned maintenance rather than
+unplanned downtime.
 
 \begin{examplebox}
 
@@ -22766,11 +22792,11 @@ intermittent duty (S3--S10 per IEC 60034-1), the motor can be loaded
 above its continuous rating during the ON period provided the RMS
 equivalent heating over the complete cycle does not exceed the
 continuous thermal limit: the equivalent continuous current is
-I\textsubscript{eq} = √(I₁²t₁ + I₂²t₂ + \ldots{} ) / (t₁ + t₂ + \ldots).
-Motor protection relays implement thermal models (I²t algorithms or
-first-order thermal replicas) that estimate winding temperature from
-measured current and time, tripping before the insulation temperature
-limit is exceeded.
+I\textsubscript{eq} = √{[}(I₁²t₁ + I₂²t₂ + \ldots) / (t₁ + t₂ +
+\ldots){]}. Motor protection relays implement thermal models (I²t
+algorithms or first-order thermal replicas) that estimate winding
+temperature from measured current and time, tripping before the
+insulation temperature limit is exceeded.
 
 \begin{examplebox}
 
@@ -22785,17 +22811,18 @@ insulation life.
 
 \textbf{Solution:}\\
 Actual temperature rise: ΔT = 1.21 × 105 = 127.1°C.\\
-Actual hot-spot temperature: T\textsubscript{actual} =
-T\textsubscript{ambient} + ΔT = 45 + 127.1 = 172.1°C.\\
-Temperature above rated hot-spot: ΔT\textsubscript{excess} = 172.1 − 155
-= 17.1°C.\\
+Actual hot-spot temperature (adding the 10°C hot-spot allowance):
+T\textsubscript{actual} = T\textsubscript{ambient} + ΔT + 10 = 45 +
+127.1 + 10 = 182.1°C.\\
+Temperature above rated hot-spot: ΔT\textsubscript{excess} = 182.1 − 155
+= 27.1°C.\\
 Expected insulation life: L = L\textsubscript{rated} ×
 2\textsuperscript{(Trated − Tactual)/10} = 20,000 ×
-2\textsuperscript{(155 − 172.1)/10} = 20,000 × 2\textsuperscript{−1.71}
-= 20,000 × 0.3057 = 6,114 hours.\\
+2\textsuperscript{(155 − 182.1)/10} = 20,000 × 2\textsuperscript{−2.71}
+= 20,000 × 0.1528 = 3,056 hours.\\
 The combination of elevated ambient (+5°C) and overload (110\%) reduces
-insulation life from 20,000 hours to approximately 6,100 hours --- a
-69\% reduction.\\
+insulation life from 20,000 hours to approximately 3,100 hours --- an
+85\% reduction.\\
 This demonstrates why motors must be derated for high ambient
 temperatures and why sustained overloads, even modest ones, dramatically
 shorten motor life.\\
@@ -22855,8 +22882,8 @@ components of the voltage pulse distribute non-uniformly --- up to 80\%
 of the pulse voltage can appear across the first 10--20\% of the winding
 turns due to the inter-turn capacitance forming a capacitive voltage
 divider at high frequencies. Standard motors with random-wound windings
-(NEMA MG1 Part 30) are rated for a peak voltage of 1,000 V and a maximum
-dV/dt of 1,760 V/μs for 460 V class motors. Exceeding these limits
+(NEMA MG1 Part 30) are rated for a peak voltage of 1,000 V with a rise
+time of at least 2 μs (for motors rated ≤ 600 V). Exceeding these limits
 causes partial discharge (corona) in the insulation that progressively
 erodes the enamel coating, leading to turn-to-turn short circuits and
 eventual winding failure --- sometimes within months of installation.
@@ -22887,22 +22914,23 @@ and the motor to protect against voltage reflection and dV/dt stress. A
 \textbf{3\% output reactor} (impedance = 3\% of motor base impedance)
 reduces the dV/dt by slowing the voltage rise time and limits the peak
 voltage overshoot, but does not eliminate reflections on long cables. A
-\textbf{dV/dt filter} (LC low-pass circuit with a cutoff frequency
-between the PWM switching frequency and the fundamental output
-frequency) limits the dV/dt to 200--500 V/μs and clamps the peak
-voltage, providing better protection for cable lengths up to 300 m. A
-\textbf{sinusoidal filter} (also called a sine wave filter) uses a
-higher-order LC network with a cutoff below the switching frequency to
-reconstruct a near-sinusoidal waveform, eliminating virtually all
-high-frequency stress but at higher cost, size, and power loss (1--3\%
-of rated power).
+\textbf{dV/dt filter} (RLC low-pass circuit with a cutoff frequency well
+above the PWM switching frequency, typically in the hundreds of kHz, so
+it slows only the switching edges) limits the dV/dt to 200--500 V/μs and
+clamps the peak voltage, providing better protection for cable lengths
+up to 300 m. A \textbf{sinusoidal filter} (also called a sine wave
+filter) uses a higher-order LC network with a cutoff below the switching
+frequency to reconstruct a near-sinusoidal waveform, eliminating
+virtually all high-frequency stress but at higher cost, size, and power
+loss (1--3\% of rated power).
 
 \textbf{Inverter-duty motor ratings} per NEMA MG1 Part 31 specify
-insulation systems designed for VFD operation. Part 31 motors withstand
-peak voltages of 1,600 V (for 460 V class) with rise times down to 100
-ns, compared to 1,000 V for standard Part 30 motors. They use reinforced
-insulation systems including phase-separation insulation (between coils
-of different phases), corona-resistant magnet wire with enhanced enamel
+insulation systems designed for VFD operation. Part 31 motors (≤ 600 V)
+withstand peak voltages up to 3.1 × V\textsubscript{rated} ≈ 1,430 V
+(for 460 V motors) with rise times down to 0.1 μs (100 ns), compared to
+1,000 V for standard Part 30 motors. They use reinforced insulation
+systems including phase-separation insulation (between coils of
+different phases), corona-resistant magnet wire with enhanced enamel
 coatings, and vacuum pressure impregnation (VPI) with high-quality
 resins that eliminate voids where partial discharge initiates. For
 motors above 600 V, IEC 60034-18-42 defines Type I insulation (no
@@ -22940,12 +22968,13 @@ The standard Part 30 motor is rated for a maximum peak of 1,000 V ---
 the 1,300 V reflected voltage exceeds this by 30\%, creating a high risk
 of insulation failure.\\
 dV/dt at motor terminals (without filter): dV/dt ≈ V\textsubscript{DC} /
-t\textsubscript{rise} = 650 / (100 × 10⁻⁹) = 6,500 V/μs --- far
-exceeding the 1,760 V/μs Part 30 rating.\\
+t\textsubscript{rise} = 650 / (100 × 10⁻⁹) = 6,500 V/μs; the 100 ns rise
+time is far faster than the ≥ 2 μs rise time that Part 30 assumes.\\
 A \textbf{dV/dt filter} must be installed at the VFD output to limit the
-peak voltage below 1,000 V and reduce the dV/dt below 1,760 V/μs, or the
-motor must be replaced with an inverter-duty (Part 31) motor rated for
-1,600 V peak. For a 75 m cable run, a dV/dt filter is the standard
+peak voltage below 1,000 V and slow the rise time toward the ≥ 2 μs Part
+30 assumption, or the motor must be replaced with an inverter-duty (Part
+31) motor rated for ≈ 1,430 V peak (3.1 × 460 V), which covers the 1,300
+V reflected peak. For a 75 m cable run, a dV/dt filter is the standard
 solution and would typically reduce the peak terminal voltage to
 approximately 750--850 V and the dV/dt to 200--400 V/μs.\\
 Additionally, shaft grounding rings should be installed on the motor to

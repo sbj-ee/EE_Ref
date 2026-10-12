@@ -28120,12 +28120,14 @@ At 2,104 RPM: copper losses = 2 × I² × R\textsubscript{ph} = 2 × 6.25² ×
 0.35 = 2 × 13.67 = \textbf{27.3 W}.
 
 Mechanical power: P = T × ω = 0.5 × 220.3 = \textbf{110.2 W}.\\
-Efficiency (copper losses only): eta = 110.2 / (110.2 + 27.3) = 110.2 /
+Efficiency (copper losses only): η = 110.2 / (110.2 + 27.3) = 110.2 /
 137.5 = \textbf{80.1\%}.
 
 \textbf{To reach 5,000 RPM at 0.5 N·m, the bus voltage must be at least
 E\textsubscript{back} + 2IR + V\textsubscript{drop} = 41.89 + 4.375 + 2
-= 48.3 V. A 48 V bus would be the appropriate selection.}
+= 48.3 V. A nominal 48 V bus is marginal (0.3 V short); a slightly
+higher bus (e.g., 14S Li-ion, 51.8 V nominal) is needed for full
+margin.}
 
 \subsection{Problem 12.1.4}\label{problem-12.1.4}
 
@@ -28197,7 +28199,7 @@ the supply at I\textsubscript{a} = -20 A (current flows in reverse).
 direction.
 
 \textbf{Solution:}\\
-\textbf{Mode 1 -- Hoisting (motoring):}\\
+\textbf{Mode 1 --- Hoisting (motoring):}\\
 E\textsubscript{back} = V - I\textsubscript{a} × R\textsubscript{a} =
 200 - 30 × 0.6 = 200 - 18 = 182 V.\\
 ω = E\textsubscript{back} / K = 182 / 0.8 = \textbf{227.5 rad/s = 2,173
@@ -28209,7 +28211,7 @@ Mechanical power: P\textsubscript{mech} = E\textsubscript{back} ×
 I\textsubscript{a} = 182 × 30 = 5,460 W (to load).\\
 Copper losses: I² R = 900 × 0.6 = 540 W.
 
-\textbf{Mode 2 -- Lowering (regenerative braking):}\\
+\textbf{Mode 2 --- Lowering (regenerative braking):}\\
 E\textsubscript{back} = V - I\textsubscript{a} × R\textsubscript{a} =
 200 - (-20) × 0.6 = 200 + 12 = \textbf{212 V}.\\
 ω = 212 / 0.8 = \textbf{265.0 rad/s = 2,531 RPM}.
@@ -28259,7 +28261,7 @@ Mechanical output: P\textsubscript{mech} = T × ω = 0.198 × 1,610 =
 \textbf{318.8 W}.
 
 Input power: P\textsubscript{in} = V × I = 22.2 × 18 = 399.6 W.\\
-Efficiency: eta = 318.8 / 399.6 = \textbf{79.8\%}.
+Efficiency: η = 318.8 / 399.6 = \textbf{79.8\%}.
 
 Losses breakdown:\\
 Copper: 2 × 18² × 0.08 = 51.84 W.\\
@@ -28273,9 +28275,10 @@ Thrust: F = K\textsubscript{thrust} × n² = 1.1 × 10⁻⁷ × (15,378)² = 1.1
 thrust).
 
 \textbf{Each motor produces 26 N of thrust at 18 A hover current. For a
-quadcopter, total thrust is 4 × 26 = 104 N, supporting an all-up weight
-of \textasciitilde10.6 kg with a 2.5:1 thrust-to-weight ratio for
-maneuverability.}
+quadcopter, total thrust is 4 × 26 = 104 N, which at hover equals the
+weight, so the all-up weight is \textasciitilde10.6 kg (1:1 at hover). A
+2.5:1 thrust-to-weight ratio for maneuverability would require ≈260 N of
+maximum thrust (≈65 N per motor).}
 
 \section{12.2 AC Motors}\label{chapter-12-section-12.2-ac-motors}
 
@@ -28360,14 +28363,14 @@ With a series capacitor of reactance X\textsubscript{C}:\\
 Z\textsubscript{total} = 15 + j(6 − X\textsubscript{C})
 
 For φ\textsubscript{aux} = −38.7°:\\
-tan(−38.7°) = (6 − X\textsubscript{C}) / 15\\
-−0.801 = (6 − X\textsubscript{C}) / 15\\
-6 − X\textsubscript{C} = −12.02\\
-X\textsubscript{C} = 18.02 Ω
+tan(−38.7°) = −cot(51.3°) = −8/10 = (6 − X\textsubscript{C}) / 15\\
+−0.800 = (6 − X\textsubscript{C}) / 15\\
+6 − X\textsubscript{C} = −12.00\\
+X\textsubscript{C} = 18.00 Ω
 
 Capacitance:\\
-C = 1 / (2πfX\textsubscript{C}) = 1 / (2π × 60 × 18.02) = 1 / 6,793 =
-\textbf{147.2 μF}
+C = 1 / (2πfX\textsubscript{C}) = 1 / (2π × 60 × 18.00) = 1 / 6,786 =
+\textbf{147.4 μF}
 
 A standard \textbf{150 μF} start capacitor would be selected.
 
@@ -28408,9 +28411,10 @@ P\textsubscript{mech} = 12.0 × 188.5 = 2,262 W = \textbf{2.26 kW}
 \subsection{Problem 12.2.5}\label{problem-12.2.5}
 
 \textbf{Given:} A linear induction motor for a baggage handling system
-has a pole pitch of τ\textsubscript{p} = 80 mm, operates at 60 Hz, and
-must propel a 50 kg cart at a steady-state speed of 3 m/s with a
-friction force of 120 N. The slip at operating speed is 8\%.
+has a pole pitch of τ\textsubscript{p} = 80 mm, is fed from a
+variable-frequency drive, and must propel a 50 kg cart at a steady-state
+speed of 3 m/s with a friction force of 120 N. The slip at operating
+speed is 8\%.
 
 \textbf{Find:} (a) The synchronous speed of the traveling field, (b) the
 actual cart speed from slip, (c) the thrust force required, and (d) the
@@ -28508,9 +28512,9 @@ P\textsubscript{core} = 77.85 + 2.1 + 1.5 = \textbf{81.45 kW}
 
 \textbf{Given:} A permanent magnet synchronous motor (PMSM) for an
 electric vehicle has 8 poles, a torque constant K\textsubscript{t} =
-0.85 N·m/A, and a back-EMF constant K\textsubscript{e} = 0.85 V/(rad/s).
-The DC bus voltage is 400 V, and the motor must deliver 150 N·m at 4,000
-RPM.
+0.85 N·m/A, and a back-EMF constant K\textsubscript{e} = 0.85 V/(rad/s)
+(line-to-line peak volts per mechanical rad/s). The DC bus voltage is
+400 V, and the motor must deliver 150 N·m at 4,000 RPM.
 
 \textbf{Find:} (a) The required phase current, (b) the back-EMF, (c) the
 mechanical output power, and (d) whether the motor can operate at this
@@ -28536,13 +28540,13 @@ kW} (84.3 HP)
 The remaining voltage (400 − 356.1 = 43.9 V) must overcome the resistive
 drops and provide current regulation headroom. The motor \textbf{can
 operate} at this speed, but it is approaching the voltage limit. Above
-approximately 4,500 RPM, field weakening (reducing I\textsubscript{d})
-would be required.
+approximately 4,500 RPM, field weakening (injecting negative
+I\textsubscript{d}) would be required.
 
 \subsection{Problem 12.2.9}\label{problem-12.2.9}
 
 \textbf{Given:} A three-phase induction motor drives a centrifugal pump.
-Nameplate data: 100 HP, 460 V, 60 Hz, 4-pole, FLA = 124 A, efficiency =
+Nameplate data: 100 HP, 460 V, 60 Hz, 4-pole, FLA = 114 A, efficiency =
 94.5\%, power factor = 0.87 lagging at full load. The motor operates at
 85\% load.
 
@@ -28729,21 +28733,22 @@ RPM.
 J\textsubscript{total} = J\textsubscript{rotor} + J\textsubscript{load}
 = 5.4 × 10⁻⁶ + 3.0 × 10⁻⁶ = \textbf{8.4 × 10⁻⁶ kg·m²}
 
-(b) Holding torque stiffness:\\
-K\textsubscript{h} = T\textsubscript{hold} / θ\textsubscript{step} =
-0.44 / (1.8 × π/180) = 0.44 / 0.03142 = 14.0 N·m/rad
+(b) Holding torque stiffness (hybrid, N\textsubscript{r} =
+π/(2θ\textsubscript{step}) = 50 rotor teeth):\\
+K\textsubscript{h} = T\textsubscript{hold} × N\textsubscript{r} = 0.44 ×
+50 = 22.0 N·m/rad
 
 Natural frequency:\\
-f\textsubscript{n} = (1/2π)√(K\textsubscript{h}/J) = (1/2π)√(14.0 / (8.4
-× 10⁻⁶)) = (1/2π)√(1.667 × 10⁶) = (1/2π) × 1291 = \textbf{205 Hz}
+f\textsubscript{n} = (1/2π)√(K\textsubscript{h}/J) = (1/2π)√(22.0 / (8.4
+× 10⁻⁶)) = (1/2π)√(2.619 × 10⁶) = (1/2π) × 1618 = \textbf{258 Hz}
 
 (c) Resonant step rate:\\
-\textbf{205 full steps/s}
+\textbf{258 full steps/s}
 
 (d) Resonant speed:\\
-n = 205 × 1.8° / 360° × 60 = \textbf{61.5 RPM}
+n = 258 × 1.8° / 360° × 60 = \textbf{77.4 RPM}
 
-The acceleration profile should ramp quickly through the 180--230
+The acceleration profile should ramp quickly through the 230--290
 steps/s region to avoid resonance.
 
 \subsection{Problem 12.3.5}\label{problem-12.3.5}
@@ -28808,21 +28813,26 @@ the system meets a ±0.05° positioning requirement.
 Motor steps per index:\\
 N = 5.0° / 0.036° = \textbf{138.9 steps}
 
-Since this is not an integer, the actual step count rounds to 139 steps,
-giving 139 × 0.036° = 5.004°. Over 72 positions this creates a
-cumulative error. A better approach is to use microstepping or select a
-gear ratio that divides evenly.
+Since this is not an integer, a fixed 139-step move gives 139 × 0.036° =
+5.004°, and the 0.004° error accumulates: after n indexes the error is
+0.004n°, exceeding ±0.05° after 13 indexes and reaching 72 × 139 −
+10,000 = 8 steps (0.288°) per revolution. Instead, command absolute
+positions: index k targets round(k × 10,000/72) motor steps (alternating
+139- and 138-step moves), so the rounding error never exceeds ±½ step =
+±0.018°. (Microstepping or a gear ratio that divides evenly would reduce
+or remove it.)
 
 (c) Step accuracy error per step:\\
 Δθ = ±0.03 × 0.036° = ±0.00108°
 
 Since stepper error is non-cumulative:\\
-Position error = \textbf{±0.00108°} plus the rounding error of 0.004°
-per position.
+Position error = \textbf{±0.00108°} plus the rounding error of up to
+±0.018° per position (absolute-position commanding).
 
-(d) Total worst-case error = 0.004 + 0.001 = \textbf{0.005°}, which is
-well within the ±0.05° requirement. The system \textbf{meets the
-specification}.
+(d) Total worst-case error = 0.018 + 0.001 = \textbf{0.019°}, which is
+within the ±0.05° requirement. The system \textbf{meets the
+specification}, provided positions are commanded absolutely (fixed
+139-step moves would fail after 13 indexes).
 
 \subsection{Problem 12.3.7}\label{problem-12.3.7}
 
@@ -28879,10 +28889,9 @@ Total angle = 90° = π/2 rad = 1.571 rad
 
 With equal time phases: θ = ½ × ω\textsubscript{peak} ×
 t\textsubscript{accel} + ω\textsubscript{peak} × t\textsubscript{const}
-+ ½ × ω\textsubscript{peak} × t\textsubscript{decel}\\
-1.571 = ω\textsubscript{peak} × (t/2 + t/3 + t/2) × (1/3 each)\ldots{}
++ ½ × ω\textsubscript{peak} × t\textsubscript{decel}
 
-Simplified: for equal three phases of t/3 each:\\
+For three equal phases of t/3 each:\\
 θ = ω\textsubscript{peak} × (t/3)/2 + ω\textsubscript{peak} × t/3 +
 ω\textsubscript{peak} × (t/3)/2 = ω\textsubscript{peak} × 2t/3
 
@@ -28900,8 +28909,11 @@ Acceleration torque:\\
 (d) Adding friction estimate of 5 mN·m:\\
 τ\textsubscript{total} = 56.5 + 5 = \textbf{61.5 mN·m}
 
-This is well within the 0.5 N·m holding torque, confirming the motor can
-handle this motion profile.
+The relevant limit is the pull-out torque at the peak rate (47.12 rad/s
+= 450 RPM = 1,500 full steps/s), not the holding torque. 61.5 mN·m is
+only 12\% of the 0.5 N·m holding torque, so the profile is typically
+feasible, but confirm it against the motor's pull-out curve at 1,500
+steps/s.
 
 \subsection{Problem 12.3.9}\label{problem-12.3.9}
 
@@ -28912,7 +28924,7 @@ motor coupled to a 1 mm pitch lead screw.
 
 \textbf{Find:} (a) The linear resolution with each driver at maximum
 microstepping, (b) the pulse frequency each requires for 10 mm/s travel,
-and (c) the step rate improvement factor of Driver B over Driver A.
+and (c) the resolution improvement factor of Driver B over Driver A.
 
 \textbf{Solution:}
 
@@ -29114,11 +29126,12 @@ F = P\textsubscript{avg} / v\textsubscript{avg} = 138,950 / (16.67/2) =
 \subsection{Problem 12.4.5}\label{problem-12.4.5}
 
 \textbf{Given:} A 3-phase PMSM has: rated torque T\textsubscript{rated}
-= 20 N·m, torque constant K\textsubscript{t} = 2.0 N·m/A, rated flux
-linkage λ\textsubscript{m} = 0.30 Wb, stator resistance
-R\textsubscript{s} = 0.3 Ω, L\textsubscript{d} = 5 mH,
-L\textsubscript{q} = 10 mH, and 6 poles. The motor operates at 3,000 RPM
-using FOC with I\textsubscript{d} = 0 control.
+= 20 N·m, torque constant K\textsubscript{t} = 1.35 N·m/A (=
+(3/2)(P/2)λ\textsubscript{m}), rated flux linkage λ\textsubscript{m} =
+0.30 Wb, stator resistance R\textsubscript{s} = 0.3 Ω,
+L\textsubscript{d} = 5 mH, L\textsubscript{q} = 10 mH, and 6 poles. The
+motor operates at 3,000 RPM using FOC with I\textsubscript{d} = 0
+control.
 
 \textbf{Find:} (a) The required q-axis current for rated torque, (b) the
 stator voltage magnitude, and (c) the minimum DC bus voltage for space
@@ -29128,9 +29141,9 @@ vector PWM.
 
 (a) Required q-axis current:\\
 I\textsubscript{q} = T\textsubscript{rated} / K\textsubscript{t} = 20 /
-2.0 = \textbf{10.0 A}
+1.35 = \textbf{14.81 A}
 
-With I\textsubscript{d} = 0: I\textsubscript{s} = 10.0 A
+With I\textsubscript{d} = 0: I\textsubscript{s} = 14.81 A
 
 (b) Electrical speed:\\
 ω\textsubscript{m} = 3,000 × 2π/60 = 314.2 rad/s\\
@@ -29140,22 +29153,22 @@ rad/s
 Voltage equations in the dq frame:\\
 V\textsubscript{d} = R\textsubscript{s} × I\textsubscript{d} −
 ω\textsubscript{e} × L\textsubscript{q} × I\textsubscript{q} = 0.3 × 0 −
-942.5 × 0.010 × 10.0 = \textbf{−94.3 V}
+942.5 × 0.010 × 14.81 = \textbf{−139.6 V}
 
 V\textsubscript{q} = R\textsubscript{s} × I\textsubscript{q} +
 ω\textsubscript{e} × L\textsubscript{d} × I\textsubscript{d} +
-ω\textsubscript{e} × λ\textsubscript{m} = 0.3 × 10 + 0 + 942.5 × 0.30 =
-3.0 + 282.8 = \textbf{285.8 V}
+ω\textsubscript{e} × λ\textsubscript{m} = 0.3 × 14.81 + 0 + 942.5 × 0.30
+= 4.4 + 282.8 = \textbf{287.2 V}
 
 Stator voltage magnitude:\\
 V\textsubscript{s} = √(V\textsubscript{d}² + V\textsubscript{q}²) =
-√(8,892 + 81,682) = √90,574 = \textbf{301.0 V} (phase peak)
+√(19,488 + 82,484) = √101,972 = \textbf{319.3 V} (phase peak)
 
 (c) Minimum DC bus voltage:\\
-V\textsubscript{DC} = √3 × V\textsubscript{s} = 1.732 × 301.0 =
-\textbf{521.3 V}
+V\textsubscript{DC} = √3 × V\textsubscript{s} = 1.732 × 319.3 =
+\textbf{553.1 V}
 
-A \textbf{540 V} or higher DC bus is required.
+A \textbf{600 V} DC bus is required (540 V would be insufficient).
 
 \subsection{Problem 12.4.6}\label{problem-12.4.6}
 
@@ -29176,12 +29189,10 @@ the voltage vector magnitude.
 Δψ = ψ\textsubscript{s,ref} − ψ\textsubscript{s} = 0.90 − 0.88 = +0.02
 Wb
 
-Since +0.02 Wb \textless{} +0.03 Wb (within band), the flux comparator
-output is \textbf{0} (no correction needed). However, if we apply the
-hysteresis logic where the output changes at the band edges: the flux is
-below reference but within the band, so the output remains at its
-previous state. Assuming it was previously set to +1 (increase flux):
-\textbf{flux = +1}.
+Since +0.02 Wb \textless{} +0.03 Wb (within band), the two-level flux
+comparator does not switch; its output holds its previous state.
+Assuming it was previously set to +1 (increase flux): \textbf{flux =
++1}.
 
 (b) Torque error:\\
 ΔT = T\textsubscript{ref} − T\textsubscript{e} = 80 − 75 = +5 N·m
@@ -29194,7 +29205,9 @@ voltage vector that advances the stator flux in the direction of
 rotation while increasing its magnitude.
 
 (d) Active voltage vector magnitude:\\
-V = V\textsubscript{DC} × √(2/3) = 600 × 0.8165 = \textbf{489.9 V}
+V = (2/3) × V\textsubscript{DC} = (2/3) × 600 = \textbf{400 V}
+(amplitude-invariant αβ frame, consistent with the (3/2) torque
+expression)
 
 \subsection{Problem 12.4.7}\label{problem-12.4.7}
 
@@ -29209,22 +29222,24 @@ control, and (d) the motor output power.
 \textbf{Solution:}
 
 (a) Synchronous speed at 60 Hz: n\textsubscript{s} = 1,800 RPM\\
-For 900 RPM synchronous speed:\\
-f = 900 × P / 120 = 900 × 4 / 120 = \textbf{30 Hz}
+The rotor must turn at 900 RPM, so the synchronous speed must exceed 900
+RPM by the slip. With rated slip ≈ 3.3\% at 60 Hz (≈60 RPM), V/f control
+holds the slip speed ≈ 60 RPM at constant torque, so n\textsubscript{s}
+≈ 960 RPM:\\
+f = 960 × P / 120 = 960 × 4 / 120 = \textbf{32 Hz}
 
 (b) V/f ratio:\\
 V/f = 460/60 = 7.667 V/Hz\\
-V = 7.667 × 30 = \textbf{230 V}
+V = 7.667 × 32 = \textbf{245 V}
 
 (c) With constant V/f control, the flux is maintained approximately
 constant, so the motor can deliver approximately rated torque:\\
 τ ≈ \textbf{85 N·m} (at rated slip, the full torque is available at
 reduced speed)
 
-(d) Assuming the actual rotor speed is \textasciitilde870 RPM (with
-\textasciitilde3.3\% slip):\\
-ω = 870 × 2π/60 = 91.1 rad/s\\
-P = τ × ω = 85 × 91.1 = \textbf{7,744 W = 7.74 kW} (10.4 HP)
+(d) At the required rotor speed of 900 RPM:\\
+ω = 900 × 2π/60 = 94.25 rad/s\\
+P = τ × ω = 85 × 94.25 = \textbf{8,011 W = 8.01 kW} (10.7 HP)
 
 At half speed, the power is halved for a constant-torque load,
 confirming the affinity laws do not apply here (those are for
@@ -29307,7 +29322,10 @@ strategies include:
   increasing frequency until the back-EMF is detectable
 \item
   \textbf{High-frequency injection}: inject a high-frequency signal and
-  detect the rotor position from saliency
+  detect the rotor position from saliency (only if the motor has usable
+  saliency; ceiling-fan SPM/outer-rotor BLDC motors have
+  L\textsubscript{d} ≈ L\textsubscript{q}, so HFI is generally
+  impractical here)
 \item
   \textbf{Align and go}: energize one phase to align the rotor to a
   known position, then begin the commutation sequence
@@ -29351,8 +29369,10 @@ P\textsubscript{total} = 2 × 30,488 = \textbf{60,976 W = 61.0 kW}
 The second pump speed ratio = (25/30)\textsuperscript{1/3} = 0.941
 (94.1\%).\\
 Electrical input = 30,000/0.902 + 25,000/0.902 = 33,260 + 27,716 =
-60,976 W. The result is essentially the same because the cube-law
-relationship means power scales directly.
+60,976 W. The result is the same because the VFD and motor efficiencies
+are assumed constant, so the total input depends only on the total 55 kW
+of mechanical power, not on how it is split (in practice, part-load
+efficiency differences would favor the equal split).
 
 (d) With throttle valve control, both pumps run at full speed (30 kW
 each = 60 kW mechanical) with the excess 5 kW wasted as pressure drop
@@ -29413,19 +29433,23 @@ locked-rotor current, (c) the circuit breaker size per NEC 430.52, and
 
 \textbf{Solution:}
 
-(a) Overload relay trip setting at 115\% of FLA:\\
+(a) Overload relay trip setting at 115\% of nameplate FLA (NEC
+430.32(A)(1) permits up to 125\% for SF ≥ 1.15):\\
 I\textsubscript{trip} = 1.15 × 92 = \textbf{105.8 A}
 
 (b) Locked-rotor current:\\
 I\textsubscript{LR} = 6.5 × 92 = \textbf{598 A}
 
-(c) Circuit breaker (NEC 430.52, inverse-time, Design B):\\
-Maximum = 250\% of FLA = 2.50 × 92 = 230 A\\
-Select next standard size: \textbf{225 A breaker}
+(c) Circuit breaker (NEC 430.52, inverse-time, Design B). Per NEC
+430.6(A)(1), breaker and conductor sizing use the Table 430.250
+full-load current, not nameplate FLA: 75 HP at 460 V gives FLC = 96 A.\\
+Maximum = 250\% of FLC = 2.50 × 96 = 240 A\\
+240 A is not a standard size, so 430.52 Exception No.~1 permits the next
+higher standard size: \textbf{250 A breaker}
 
 (d) Minimum conductor size (NEC 430.22):\\
-I\textsubscript{conductor} = 1.25 × FLA = 1.25 × 92 = 115 A\\
-From NEC Table 310.16 at 75°C: \textbf{1/0 AWG copper} (rated 150 A)
+I\textsubscript{conductor} = 1.25 × FLC = 1.25 × 96 = 120 A\\
+From NEC Table 310.16 at 75°C: \textbf{1 AWG copper} (rated 130 A)
 
 \subsection{Problem 12.5.3}\label{problem-12.5.3}
 
@@ -29491,20 +29515,22 @@ Acceleration torque:\\
 (c) Total torque during acceleration:\\
 τ\textsubscript{total} = 159.2 + 29.8 = \textbf{189.0 N·m}
 
-(d) An 18.5 kW, 6-pole motor at \textasciitilde940 RPM:\\
+(d) An 18.5 kW, 6-pole IEC motor (50 Hz, \textasciitilde940 RPM rated;
+run from a VFD at 900 RPM, where constant-torque operation retains rated
+torque):\\
 Rated torque = 18,500 / (940 × 2π/60) = 18,500 / 98.4 = 188.0 N·m\\
 Typical breakdown torque = 2.5 × 188.0 = 470 N·m
 
-The required acceleration torque of 189.0 N·m is approximately 100.5\%
-of rated torque, essentially at the rating. The motor can deliver this,
-but the \textbf{margin is very tight}. A 22 kW motor would provide a
-more comfortable margin of \textasciitilde18\%.
+The required total torque during acceleration of 189.0 N·m is
+approximately 100.5\% of rated torque, essentially at the rating. The
+motor can deliver this, but the \textbf{margin is very tight}. A 22 kW
+motor would provide a more comfortable margin of \textasciitilde18\%.
 
 \subsection{Problem 12.5.5}\label{problem-12.5.5}
 
 \textbf{Given:} A 45 kW, 4-pole motor operates at 1,770 RPM with
 6208-2RS deep groove ball bearings (9 balls, ball diameter
-d\textsubscript{b} = 12.7 mm, pitch diameter d\textsubscript{p} = 48.0
+d\textsubscript{b} = 12.7 mm, pitch diameter d\textsubscript{p} = 60.0
 mm, contact angle α = 0°). The dynamic load rating is C = 29.1 kN and
 the radial load is P = 2.8 kN.
 
@@ -29515,28 +29541,28 @@ race).
 \textbf{Solution:}
 
 (a) L₁₀ in revolutions:\\
-L₁₀ = (C/P)³ × 10⁶ = (29.1/2.8)³ × 10⁶ = (10.39)³ × 10⁶ = 1,121 × 10⁶
+L₁₀ = (C/P)³ × 10⁶ = (29.1/2.8)³ × 10⁶ = (10.393)³ × 10⁶ = 1,122.5 × 10⁶
 rev
 
 L₁₀ in hours:\\
-L₁₀(hours) = 1,121 × 10⁶ / (60 × 1,770) = 1,121 × 10⁶ / 106,200 =
-\textbf{10,555 hours} ≈ 1.2 years continuous
+L₁₀(hours) = 1,122.5 × 10⁶ / (60 × 1,770) = 1,122.5 × 10⁶ / 106,200 =
+\textbf{10,570 hours} ≈ 1.2 years continuous
 
 (b) Shaft frequency:\\
 f\textsubscript{shaft} = 1,770/60 = 29.5 Hz
 
 BPFO = (N\textsubscript{b}/2) × f\textsubscript{shaft} × (1 −
 d\textsubscript{b}cos α / d\textsubscript{p})\\
-BPFO = (9/2) × 29.5 × (1 − 12.7/48.0) = 4.5 × 29.5 × 0.7354 =
-\textbf{97.6 Hz}
+BPFO = (9/2) × 29.5 × (1 − 12.7/60.0) = 4.5 × 29.5 × 0.7883 =
+\textbf{104.7 Hz}
 
 (c) BPFI = (N\textsubscript{b}/2) × f\textsubscript{shaft} × (1 +
 d\textsubscript{b}cos α / d\textsubscript{p})\\
-BPFI = (9/2) × 29.5 × (1 + 12.7/48.0) = 4.5 × 29.5 × 1.2646 =
-\textbf{167.9 Hz}
+BPFI = (9/2) × 29.5 × (1 + 12.7/60.0) = 4.5 × 29.5 × 1.2117 =
+\textbf{160.8 Hz}
 
-A vibration peak at 97.6 Hz indicates an outer race defect; a peak at
-167.9 Hz indicates an inner race defect.
+A vibration peak at 104.7 Hz indicates an outer race defect; a peak at
+160.8 Hz indicates an inner race defect.
 
 \subsection{Problem 12.5.6}\label{problem-12.5.6}
 
@@ -29550,29 +29576,24 @@ above rated, and (c) the expected insulation life.
 
 \textbf{Solution:}
 
-(a) At rated current, the temperature rise remains 105°C. With elevated
-ambient:\\
-T\textsubscript{actual} = T\textsubscript{ambient} + ΔT = 50 + 105 =
-\textbf{155°C}
-
-The Class F limit of 155°C is built up as 40°C ambient + 105°C rise +
-10°C hot-spot allowance. Raising the ambient by 10°C therefore consumes
-the entire hot-spot allowance, and the winding sits exactly at the 155°C
-limit rather than 10°C below it.
+(a) At rated current, the average temperature rise remains 105°C. The
+Class F limit of 155°C is built up as 40°C ambient + 105°C rise + 10°C
+hot-spot allowance, where the 10°C is the hot-spot gradient (the hottest
+spot runs 10°C above the average winding temperature), not spare margin.
+With elevated ambient:\\
+T\textsubscript{actual} = T\textsubscript{ambient} + ΔT + 10 = 50 + 105
++ 10 = \textbf{165°C}
 
 (b) Temperature above rated:\\
-ΔT\textsubscript{excess} = 155 − 155 = \textbf{0°C} --- at the limit,
-but with no remaining margin.
+ΔT\textsubscript{excess} = 165 − 155 = \textbf{10°C}
 
-(c) Expected life at exactly rated temperature:\\
-L = 20,000 × 2\textsuperscript{(155 − 155)/10} = 20,000 × 2⁰ =
-\textbf{20,000 hours}
+(c) Expected life:\\
+L = 20,000 × 2\textsuperscript{(155 − 165)/10} = 20,000 × 2⁻¹ =
+\textbf{10,000 hours}
 
-However, this assumes perfect thermal conditions. In practice, the lost
-hot-spot margin means any transient overload or temperature spike pushes
-the winding above 155°C, accelerating degradation. The motor should be
-\textbf{derated} for 50°C ambient to maintain the design life with
-margin.
+The 10°C ambient increase halves the insulation life, from 20,000 to
+10,000 hours. The motor should be \textbf{derated} (or the load reduced)
+for 50°C ambient to maintain the design life.
 
 \subsection{Problem 12.5.7}\label{problem-12.5.7}
 
@@ -29590,19 +29611,19 @@ the actual hot-spot temperature, (c) the expected insulation life.
 ΔT = (I/I\textsubscript{rated})² × ΔT\textsubscript{rated} = 1.20² × 125
 = 1.44 × 125 = \textbf{180°C}
 
-(b) Actual hot-spot temperature:\\
-T\textsubscript{actual} = 40 + 180 = \textbf{220°C}
+(b) Actual hot-spot temperature (adding the 15°C hot-spot allowance):\\
+T\textsubscript{actual} = 40 + 180 + 15 = \textbf{235°C}
 
 (c) Temperature above rated hot-spot:\\
-ΔT\textsubscript{excess} = 220 − 180 = 40°C
+ΔT\textsubscript{excess} = 235 − 180 = 55°C
 
 Expected life:\\
-L = 20,000 × 2\textsuperscript{(180 − 220)/10} = 20,000 × 2⁻⁴ = 20,000 /
-16 = \textbf{1,250 hours}
+L = 20,000 × 2\textsuperscript{(180 − 235)/10} = 20,000 ×
+2\textsuperscript{−5.5} = 20,000 × 0.0221 = \textbf{442 hours}
 
-A 20\% overload reduces insulation life from 20,000 hours to just 1,250
-hours --- a \textbf{93.75\% reduction}. This dramatically illustrates
-why sustained overloads are so destructive to motor insulation.
+A 20\% overload reduces insulation life from 20,000 hours to just 442
+hours --- a \textbf{97.8\% reduction}. This dramatically illustrates why
+sustained overloads are so destructive to motor insulation.
 
 \subsection{Problem 12.5.8}\label{problem-12.5.8}
 
@@ -29631,7 +29652,7 @@ adequate}.
 
 (d) Equivalent continuous load:\\
 75.9\% of rated current, which corresponds to approximately
-\textbf{75.9\%} of rated thermal loading.
+\textbf{57.6\%} (0.759²) of rated I²R heating.
 
 The motor has significant thermal margin despite the 120\% peak current
 because the 60\% OFF time allows cooling.
@@ -29654,8 +29675,8 @@ Environment A: ΔT\textsubscript{avail} = 155 − 30 − 10 = \textbf{115°C}
 (more than rated 105°C --- no derating needed)\\
 Environment B: ΔT\textsubscript{avail} = 155 − 55 − 10 = \textbf{90°C}
 
-(b) Since temperature rise is proportional to I² and power is
-proportional to I²:\\
+(b) Since temperature rise is proportional to I² (copper loss) and
+output power is proportional to I (at constant voltage):\\
 Derating factor = √(ΔT\textsubscript{avail} / ΔT\textsubscript{rated}) =
 √(90 / 105) = √0.857 = \textbf{0.926}
 
@@ -29668,9 +29689,10 @@ temperature to maintain the design insulation life.
 \subsection{Problem 12.5.10}\label{problem-12.5.10}
 
 \textbf{Given:} A motor vibration survey measures the following overall
-velocity values (mm/s RMS) on a 30 kW motor (ISO 10816 Group 2): bearing
-housing DE = 3.2 mm/s, bearing housing NDE = 2.1 mm/s. The previous
-survey 6 months ago measured 1.8 mm/s and 1.5 mm/s respectively.
+velocity values (mm/s RMS) on a 30 kW motor (ISO 10816-3 Group 2, rigid
+foundation): bearing housing DE = 3.2 mm/s, bearing housing NDE = 2.1
+mm/s. The previous survey 6 months ago measured 1.8 mm/s and 1.5 mm/s
+respectively.
 
 \textbf{Find:} (a) The ISO 10816 zone classification for each bearing,
 (b) the rate of vibration increase, (c) the estimated time to reach the
@@ -29678,32 +29700,36 @@ Zone C/D boundary, and (d) the recommended action.
 
 \textbf{Solution:}
 
-(a) ISO 10816 Group 2 (15--75 kW) zones:
+(a) ISO 10816-3 Group 2 (15--300 kW), rigid foundation, zones:
 
 \begin{itemize}
 \tightlist
 \item
-  Zone A: \textless{} 1.8 mm/s (new)
+  Zone A: \textless{} 1.4 mm/s (new)
 \item
-  Zone B: 1.8--4.5 mm/s (acceptable)
+  Zone B: 1.4--2.8 mm/s (acceptable)
 \item
-  Zone C: 4.5--11.2 mm/s (marginal)
+  Zone C: 2.8--4.5 mm/s (marginal)
 \item
-  Zone D: \textgreater{} 11.2 mm/s (danger)
+  Zone D: \textgreater{} 4.5 mm/s (danger)
 \end{itemize}
 
-DE bearing: 3.2 mm/s → \textbf{Zone B} (acceptable)\\
+(On a flexible foundation the boundaries would be 2.3, 4.5, and 7.1
+mm/s.)
+
+DE bearing: 3.2 mm/s → \textbf{Zone C} (marginal)\\
 NDE bearing: 2.1 mm/s → \textbf{Zone B} (acceptable)
 
 (b) Rate of vibration increase (DE bearing):\\
 Δv/Δt = (3.2 − 1.8) / 6 months = 1.4 / 6 = \textbf{0.233 mm/s per month}
 
-(c) Time to reach Zone C/D boundary (11.2 mm/s) from current DE value:\\
-t = (11.2 − 3.2) / 0.233 = 8.0 / 0.233 = \textbf{34.3 months} at linear
+(c) Time to reach Zone C/D boundary (4.5 mm/s) from current DE value:\\
+t = (4.5 − 3.2) / 0.233 = 1.3 / 0.233 = \textbf{5.6 months} at linear
 trend
 
-Time to reach Zone B/C boundary (4.5 mm/s):\\
-t = (4.5 − 3.2) / 0.233 = 1.3 / 0.233 = \textbf{5.6 months}
+The DE bearing has already crossed the Zone B/C boundary (2.8 mm/s). (On
+a flexible foundation, the DE would be in Zone B and the 7.1 mm/s C/D
+boundary would be reached in (7.1 − 3.2)/0.233 = 16.7 months.)
 
 (d) Recommended actions:
 
@@ -29716,8 +29742,8 @@ t = (4.5 − 3.2) / 0.233 = 1.3 / 0.233 = \textbf{5.6 months}
   \textbf{Perform spectral analysis} to identify the vibration source
   (bearing defect, misalignment, imbalance)
 \item
-  \textbf{Plan bearing replacement} within the next 4--5 months before
-  reaching Zone C
+  \textbf{Plan bearing replacement} within the next 4--5 months, before
+  the DE bearing reaches Zone D
 \item
   Check for root cause: misalignment, soft foot, belt tension, or
   bearing lubrication issues
