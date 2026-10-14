@@ -23361,9 +23361,10 @@ in AC-to-DC conversion for metering, AM demodulation of low-level
 signals, and RMS-to-DC converters. The primary limitation is speed ---
 when the diode turns off, the op-amp output must slew from the positive
 rail to the negative rail (or vice versa) before the diode can conduct
-again on the next half-cycle, limiting operation to frequencies well
-below f\textsubscript{max} ≈ SR / (2πV\textsubscript{sat}), where
-V\textsubscript{sat} is the op-amp saturation voltage.
+again on the next half-cycle, so the recovery time t\textsubscript{rec}
+≈ 2V\textsubscript{sat}/SR (where V\textsubscript{sat} is the op-amp
+saturation voltage) must be a small fraction of the signal half-period,
+which limits the maximum operating frequency.
 
 \begin{examplebox}
 
@@ -23437,7 +23438,7 @@ Z\textsubscript{in} ≈ Z\textsubscript{in(op-amp)} × (1 +
 A\textsubscript{OL} × β), which is typically \textgreater10⁹ Ω.\\
 An equivalent inverting amplifier with gain of -15 using
 R\textsubscript{in} = 3.3 kΩ would have Z\textsubscript{in} =
-R\textsubscript{in} = 3.3 kΩ -- over 300,000× lower than the
+R\textsubscript{in} = 3.3 kΩ --- over 300,000× lower than the
 non-inverting version.
 
 \end{examplebox}
@@ -23472,7 +23473,7 @@ R\textsubscript{parallel} = (100,000 × 1,000) / (100,000 + 1,000) =
 990.1 Ω.\\
 V\textsubscript{out} = 5.0 × 990.1 / (100,000 + 990.1) = 5.0 × 990.1 /
 100,990 = 0.0490 V.\\
-Loading error: (2.5 - 0.049) / 2.5 × 100\% = 98.0\% -- the voltage
+Loading error: (2.5 - 0.049) / 2.5 × 100\% = 98.0\% --- the voltage
 divider is completely collapsed.
 
 (b) With buffer: the buffer input impedance is \textgreater10⁹ Ω, so the
@@ -23559,10 +23560,10 @@ this transient must settle before the ADC samples, requiring a delay of
 several time constants after each gain change. The \textbf{noise gain}
 of a PGA increases with the programmed gain, so the input-referred noise
 contribution of the ADC is divided by the PGA gain --- improving the
-system's noise performance for small signals. Some Σ-Δ ADCs (e.g.,
-ADS1256, AD7190) integrate a PGA on-chip with gains from 1 to 128,
-eliminating the external PGA and its associated settling and noise
-issues.
+system's noise performance for small signals. Some Σ-Δ ADCs integrate a
+PGA on-chip (e.g., ADS1256 with gains from 1 to 64, AD7190 with gains
+from 1 to 128), eliminating the external PGA and its associated settling
+and noise issues.
 
 \begin{examplebox}
 
@@ -23661,7 +23662,7 @@ sensors in the presence of large common-mode voltages.
 
 \begin{examplebox}
 
-\textbf{Example 13.4.2:} An INA333 instrumentation amplifier has
+\textbf{Example 13.4.2:} An INA128 instrumentation amplifier has
 internal resistors R = 25 kΩ and is configured with R\textsubscript{G} =
 1 kΩ. It amplifies a strain gauge bridge that produces a 2.5 mV
 differential signal with 2.5 V common mode. The INA has CMRR = 100 dB.
@@ -23713,31 +23714,29 @@ range.
 
 \begin{examplebox}
 
-\textbf{Example 13.4.3:} A high-side current sense amplifier (INA181A3,
-gain = 100 V/V) monitors load current through a 10 mΩ shunt resistor on
-a 48 V bus. The amplifier has V\textsubscript{OS} = 35 μV (referred to
-input), gain error = 0.3\%, and CMRR = 132 dB at DC. The load draws 20
-A. Calculate the ideal output voltage, the total output error, and the
+\textbf{Example 13.4.3:} A high-side current sense amplifier (INA240A1,
+gain = 20 V/V, common-mode range −4 V to 80 V, powered from a 5 V
+supply) monitors load current through a 10 mΩ shunt resistor on a 48 V
+bus. The amplifier has V\textsubscript{OS} = 35 μV (referred to input),
+gain error = 0.3\%, and CMRR = 132 dB at DC. The load draws 20 A.
+Calculate the ideal output voltage, the total output error, and the
 minimum detectable current.
 
 \textbf{Solution:}\\
 Shunt voltage: V\textsubscript{shunt} = I × R\textsubscript{shunt} = 20
 × 0.010 = 200 mV.\\
 Ideal output: V\textsubscript{out} = V\textsubscript{shunt} × Gain =
-0.200 × 100 = 20.0 V --- this exceeds a typical 5 V supply, so in
-practice the amplifier would saturate.\\
-Using a 5 mΩ shunt instead: V\textsubscript{shunt} = 20 × 0.005 = 100
-mV, V\textsubscript{out} = 100 mV × 100 = 10.0 V (within a 12 V supply
-range).\\
-Offset error at output: V\textsubscript{OS} × Gain = 35 × 10⁻⁶ × 100 =
-3.5 mV.\\
-Gain error: 0.3\% × 10.0 V = 30 mV.\\
+0.200 × 20 = 4.0 V --- within the 5 V supply (a gain-of-100 version
+would demand 20 V and saturate).\\
+Offset error at output: V\textsubscript{OS} × Gain = 35 × 10⁻⁶ × 20 =
+0.7 mV.\\
+Gain error: 0.3\% × 4.0 V = 12 mV.\\
 CMRR error: CMRR = 132 dB = 3.981 × 10⁶. Common-mode referred-to-input
-error = 48/(3.981 × 10⁶) = 12.1 μV, at output = 12.1 μV × 100 = 1.21
+error = 48/(3.981 × 10⁶) = 12.1 μV, at output = 12.1 μV × 20 = 0.24
 mV.\\
-Total output error ≈ 3.5 + 30 + 1.2 = 34.7 mV (0.35\% of 10.0 V).\\
+Total output error ≈ 0.7 + 12 + 0.24 = 12.9 mV (0.32\% of 4.0 V).\\
 Minimum detectable current (limited by offset): I\textsubscript{min} =
-V\textsubscript{OS}/R\textsubscript{shunt} = 35 μV / 5 mΩ = 7 mA.
+V\textsubscript{OS}/R\textsubscript{shunt} = 35 μV / 10 mΩ = 3.5 mA.
 
 \end{examplebox}
 
@@ -23825,7 +23824,7 @@ Cutoff frequency: f\textsubscript{c} = 1/(2πR√(C₁C₂)) = 1/(2πR√(20 ×
 So R = 1/(2π × 1000 × 14.14 × 10⁻⁹) = 1/(88.86 × 10⁻⁶) = 11.25 kΩ (use
 11 kΩ standard value).\\
 Verification: f\textsubscript{c} = 1/(2π × 11,000 × 14.14 × 10⁻⁹) =
-1/(977 × 10⁻⁶) = 1,024 Hz ≈ 1 kHz.\\
+1/(977 × 10⁻⁶) = 1,023 Hz ≈ 1 kHz.\\
 Q = √(R²C₁C₂) / (C₂ × 2R) = R√(C₁C₂) / (2RC₂) = √(C₁/C₂) / 2 = √2 / 2 =
 0.707, confirming the Butterworth response.
 
@@ -23934,8 +23933,8 @@ Q = ½√(79,577/795.8) = ½√100 = \textbf{5.0} ✓, \textbar A₀\textbar{} =
 79,577/(2 × 3,979) = \textbf{10} ✓
 
 With nearest standard values (R₁ = 3.9 kΩ, R₂ = 82 kΩ, R₃ = 1 kΩ): f₀ =
-1,970 Hz, Q = 5.08, \textbar A₀\textbar{} = 10.5 --- within about 1.5\%
-of the targets.\\
+1,970 Hz, Q = 5.08, \textbar A₀\textbar{} = 10.5 --- f₀ and Q are within
+about 1.5\% of their targets, while the gain is 5\% high.\\
 Lower and upper −3 dB frequencies: f\textsubscript{L} ≈ 2,000 − 200 =
 1,800 Hz, f\textsubscript{H} ≈ 2,000 + 200 = 2,200 Hz.
 
@@ -24007,12 +24006,13 @@ Quality factor: Q = 1/(4(1 − k)) = 1/(4 × 0.04) = 6.25.\\
 Bandwidth: BW = f₀/Q = 60/6.25 = 9.6 Hz.\\
 The −3 dB frequencies are approximately 60 ± 4.8 Hz = 55.2 Hz and 64.8
 Hz.\\
-Attenuation at 50 Hz: the offset from center is Δf = 10 Hz, normalized u
-= 2Δf/BW = 20/9.6 = 2.08. For a second-order notch, the attenuation at
-offset u is approximately 1/√(1 + 1/u²) of the passband gain = 1/√(1 +
-0.231) = 0.902 = −0.89 dB (minimal attenuation).\\
-At 120 Hz (2nd harmonic of 60 Hz): u = 2 × 60/9.6 = 12.5, attenuation ≈
-0.997 = −0.026 dB (essentially no effect on the 2nd harmonic).\\
+Attenuation at 50 Hz: the offset from center is Δf = 10 Hz, x = f/f₀ =
+50/60 = 0.833. For a second-order notch, \textbar H\textbar{} =
+\textbar1 − x²\textbar{} / √((1 − x²)² + (x/Q)²) = 0.3056 / √(0.0934 +
+0.0178) = 0.917 = −0.76 dB (minimal attenuation).\\
+At 120 Hz (2nd harmonic of 60 Hz): x = 2.0, \textbar H\textbar{} = 3.0 /
+√(9.0 + 0.1024) = 0.994 = −0.049 dB (essentially no effect on the 2nd
+harmonic).\\
 The narrow notch removes the 60 Hz fundamental while preserving the rest
 of the spectrum.
 
@@ -24102,10 +24102,11 @@ non-inverting input to ground, the thresholds are V\textsubscript{TH} =
 V\textsubscript{OH} × R₂/(R₁ + R₂) and V\textsubscript{TL} =
 V\textsubscript{OL} × R₂/(R₁ + R₂). A \textbf{non-inverting} Schmitt
 trigger places the input signal at the non-inverting terminal with a
-fixed reference at the inverting terminal; positive feedback through R₁
-and R₂ shifts the effective threshold up when the output is high and
-down when the output is low, producing the same hysteresis behavior with
-an in-phase output.
+fixed reference at the inverting terminal; the input drives the
+non-inverting input through R₁, and R₂ feeds the output back to the same
+node, so positive feedback shifts the effective input threshold down
+when the output is high and up when the output is low, producing the
+same hysteresis behavior with an in-phase output.
 
 \begin{examplebox}
 
@@ -24117,21 +24118,26 @@ signal. Calculate the required R₁ and R₂ ratio and the hysteresis
 voltage. If R₂ = 10 kΩ, find R₁.
 
 \textbf{Solution:}\\
-For this non-inverting Schmitt trigger with a reference at the inverting
-input: V\textsubscript{TH} = V\textsubscript{ref} + (V\textsubscript{OH}
-- V\textsubscript{ref}) × R₂/(R₁ + R₂) and V\textsubscript{TL} =
-V\textsubscript{ref} + (V\textsubscript{OL} - V\textsubscript{ref}) ×
-R₂/(R₁ + R₂).\\
-With V\textsubscript{ref} at the midpoint: V\textsubscript{ref} =
-(V\textsubscript{TH} × V\textsubscript{OL} - V\textsubscript{TL} ×
-V\textsubscript{OH}) / (V\textsubscript{OL} - V\textsubscript{OH} +
-V\textsubscript{TH} - V\textsubscript{TL}) = (3.0 × 0 - 2.0 × 5.0) / (0
-- 5.0 + 3.0 - 2.0) = -10 / -4.0 = 2.5 V.\\
-Feedback ratio: R₂/(R₁ + R₂) = (V\textsubscript{TH} -
-V\textsubscript{ref}) / (V\textsubscript{OH} - V\textsubscript{ref}) =
-(3.0 - 2.5) / (5.0 - 2.5) = 0.5/2.5 = 0.2.\\
-With R₂ = 10 kΩ: 10,000/(R₁ + 10,000) = 0.2, so R₁ + 10,000 = 50,000, R₁
-= 40 kΩ.\\
+For this non-inverting Schmitt trigger (input through R₁ to the
+non-inverting input, R₂ from that node to the output,
+V\textsubscript{ref} at the inverting input), the output switches when
+V\textsuperscript{+} = V\textsubscript{ref}. The rising threshold is
+crossed while the output is low and the falling threshold while it is
+high:\\
+V\textsubscript{TH} = V\textsubscript{ref}(1 + R₁/R₂) −
+V\textsubscript{OL} × R₁/R₂ and V\textsubscript{TL} =
+V\textsubscript{ref}(1 + R₁/R₂) − V\textsubscript{OH} × R₁/R₂.\\
+Resistor ratio: R₁/R₂ = (V\textsubscript{TH} − V\textsubscript{TL}) /
+(V\textsubscript{OH} − V\textsubscript{OL}) = (3.0 − 2.0) / (5.0 − 0) =
+0.2.\\
+Reference: V\textsubscript{ref} = (V\textsubscript{TH} ×
+V\textsubscript{OH} − V\textsubscript{TL} × V\textsubscript{OL}) /
+(V\textsubscript{OH} − V\textsubscript{OL} + V\textsubscript{TH} −
+V\textsubscript{TL}) = (3.0 × 5.0 − 2.0 × 0) / (5.0 − 0 + 3.0 − 2.0) =
+15 / 6.0 = 2.5 V.\\
+With R₂ = 10 kΩ: R₁ = 0.2 × 10,000 = 2 kΩ.\\
+Check: V\textsubscript{TH} = 2.5 × 1.2 − 0 = 3.0 V and
+V\textsubscript{TL} = 2.5 × 1.2 − 5.0 × 0.2 = 2.0 V ✓\\
 Hysteresis: V\textsubscript{H} = V\textsubscript{TH} -
 V\textsubscript{TL} = 3.0 - 2.0 = 1.0 V.\\
 Any noise with amplitude less than 1.0 V peak-to-peak will not cause
@@ -24201,10 +24207,10 @@ kΩ).\\
 Verification: f₀ = 1/(2π × 10,610 × 1.5 × 10⁻⁹) = 1/(100.00 × 10⁻⁶) =
 10,000 Hz = 10 kHz.\\
 The 5\% gain excess will cause slight clipping at the supply rails;
-adding a 1N4148 diode amplitude limiter or a small incandescent lamp
-(e.g., \#327 lamp, R\textsubscript{cold} ≈ 50 Ω) in the feedback network
-stabilizes the amplitude for a clean sinusoidal output with THD
-\textless{} 1\%.
+adding a 1N4148 diode amplitude limiter, or using a small incandescent
+lamp as R₁ (with R\textsubscript{f} scaled to about twice the lamp's
+operating resistance), stabilizes the amplitude for a clean sinusoidal
+output with THD \textless{} 1\%.
 
 \end{examplebox}
 
@@ -24425,6 +24431,9 @@ Error at output: V\textsubscript{error(output)} = 50 × 158 μV = 7.91
 mV.\\
 Signal-to-error ratio: 500 / 7.91 = 63.2, or 20log₁₀(63.2) = 36.0 dB.\\
 Output accuracy: 7.91/500 × 100\% = 1.58\%.\\
+(A single-op-amp non-inverting stage has no true differential input; the
+5 V common-mode level here illustrates how CMRR converts the input's
+common-mode voltage into an equivalent input error.)\\
 For a 1 mV input signal (50 mV output), the error becomes 15.8\% ---
 demonstrating why instrumentation amplifiers with \textgreater100 dB
 CMRR are needed for small signals in the presence of large common-mode
@@ -24504,13 +24513,13 @@ op-amp circuit is: e\textsubscript{n,total} = √(e\textsubscript{n}² +
 (i\textsubscript{n} × R\textsubscript{S})² + 4kTR\textsubscript{S}),
 where R\textsubscript{S} is the effective source resistance seen by each
 input and 4kTR\textsubscript{S} is the Johnson (thermal) noise of the
-source resistance (at 25°C, 4kT = 1.66 × 10⁻²⁰ V²/Hz per ohm). To obtain
-the total RMS noise, the noise spectral density is integrated over the
-circuit bandwidth: V\textsubscript{n,rms} = e\textsubscript{n,total} ×
-√(BW), where BW is the equivalent noise bandwidth (1.57 ×
-f\textsubscript{3dB} for a single-pole system). For circuits with
-significant 1/f noise contribution, the integral includes a
-ln(f\textsubscript{H}/f\textsubscript{L}) term for the 1/f region.
+source resistance (at 300 K, 4kT = 1.66 × 10⁻²⁰ V²/Hz per ohm; at 25°C
+it is 1.65 × 10⁻²⁰). To obtain the total RMS noise, the noise spectral
+density is integrated over the circuit bandwidth: V\textsubscript{n,rms}
+= e\textsubscript{n,total} × √(BW), where BW is the equivalent noise
+bandwidth (1.57 × f\textsubscript{3dB} for a single-pole system). For
+circuits with significant 1/f noise contribution, the integral includes
+a ln(f\textsubscript{H}/f\textsubscript{L}) term for the 1/f region.
 
 \begin{examplebox}
 
@@ -24539,8 +24548,8 @@ Total input-referred RMS noise: V\textsubscript{n,rms} = 5.83 × 10⁻⁹ ×
 Output noise: V\textsubscript{n,out} = 0.73 μV × 100 = 73
 μV\textsubscript{rms}.\\
 Minimum detectable signal (SNR = 0 dB): 0.73 μV\textsubscript{rms} at
-the input, or about 2.1 μV\textsubscript{pp} (using a 2.9× crest
-factor).\\
+the input, or about 4.8 μV\textsubscript{pp} (using the usual 6.6×
+rms-to-peak-to-peak factor for Gaussian noise).\\
 For a 10 mV signal, the SNR = 20log₁₀(10 mV / 0.73 μV) = 82.7 dB.
 
 \end{examplebox}
@@ -24585,20 +24594,21 @@ and capacitive load stability (many RRO op-amps oscillate with loads
 
 \textbf{Example 13.7.6:} A single-supply (V\textsubscript{CC} = 3.3 V,
 V\textsubscript{EE} = 0 V) non-inverting amplifier with a gain of 2 uses
-an op-amp with output swing specifications of V\textsubscript{OL} = 50
-mV and V\textsubscript{OH} = V\textsubscript{CC} − 80 mV at
-I\textsubscript{load} = 5 mA, and R\textsubscript{DS(on)} = 40 Ω for the
-output FETs. The input is a 0--1.5 V sensor signal biased at 0.825 V.
-Calculate the maximum undistorted output swing, and determine the output
-swing and saturation voltage if the load draws 10 mA.
+an op-amp with output swing specifications of V\textsubscript{OL} = 200
+mV and V\textsubscript{OH} = V\textsubscript{CC} − 200 mV at
+I\textsubscript{load} = 5 mA, consistent with R\textsubscript{DS(on)} =
+40 Ω for the output FETs. The input is a 0--1.5 V sensor signal biased
+at 0.825 V. Calculate the maximum undistorted output swing, and
+determine the output swing and saturation voltage if the load draws 10
+mA.
 
 \textbf{Solution:}\\
-At I\textsubscript{load} = 5 mA: V\textsubscript{OL} = 50 mV,
-V\textsubscript{OH} = 3.3 − 0.08 = 3.22 V. Output swing = 3.22 − 0.05 =
-3.17 V\textsubscript{pp}.\\
-With gain = 2: output range = 2 × 0 to 2 × 1.5 = 0 to 3.0 V. The output
-can swing from 0.05 V to 3.0 V without clipping (3.0 V \textless{} 3.22
-V).\\
+At I\textsubscript{load} = 5 mA: V\textsubscript{sat} = 0.005 × 40 = 0.2
+V, so V\textsubscript{OL} = 0.2 V, V\textsubscript{OH} = 3.3 − 0.2 = 3.1
+V. Output swing = 3.1 − 0.2 = 2.9 V\textsubscript{pp}.\\
+With gain = 2: output range = 2 × 0 to 2 × 1.5 = 0 to 3.0 V. The top of
+the range fits (3.0 V \textless{} 3.1 V); only inputs below 0.2/2 = 0.1
+V are lost at the bottom rail.\\
 At I\textsubscript{load} = 10 mA: V\textsubscript{sat} =
 I\textsubscript{load} × R\textsubscript{DS(on)} = 0.010 × 40 = 0.4 V.
 V\textsubscript{OL} ≈ 0.4 V, V\textsubscript{OH} ≈ 3.3 − 0.4 = 2.9 V.
@@ -24607,7 +24617,7 @@ The amplifier output at 2 × 1.5 = 3.0 V exceeds V\textsubscript{OH} =
 2.9 V, causing clipping on the positive peaks.\\
 Maximum undistorted input at 10 mA: V\textsubscript{in,max} =
 V\textsubscript{OH} / gain = 2.9 / 2 = 1.45 V.\\
-The 50 mV loss at the low end also clips: V\textsubscript{in,min} =
+The 0.4 V floor at the low end also clips: V\textsubscript{in,min} =
 V\textsubscript{OL} / gain = 0.4 / 2 = 0.2 V.\\
 The usable input range shrinks from 0--1.5 V to 0.2--1.45 V --- a 17\%
 reduction in dynamic range due to the heavier load.\\

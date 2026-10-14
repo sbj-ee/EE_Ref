@@ -29770,18 +29770,18 @@ voltage at the inverting input, the current into the inverting input
 terminal, and the output voltage.
 
 \textbf{Solution:}\\
-By the first golden rule (virtual short): V\textsuperscript{-} =
+By the first golden rule (virtual short): V\textsuperscript{−} =
 V\textsuperscript{+} = 1.8 V.\\
-By the second golden rule (zero input current): I\textsuperscript{-} = 0
+By the second golden rule (zero input current): I\textsuperscript{−} = 0
 A.
 
-Since V\textsuperscript{-} = 1.8 V and the 10 kΩ resistor connects to
+Since V\textsuperscript{−} = 1.8 V and the 10 kΩ resistor connects to
 ground:\\
-Current through R₁ = V\textsuperscript{-} / R₁ = 1.8 / 10,000 = 180 μA.
+Current through R₁ = V\textsuperscript{−} / R₁ = 1.8 / 10,000 = 180 μA.
 
 By the zero-input-current rule, this same 180 μA must flow through
 R\textsubscript{f} = 47 kΩ from the output:\\
-V\textsubscript{out} = V\textsuperscript{-} + I × R\textsubscript{f} =
+V\textsubscript{out} = V\textsuperscript{−} + I × R\textsubscript{f} =
 1.8 + 180 × 10⁻⁶ × 47,000 = 1.8 + 8.46 = 10.26 V.
 
 Gain check: A\textsubscript{v} = 1 + R\textsubscript{f}/R₁ = 1 +
@@ -29992,12 +29992,14 @@ At t = 2 ms: V\textsubscript{out} = -3,385 × 0.002 = \textbf{-6.77 V}.
 
 Ramp rate: dV\textsubscript{out}/dt = -3,385 V/s = -3.39 V/ms.
 
-Output reaches -15 V (negative rail) when:\\
--15 = -3,385 × t.\\
-t = 15 / 3,385 = \textbf{4.43 ms}.
+The output cannot reach the full -15 V rail; it saturates at
+approximately -13.5 V (allowing for the output stage saturation
+voltage). It reaches saturation when:\\
+-13.5 = -3,385 × t.\\
+t = 13.5 / 3,385 = \textbf{3.99 ms}.
 
-After 4.43 ms, the output saturates at approximately -13.5 V (allowing
-for the output stage saturation voltage).
+(An ideal output swinging all the way to -15 V would take 15 / 3,385 =
+4.43 ms.)
 
 \subsection{Problem 13.2.4}\label{problem-13.2.4}
 
@@ -30061,7 +30063,7 @@ Change per decade:\\
 ΔV\textsubscript{out} = -(kT/q) × ln(10) = -0.02672 × 2.303 =
 \textbf{-61.5 mV/decade} at 37°C.
 
-This is slightly higher than the 59.5 mV/decade at 25°C due to the
+This is slightly higher than the 59.2 mV/decade at 25°C due to the
 temperature dependence of kT/q.
 
 \subsection{Problem 13.2.6}\label{problem-13.2.6}
@@ -30154,9 +30156,11 @@ Voltage change per half-cycle:\\
 The output is a triangular wave with peak-to-peak amplitude:\\
 V\textsubscript{pp} = ΔV = \textbf{75.8 mV}.
 
-The triangular wave oscillates symmetrically around 0 V, swinging from
--37.9 mV to +37.9 mV (assuming the integrator reaches steady state and
-the capacitor has zero average charge).
+Starting from a discharged capacitor, the ideal integrator swings
+between 0 V and -75.8 mV (centered at -37.9 mV), not symmetrically about
+0 V. A zero-centered swing from -37.9 mV to +37.9 mV requires DC
+restoration, such as a large resistor across C that bleeds off the
+average charge.
 
 Since T/2 \textless\textless{} RC (0.25 ms \textless\textless{} 3.3 ms),
 the ramp is very linear and the triangular wave has excellent linearity.
@@ -30217,10 +30221,10 @@ Without buffer (500 Ω load in parallel with lower 47 kΩ):\\
 R\textsubscript{parallel} = (47,000 × 500) / (47,000 + 500) = 23,500,000
 / 47,500 = 494.7 Ω.\\
 V\textsubscript{out} = 4.096 × 494.7 / (47,000 + 494.7) = 4.096 × 494.7
-/ 47,494.7 = \textbf{0.04268 V}.
+/ 47,494.7 = \textbf{0.04266 V}.
 
-Percentage error = (2.048 - 0.04268) / 2.048 × 100\% = \textbf{97.9\%}
--- the divider is completely loaded down.
+Percentage error = (2.048 - 0.04266) / 2.048 × 100\% = \textbf{97.9\%}
+--- the divider is completely loaded down.
 
 With buffer:\\
 V\textsubscript{out} = 2.048 V (buffer output equals input with unity
@@ -30314,12 +30318,12 @@ GBW)).
 Substituting into the bandwidth equation:\\
 f\textsubscript{3dB} = 1 / (2πR\textsubscript{f} × √(C\textsubscript{in}
 / (2π × R\textsubscript{f} × GBW)))\\
-f\textsubscript{3dB} = √(GBW /
-(2πR\textsubscript{f}C\textsubscript{in})) / (2π × R\textsubscript{f} /
-R\textsubscript{f})
+f\textsubscript{3dB} = √(2πR\textsubscript{f} × GBW /
+C\textsubscript{in}) / (2πR\textsubscript{f}) = √(GBW /
+(2πR\textsubscript{f}C\textsubscript{in}))
 
-Using the relation f\textsubscript{3dB} = √(GBW /
-(2πR\textsubscript{f}C\textsubscript{in})):\\
+Solving f\textsubscript{3dB} = √(GBW /
+(2πR\textsubscript{f}C\textsubscript{in})) for R\textsubscript{f}:\\
 1 × 10⁶ = √(50 × 10⁶ / (2π × R\textsubscript{f} × 5 × 10⁻¹²))\\
 (1 × 10⁶)² = 50 × 10⁶ / (2π × R\textsubscript{f} × 5 × 10⁻¹²)\\
 10¹² = 50 × 10⁶ / (31.42 × 10⁻¹² × R\textsubscript{f})\\
@@ -30330,7 +30334,7 @@ Optimal C\textsubscript{f} = √(5 × 10⁻¹² / (2π × 1.59 × 10⁶ × 50 ×
 = √(5 × 10⁻¹² / (4.995 × 10¹⁴)) = √(1.0 × 10⁻²⁶) = \textbf{0.1 pF}.
 
 Output voltage: V\textsubscript{out} = -I × R\textsubscript{f} = -50 ×
-10⁻⁶ × 1.59 × 10⁶ = \textbf{-79.5 V} -- this exceeds supply rails, so
+10⁻⁶ × 1.59 × 10⁶ = \textbf{-79.5 V} --- this exceeds supply rails, so
 R\textsubscript{f} must be reduced.
 
 For V\textsubscript{out} ≤ 5 V: R\textsubscript{f} = 5 / (50 × 10⁻⁶) =
@@ -30583,7 +30587,7 @@ V\textsubscript{error} = A\textsubscript{cm} × V\textsubscript{cm} =
 
 Output: V\textsubscript{out} = 120 + 12 = 132 mV (or 108 mV depending on
 polarity).\\
-Percentage error: 12/120 × 100\% = \textbf{10\%} -- this does NOT meet
+Percentage error: 12/120 × 100\% = \textbf{10\%} --- this does NOT meet
 the 1\% accuracy requirement.
 
 To achieve 1\% accuracy: V\textsubscript{error} \textless{} 1.2 mV, CMRR
@@ -30656,7 +30660,7 @@ R = 1/(2πf\textsubscript{c}√(C₁C₂)) = 1/(2π × 5,000 × 6.856 × 10⁻�
 1/(215.4 × 10⁻⁶) = \textbf{4,643 Ω} (use 4.7 kΩ).
 
 Verification: f\textsubscript{c} = 1/(2π × 4,700 × 6.856 × 10⁻⁹) =
-1/(202.3 × 10⁻⁶) = \textbf{4,943 Hz} ≈ 5 kHz.
+1/(202.5 × 10⁻⁶) = \textbf{4,939 Hz} ≈ 5 kHz.
 
 Q = √(C₁/C₂) / 2 = √(10/4.7) / 2 = √2.128 / 2 = 1.459 / 2 =
 \textbf{0.730} (close to the 0.707 Butterworth target).
@@ -30735,7 +30739,7 @@ fraction is k = 0.98.
 \textbf{Solution:}\\
 Notch frequency: f₀ = 1/(2πRC), so:\\
 R = 1/(2πf₀C) = 1/(2π × 50 × 68 × 10⁻⁹) = 1/(21.36 × 10⁻⁶) =
-\textbf{46,818 Ω} (use 47 kΩ).
+\textbf{46,810 Ω} (use 47 kΩ).
 
 Shunt resistor: R/2 = 47,000/2 = \textbf{23,500 Ω} (use 22 kΩ + 1.5 kΩ
 in series = 23.5 kΩ).\\
@@ -30785,6 +30789,13 @@ C₂² = 63.33 × 10⁻¹⁸ / 6.833 = 9.27 × 10⁻¹⁸. C₂ = 3.044 × 10⁻
 \textbf{3.04 nF} (use 2.7 nF).\\
 C₁ = 6.833 × 3.04 nF = \textbf{20.8 nF} (use 22 nF).
 
+With the standard values chosen, stage 1 (8.2 nF/6.8 nF) gives
+f\textsubscript{c} = 2.13 kHz and Q = 0.549, and stage 2 (22 nF/2.7 nF)
+gives f\textsubscript{c} = 2.07 kHz and Q = 1.43 (9\% above target,
+adding some passband peaking). For a response closer to the ideal
+Butterworth, use 1\%-tolerance capacitors nearer the calculated values
+or trim R in each stage.
+
 The cascaded filter provides a fourth-order rolloff of \textbf{-80
 dB/decade} above 2 kHz, with a maximally flat passband response.
 
@@ -30803,8 +30814,8 @@ Integrator resistance:\\
 R = 1/(2πf₀C) = 1/(2π × 3,000 × 4.7 × 10⁻⁹) = 1/(88.59 × 10⁻⁶) =
 \textbf{11,288 Ω} (use 11 kΩ).
 
-Verification: f₀ = 1/(2π × 11,000 × 4.7 × 10⁻⁹) = 1/(324.7 × 10⁻⁶) =
-\textbf{3,080 Hz} ≈ 3 kHz.
+Verification: f₀ = 1/(2π × 11,000 × 4.7 × 10⁻⁹) = 1/(324.8 × 10⁻⁶) =
+\textbf{3,078 Hz} ≈ 3 kHz.
 
 Bandwidth of bandpass output:\\
 BW = f₀/Q = 3,000/5 = \textbf{600 Hz}.
@@ -30815,8 +30826,9 @@ The -3 dB frequencies are: 3,000 - 300 = \textbf{2,700 Hz} and 3,000 +
 \textbf{Notch output:} Add a fourth op-amp configured as a summing
 amplifier to combine the lowpass and highpass outputs with equal gain.
 Below f₀, the lowpass output passes the signal; above f₀, the highpass
-output passes the signal; at f₀, both outputs are at their -3 dB points
-and sum to produce a deep null. The notch depth is limited by the
+output passes the signal; at f₀, the two outputs have equal magnitude
+(gain Q relative to the bandpass reference) but are 180° out of phase,
+so they cancel to produce a deep null. The notch depth is limited by the
 matching of the two gains and the phase accuracy of the outputs. With
 precise gain matching (0.1\%), notch depths exceeding \textbf{40 dB} are
 achievable.
@@ -30866,27 +30878,34 @@ hall-effect sensor. The required thresholds are V\textsubscript{TH} =
 V\textsubscript{OH} = 5.0 V and V\textsubscript{OL} = 0 V. Use a
 non-inverting configuration with a reference at the inverting input.
 
-\textbf{Find:} The reference voltage V\textsubscript{ref}, the feedback
-ratio R₂/(R₁ + R₂), and R₁ if R₂ = 10 kΩ. What is the maximum noise
-amplitude the circuit can tolerate without false triggering?
+\textbf{Find:} The reference voltage V\textsubscript{ref}, the resistor
+ratio R₁/R₂ (input resistor R₁, feedback resistor R₂), and R₁ if R₂ = 10
+kΩ. What is the maximum noise amplitude the circuit can tolerate without
+false triggering?
 
 \textbf{Solution:}\\
 Reference voltage:\\
-V\textsubscript{ref} = (V\textsubscript{TH} × V\textsubscript{OL} -
-V\textsubscript{TL} × V\textsubscript{OH}) / (V\textsubscript{OL} -
-V\textsubscript{OH} + V\textsubscript{TH} - V\textsubscript{TL})\\
-= (3.5 × 0 - 1.5 × 5.0) / (0 - 5.0 + 3.5 - 1.5) = -7.5 / (-3.0) =
+For the non-inverting Schmitt trigger, V\textsubscript{TH} =
+V\textsubscript{ref}(1 + R₁/R₂) − V\textsubscript{OL} × R₁/R₂ and
+V\textsubscript{TL} = V\textsubscript{ref}(1 + R₁/R₂) −
+V\textsubscript{OH} × R₁/R₂.
+
+V\textsubscript{ref} = (V\textsubscript{TH} × V\textsubscript{OH} -
+V\textsubscript{TL} × V\textsubscript{OL}) / (V\textsubscript{OH} -
+V\textsubscript{OL} + V\textsubscript{TH} - V\textsubscript{TL})\\
+= (3.5 × 5.0 - 1.5 × 0) / (5.0 - 0 + 3.5 - 1.5) = 17.5 / 7.0 =
 \textbf{2.5 V}.
 
-Feedback ratio:\\
-R₂/(R₁ + R₂) = (V\textsubscript{TH} - V\textsubscript{ref}) /
-(V\textsubscript{OH} - V\textsubscript{ref}) = (3.5 - 2.5) / (5.0 - 2.5)
-= 1.0/2.5 = \textbf{0.4}.
+Resistor ratio:\\
+R₁/R₂ = (V\textsubscript{TH} - V\textsubscript{TL}) /
+(V\textsubscript{OH} - V\textsubscript{OL}) = (3.5 - 1.5) / (5.0 - 0) =
+\textbf{0.4}.
 
 With R₂ = 10 kΩ:\\
-10,000/(R₁ + 10,000) = 0.4.\\
-R₁ + 10,000 = 25,000.\\
-R₁ = \textbf{15 kΩ}.
+R₁ = 0.4 × 10,000 = \textbf{4 kΩ}.
+
+Check: V\textsubscript{TH} = 2.5 × 1.4 - 0 = 3.5 V and
+V\textsubscript{TL} = 2.5 × 1.4 - 5.0 × 0.4 = 1.5 V ✓
 
 Hysteresis: V\textsubscript{H} = V\textsubscript{TH} -
 V\textsubscript{TL} = 3.5 - 1.5 = \textbf{2.0 V}.
@@ -30997,41 +31016,42 @@ moderate distortion levels.
 
 \subsection{Problem 13.6.6}\label{problem-13.6.6}
 
-\textbf{Given:} A triangle wave generator uses a Schmitt trigger (R₁ =
-10 kΩ, R₂ = 20 kΩ, V\textsubscript{sat} = ±12 V) driving an integrator
-(R = 47 kΩ, C = 10 nF). The Schmitt trigger threshold is β = R₂/(R₁ +
-R₂).
+\textbf{Given:} A triangle wave generator uses a non-inverting Schmitt
+trigger (input resistor R₁ = 10 kΩ, feedback resistor R₂ = 20 kΩ,
+V\textsubscript{sat} = ±12 V) driving an integrator (R = 47 kΩ, C = 10
+nF). The Schmitt trigger thresholds are ±V\textsubscript{sat} × R₁/R₂.
 
 \textbf{Find:} The triangle wave frequency, peak-to-peak amplitude, and
 linearity advantage over the basic astable multivibrator.
 
 \textbf{Solution:}\\
-Schmitt trigger feedback fraction: β = 20,000/(10,000 + 20,000) = 2/3.
+Schmitt trigger resistor ratio: R₁/R₂ = 10,000/20,000 = 0.5. (The
+non-inverting Schmitt is required: an inverting Schmitt driven by an
+inverting integrator would latch rather than oscillate.)
 
 Threshold voltages:\\
-V\textsubscript{TH} = β × V\textsubscript{sat} = (2/3) × 12 =
-\textbf{+8.0 V}.\\
-V\textsubscript{TL} = -(2/3) × 12 = \textbf{-8.0 V}.
+V\textsubscript{TH} = V\textsubscript{sat} × R₁/R₂ = 12 × 0.5 =
+\textbf{+6.0 V}.\\
+V\textsubscript{TL} = -12 × 0.5 = \textbf{-6.0 V}.
 
 Triangle wave peak-to-peak amplitude = V\textsubscript{TH} -
-V\textsubscript{TL} = \textbf{16.0 V}.
+V\textsubscript{TL} = \textbf{12.0 V}.
 
 The integrator ramp rate when the Schmitt trigger output is at
 +V\textsubscript{sat} = +12 V:\\
 dV/dt = -V\textsubscript{sat}/(RC) = -12/(47,000 × 10 × 10⁻⁹) = -12/(470
 × 10⁻⁶) = -25,532 V/s.
 
-Time for one half-cycle (ramp from +8 V to -8 V):\\
-t\textsubscript{half} = ΔV / \textbar dV/dt\textbar{} = 16 / 25,532 =
-626.3 μs.
+Time for one half-cycle (ramp from +6 V to -6 V):\\
+t\textsubscript{half} = ΔV / \textbar dV/dt\textbar{} = 12 / 25,532 =
+470.0 μs.
 
 Frequency:\\
-f = 1/(2 × t\textsubscript{half}) = 1/(2 × 626.3 × 10⁻⁶) = \textbf{798.7
-Hz ≈ 800 Hz}.
+f = 1/(2 × t\textsubscript{half}) = 1/(2 × 470.0 × 10⁻⁶) = \textbf{1,064
+Hz}.
 
-Alternative formula: f = V\textsubscript{sat} / (4RC ×
-V\textsubscript{TH}) = 12 / (4 × 470 × 10⁻⁶ × 8) = 12 / (15.04 × 10⁻³) =
-\textbf{798 Hz}.
+Alternative formula (Section 13.6.4): f = (1/(4RC)) × (R₂/R₁) = (1/(4 ×
+470 × 10⁻⁶)) × 2 = 2 / (1.88 × 10⁻³) = \textbf{1,064 Hz}.
 
 \textbf{Linearity advantage:} The integrator produces a truly linear
 ramp (constant dV/dt) because the op-amp maintains virtual ground at its
@@ -31144,10 +31164,10 @@ V\textsubscript{error(out)} = 100 × 500 μV = \textbf{50 mV}.
 
 Signal-to-error ratio: 50 mV / 50 mV = 1.0, or \textbf{0 dB}.
 
-The common-mode error equals the signal -- the measurement is completely
-unreliable! This demonstrates why an instrumentation amplifier with CMRR
-\textgreater{} 100 dB is essential for high-gain measurements with
-significant common-mode voltage.
+The common-mode error equals the signal --- the measurement is
+completely unreliable! This demonstrates why an instrumentation
+amplifier with CMRR \textgreater{} 100 dB is essential for high-gain
+measurements with significant common-mode voltage.
 
 For CMRR = 120 dB (10⁶): V\textsubscript{error(out)} = 100 × 5/10⁶ = 0.5
 mV. SER = 50/0.5 = 100 = \textbf{40 dB}.
@@ -31223,11 +31243,11 @@ Output noise: V\textsubscript{n,out} = 2.58 μV × 50 = \textbf{129
 
 \textbf{Given:} A single-supply (V\textsubscript{CC} = 5.0 V,
 V\textsubscript{EE} = 0 V) non-inverting amplifier with gain = 2 uses a
-rail-to-rail output op-amp with V\textsubscript{OL} = 30 mV and
-V\textsubscript{OH} = V\textsubscript{CC} - 50 mV at
-I\textsubscript{load} = 2 mA, and R\textsubscript{DS(on)} = 75 Ω. The
-input is biased at V\textsubscript{CC}/2 = 2.5 V, and the signal is ±0.4
-V around the bias point.
+rail-to-rail output op-amp with V\textsubscript{OL} = 150 mV and
+V\textsubscript{OH} = V\textsubscript{CC} - 150 mV at
+I\textsubscript{load} = 2 mA, consistent with R\textsubscript{DS(on)} =
+75 Ω. The input is biased at V\textsubscript{CC}/2 = 2.5 V, and the
+signal is ±0.4 V around the bias point.
 
 \textbf{Find:} The output voltage range, whether clipping occurs at
 I\textsubscript{load} = 2 mA, and the output range at
@@ -31243,18 +31263,18 @@ signal, so the mid-supply bias of 2.5 V is itself driven to 5.0 V at the
 output --- the stage has no headroom left for the signal swing.
 
 At I\textsubscript{load} = 2 mA:\\
-V\textsubscript{OH} = 5.0 - 0.05 = 4.95 V. V\textsubscript{OL} = 0.03
-V.\\
-Maximum output 5.8 V \textgreater{} V\textsubscript{OH} = 4.95 V:
+V\textsubscript{sat} = 0.002 × 75 = 0.15 V, so V\textsubscript{OH} = 5.0
+- 0.15 = 4.85 V. V\textsubscript{OL} = 0.15 V.\\
+Maximum output 5.8 V \textgreater{} V\textsubscript{OH} = 4.85 V:
 \textbf{clipping occurs} on positive peaks.\\
 Maximum undistorted input: V\textsubscript{in,max} =
-V\textsubscript{OH}/2 = 4.95/2 = \textbf{2.475 V}, which is below the
+V\textsubscript{OH}/2 = 4.85/2 = \textbf{2.425 V}, which is below the
 2.5 V bias point, so the output clips immediately above the bias point.
 
 \textbf{Better design:} Keep gain = 2 but move the bias to
 V\textsubscript{bias} = V\textsubscript{CC}/4 = 1.25 V, allowing an
 input swing of ±1.0 V.\\
-Output: 2 × 0.25 = 0.5 V to 2 × 2.25 = 4.5 V. Both within the 0.03-4.95
+Output: 2 × 0.25 = 0.5 V to 2 × 2.25 = 4.5 V. Both within the 0.15-4.85
 V range.
 
 At I\textsubscript{load} = 15 mA:\\
@@ -31262,8 +31282,8 @@ V\textsubscript{sat} = I\textsubscript{load} × R\textsubscript{DS(on)} =
 0.015 × 75 = 1.125 V.\\
 V\textsubscript{OL} ≈ 1.125 V, V\textsubscript{OH} ≈ 5.0 - 1.125 = 3.875
 V.\\
-Output swing = 3.875 - 1.125 = \textbf{2.75 V\textsubscript{pp}}, a 45\%
-reduction from the 2 mA case.
+Output swing = 3.875 - 1.125 = \textbf{2.75 V\textsubscript{pp}}, a 41\%
+reduction from the 4.70 V\textsubscript{pp} available at 2 mA.
 
 \subsection{Problem 13.7.7}\label{problem-13.7.7}
 
