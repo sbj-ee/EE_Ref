@@ -24675,19 +24675,20 @@ installation.
 Class I hazardous (classified) location. Article 430 (Chapter 4)
 requires motor branch circuit conductors to be rated at 125\% of the
 motor full-load current. Article 501 (Chapter 5) for Class I hazardous
-locations requires the wiring method to be rigid metal conduit with
-threaded fittings. If the motor FLC is 28 A, determine the minimum
-conductor ampacity required by Article 430 and identify which chapter's
-wiring method rules take precedence.
+locations requires the wiring method to be threaded rigid metal conduit,
+threaded steel intermediate metal conduit (IMC), or MI cable. If the
+motor FLC is 28 A, determine the minimum conductor ampacity required by
+Article 430 and identify which chapter's wiring method rules take
+precedence.
 
 \textbf{Solution:}\\
 Minimum conductor ampacity per Article 430: I\textsubscript{min} = 1.25
 × 28 = 35 A.\\
 Per the NEC hierarchy, Article 501 (Chapter 5) supplements and can
 modify Article 430 (Chapter 4) requirements.\\
-Therefore, the wiring method must comply with Article 501 (rigid metal
-conduit with threaded fittings), while the conductor sizing still
-follows Article 430.\\
+Therefore, the wiring method must comply with Article 501 (threaded RMC
+or threaded steel IMC), while the conductor sizing still follows Article
+430.\\
 A 10 AWG THWN-2 copper conductor rated at 40 A at 90°C (35 A at 75°C
 termination limit) satisfies the 35 A minimum ampacity requirement.
 
@@ -24700,7 +24701,7 @@ Several NEC tables are used so frequently that engineers should know
 them by article number. Table 310.16 provides allowable ampacities for
 insulated conductors rated 0--2000 V in raceway, cable, or direct burial
 based on conductor size, insulation temperature rating, and conductor
-material. Table 310.15(B)(1) provides ambient temperature correction
+material. Table 310.15(B)(1)(1) provides ambient temperature correction
 factors based on the 30°C ambient assumed in Table 310.16, while Table
 310.15(C)(1) provides the adjustment factors that account for mutual
 heating when more than three current-carrying conductors share a
@@ -24797,7 +24798,7 @@ Factors}\label{temperature-correction-factors}
 
 When the ambient temperature exceeds the standard 30°C assumed in Table
 310.16, the conductor ampacity must be reduced using correction factors
-from Table 310.15(B)(1). The correction factor decreases as ambient
+from Table 310.15(B)(1)(1). The correction factor decreases as ambient
 temperature increases, reflecting the reduced thermal margin available
 for I²R heating of the conductor. For conductors with higher insulation
 temperature ratings, the correction factors are more favorable (less
@@ -24883,21 +24884,21 @@ raceway types.
 
 \textbf{Example 14.2.4:} A 350 kcmil copper conductor carries 300 A in a
 steel conduit. From NEC Chapter 9, Table 9, the effective AC impedance
-is R = 0.0382 Ω/1000 ft and X = 0.0441 Ω/1000 ft. For a 250-foot one-way
+is R = 0.039 Ω/1000 ft and X = 0.050 Ω/1000 ft. For a 250-foot one-way
 run supplying a load at 0.85 power factor lagging, calculate the
 per-phase voltage drop.
 
 \textbf{Solution:}\\
 One-way conductor length: 250 ft.\\
-Effective R per conductor: 0.0382 × 250/1000 = 0.00955 Ω.\\
-Effective X per conductor: 0.0441 × 250/1000 = 0.01103 Ω.\\
+Effective R per conductor: 0.039 × 250/1000 = 0.00975 Ω.\\
+Effective X per conductor: 0.050 × 250/1000 = 0.0125 Ω.\\
 Per-phase voltage drop: V\textsubscript{drop} = I × (R cos(θ) + X
-sin(θ)) = 300 × (0.00955 × 0.85 + 0.01103 × 0.527) = 300 × (0.00812 +
-0.00581) = 300 × 0.01393 = 4.18 V per phase.\\
-For a 277 V line-to-neutral system: percent drop = 4.18/277 × 100 =
-1.51\%.\\
+sin(θ)) = 300 × (0.00975 × 0.85 + 0.0125 × 0.527) = 300 × (0.00829 +
+0.00659) = 300 × 0.01488 = 4.46 V per phase.\\
+For a 277 V line-to-neutral system: percent drop = 4.46/277 × 100 =
+1.61\%.\\
 For a three-phase 480 V circuit, the line-to-line voltage drop = √3 ×
-4.18 = 7.24 V, or 7.24/480 × 100 = 1.51\%.
+4.46 = 7.73 V, or 7.73/480 × 100 = 1.61\%.
 
 \end{examplebox}
 
@@ -24959,7 +24960,7 @@ inches --- which was deleted in the 2017 NEC. Installations designed
 against those editions will show the intermediate adders, so confirm
 which edition the AHJ enforces. The adjusted ambient temperature
 (weather ambient + roof adder) is then used with the temperature
-correction factors from Table 310.15(B)(1) to determine the corrected
+correction factors from Table 310.15(B)(1)(1) to determine the corrected
 conductor ampacity. This double penalty --- the roof adder pushes the
 effective ambient far above 30°C, and the correction factor reduces the
 base ampacity accordingly --- frequently forces the engineer to upsize
@@ -24982,7 +24983,7 @@ Roof adder per 310.15(B)(2): +33°C, because the conduit lies directly on
 the roof (less than 7/8 inch of clearance).\\
 Effective ambient: 40 + 33 = 73°C.\\
 Temperature correction factor for 90°C insulation at 73°C ambient
-(71--75°C band of Table 310.15(B)(1)): factor = 0.50.\\
+(71--75°C band of Table 310.15(B)(1)(1)): factor = 0.50.\\
 Base ampacity of 6 AWG THWN-2 at 90°C: 75 A.\\
 Derated ampacity: 75 × 0.50 = \textbf{37.5 A}.\\
 Indoor comparison at 30°C ambient: no correction needed, ampacity = 75 A
@@ -25178,7 +25179,7 @@ no margin: the interrupting rating must equal or exceed the available
 fault current, and the nearest standard rating at or above it is the one
 to specify.\\
 Standard molded-case circuit breakers are available at 10, 14, 18, 22,
-25, 35, 42, 65 and 100 kAIC; at 480 V the 14 kAIC frame is the
+25, 35, 42, 50, 65, 100 and 200 kAIC; at 480 V the 14 kAIC frame is the
 economical choice here.
 
 \end{examplebox}
@@ -25198,21 +25199,23 @@ rooms, hallways, closets, kitchens, laundry areas, and most other
 habitable spaces. The requirement has expanded with each code cycle: the
 1999 NEC required AFCI only in bedrooms, while the 2023 NEC requires it
 in virtually all dwelling unit areas except bathrooms (which require
-GFCI) and garages. Combination-type AFCIs (the only type currently
-accepted by the code) detect both series and parallel arcs using
-electronic algorithms that distinguish dangerous arcing signatures from
-normal arcing events such as motor brush commutation, switch operation,
-and plug insertion. AFCIs are available as circuit breakers (the most
-common form), receptacle-type devices (outlet branch circuit AFCIs), and
-portable devices. The AFCI must be listed to UL 1699 and installed at
-the origin of the branch circuit, though 210.12(A) permits alternative
-means (listed outlet branch circuit AFCI receptacles at the first
-outlet) when it is impractical to install an AFCI breaker at the origin
-of the branch circuit. AFCI devices trip at arc signatures with as few
-as 8 half-cycles of arcing current, providing fire protection that
-standard breakers cannot offer --- a 5 A series arc through a damaged
-cord in a 15 A circuit would never trip a standard breaker but generates
-enough heat to ignite wood or fabric.
+GFCI) and garages. Combination-type AFCIs (the type required where an
+AFCI circuit breaker provides the protection; 210.12(A) lists six
+permitted means, several built around outlet branch-circuit AFCIs)
+detect both series and parallel arcs using electronic algorithms that
+distinguish dangerous arcing signatures from normal arcing events such
+as motor brush commutation, switch operation, and plug insertion. AFCIs
+are available as circuit breakers (the most common form),
+receptacle-type devices (outlet branch circuit AFCIs), and portable
+devices. The AFCI must be listed to UL 1699 and installed at the origin
+of the branch circuit, though 210.12(A) permits alternative means
+(listed outlet branch circuit AFCI receptacles at the first outlet) when
+it is impractical to install an AFCI breaker at the origin of the branch
+circuit. AFCI devices trip at arc signatures with as few as 8
+half-cycles of arcing current, providing fire protection that standard
+breakers cannot offer --- a 5 A series arc through a damaged cord in a
+15 A circuit would never trip a standard breaker but generates enough
+heat to ignite wood or fabric.
 
 \begin{examplebox}
 
@@ -25226,14 +25229,19 @@ power, explain why a standard breaker would not trip, and confirm AFCI
 applicability.
 
 \textbf{Solution:}\\
-Arc power: P\textsubscript{arc} = V × I = 120 × 5 = 600 W.\\
+Arc power: only the voltage across the arc itself is dissipated at the
+fault, not the full 120 V supply. A series arc in a cord typically
+sustains about 20--40 V, so P\textsubscript{arc} ≈ V\textsubscript{arc}
+× I = (20--40) × 5 ≈ 100--200 W, concentrated in a spot a few
+millimetres across. (120 × 5 = 600 W is the power delivered to the whole
+circuit, load included.)\\
 A standard 20 A breaker trips thermally at approximately 135\% of rating
 (27 A) after 1 hour, or magnetically at 5--10× rating (100--200 A) for
 instantaneous trip.\\
 The 5 A arc current is only 25\% of the breaker rating --- far below any
-trip threshold --- and would dissipate 600 W indefinitely, easily
-igniting nearby combustible materials (paper ignites at
-\textasciitilde230°C, wood at \textasciitilde300°C).\\
+trip threshold --- and would dissipate 100--200 W in the arc
+indefinitely, easily igniting nearby combustible materials (paper
+ignites at \textasciitilde230°C, wood at \textasciitilde300°C).\\
 The AFCI breaker detects the characteristic irregular current waveform
 of the series arc (random variations in arc impedance as the gap ionizes
 and deionizes each half-cycle) and trips within 8--60 half-cycles
@@ -25284,8 +25292,14 @@ ground fault current if the total ground fault impedance is 0.25 Ω.
 
 \textbf{Solution:}\\
 From Table 250.66 for service entrance conductors of 500 kcmil copper
-(typical for a 400 A service): the minimum grounding electrode conductor
-is 1/0 AWG copper.\\
+(typical for a 400 A service), the table value is 1/0 AWG copper. That
+table value governs only for electrodes such as a metal water pipe or
+building steel. Here the electrode system is just a rod and a
+concrete-encased electrode, so 250.66(A) and (B) cap the GEC: \textbf{6
+AWG copper} to the ground rod and \textbf{4 AWG copper} to the
+concrete-encased electrode. (If a metal water-pipe electrode or
+structural steel were also in the system, the 1/0 AWG table value would
+apply to that connection.)\\
 Ground fault current on a 120 V circuit (line to neutral/ground):
 I\textsubscript{fault} = V / Z\textsubscript{total} = 120 / 0.25 = 480
 A.\\
@@ -25387,22 +25401,25 @@ non-current-carrying metal parts) so that fault current can flow freely
 through a low-impedance path back to the source. Article 250, Part V
 establishes bonding requirements, and Section 250.104 requires bonding
 of metal piping systems and structural steel that may become energized.
-Bonding jumpers must be sized per Table 250.66 (for service equipment)
-or Table 250.122 (for downstream equipment), and connections must use
-listed methods such as pressure connectors, clamps, or exothermic welds
-to ensure reliable, low-resistance joints.
+Supply-side bonding jumpers and the 250.104 piping and structural-steel
+bonding jumpers must be sized per Table 250.102(C)(1) (based on the size
+of the service or feeder conductors), and load-side equipment bonding
+jumpers per Table 250.122, and connections must use listed methods such
+as pressure connectors, clamps, or exothermic welds to ensure reliable,
+low-resistance joints.
 
 \begin{examplebox}
 
 \textbf{Example 14.4.4:} A metal water pipe enters a building and runs
 parallel to the electrical service for 15 feet before connecting to a
-plastic pipe section. The service is 208Y/120 V, 600 A, with 500 kcmil
+plastic pipe section. The service is 208Y/120 V, 400 A, with 500 kcmil
 copper service entrance conductors. Determine the minimum bonding jumper
 size required to bond the water pipe to the service grounding electrode
-system per Table 250.66.
+system per 250.104(A) and Table 250.102(C)(1).
 
 \textbf{Solution:}\\
-From Table 250.66, for service entrance conductors of 500 kcmil copper:
+From Table 250.102(C)(1) (referenced by 250.104(A)), for service
+entrance conductors of 500 kcmil copper (over 350 through 600 kcmil):
 the minimum bonding jumper size is 1/0 AWG copper.\\
 The bonding jumper must be connected to the water pipe on the street
 side of any plastic pipe section or water meter, ensuring the entire
@@ -25439,24 +25456,27 @@ basements, kitchens, laundry areas, boathouses, and within 6 feet of
 sinks, bathtubs, and shower stalls. For \textbf{non-dwelling
 occupancies} (210.8(B)), GFCI protection is required in bathrooms,
 kitchens, rooftops, outdoors, within 6 feet of sinks, indoor wet
-locations, locker rooms, and garages/service bays. The 2023 NEC notably
-expanded GFCI requirements to 250 V circuits (protecting 208 V and 240 V
-receptacles in addition to 120 V) and to circuits up to 50 A (covering
-welding outlets, EV chargers, and large appliances). GFCI devices are
-available as \textbf{circuit breakers} (installed in the panelboard,
-protecting the entire branch circuit), \textbf{receptacles} (protecting
-that outlet and downstream outlets), and \textbf{portable devices}
-(cord-connected for temporary use on construction sites per 590.6).
-\textbf{Nuisance tripping} --- false trips caused by accumulated leakage
-current from long cable runs, VFDs, EMI filters, or multiple appliances
---- is a common field problem. Self-test capability, in which the device
-periodically verifies its own sensing circuitry, comes from UL 943
-rather than from the NEC; it has been required of Class A GFCIs since
-the 2015 edition of that standard. The substantive 2023 NEC changes to
-210.8 are the ones noted above: the extension to 250 V and to 50 A, and
-the added locations. The total normal leakage current on a
-GFCI-protected circuit should be kept below 1 mA to provide adequate
-margin against the 4--6 mA trip threshold.
+locations, locker rooms, and garages/service bays. The extension of
+dwelling-unit GFCI requirements to 250 V receptacles (protecting 208 V
+and 240 V receptacles in addition to 120 V) and to circuits up to 50 A
+(covering welding outlets, EV chargers, and large appliances) arrived in
+the 2020 NEC, and non-dwelling coverage to 50 A predates 2023 as well.
+The headline 2023 change was extending dwelling GFCI protection to
+\textbf{all} kitchen receptacles, not only those serving countertop
+surfaces (210.8(A)(6)). GFCI devices are available as \textbf{circuit
+breakers} (installed in the panelboard, protecting the entire branch
+circuit), \textbf{receptacles} (protecting that outlet and downstream
+outlets), and \textbf{portable devices} (cord-connected for temporary
+use on construction sites per 590.6). \textbf{Nuisance tripping} ---
+false trips caused by accumulated leakage current from long cable runs,
+VFDs, EMI filters, or multiple appliances --- is a common field problem.
+Self-test capability, in which the device periodically verifies its own
+sensing circuitry, comes from UL 943 rather than from the NEC; it has
+been required of Class A GFCIs since the 2015 edition of that standard.
+The substantive 2023 NEC change to 210.8(A) is the
+all-kitchen-receptacle rule noted above. The total normal leakage
+current on a GFCI-protected circuit should be kept below 1 mA to provide
+adequate margin against the 4--6 mA trip threshold.
 
 \begin{examplebox}
 
@@ -25482,9 +25502,10 @@ mA leakage would reduce the margin to 1.6 mA, and a damp or degraded
 cable could push the total above 4 mA, causing nuisance trips.\\
 Best practice: limit total leakage to below 1 mA per circuit by
 distributing appliances across multiple GFCI circuits.\\
-Per 210.8(A)(7), all kitchen receptacles serving countertop surfaces in
-a dwelling unit require GFCI protection, and per 210.52(B), at least two
-20 A small-appliance branch circuits are required.
+Per 210.8(A)(6), all kitchen receptacles in a dwelling unit require GFCI
+protection (since the 2023 NEC, not just those serving countertop
+surfaces), and per 210.52(B), at least two 20 A small-appliance branch
+circuits are required.
 
 \end{examplebox}
 
@@ -25526,7 +25547,8 @@ circuit conductor minimum ampacity and the locked-rotor current.
 \textbf{Solution:}\\
 Motor branch circuit conductor ampacity per 430.22: I\textsubscript{min}
 = 1.25 × FLC (from table) = 1.25 × 40 = 50 A.\\
-From Table 310.16 at 75°C: 6 AWG copper = 65 A (sufficient).\\
+From Table 310.16 at 75°C: 8 AWG copper = 50 A (exactly meets the 50 A
+minimum, so 8 AWG is the minimum size).\\
 Locked-rotor current estimate from code letter G: kVA\textsubscript{LR}
 = 6.0 (mid-range) × 30 HP = 180 kVA.\\
 I\textsubscript{LR} = kVA\textsubscript{LR} / (√3 × V) = 180,000 /
@@ -25583,9 +25605,10 @@ nameplate current; and (2) short-circuit and ground fault protection
 high-magnitude fault currents and is sized per Table 430.52 based on the
 type of overcurrent device and motor design letter. The short-circuit
 protection is intentionally oversized (up to 250\% for inverse-time
-breakers, 300\% for dual-element fuses with Design B motors) to allow
-the motor starting current (typically 6--8× FLC) to pass without
-tripping the protective device.
+breakers and 175\% for dual-element time-delay fuses with Design B
+motors, or 300\% for non-time-delay fuses) to allow the motor starting
+current (typically 6--8× FLC) to pass without tripping the protective
+device.
 
 \begin{examplebox}
 
@@ -25618,8 +25641,8 @@ the motor location and the driven machinery, capable of disconnecting
 the motor and its controller from the supply circuit. The disconnect
 must have an ampere rating of at least 115\% of the motor FLC
 (430.110(A)) and be capable of interrupting the locked-rotor current of
-the motor if it is a switch type. For motors over 2 HP at 300 V or less,
-the disconnect must be a motor-circuit switch rated in horsepower, a
+the motor if it is a switch type. For motors over 2 HP (430.109(A)), the
+disconnect must be a motor-circuit switch rated in horsepower, a
 molded-case circuit breaker, or a molded-case switch.
 
 \begin{examplebox}
@@ -25668,7 +25691,7 @@ the reflected voltage waves that can reach 2× the DC bus voltage
 branch circuit rules (Table 430.52), while the VFD itself provides
 electronic overload protection for the motor, eliminating the need for a
 separate thermal overload relay if the VFD is listed for that function
-per 430.130(A). \textbf{Grounding} is critical, though the Code is less
+per 430.124(A). \textbf{Grounding} is critical, though the Code is less
 prescriptive here than practice: 250.118 still recognizes RMC, IMC and
 EMT as equipment grounding conductors, and 430.130 governs overcurrent
 protection for the drive input rather than grounding. A wire-type EGC
@@ -25739,18 +25762,19 @@ periods), \textbf{Zone 1} (hazardous under normal operations), and
 \textbf{Zone 2} (hazardous only under abnormal conditions), and Class
 II/III locations into Zones 20, 21, and 22 respectively. Wiring methods
 in Division 1 are the most restrictive: Class I, Division 1 requires
-threaded rigid metal conduit or mineral-insulated (MI) cable, with all
-fittings, boxes, and equipment rated \textbf{explosionproof} (designed
-to contain an internal explosion and cool escaping gases below the
-ignition temperature) or \textbf{intrinsically safe} (energy-limited
-circuits incapable of igniting the atmosphere). Division 2 permits
-standard wiring methods (MC cable, EMT in some cases) with sealed
-fittings at boundaries, and equipment may be \textbf{nonincendive}
-rather than explosionproof. Equipment is further classified by
-\textbf{Group} (A through G based on the specific gas or dust) and by
-\textbf{Temperature Code} (T1 through T6, indicating the maximum surface
-temperature --- e.g., T3A = 180°C, T6 = 85°C --- which must be below the
-auto-ignition temperature of the specific hazardous material).
+threaded rigid metal conduit, threaded steel intermediate metal conduit
+(IMC), or mineral-insulated (MI) cable, with all fittings, boxes, and
+equipment rated \textbf{explosionproof} (designed to contain an internal
+explosion and cool escaping gases below the ignition temperature) or
+\textbf{intrinsically safe} (energy-limited circuits incapable of
+igniting the atmosphere). Division 2 permits standard wiring methods (MC
+cable, EMT in some cases) with sealed fittings at boundaries, and
+equipment may be \textbf{nonincendive} rather than explosionproof.
+Equipment is further classified by \textbf{Group} (A through G based on
+the specific gas or dust) and by \textbf{Temperature Code} (T1 through
+T6, indicating the maximum surface temperature --- e.g., T3A = 180°C, T6
+= 85°C --- which must be below the auto-ignition temperature of the
+specific hazardous material).
 
 \begin{examplebox}
 
@@ -25772,8 +25796,11 @@ explosionproof motor with an enclosure designed to contain any internal
 ignition.\\
 VFD: the VFD itself should be located outside the hazardous area (in a
 general-purpose room) whenever possible; if it must be in the Division 1
-area, it requires a purged and pressurized (Type X or Z) enclosure per
-Article 500.7(D) or an explosionproof enclosure.\\
+area, it requires a purged and pressurized enclosure per Article
+500.7(D) and NFPA 496 --- Type X (reduces Division 1 to unclassified),
+or Type Y if the enclosed equipment is itself suitable for Division 2;
+Type Z applies only to Division 2 locations --- or an explosionproof
+enclosure.\\
 Wiring method: \textbf{threaded rigid metal conduit (RMC)} with
 explosionproof fittings at all connection points. All conduit entries to
 the motor and junction boxes require sealing fittings per 501.15(A)
@@ -25807,18 +25834,22 @@ For transformers rated 1000 V or less, NEC Table 450.3(B) permits
 primary-only protection at not more than 125\% of the primary rated
 current. If 125\% does not correspond to a standard overcurrent device
 rating, the next standard size up is permitted. Primary-only protection
-is simpler and less expensive since no secondary overcurrent device is
-required, but it provides less precise protection of the secondary
-conductors, which must be sized to handle the full transformer capacity.
-The primary overcurrent device must have an interrupting rating
-sufficient for the available fault current at the transformer location.
+is simpler and less expensive since no overcurrent device is required at
+the transformer secondary, but it protects the transformer only. Under
+240.21(C)(1) the primary device can protect the secondary conductors
+only when the secondary is single-phase two-wire or three-phase
+delta-delta three-wire; for any other secondary (including 120/240 V
+three-wire and 208Y/120 V) the secondary conductors must terminate in an
+overcurrent device installed under one of 240.21(C)(2)--(6). The primary
+overcurrent device must have an interrupting rating sufficient for the
+available fault current at the transformer location.
 
 \begin{examplebox}
 
-\textbf{Example 14.6.1:} A 75 kVA, 480 V delta primary / 240/120 V
-secondary, single-phase (center-tapped) transformer is installed with
-primary-only overcurrent protection. Determine the primary rated current
-and the maximum overcurrent device size per Table 450.3(B).
+\textbf{Example 14.6.1:} A 75 kVA, single-phase, 480 V primary / 120/240
+V center-tapped secondary transformer is installed with primary-only
+overcurrent protection. Determine the primary rated current and the
+maximum overcurrent device size per Table 450.3(B).
 
 \textbf{Solution:}\\
 Primary rated current: I\textsubscript{primary} = S / V = 75,000 / 480 =
@@ -25828,9 +25859,13 @@ Maximum primary OCPD per Table 450.3(B): 125\% of rated current = 1.25 ×
 200 A.\\
 Secondary rated current: I\textsubscript{secondary} = 75,000 / 240 =
 312.5 A (line-to-line).\\
-The secondary conductors must be rated for at least 312.5 A since there
-is no secondary overcurrent protection. From Table 310.16 at 75°C: 400
-kcmil copper = 335 A (sufficient for 312.5 A).
+The 120/240 V three-wire secondary is not a two-wire secondary, so per
+240.21(C)(1) the 200 A primary device does \textbf{not} protect the
+secondary conductors. They must terminate in an overcurrent device under
+240.21(C)(2)--(6). To serve the full 312.5 A: 400 kcmil copper (335 A at
+75°C) running not more than 10 ft to a 300 A main breaker satisfies the
+10-foot secondary-conductor rule (240.21(C)(2): 335 A ≥ 300 A). A 350 A
+main would need 500 kcmil (380 A).
 
 \end{examplebox}
 
@@ -25844,10 +25879,12 @@ is rated at no more than 125\% of the secondary current. This
 dual-protection scheme allows the primary device to be sized large
 enough to withstand magnetizing inrush current without nuisance
 tripping, while the secondary device provides tighter protection for the
-transformer and secondary conductors. For transformers with impedance of
-6\% or less (most distribution transformers), the secondary overcurrent
-device limits the maximum fault current that can flow through the
-transformer.
+transformer and secondary conductors. The transformer's own impedance,
+not the secondary overcurrent device, limits the maximum fault current
+the transformer can deliver (overcurrent devices interrupt fault
+current; they do not limit its magnitude). The impedance-based
+categories (``not more than 6\%'' and ``more than 6\% and not more than
+10\%'') belong to Table 450.3(A) for transformers over 1000 V.
 
 \begin{examplebox}
 
@@ -25861,16 +25898,18 @@ maximum secondary fault current.
 Primary rated current: I\textsubscript{primary} = S / (√3 × V) = 150,000
 / (1.732 × 480) = 150,000 / 831.4 = 180.4 A.\\
 Maximum primary OCPD (250\% with secondary protection): 2.50 × 180.4 =
-451.1 A. Next standard size above 451.1 A: 500 A.\\
+451.1 A. Table 450.3(B) Note 1 (next size up) applies only to the 125\%
+entries, so 250\% is a hard maximum: largest standard size not exceeding
+451.1 A = \textbf{450 A}.\\
 Secondary rated current: I\textsubscript{secondary} = 150,000 / (1.732 ×
-208) = 150,000 / 360.3 = 416.3 A.\\
-Maximum secondary OCPD (125\%): 1.25 × 416.3 = 520.4 A. Next standard
-size: 600 A.\\
+208) = 150,000 / 360.3 = 416.4 A.\\
+Maximum secondary OCPD (125\%): 1.25 × 416.4 = 520.4 A. Next standard
+size (permitted by Note 1 for the 125\% entry): 600 A.\\
 Maximum secondary fault current (infinite bus primary):
 I\textsubscript{fault} = I\textsubscript{secondary} /
-Z\textsubscript{pu} = 416.3 / 0.055 = 7,569 A.\\
+Z\textsubscript{pu} = 416.4 / 0.055 = 7,570 A.\\
 The secondary overcurrent device must have an interrupting rating of at
-least 7,569 A.
+least 7,570 A.
 
 \end{examplebox}
 
@@ -25908,10 +25947,17 @@ the NEC code minimum.\\
 For this installation, the secondary conductors are sized to carry the
 full transformer secondary current (312.3 A) so the transformer can
 serve its rated load without restriction.\\
+The 240.21(C)(6) conductors must also have an ampacity not less than the
+rating of the overcurrent device they terminate in, and 240.21(C) does
+not permit the 240.4(B) next-size-up allowance for transformer secondary
+conductors. With a 400 A main, the conductors need at least 400 A.\\
 From Table 310.16 at 75°C: 350 kcmil copper = 310 A (insufficient for
-312.3 A). 500 kcmil = 380 A (sufficient).\\
-Minimum secondary conductor: 500 kcmil copper per phase, with 18-foot
-run to 400 A main breaker.
+312.3 A). 400 kcmil = 335 A (carries the transformer current, but below
+the 400 A main). 500 kcmil = 380 A (still below 400 A). 600 kcmil = 420
+A (sufficient).\\
+Minimum secondary conductor: \textbf{600 kcmil copper} per phase, with
+18-foot run to the 400 A main breaker. (Alternatively, keep 500 kcmil
+and use a 350 A main: 312.3 ≤ 350 ≤ 380 A.)
 
 \end{examplebox}
 
@@ -25935,18 +25981,22 @@ through the equipment grounding system.
 
 \textbf{Example 14.6.4:} A 225 kVA, 480 V delta / 208Y/120 V wye
 transformer is a separately derived system. The secondary conductors are
-350 kcmil copper per phase. Determine the system bonding jumper size and
-the grounding electrode conductor size per Article 250.30.
+two 350 kcmil copper per phase (700 kcmil equivalent), terminating in a
+600 A secondary main. Determine the system bonding jumper size and the
+grounding electrode conductor size per Article 250.30.
 
 \textbf{Solution:}\\
-System bonding jumper per 250.30(A)(1) and Table 250.102(C)(1): for 350
-kcmil ungrounded conductors, the minimum bonding jumper is 2 AWG
-copper.\\
-Grounding electrode conductor per 250.30(A)(5) and Table 250.66: for 350
-kcmil service-entrance conductors, the minimum GEC is 2 AWG copper.\\
-If a structural metal electrode or concrete-encased electrode is
-available, 250.30(A)(5) limits the GEC to a maximum of 3/0 AWG copper
-(no need to be larger regardless of transformer size).\\
+System bonding jumper per 250.30(A)(1) and Table 250.102(C)(1): for 700
+kcmil equivalent ungrounded conductors (over 600 through 1,100 kcmil),
+the minimum bonding jumper is \textbf{2/0 AWG copper}.\\
+Grounding electrode conductor per 250.30(A)(5) and Table 250.66: for 700
+kcmil equivalent (over 600 through 1,100 kcmil), the GEC is \textbf{2/0
+AWG copper} where it connects to a water-pipe or structural-steel
+electrode.\\
+3/0 AWG copper is simply the largest value in Table 250.66 (for
+conductors over 1,100 kcmil). Where the GEC is the sole connection to a
+concrete-encased electrode, 250.66(B) caps it at 4 AWG copper; to a rod,
+pipe, or plate electrode, 250.66(A) caps it at 6 AWG copper.\\
 The neutral-to-ground bond is made at the transformer secondary terminal
 compartment, and the grounded conductor (neutral) is insulated (not
 bonded to the enclosure) at all downstream points.
@@ -25993,7 +26043,9 @@ current, determine whether the standard neutral conductor is adequately
 sized, and size the neutral conductor.
 
 \textbf{Solution:}\\
-Phase fundamental current: I₁ = 540 A.\\
+Phase fundamental current: I₁ = 540 A. (With 33\% third harmonic, the
+phase rms current is 540 × √(1 + 0.33²) = 569 A; use 569 A when sizing
+the phase conductors.)\\
 Third harmonic current per phase: I₃ = 0.33 × 540 = 178.2 A.\\
 Triplen harmonics add in the neutral: I\textsubscript{N(3rd)} = 3 ×
 178.2 = 534.6 A.\\
@@ -26011,7 +26063,9 @@ kcmil copper (545 A --- marginal).\\
 \textbf{Use two 350 kcmil copper per neutral} (620 A capacity) for
 adequate capacity and margin.\\
 Per 310.15(E), the neutral counts as a current-carrying conductor for
-conduit fill derating purposes.
+conduit fill derating purposes. With four current-carrying conductors in
+each raceway, the 0.80 adjustment factor of Table 310.15(C)(1) then
+applies to the phase and neutral conductors alike.
 
 \end{examplebox}
 
@@ -26032,12 +26086,13 @@ quantifies the harmonic heating effect as K = Σ(I\textsubscript{h}²×h²)
 current of the h-th harmonic and h is the harmonic order. For a purely
 sinusoidal load, K = 1. Typical K-factors for common load types are: K-1
 (linear loads --- motors, resistive heating), K-4 (moderate harmonics
---- mixed commercial loads with some computers), K-13 (high harmonics
---- data centers, heavy computer loads), and K-20 (severe harmonics ---
-VFDs with SCR front ends, high-density computing). \textbf{K-rated
-transformers} are manufactured with design modifications to withstand
-the additional harmonic heating: oversized neutrals (200\% rated),
-reduced flux density in the core (lower core losses at harmonic
+--- mixed commercial loads with some computers), K-9 (moderate-to-high
+harmonics --- offices with a large share of computer loads), K-13 (high
+harmonics --- data centers, heavy computer loads), and K-20 (severe
+harmonics --- VFDs with SCR front ends, high-density computing).
+\textbf{K-rated transformers} are manufactured with design modifications
+to withstand the additional harmonic heating: oversized neutrals (200\%
+rated), reduced flux density in the core (lower core losses at harmonic
 frequencies), transposed and insulated winding conductors (reduced eddy
 current losses), and additional thermal capacity. A K-13 transformer is
 typically 15--30\% more expensive than a standard K-1 unit of the same
@@ -26045,16 +26100,17 @@ kVA rating but avoids the need to derate the standard transformer. For
 existing standard transformers serving nonlinear loads, the alternative
 to replacement is \textbf{harmonic derating}: the transformer is loaded
 to a fraction of its nameplate rating to keep the total losses within
-the thermal design limits. The derated capacity is approximately:
-S\textsubscript{derated} = S\textsubscript{rated} / √K, though the exact
-derating depends on the transformer's eddy current loss factor
-(typically 5--15\% of total load loss for dry-type transformers).
-ANSI/IEEE C57.110 provides the detailed calculation method for
-determining the maximum allowable load current in the presence of
-harmonics. A harmonic survey (using a power quality analyzer to measure
-the current spectrum at the transformer secondary) is the first step in
-determining whether a K-rated transformer or harmonic filtering is
-needed.
+the thermal design limits. A worst-case bound on the derated capacity is
+S\textsubscript{derated} = S\textsubscript{rated} / √K, which assumes
+all load loss is eddy-current loss (P\textsubscript{EC-R} = 100\%); the
+actual derating is milder and depends on the transformer's eddy current
+loss factor (typically 5--15\% of total load loss for dry-type
+transformers). ANSI/IEEE C57.110 provides the detailed calculation
+method for determining the maximum allowable load current in the
+presence of harmonics. A harmonic survey (using a power quality analyzer
+to measure the current spectrum at the transformer secondary) is the
+first step in determining whether a K-rated transformer or harmonic
+filtering is needed.
 
 \begin{examplebox}
 
@@ -26072,8 +26128,8 @@ Numerator: I₁²×1² + I₃²×3² + I₅²×5² + I₇²×7² + I₉²×9² +
 1.00²×1 + 0.82²×9 + 0.58²×25 + 0.38²×49 + 0.18²×81 + 0.09²×121 = 1.000 +
 6.052 + 8.410 + 7.076 + 2.624 + 0.980 = 26.14.\\
 Denominator: Σ(I\textsubscript{h}²) = 1.000 + 0.672 + 0.336 + 0.144 +
-0.032 + 0.0081 = 2.192.\\
-K = 26.14 / 2.192 = \textbf{11.9}.\\
+0.032 + 0.008 = 2.194.\\
+K = 26.14 / 2.194 = \textbf{11.9}.\\
 A \textbf{K-13} rated transformer is required (next standard K-rating
 above 11.9).\\
 For derating the existing K-1 transformer per IEEE C57.110: the maximum
@@ -26123,23 +26179,24 @@ and that the total voltage drop (feeder plus branch circuit) not exceed
 
 \textbf{Example 14.7.1:} A 120 V, single-phase branch circuit supplies a
 16 A continuous load at the end of a 150-foot run. The conductors are 12
-AWG copper in PVC conduit (R = 1.93 Ω/1000 ft, X = 0.054 Ω/1000 ft from
+AWG copper in PVC conduit (R = 2.0 Ω/1000 ft, X = 0.054 Ω/1000 ft from
 Chapter 9, Table 9). The load power factor is unity. Determine the
 voltage drop and whether it meets the NEC 3\% recommendation.
 
 \textbf{Solution:}\\
 V\textsubscript{drop} = 2 × I × L × R / 1000 (X is negligible at unity
 PF for small conductors).\\
-V\textsubscript{drop} = 2 × 16 × 150 × 1.93 / 1000 = 4800 × 1.93 / 1000
-= 9.26 V.\\
-Percent voltage drop: 9.26 / 120 × 100 = 7.72\%. This exceeds the
+V\textsubscript{drop} = 2 × 16 × 150 × 2.0 / 1000 = 4800 × 2.0 / 1000 =
+9.60 V.\\
+Percent voltage drop: 9.60 / 120 × 100 = 8.00\%. This exceeds the
 recommended 3\% maximum.\\
 To achieve 3\%: V\textsubscript{drop(max)} = 0.03 × 120 = 3.6 V.\\
 Required resistance: R\textsubscript{max} = V\textsubscript{drop} × 1000
 / (2 × I × L) = 3.6 × 1000 / (2 × 16 × 150) = 0.75 Ω/1000 ft.\\
-From Chapter 9, Table 9: 6 AWG copper = 0.491 Ω/1000 ft (sufficient).\\
-Upgrade to 6 AWG copper for a voltage drop of 2 × 16 × 150 × 0.491 /
-1000 = 2.36 V = 1.96\%.
+From Chapter 9, Table 9: 8 AWG copper = 0.78 Ω/1000 ft (just too high);
+6 AWG copper = 0.49 Ω/1000 ft (sufficient).\\
+Upgrade to 6 AWG copper for a voltage drop of 2 × 16 × 150 × 0.49 / 1000
+= 2.35 V = 1.96\%.
 
 \end{examplebox}
 
@@ -26162,22 +26219,22 @@ voltage.
 
 \textbf{Example 14.7.2:} A 460 V, three-phase feeder supplies a 100 A
 load at 0.85 power factor lagging over a 400-foot run. The conductors
-are 1/0 AWG copper in steel conduit (R = 0.122 Ω/1000 ft, X = 0.0442
+are 1/0 AWG copper in steel conduit (R = 0.12 Ω/1000 ft, X = 0.055
 Ω/1000 ft from Chapter 9, Table 9). Calculate the voltage drop and the
 voltage at the load terminals.
 
 \textbf{Solution:}\\
 V\textsubscript{drop} = √3 × I × L × (R cos(θ) + X sin(θ)) / 1000.
 cos(θ) = 0.85, sin(θ) = 0.527.\\
-V\textsubscript{drop} = 1.732 × 100 × 400 × (0.122 × 0.85 + 0.0442 ×
-0.527) / 1000 = 1.732 × 100 × 400 × (0.1037 + 0.0233) / 1000 = 69,280 ×
-0.1270 / 1000 = 8.80 V.\\
-Percent voltage drop: 8.80 / 460 × 100 = 1.91\%.\\
-Voltage at load terminals: V\textsubscript{load} = 460 − 8.80 = 451.2 V.
+V\textsubscript{drop} = 1.732 × 100 × 400 × (0.12 × 0.85 + 0.055 ×
+0.527) / 1000 = 1.732 × 100 × 400 × (0.1020 + 0.0290) / 1000 = 69,280 ×
+0.1310 / 1000 = 9.07 V.\\
+Percent voltage drop: 9.07 / 460 × 100 = 1.97\%.\\
+Voltage at load terminals: V\textsubscript{load} = 460 − 9.07 = 450.9 V.
 This is within the 3\% recommendation for feeders.\\
 During motor starting at 600 A inrush: V\textsubscript{drop(start)} = 6
-× 8.80 = 52.8 V, giving a starting voltage of 460 − 52.8 = 407.2 V =
-88.5\% of rated voltage --- adequate for most motor types.
+× 9.07 = 54.4 V, giving a starting voltage of 460 − 54.4 = 405.6 V =
+88.2\% of rated voltage --- adequate for most motor types.
 
 \end{examplebox}
 
@@ -26200,24 +26257,24 @@ phase, then apply the standard voltage drop formula.
 \textbf{Example 14.7.3:} A 480 V, three-phase, 800 A feeder uses two 500
 kcmil copper conductors per phase in parallel, installed in two separate
 steel conduits. The one-way run is 250 feet, and the load power factor
-is 0.90 lagging. From Chapter 9, Table 9: R = 0.0293 Ω/1000 ft and X =
-0.0439 Ω/1000 ft for 500 kcmil in steel conduit. Calculate the voltage
+is 0.90 lagging. From Chapter 9, Table 9: R = 0.029 Ω/1000 ft and X =
+0.048 Ω/1000 ft for 500 kcmil in steel conduit. Calculate the voltage
 drop.
 
 \textbf{Solution:}\\
 Effective impedance per phase (two conductors in parallel):
-R\textsubscript{eff} = 0.0293 / 2 = 0.01465 Ω/1000 ft.
-X\textsubscript{eff} = 0.0439 / 2 = 0.02195 Ω/1000 ft.\\
+R\textsubscript{eff} = 0.029 / 2 = 0.0145 Ω/1000 ft.
+X\textsubscript{eff} = 0.048 / 2 = 0.024 Ω/1000 ft.\\
 cos(θ) = 0.90, sin(θ) = 0.436.\\
-V\textsubscript{drop} = √3 × 800 × 250 × (0.01465 × 0.90 + 0.02195 ×
-0.436) / 1000 = 1.732 × 800 × 250 × (0.01319 + 0.00957) / 1000 = 346,400
-× 0.02276 / 1000 = 7.88 V.\\
-Percent voltage drop: 7.88 / 480 × 100 = 1.64\%.\\
-Without parallel conductors, a single 1000 kcmil conductor (R = 0.0186,
-X = 0.0423) would give: V\textsubscript{drop} = 1.732 × 800 × 250 ×
-(0.0186 × 0.90 + 0.0423 × 0.436) / 1000 = 346,400 × 0.03518 / 1000 =
-12.19 V = 2.54\%, demonstrating the advantage of parallel conductors for
-both ampacity and voltage drop.
+V\textsubscript{drop} = √3 × 800 × 250 × (0.0145 × 0.90 + 0.024 × 0.436)
+/ 1000 = 1.732 × 800 × 250 × (0.01305 + 0.01046) / 1000 = 346,400 ×
+0.02351 / 1000 = 8.14 V.\\
+Percent voltage drop: 8.14 / 480 × 100 = 1.70\%.\\
+Without parallel conductors, a single 1000 kcmil conductor (R = 0.018, X
+= 0.046) would give: V\textsubscript{drop} = 1.732 × 800 × 250 × (0.018
+× 0.90 + 0.046 × 0.436) / 1000 = 346,400 × 0.03625 / 1000 = 12.56 V =
+2.62\%, demonstrating the advantage of parallel conductors for both
+ampacity and voltage drop.
 
 \end{examplebox}
 
@@ -26252,14 +26309,14 @@ Rearranging the three-phase voltage drop formula for R (at unity PF, X
 contribution is negligible): R\textsubscript{max} =
 V\textsubscript{drop} × 1000 / (√3 × I × L) = 4.16 × 1000 / (1.732 × 42
 × 275) = 4,160 / 20,005 = 0.2080 Ω/1000 ft.\\
-From Chapter 9, Table 9 (PVC conduit): 6 AWG = 0.510 Ω/1000 ft
-(V\textsubscript{drop} = 1.732 × 42 × 275 × 0.510/1000 = 10.20 V =
-4.90\% --- too high).\\
-4 AWG = 0.321 Ω/1000 ft (V\textsubscript{drop} = 6.42 V = 3.09\% ---
+From Chapter 9, Table 9 (PVC conduit): 6 AWG = 0.49 Ω/1000 ft
+(V\textsubscript{drop} = 1.732 × 42 × 275 × 0.49/1000 = 9.80 V = 4.71\%
+--- too high).\\
+4 AWG = 0.31 Ω/1000 ft (V\textsubscript{drop} = 6.20 V = 2.98\% ---
 still exceeds 2\%).\\
-2 AWG = 0.206 Ω/1000 ft (V\textsubscript{drop} = 4.12 V = 1.98\% ---
+2 AWG = 0.19 Ω/1000 ft (V\textsubscript{drop} = 3.80 V = 1.83\% ---
 meets the 2\% target).\\
-1 AWG = 0.164 Ω/1000 ft (V\textsubscript{drop} = 3.28 V = 1.58\%).\\
+1 AWG = 0.15 Ω/1000 ft (V\textsubscript{drop} = 3.00 V = 1.44\%).\\
 Minimum conductor size: 2 AWG copper --- governed by voltage drop, not
 ampacity (2 AWG is rated 115 A, far more than the 52.5 A requirement).
 
@@ -26287,13 +26344,15 @@ appliances (220.53), adds the dryer at 5,000 VA minimum per Table
 at 125\% per 220.50. The \textbf{optional method} (220.82) is simpler
 for existing dwellings or where the total connected load can be
 determined: the first 10 kVA of general load is taken at 100\%, the
-remainder at 40\%, and HVAC is added at 100\% of the largest system
-(heating or cooling, since they do not operate simultaneously per
-220.60). For commercial buildings, Article 220 Part III provides demand
-factors for specific load types including lighting (Table 220.45),
-receptacles (Table 220.47: first 10 kVA at 100\%, remainder at 50\%),
-and specific equipment loads. The calculated demand load determines the
-minimum service entrance conductor size (per Table 310.16) and the main
+remainder at 40\%, and heating/air-conditioning is added as the largest
+of the six 220.82(C) selections --- for example 100\% of the
+air-conditioning load, or 65\% of central electric space heating
+(heating and cooling do not operate simultaneously per 220.60). For
+commercial buildings, Article 220 Part III provides demand factors for
+specific load types including lighting (Table 220.45), receptacles
+(Table 220.47: first 10 kVA at 100\%, remainder at 50\%), and specific
+equipment loads. The calculated demand load determines the minimum
+service entrance conductor size (per Table 310.16) and the main
 overcurrent device rating (per 230.79 --- minimum 100 A for a single
 dwelling).
 
@@ -26330,9 +26389,11 @@ A}.\\
 Minimum service size per 230.79: 150 A or 200 A (the two common
 residential service sizes above 100 A). Select \textbf{200 A} service
 for capacity margin.\\
-Service entrance conductors: 2/0 AWG copper THWN-2 (rated 175 A at 75°C
---- insufficient for 200 A OCPD) or 4/0 AWG copper (rated 230 A at 75°C
---- sufficient). Use \textbf{4/0 AWG copper} for the 200 A service.
+Service entrance conductors: for a dwelling service supplying the entire
+load, 310.12 permits conductors rated at 83\% of the service rating:
+0.83 × 200 = 166 A, so \textbf{2/0 AWG copper} (175 A at 75°C) is the
+minimum for the 200 A service. (Without the 310.12 allowance, 3/0 AWG
+copper at 200 A would be required.)
 
 \end{examplebox}
 
@@ -26344,28 +26405,30 @@ that provide electricity when the normal supply fails, with the
 stringency of requirements proportional to the criticality of the loads
 served. \textbf{Article 700 --- Emergency Systems} covers loads whose
 failure would create a hazard to life safety: egress lighting, exit
-signs, fire alarm systems, fire pumps, smoke control, and elevator
-recall. Emergency systems must have an alternate power source that
-restores power within \textbf{10 seconds} of normal supply failure, must
-have their wiring kept entirely independent from all other wiring
-(separate raceways, cables, and panelboards, or 2-hour fire-rated
-enclosures), and must have fully selective (coordinated) overcurrent
-protection so that a fault on one emergency branch does not trip the
-entire emergency system. \textbf{Article 701 --- Legally Required
-Standby Systems} covers loads whose loss would create hazards or hamper
-rescue/fire operations but that can tolerate a longer restoration time
---- typically \textbf{60 seconds}. Examples include heating/ventilation
-for occupied areas, communications systems, and industrial processes
-whose interruption could create hazards. Wiring for legally required
-standby may share raceways with other legally required standby circuits
-but must be independent of normal and emergency circuits.
-\textbf{Article 702 --- Optional Standby Systems} covers loads whose
-loss would cause inconvenience or economic loss but not life-safety
-hazards --- data centers, commercial refrigeration, and building HVAC.
-Optional standby has no mandated restoration time and no requirement for
-wiring independence. All three articles require the alternate power
-source to have sufficient capacity for the connected load, and Article
-700.4 requires a written record of periodic testing and maintenance.
+signs, fire alarm systems, smoke control, and elevator recall (fire
+pumps are governed separately by Article 695, although they are often
+supplied from the same on-site generator). Emergency systems must have
+an alternate power source that restores power within \textbf{10 seconds}
+of normal supply failure, must have their wiring kept entirely
+independent from all other wiring (separate raceways, cables, and
+panelboards, or 2-hour fire-rated enclosures), and must have fully
+selective (coordinated) overcurrent protection so that a fault on one
+emergency branch does not trip the entire emergency system.
+\textbf{Article 701 --- Legally Required Standby Systems} covers loads
+whose loss would create hazards or hamper rescue/fire operations but
+that can tolerate a longer restoration time --- typically \textbf{60
+seconds}. Examples include heating/ventilation for occupied areas,
+communications systems, and industrial processes whose interruption
+could create hazards. Wiring for legally required standby may share
+raceways with other legally required standby circuits but must be
+independent of normal and emergency circuits. \textbf{Article 702 ---
+Optional Standby Systems} covers loads whose loss would cause
+inconvenience or economic loss but not life-safety hazards --- data
+centers, commercial refrigeration, and building HVAC. Optional standby
+has no mandated restoration time and no requirement for wiring
+independence. All three articles require the alternate power source to
+have sufficient capacity for the connected load, and Section 700.3(D)
+requires a written record of periodic testing and maintenance.
 \textbf{Transfer switches} (Article 700.5) are required for emergency
 and legally required standby systems and must be automatic, listed for
 emergency use, electrically operated and mechanically held, and approved
@@ -26424,15 +26487,15 @@ running: P = √3 × 480 × 65 × 0.85 = 45.9 kW. Elevators running (2): P =
 Total running: 25 + 10 + 45.9 + 48.0 + 80 = \textbf{208.9 kW}.\\
 \textbf{Motor starting analysis} (worst case --- fire pump starts with
 all other loads running): Fire pump starting kVA = √3 × 480 × 390 / 1000
-= 324.3 kVA (at \textasciitilde0.30 PF starting = 97.3 kW).\\
+= 324.2 kVA (at \textasciitilde0.30 PF starting = 97.3 kW).\\
 Running load without fire pump: 208.9 − 45.9 = 163.0 kW.\\
 Total kW during fire pump start: 163.0 + 97.3 = 260.3 kW.\\
-Total kVA during start: 163.0/0.85 + 324.3 = 191.8 + 324.3 = 516.1 kVA
+Total kVA during start: 163.0/0.85 + 324.2 = 191.8 + 324.2 = 516.0 kVA
 (but at mixed PF).\\
 Using a load management strategy that sequences motor starts (fire pump
 starts first before elevators), the generator must handle: fire pump
-starting kVA + lighting + fire alarm = 324.3 + 25/0.85 + 10/0.85 = 324.3
-+ 29.4 + 11.8 = 365.5 kVA peak, then steady-state 208.9 kW / 0.85 =
+starting kVA + lighting + fire alarm = 324.2 + 25/0.85 + 10/0.85 = 324.2
++ 29.4 + 11.8 = 365.4 kVA peak, then steady-state 208.9 kW / 0.85 =
 245.8 kVA.\\
 \textbf{Generator selection:} Minimum \textbf{continuous rating = 250
 kW} (at 0.8 PF = 312.5 kVA) with a \textbf{motor starting capability of

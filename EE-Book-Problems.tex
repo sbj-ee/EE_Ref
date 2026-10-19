@@ -31397,16 +31397,16 @@ both sets of additional requirements must be met.
 Fire pump wiring per Article 695: conductors must be in a dedicated
 raceway separate from other wiring, protected against physical damage,
 and the overcurrent protection must not open under locked-rotor
-conditions (695.7).
+conditions (695.4(B)(2)).
 
 Healthcare facility per Article 517: the fire pump may need to be
 connected to the essential electrical system (life safety branch per
 517.26).
 
-A 6 AWG THWN-2 copper conductor rated at 65 A at 75°C satisfies the
-\textbf{50 A minimum}. Both Article 695 (dedicated raceway) and Article
-517 (essential electrical system connection) requirements must be
-applied simultaneously.
+An 8 AWG THWN-2 copper conductor rated at 50 A at 75°C exactly satisfies
+the \textbf{50 A minimum}. Both Article 695 (dedicated raceway) and
+Article 517 (essential electrical system connection) requirements must
+be applied simultaneously.
 
 \subsection{Problem 14.1.2}\label{problem-14.1.2}
 
@@ -31415,10 +31415,10 @@ high-rise building. The conductors are copper THWN-2 (90°C) in EMT
 conduit at 42°C ambient. The feeder supplies a mix of continuous and
 non-continuous loads.
 
-\textbf{Find:} Using Table 310.16 and Table 310.15(B)(1), identify the
-base ampacity for 1/0 AWG, 2/0 AWG, and 3/0 AWG copper at both 75°C and
-90°C column values, and apply the temperature correction factor for 42°C
-ambient to find which size meets the 150 A requirement.
+\textbf{Find:} Using Table 310.16 and Table 310.15(B)(1)(1), identify
+the base ampacity for 1/0 AWG, 2/0 AWG, and 3/0 AWG copper at both 75°C
+and 90°C column values, and apply the temperature correction factor for
+42°C ambient to find which size meets the 150 A requirement.
 
 \textbf{Solution:}\\
 From Table 310.16 base ampacities:
@@ -31579,29 +31579,29 @@ circuits (47.8 A vs.~40 A load = 19.5\% margin).
 \subsection{Problem 14.2.4}\label{problem-14.2.4}
 
 \textbf{Given:} A 250 kcmil copper conductor carries 200 A in a PVC
-conduit at 60 Hz. From NEC Chapter 9, Table 9: R = 0.0541 Ω/1000 ft and
-X = 0.0523 Ω/1000 ft for PVC conduit. The one-way run is 350 feet,
+conduit at 60 Hz. From NEC Chapter 9, Table 9: R = 0.052 Ω/1000 ft and X
+= 0.041 Ω/1000 ft for PVC conduit. The one-way run is 350 feet,
 supplying a load at 0.80 power factor lagging on a 480 V three-phase
 system.
 
 \textbf{Find:} The per-phase voltage drop and the percent voltage drop.
 
 \textbf{Solution:}\\
-Effective R per conductor: R = 0.0541 × 350/1000 = 0.01894 Ω.\\
-Effective X per conductor: X = 0.0523 × 350/1000 = 0.01831 Ω.
+Effective R per conductor: R = 0.052 × 350/1000 = 0.01820 Ω.\\
+Effective X per conductor: X = 0.041 × 350/1000 = 0.01435 Ω.
 
 cos(θ) = 0.80, sin(θ) = 0.600.
 
 Per-phase voltage drop:\\
-V\textsubscript{drop} = I × (R cos(θ) + X sin(θ)) = 200 × (0.01894 ×
-0.80 + 0.01831 × 0.600)\\
-= 200 × (0.01515 + 0.01099) = 200 × 0.02614 = \textbf{5.23 V per phase}.
+V\textsubscript{drop} = I × (R cos(θ) + X sin(θ)) = 200 × (0.01820 ×
+0.80 + 0.01435 × 0.600)\\
+= 200 × (0.01456 + 0.00861) = 200 × 0.02317 = \textbf{4.63 V per phase}.
 
 Three-phase line-to-line voltage drop:\\
-V\textsubscript{drop(LL)} = √3 × 5.23 = \textbf{9.05 V}.
+V\textsubscript{drop(LL)} = √3 × 4.63 = \textbf{8.03 V}.
 
 Percent voltage drop:\\
-\%V\textsubscript{drop} = 9.05 / 480 × 100 = \textbf{1.89\%}.
+\%V\textsubscript{drop} = 8.03 / 480 × 100 = \textbf{1.67\%}.
 
 This is within the NEC 3\% recommendation for feeders.
 
@@ -31627,9 +31627,9 @@ area must be at least 4.293 in².
 
 From Chapter 9, Table 4 for RMC:\\
 - 2'' RMC: internal area = 3.408 in². 40\% fill = 1.363 in² \textless{}
-1.7172 in² -- \textbf{insufficient}.\\
+1.7172 in² --- \textbf{insufficient}.\\
 - 2½'' RMC: internal area = 4.866 in². 40\% fill = 1.946 in²
-\textgreater{} 1.7172 in² -- \textbf{adequate}.
+\textgreater{} 1.7172 in² --- \textbf{adequate}.
 
 Minimum conduit size: \textbf{2½'' RMC}.
 
@@ -31654,7 +31654,7 @@ raceway is less than 7/8 inch above the roof.
 Effective ambient: 43 + 33 = \textbf{76°C}.
 
 Temperature correction factor for 90°C insulation at 76°C ambient
-(76--80°C band of Table 310.15(B)(1)): \textbf{0.41}.
+(76--80°C band of Table 310.15(B)(1)(1)): \textbf{0.41}.
 
 Conductor-count adjustment for 4 current-carrying conductors (4--6
 range), Table 310.15(C)(1): \textbf{0.80}.
@@ -31691,30 +31691,25 @@ Base ampacity of 10 AWG THWN-2 at 90°C: \textbf{40 A}.
 Nipples (≤ 24 inches) are permitted 60\% fill per Chapter 9, Table 1,
 Note 4.
 
-For ampacity derating, the number of current-carrying conductors still
-applies: 12 conductors in the 10-20 range gives a conduit fill
-adjustment factor of \textbf{0.50}.
+The NEC itself exempts nipples from the conductor-count adjustment: per
+310.15(C)(1)(b) (and Chapter 9, Note 4 to the tables), the adjustment
+factors do not apply to conductors in raceways not exceeding 24 inches
+long. This is a Code rule, not an AHJ interpretation, so the 0.50 factor
+for 12 conductors is \textbf{not} applied.
 
-Note: The 60\% fill rule applies to physical conduit fill calculations
-(cross-sectional area), not to the ampacity derating. The ampacity
-adjustment for more than 3 conductors still applies even in nipples per
-310.15(C)(1). However, some jurisdictions allow relaxed derating for
-nipples due to reduced thermal concern. Check with the AHJ.
+Ampacity: \textbf{40 A} at 90°C, usable as \textbf{35 A} at 75°C
+terminations (110.14(C)).
 
-Standard adjusted ampacity: 40 × 0.50 = \textbf{20 A} per conductor.
-
-If the AHJ permits no ampacity derating for nipples (some
-interpretations): the full \textbf{40 A} ampacity applies, limited to 30
-A at 75°C termination temperature.
+Overcurrent protection: 10 AWG copper is limited to \textbf{30 A}
+maximum by 240.4(D).
 
 \subsection{Problem 14.2.8}\label{problem-14.2.8}
 
 \textbf{Given:} A 480 V, three-phase, 300 A feeder runs 200 feet through
 a steel conduit. The engineer is comparing two conductor options:\\
-- Option A: 350 kcmil copper (R = 0.0382 Ω/1000 ft, X = 0.0441 Ω/1000
+- Option A: 350 kcmil copper (R = 0.039 Ω/1000 ft, X = 0.050 Ω/1000
 ft)\\
-- Option B: 500 kcmil copper (R = 0.0293 Ω/1000 ft, X = 0.0439 Ω/1000
-ft)
+- Option B: 500 kcmil copper (R = 0.029 Ω/1000 ft, X = 0.048 Ω/1000 ft)
 
 The load power factor is 0.90 lagging.
 
@@ -31725,22 +31720,22 @@ meets the 2\% feeder drop recommendation.
 cos(θ) = 0.90, sin(θ) = 0.436.
 
 \textbf{Option A (350 kcmil):}\\
-V\textsubscript{drop} = √3 × 300 × 200 × (0.0382 × 0.90 + 0.0441 ×
-0.436) / 1000\\
-= 519.6 × 200 × (0.03438 + 0.01923) / 1000\\
-= 103,920 × 0.05361 / 1000 = \textbf{5.57 V}.\\
-Percent: 5.57/480 × 100 = \textbf{1.16\%}.
+V\textsubscript{drop} = √3 × 300 × 200 × (0.039 × 0.90 + 0.050 × 0.436)
+/ 1000\\
+= 519.6 × 200 × (0.03510 + 0.02179) / 1000\\
+= 103,920 × 0.05689 / 1000 = \textbf{5.91 V}.\\
+Percent: 5.91/480 × 100 = \textbf{1.23\%}.
 
 \textbf{Option B (500 kcmil):}\\
-V\textsubscript{drop} = √3 × 300 × 200 × (0.0293 × 0.90 + 0.0439 ×
-0.436) / 1000\\
-= 103,920 × (0.02637 + 0.01914) / 1000\\
-= 103,920 × 0.04551 / 1000 = \textbf{4.73 V}.\\
-Percent: 4.73/480 × 100 = \textbf{0.99\%}.
+V\textsubscript{drop} = √3 × 300 × 200 × (0.029 × 0.90 + 0.048 × 0.436)
+/ 1000\\
+= 103,920 × (0.02610 + 0.02092) / 1000\\
+= 103,920 × 0.04702 / 1000 = \textbf{4.89 V}.\\
+Percent: 4.89/480 × 100 = \textbf{1.02\%}.
 
 Both options meet the 2\% recommendation. \textbf{Option A (350 kcmil)}
-at 1.16\% is sufficient and more economical. However, Option B reduces
-the voltage drop by 15\% and provides better motor starting performance.
+at 1.23\% is sufficient and more economical. However, Option B reduces
+the voltage drop by 17\% and provides better motor starting performance.
 
 \section{14.3 Overcurrent
 Protection}\label{chapter-14-section-14.3-overcurrent-protection}
@@ -31827,12 +31822,12 @@ identify the coordination ratio at each level.
 At 8,000 A:\\
 Coordination ratio = upstream time / downstream time = 0.08 / 0.03 =
 \textbf{2.67:1}.\\
-The upstream device is 2.67× slower -- adequate coordination
+The upstream device is 2.67× slower --- adequate coordination
 (\textgreater{} 1.5:1 minimum).
 
 At 15,000 A:\\
 Coordination ratio = 0.025 / 0.017 = \textbf{1.47:1}.\\
-The upstream device is only 1.47× slower -- marginal, below the 1.5:1
+The upstream device is only 1.47× slower --- marginal, below the 1.5:1
 guideline.
 
 At the higher fault level, both devices are operating in or near their
@@ -31877,10 +31872,10 @@ V\textsubscript{LL}) = (1.732 × 50 × 18,042) / (53,412 × 480)\\
 
 Fault current at switchboard:\\
 I\textsubscript{sc(swbd)} = I\textsubscript{sc(xfmr)} / (1 + f) = 18,042
-/ 1.06094 = \textbf{17,005 A}.
+/ 1.06094 = \textbf{17,006 A}.
 
 All overcurrent devices at the switchboard must have an interrupting
-rating ≥ \textbf{18 kAIC} (next standard rating above 17,005 A).
+rating ≥ \textbf{18 kAIC} (next standard rating above 17,006 A).
 Standard ratings are 10, 14, 18, 22, 25, 35, 42, 50, 65, 100, and 200
 kAIC.
 
@@ -31895,18 +31890,21 @@ arc develops in a damaged lamp cord with an arc current of 3 A.
 the AFCI response.
 
 \textbf{Solution:}\\
-Arc power:\\
-P\textsubscript{arc} = V × I = 120 × 3 = \textbf{360 W}.
+Arc power: only the voltage across the arc is dissipated at the fault,
+not the full 120 V supply (120 × 3 = 360 W is the power delivered to the
+whole circuit). A series arc typically sustains about 20--40 V:\\
+P\textsubscript{arc} ≈ V\textsubscript{arc} × I = (20--40) × 3 ≈
+\textbf{60--120 W}, concentrated in a spot a few millimetres across.
 
 A standard 15 A breaker thermal trip point: approximately 135\% of
 rating = 20.3 A after \textasciitilde1 hour.\\
 Magnetic (instantaneous) trip: 5-10× rating = 75-150 A.
 
-The 3 A arc current is only \textbf{20\%} of the 15 A breaker rating --
+The 3 A arc current is only \textbf{20\%} of the 15 A breaker rating ---
 far below any standard trip threshold.
 
-This 360 W arc would operate indefinitely, with surface temperatures at
-the arc point easily exceeding 1,000°C -- far above the ignition
+This 60--120 W arc would operate indefinitely, with temperatures at the
+arc point easily exceeding 1,000°C --- far above the ignition
 temperature of wood (\textasciitilde300°C), paper
 (\textasciitilde230°C), and most fabrics (\textasciitilde250°C).
 
@@ -31916,9 +31914,9 @@ smooth waveform of a resistive or motor load). The AFCI algorithm
 identifies the arc pattern and trips within \textbf{8-60 half-cycles}
 (67-500 ms at 60 Hz).
 
-Per 210.12(B), AFCI protection is required for all 125 V, 15 A and 20 A
-branch circuits in dwelling unit family rooms. (210.12(A) lists the
-permitted means of providing that protection.)
+Per 210.12(B), AFCI protection is required for all 120 V, single-phase,
+10 A, 15 A and 20 A branch circuits in dwelling unit family rooms.
+(210.12(A) lists the permitted means of providing that protection.)
 
 \subsection{Problem 14.3.6}\label{problem-14.3.6}
 
@@ -31935,7 +31933,7 @@ The 25-foot tap rule requires:\\
 exactly).\\
 2. Tap conductor ampacity ≥ 1/3 of upstream OCPD: 200/3 = \textbf{66.7
 A} minimum.\\
-3. Tap terminates in a single OCPD: 70 A breaker --
+3. Tap terminates in a single OCPD: 70 A breaker ---
 \textbf{satisfied}.\\
 4. Tap conductors are protected from physical damage in a raceway.
 
@@ -31983,10 +31981,12 @@ Z\textsubscript{total(pu)} = 1,804 / 0.07128 = \textbf{25,308 A}.
 Compare with infinite bus assumption: I\textsubscript{sc} = 1,804 /
 0.065 = 27,754 A.\\
 The finite source reduces the available fault current by \textbf{(27,754
-- 25,308) / 27,754 × 100\% = 8.8\%}.
+− 25,308) / 27,754 × 100\% = 8.8\%}.
 
-Overcurrent devices must have interrupting rating ≥ \textbf{25 kAIC} (or
-30 kAIC for standard rating).
+Overcurrent devices must have an interrupting rating ≥ 25,308 A. A 25
+kAIC rating (25,000 A) is \textbf{below} the available fault current and
+does not qualify (110.9 allows no margin); the next standard rating is
+\textbf{35 kAIC}.
 
 \section{14.4 Grounding and
 Bonding}\label{chapter-14-section-14.4-grounding-and-bonding}
@@ -32007,9 +32007,14 @@ Table 250.66, and the ground fault current magnitude.
 
 \textbf{Solution:}\\
 From Table 250.66, for service entrance conductors over 600 kcmil but
-not exceeding 1,100 kcmil (2 × 500 = 1,000 kcmil equivalent per
-phase):\\
-Minimum GEC = \textbf{2/0 AWG copper}.
+not exceeding 1,100 kcmil (2 × 500 = 1,000 kcmil equivalent per phase),
+the table value is 2/0 AWG copper. That value governs only for
+electrodes such as a metal water pipe or building steel. This electrode
+system is just a rod and a concrete-encased electrode, so 250.66(A) and
+(B) cap the GEC:\\
+Minimum GEC = \textbf{6 AWG copper} to the ground rod and \textbf{4 AWG
+copper} to the concrete-encased electrode (2/0 AWG would apply only if a
+water-pipe or structural-steel electrode were added).
 
 Ground fault current on a 277 V line-to-neutral circuit:\\
 I\textsubscript{fault} = V / Z\textsubscript{total} = 277 / 0.15 =
@@ -32025,9 +32030,9 @@ minimizes damage at the fault point.
 \subsection{Problem 14.4.2}\label{problem-14.4.2}
 
 \textbf{Given:} A 480 V feeder is protected by a 100 A circuit breaker.
-The original conductor size is 1 AWG copper (minimum per ampacity). Due
-to a 500-foot run, the conductors are upsized to 4/0 AWG copper to limit
-voltage drop.
+The minimum conductor size per ampacity is 3 AWG copper (100 A at 75°C).
+Due to a 500-foot run, the conductors are upsized to 4/0 AWG copper to
+limit voltage drop.
 
 \textbf{Find:} The minimum EGC size from Table 250.122 and the adjusted
 EGC size per 250.122(B).
@@ -32040,16 +32045,16 @@ Per 250.122(B), proportionally increase the EGC:\\
 Size factor = area of installed conductor / area of minimum required
 conductor.\\
 Installed: 4/0 AWG = 211,600 circular mils.\\
-Minimum required (1 AWG): 83,690 circular mils.\\
-Factor = 211,600 / 83,690 = \textbf{2.528}.
+Minimum required (3 AWG): 52,620 circular mils.\\
+Factor = 211,600 / 52,620 = \textbf{4.021}.
 
-Adjusted EGC area = 16,510 × 2.528 = 41,737 circular mils.
+Adjusted EGC area = 16,510 × 4.021 = 66,391 circular mils.
 
 From wire gauge table:\\
-- 6 AWG = 26,240 cmil (insufficient).\\
-- 4 AWG = 41,740 cmil (sufficient, just barely).
+- 2 AWG = 66,360 cmil (insufficient, just barely).\\
+- 1 AWG = 83,690 cmil (sufficient).
 
-Adjusted EGC: \textbf{4 AWG copper}.
+Adjusted EGC: \textbf{1 AWG copper}.
 
 \subsection{Problem 14.4.3}\label{problem-14.4.3}
 
@@ -32072,7 +32077,7 @@ Arc energy: I²t = 1,200² × 0.3 = 1,440,000 × 0.3 = \textbf{432,000
 A²·s}.
 
 If the GFPE were set lower at 500 A pickup with 0.1 second delay:\\
-I²t = 1,200² × 0.1 = \textbf{144,000 A²·s} -- a 3× reduction in arc
+I²t = 1,200² × 0.1 = \textbf{144,000 A²·s} --- a 3× reduction in arc
 energy.
 
 If the fault current were 800 A (below the 1,000 A pickup), the GFPE
@@ -32088,25 +32093,27 @@ A service. The service entrance conductors are 4/0 AWG copper. A metal
 gas pipe and a structural steel column are within 10 feet of the service
 equipment.
 
-\textbf{Find:} The bonding jumper size for both the gas pipe and the
-structural steel per Table 250.66, and identify the bonding
-requirements.
+\textbf{Find:} The bonding requirements and bonding conductor sizes for
+the gas pipe and the structural steel.
 
 \textbf{Solution:}\\
-From Table 250.66 for 4/0 AWG service entrance conductors:\\
-Minimum bonding jumper = \textbf{4 AWG copper}.
+For 4/0 AWG copper service entrance conductors, Table 250.102(C)(1) (the
+``over 3/0 through 350 kcmil'' row) gives \textbf{2 AWG copper}; Table
+250.66 gives the same 2 AWG value.
 
-Per 250.104(A) --- Metal Piping Systems: the metal gas pipe must be
-bonded to the grounding electrode system. Bond size from Table 250.66:
-\textbf{4 AWG copper}.
+Gas piping --- 250.104(B), Other Metal Piping (not 250.104(A), which
+covers metal water piping): metal gas piping that may become energized
+is bonded by the \textbf{equipment grounding conductor of the circuit
+likely to energize it}, sized per Table 250.122 for that circuit's
+overcurrent device (an appliance branch circuit's EGC is typically all
+that is needed). Any separate bonding connection is made on the
+\textbf{building (customer) side} of the gas meter --- never on the
+street side of the meter, the regulator, or an insulating fitting, which
+belong to the gas utility.
 
-Per 250.104(C) --- Structural Metal: if the structural steel is not
-intentionally grounded and could become energized, it must be bonded.
-Bond from Table 250.66: \textbf{4 AWG copper}.
-
-Per 250.104(A), the bonding jumper for the gas pipe must be connected on
-the street side of any gas meter or regulator that could be removed for
-service.
+Structural steel --- 250.104(C): if the structural steel is not
+intentionally grounded and could become energized, it must be bonded,
+sized per Table 250.102(C)(1): \textbf{2 AWG copper}.
 
 The bonding connections must use listed clamps, compression connectors,
 or exothermic welds. Sheet metal screws are not permitted for bonding
@@ -32132,9 +32139,9 @@ Cable leakage: 120 × 0.005 = \textbf{0.6 mA}.
 Total system leakage: 2.4 + 0.6 = \textbf{3.0 mA}.
 
 GFCI Class A trip threshold: 5 mA (nominal midpoint of 4-6 mA range).\\
-Margin: 5.0 - 3.0 = \textbf{2.0 mA} (40\% of trip threshold).
+Margin: 5.0 − 3.0 = \textbf{2.0 mA} (40\% of trip threshold).
 
-At the minimum trip point of 4 mA: margin = 4.0 - 3.0 = \textbf{1.0 mA}.
+At the minimum trip point of 4 mA: margin = 4.0 − 3.0 = \textbf{1.0 mA}.
 
 This is marginal. If a fourth appliance is added (0.8 mA) or if
 equipment ages and leakage increases, total leakage could reach 4+ mA,
@@ -32142,12 +32149,12 @@ causing \textbf{nuisance tripping}.
 
 Recommendation: Split the loads across two GFCI-protected circuits to
 keep each circuit's leakage below 2 mA. Per 210.8(B)(2), GFCI protection
-is required for kitchen receptacles within 6 feet of a sink in
-non-dwelling occupancies.
+is required for all 125 V through 250 V receptacles in non-dwelling
+kitchens, regardless of their distance from a sink.
 
 \subsection{Problem 14.4.6}\label{problem-14.4.6}
 
-\textbf{Given:} A 208Y/120 V, 600 A service with 500 kcmil copper
+\textbf{Given:} A 208Y/120 V, 400 A service with 500 kcmil copper
 service entrance conductors requires a system grounding electrode
 conductor. The grounding electrode system includes a 10-foot driven
 ground rod (25 Ω to earth), a concrete-encased Ufer electrode (5 Ω to
@@ -32164,14 +32171,14 @@ Minimum GEC = \textbf{1/0 AWG copper}.
 Parallel ground resistance of all electrodes:\\
 1/R\textsubscript{total} = 1/25 + 1/5 + 1/3 = 0.04 + 0.20 + 0.333 =
 0.573.\\
-R\textsubscript{total} = 1/0.573 = \textbf{1.75 Ω}.
+R\textsubscript{total} = 1/0.5733 = \textbf{1.74 Ω}.
 
 For a 120 V ground fault through the earth alone:\\
-I\textsubscript{earth} = 120 / 1.75 = 68.6 A.
+I\textsubscript{earth} = 120 / 1.744 = 68.8 A.
 
-While 68.6 A might eventually trip a breaker, the clearing time would be
+While 68.8 A might eventually trip a breaker, the clearing time would be
 unacceptably long for personnel safety. More critically, on a 20 A
-circuit, a 1.75 Ω earth path produces only 68.6 A, which is in the
+circuit, a 1.74 Ω earth path produces only 68.8 A, which is in the
 thermal (slow) trip region of the breaker.
 
 The \textbf{equipment grounding conductor} (metallic path) has an
@@ -32320,21 +32327,21 @@ From Table 310.16 at 75°C: 6 AWG copper = 65 A (sufficient).
 
 \textbf{Overcurrent protection} per Table 430.52 (Design B, inverse-time
 breaker):\\
-250\% × 52 A (motor FLC from table) = 130 A. The largest standard
-breaker size not exceeding 130 A is \textbf{125 A}. If the motor will
-not start on 125 A, 430.52(C)(1) Exception No.~1 permits the next higher
-standard size of \textbf{150 A}.
+250\% × 52 A (motor FLC from table) = 130 A. 130 A is not a standard
+size, so 430.52(C)(1) Exception No.~1 permits the next higher standard
+size directly: \textbf{150 A} maximum. (This does not depend on the
+motor failing to start; that condition belongs to Exception No.~2.)
 
 \textbf{Motor-side conductors:}\\
 Ampacity = 1.25 × 52 = 65 A. Use \textbf{6 AWG copper}.
 
 \textbf{Critical cable length} for reflected waves:\\
-L\textsubscript{crit} = v × t\textsubscript{rise} / 2, where v ≈ 150
-m/μs for typical cable.\\
-L\textsubscript{crit} = (150 × 10⁶) × (200 × 10⁻⁹) / 2 = 30 / 2 =
-\textbf{15 m ≈ 49 feet}.
+L\textsubscript{crit} = v × t\textsubscript{rise} / 2, where v ≈ 200
+m/μs for typical cable (the value used in the chapter).\\
+L\textsubscript{crit} = (200 × 10⁶) × (200 × 10⁻⁹) / 2 = 40 / 2 =
+\textbf{20 m ≈ 66 feet}.
 
-Since 150 feet \textgreater\textgreater{} 49 feet, reflected voltage
+Since 150 feet \textgreater\textgreater{} 66 feet, reflected voltage
 waves will fully develop at the motor terminals, potentially reaching 2×
 DC bus voltage = 2 × 1.35 × V\textsubscript{LL} = 2 × 1.35 × 460 =
 \textbf{1,242 V peak} (≈1,200 V).
@@ -32343,13 +32350,14 @@ An \textbf{output reactor or dv/dt filter} is recommended to limit motor
 terminal voltage below 1,000 V peak. VFD-rated cable with symmetrical
 ground conductors should be used.
 
-Per 430.130(B), the EGC must be \textbf{wire-type} (conduit alone is
-insufficient).
+A \textbf{wire-type EGC} sized per Table 250.122 is recommended as VFD
+manufacturer and EMC practice; the Code itself (250.118) would also
+accept a metal raceway as the EGC.
 
 \subsection{Problem 14.5.6}\label{problem-14.5.6}
 
-\textbf{Given:} A grain elevator (Class II, Division 1, Group G -- grain
-dust, auto-ignition 400°C) requires a 10 HP, 460 V motor driving a
+\textbf{Given:} A grain elevator (Class II, Division 1, Group G ---
+grain dust, auto-ignition 400°C) requires a 10 HP, 460 V motor driving a
 bucket elevator. The area classification extends 10 feet from any grain
 handling equipment.
 
@@ -32360,13 +32368,15 @@ the wiring method, and the required equipment temperature code.
 Classification: \textbf{Class II, Division 1, Group G} (combustible dust
 present under normal operations during grain handling).
 
-Temperature code: Grain dust auto-ignition = 400°C. Equipment surface
-temperature must be well below 400°C. A \textbf{T3} rating (200°C
-maximum) provides adequate margin and is the standard rating for Class
-II motors.
+Temperature code: grain dust auto-ignition = 400°C, but 500.8(D)(2)
+limits equipment that may be overloaded, in the presence of organic
+dusts that can dehydrate or carbonize (such as grain), to the lower of
+the ignition temperature or \textbf{165°C}. A T3 rating (200°C)
+therefore does \textbf{not} comply. \textbf{T3B (165°C)} is the maximum;
+\textbf{T4 (135°C)} gives margin and is recommended.
 
 Motor enclosure: Must be \textbf{dust-ignitionproof} per Article 502.125
--- designed so dust cannot enter the enclosure and surface temperatures
+--- designed so dust cannot enter the enclosure and surface temperatures
 do not ignite the surrounding dust layer.
 
 Wiring method per Article 502.10(A)(1):\\
@@ -32399,16 +32409,19 @@ I\textsubscript{OL} = 1.25 × 56 = \textbf{70 A}.
 
 \textbf{Short-circuit protection} (dual-element fuse, Design B):\\
 Maximum = 175\% × FLC = 1.75 × 59.4 = \textbf{103.95 A}.\\
-Next standard fuse size: \textbf{100 A}.
+103.95 A is not a standard size, so 430.52(C)(1) Exception No.~1 permits
+the next higher standard fuse size: \textbf{110 A} (a 100 A fuse is also
+compliant, but it is not the maximum).
 
-If motor will not start with 100 A fuse, 430.52(C)(1) Exception 2
-permits up to 225\% × FLC = 133.65 A. Next standard: \textbf{125 A}.
+If the motor will not start with the 110 A fuse, Exception No.~2 permits
+up to 225\% × FLC = 133.65 A; the largest standard size not exceeding
+that is \textbf{125 A}.
 
 \textbf{Conductor ampacity:}\\
 1.25 × FLC = 1.25 × 59.4 = \textbf{74.25 A}.\\
 From Table 310.16 at 75°C: 4 AWG copper = 85 A (sufficient).
 
-The circuit: \textbf{4 AWG copper} conductors, \textbf{100 A}
+The circuit: \textbf{4 AWG copper} conductors, \textbf{110 A}
 dual-element fuse, overload relay at \textbf{70 A}.
 
 \section{14.6 Transformer
@@ -32439,10 +32452,12 @@ Next standard size per 240.6(A): \textbf{125 A}.
 Secondary rated current:\\
 I\textsubscript{secondary} = 45,000 / 240 = \textbf{187.5 A}.
 
-Since there is no secondary overcurrent protection, the secondary
-conductors must be rated for at least 187.5 A.\\
-From Table 310.16 at 75°C: 3/0 AWG copper = 200 A (sufficient for
-\textbf{187.5 A}).
+The 120/240 V secondary is three-wire, not two-wire, so per 240.21(C)(1)
+the 125 A primary device does \textbf{not} protect the secondary
+conductors. They must terminate in an overcurrent device installed under
+one of 240.21(C)(2)--(6). For example, 3/0 AWG copper (200 A at 75°C)
+running not more than 10 ft to a 200 A main breaker satisfies
+240.21(C)(2) (200 A ≥ 200 A) and carries the full \textbf{187.5 A}.
 
 \subsection{Problem 14.6.2}\label{problem-14.6.2}
 
@@ -32459,29 +32474,29 @@ I\textsubscript{primary} = 300,000 / (√3 × 480) = 300,000 / 831.4 =
 \textbf{360.8 A}.
 
 Maximum primary OCPD (250\% with secondary protection):\\
-2.50 × 360.8 = 902.1 A. Largest standard size not exceeding this
-maximum: \textbf{900 A} (or 800 A for more conservative design). Table
-450.3(B) Note 1 also permits the next higher standard size of
-\textbf{1,000 A}.
+2.50 × 360.8 = 902.1 A. Table 450.3(B) Note 1 (next size up) applies
+only to the 125\% entries, so 250\% is a hard maximum. 900 A is not a
+240.6(A) standard rating, so the largest standard size not exceeding
+902.1 A is \textbf{800 A}.
 
 Secondary rated current:\\
 I\textsubscript{secondary} = 300,000 / (√3 × 208) = 300,000 / 360.3 =
-\textbf{832.6 A}.
+\textbf{832.7 A}.
 
 Maximum secondary OCPD (125\%):\\
-1.25 × 832.6 = 1,040.8 A. Largest standard size not exceeding this
+1.25 × 832.7 = 1,040.9 A. Largest standard size not exceeding this
 maximum: \textbf{1,000 A}. Note 1 also permits the next higher standard
 size of \textbf{1,200 A}.
 
 Check: The 1,000 A OCPD does not exceed the conductor ampacity.
-Secondary conductors must be rated for at least 832.6 A.
+Secondary conductors must be rated for at least 832.7 A.
 
 Maximum secondary fault current (infinite primary bus):\\
 I\textsubscript{fault} = I\textsubscript{secondary} /
-Z\textsubscript{pu} = 832.6 / 0.045 = \textbf{18,502 A}.
+Z\textsubscript{pu} = 832.7 / 0.045 = \textbf{18,505 A}.
 
 The secondary OCPD must have an interrupting rating ≥ \textbf{22 kAIC}
-(next standard above 18,502 A).
+(next standard above 18,505 A).
 
 \subsection{Problem 14.6.3}\label{problem-14.6.3}
 
@@ -32499,28 +32514,35 @@ I\textsubscript{sec} = 75,000 / (√3 × 208) = 75,000 / 360.3 =
 
 The 25-foot rule (240.21(C)(6)) applies: tap length = 22 feet ≤ 25 feet.
 
-The secondary conductors must be sized for at least the transformer
-secondary rated current: 208.2 A.
+Under 240.21(C)(6) the conductor ampacity must be not less than the
+rating of the overcurrent device it terminates in (here the 250 A main),
+and 240.21(C) does not permit the 240.4(B) next-size-up allowance for
+transformer secondary conductors. The conductors must also carry the
+transformer secondary rated current: 208.2 A.
 
 Primary OCPD equivalent on secondary:\\
 125 × (480/208) = 125 × 2.308 = 288.5 A equivalent.\\
 One-third: 288.5/3 = 96.2 A.
 
-The governing requirement is the larger of 208.2 A (transformer
-capacity) and 96.2 A (one-third rule).
+The governing requirement is the largest of 250 A (terminating breaker),
+208.2 A (transformer capacity), and 96.2 A (one-third rule): \textbf{250
+A}.
 
 From Table 310.16 at 75°C:\\
-- 3/0 AWG copper = 200 A (insufficient, 200 \textless{} 208.2).\\
-- 4/0 AWG copper = 230 A (sufficient).
+- 3/0 AWG copper = 200 A (insufficient).\\
+- 4/0 AWG copper = 230 A (insufficient, 230 \textless{} 250 A main).\\
+- 250 kcmil copper = 255 A (sufficient).
 
-Minimum secondary conductor: \textbf{4/0 AWG copper} per phase, with
-22-foot run to 250 A main breaker.
+Minimum secondary conductor: \textbf{250 kcmil copper} per phase, with
+22-foot run to the 250 A main breaker. (Alternatively, keep 4/0 AWG and
+use a 225 A main: 208.2 ≤ 225 ≤ 230 A.)
 
 \subsection{Problem 14.6.4}\label{problem-14.6.4}
 
-\textbf{Given:} A 500 kVA, 480 V delta / 208Y/120 V wye transformer is a
+\textbf{Given:} A 225 kVA, 480 V delta / 208Y/120 V wye transformer is a
 separately derived system. The secondary conductors are 2 sets of 350
-kcmil copper per phase (700 kcmil equivalent).
+kcmil copper per phase (700 kcmil equivalent), terminating in a 600 A
+secondary main.
 
 \textbf{Find:} The system bonding jumper size and the grounding
 electrode conductor size per Article 250.30.
@@ -32610,25 +32632,25 @@ Denominator:\\
 
 K = 14.398 / 1.704 = \textbf{8.45}.
 
-Required K-rated transformer: \textbf{K-13} (next standard K-rating
-above 8.45).
+Required K-rated transformer: \textbf{K-9} (next standard K-rating above
+8.45; standard ratings are K-4, 9, 13, 20, 30, 40 and 50).
 
 Derating the K-1 transformer per IEEE C57.110:\\
-I\textsubscript{max} = √(1 / (1 + P\textsubscript{EC-R} × (K - 1))) =
-√(1 / (1 + 0.10 × (8.45 - 1)))\\
+I\textsubscript{max} = √(1 / (1 + P\textsubscript{EC-R} × (K − 1))) =
+√(1 / (1 + 0.10 × (8.45 − 1)))\\
 = √(1 / (1 + 0.745)) = √(1 / 1.745) = √0.573 = \textbf{0.757 pu}.
 
 Derated capacity: 0.757 × 225 = \textbf{170.3 kVA}.
 
 The transformer can safely handle \textbf{170 kVA} of this harmonic-rich
 load, a \textbf{24.3\% reduction} from its nameplate rating. If the
-building load exceeds 170 kVA, either install a K-13 transformer or add
+building load exceeds 170 kVA, either install a K-9 transformer or add
 harmonic filtering.
 
 \subsection{Problem 14.6.7}\label{problem-14.6.7}
 
-\textbf{Given:} A 50 kVA, 240 V delta primary / 120/240 V secondary,
-single-phase transformer has primary-and-secondary protection. The
+\textbf{Given:} A 50 kVA, single-phase, 240 V primary / 120/240 V
+secondary transformer has primary-and-secondary protection. The
 transformer impedance is 3.0\%.
 
 \textbf{Find:} The primary OCPD size, the secondary OCPD size, and the
@@ -32640,8 +32662,9 @@ I\textsubscript{primary} = 50,000 / 240 = \textbf{208.3 A}.
 
 Maximum primary OCPD (250\% with secondary protection):\\
 2.50 × 208.3 = 520.8 A. Largest standard size not exceeding this
-maximum: \textbf{500 A}. Table 450.3(B) Note 1 also permits the next
-higher standard size of \textbf{600 A}.
+maximum: \textbf{500 A}. (Table 450.3(B) Note 1 applies only to the
+125\% entries, so 250\% is a hard maximum and no round-up to 600 A is
+permitted.)
 
 Secondary rated current:\\
 I\textsubscript{secondary} = 50,000 / 240 = \textbf{208.3 A}.
@@ -32669,8 +32692,8 @@ and service load calculations.
 
 \textbf{Given:} A 120 V, single-phase branch circuit supplies a 12 A
 continuous load at the end of a 200-foot run. The conductors are 10 AWG
-copper in PVC conduit (R = 1.21 Ω/1000 ft, X = 0.050 Ω/1000 ft). The
-load power factor is 0.95 lagging.
+copper in PVC conduit (R = 1.2 Ω/1000 ft, X = 0.050 Ω/1000 ft, Chapter
+9, Table 9). The load power factor is 0.95 lagging.
 
 \textbf{Find:} The voltage drop, the percent voltage drop, and whether
 it meets the NEC 3\% recommendation.
@@ -32679,11 +32702,11 @@ it meets the NEC 3\% recommendation.
 cos(θ) = 0.95, sin(θ) = 0.312.
 
 V\textsubscript{drop} = 2 × I × L × (R cos(θ) + X sin(θ)) / 1000\\
-= 2 × 12 × 200 × (1.21 × 0.95 + 0.050 × 0.312) / 1000\\
-= 4,800 × (1.1495 + 0.01560) / 1000\\
-= 4,800 × 1.1651 / 1000 = \textbf{5.59 V}.
+= 2 × 12 × 200 × (1.2 × 0.95 + 0.050 × 0.312) / 1000\\
+= 4,800 × (1.140 + 0.01560) / 1000\\
+= 4,800 × 1.1556 / 1000 = \textbf{5.55 V}.
 
-Percent voltage drop: 5.59 / 120 × 100 = \textbf{4.66\%}.
+Percent voltage drop: 5.55 / 120 × 100 = \textbf{4.62\%}.
 
 This exceeds the NEC 3\% recommendation for branch circuits.
 
@@ -32691,12 +32714,18 @@ To achieve 3\%: V\textsubscript{drop(max)} = 0.03 × 120 = 3.6 V.\\
 Required R\textsubscript{max} = 3.6 × 1000 / (2 × 12 × 200 × 0.95) =
 3,600 / 4,560 = 0.789 Ω/1000 ft.
 
-From Chapter 9, Table 9: 8 AWG copper in PVC = 0.764 Ω/1000 ft
-(sufficient).\\
-V\textsubscript{drop} = 2 × 12 × 200 × (0.764 × 0.95 + 0.050 × 0.312) /
-1000 = 4,800 × 0.7414 / 1000 = \textbf{3.56 V} = 2.97\%.
+From Chapter 9, Table 9: 8 AWG copper in PVC: R = 0.78, X = 0.052 Ω/1000
+ft. R is just under R\textsubscript{max}, but the reactance term tips it
+over:\\
+V\textsubscript{drop} = 2 × 12 × 200 × (0.78 × 0.95 + 0.052 × 0.312) /
+1000 = 4,800 × 0.7572 / 1000 = 3.63 V = \textbf{3.03\% --- fails} the
+3\% recommendation.
 
-Upgrade to \textbf{8 AWG copper} to meet the 3\% recommendation. The 3\%
+6 AWG copper in PVC: R = 0.49, X = 0.051 Ω/1000 ft.\\
+V\textsubscript{drop} = 2 × 12 × 200 × (0.49 × 0.95 + 0.051 × 0.312) /
+1000 = 4,800 × 0.4814 / 1000 = \textbf{2.31 V} = 1.93\%.
+
+Upgrade to \textbf{6 AWG copper} to meet the 3\% recommendation. The 3\%
 figure is an Informational Note, not an enforceable requirement --- 10
 AWG is Code-compliant here on ampacity grounds; it simply performs
 poorly.
@@ -32705,7 +32734,8 @@ poorly.
 
 \textbf{Given:} A 480 V, three-phase feeder supplies a 250 A motor load
 at 0.88 power factor lagging. The run is 300 feet using 350 kcmil copper
-in steel conduit (R = 0.0382 Ω/1000 ft, X = 0.0441 Ω/1000 ft).
+in steel conduit (R = 0.039 Ω/1000 ft, X = 0.050 Ω/1000 ft, Chapter 9,
+Table 9).
 
 \textbf{Find:} The running voltage drop, the percent drop, and the
 voltage drop during motor starting at 6× FLC.
@@ -32715,55 +32745,60 @@ cos(θ) = 0.88, sin(θ) = 0.475.
 
 Running voltage drop:\\
 V\textsubscript{drop} = √3 × I × L × (R cos(θ) + X sin(θ)) / 1000\\
-= 1.732 × 250 × 300 × (0.0382 × 0.88 + 0.0441 × 0.475) / 1000\\
-= 129,900 × (0.03362 + 0.02095) / 1000\\
-= 129,900 × 0.05457 / 1000 = \textbf{7.09 V}.
+= 1.732 × 250 × 300 × (0.039 × 0.88 + 0.050 × 0.475) / 1000\\
+= 129,900 × (0.03432 + 0.02375) / 1000\\
+= 129,900 × 0.05807 / 1000 = \textbf{7.54 V}.
 
-Percent: 7.09 / 480 × 100 = \textbf{1.48\%} (within 3\% recommendation).
+Percent: 7.54 / 480 × 100 = \textbf{1.57\%} (within 3\% recommendation).
 
-Voltage at motor terminals: 480 - 7.09 = \textbf{472.9 V}.
+Voltage at motor terminals: 480 − 7.54 = \textbf{472.5 V}.
 
 During motor starting (I\textsubscript{start} = 6 × 250 = 1,500 A):\\
 Starting PF ≈ 0.30 lagging. cos(θ) = 0.30, sin(θ) = 0.954.\\
-V\textsubscript{drop(start)} = 1.732 × 1,500 × 300 × (0.0382 × 0.30 +
-0.0441 × 0.954) / 1000\\
-= 779,400 × (0.01146 + 0.04209) / 1000\\
-= 779,400 × 0.05355 / 1000 = \textbf{41.74 V}.
+V\textsubscript{drop(start)} = 1.732 × 1,500 × 300 × (0.039 × 0.30 +
+0.050 × 0.954) / 1000\\
+= 779,400 × (0.01170 + 0.04770) / 1000\\
+= 779,400 × 0.05940 / 1000 = \textbf{46.30 V}.
 
-Starting voltage: 480 - 41.74 = \textbf{438.3 V} = 91.3\% of rated.\\
+Starting voltage: 480 − 46.30 = \textbf{433.7 V} = 90.4\% of rated.\\
 This is above the 80\% minimum typically needed for successful motor
 starting.
+
+Note: per 430.22 the motor conductors need 1.25 × 250 = 312.5 A; 350
+kcmil copper (310 A at 75°C) falls just short, so 400 kcmil (335 A) is
+the Code minimum. The voltage-drop figures above are for the 350 kcmil
+given.
 
 \subsection{Problem 14.7.3}\label{problem-14.7.3}
 
 \textbf{Given:} A 208 V, three-phase, 600 A feeder uses three 300 kcmil
 copper conductors per phase in parallel, installed in three separate PVC
 conduits. The run is 350 feet at 0.85 power factor lagging. From Table
-9: R = 0.0437 Ω/1000 ft, X = 0.0527 Ω/1000 ft for 300 kcmil in PVC.
+9: R = 0.044 Ω/1000 ft, X = 0.041 Ω/1000 ft for 300 kcmil in PVC.
 
 \textbf{Find:} The voltage drop with parallel conductors and the percent
 drop.
 
 \textbf{Solution:}\\
 Effective impedance per phase (three conductors in parallel):\\
-R\textsubscript{eff} = 0.0437 / 3 = 0.01457 Ω/1000 ft.\\
-X\textsubscript{eff} = 0.0527 / 3 = 0.01757 Ω/1000 ft.
+R\textsubscript{eff} = 0.044 / 3 = 0.01467 Ω/1000 ft.\\
+X\textsubscript{eff} = 0.041 / 3 = 0.01367 Ω/1000 ft.
 
 cos(θ) = 0.85, sin(θ) = 0.527.
 
-V\textsubscript{drop} = √3 × 600 × 350 × (0.01457 × 0.85 + 0.01757 ×
+V\textsubscript{drop} = √3 × 600 × 350 × (0.01467 × 0.85 + 0.01367 ×
 0.527) / 1000\\
-= 1.732 × 600 × 350 × (0.01238 + 0.00926) / 1000\\
-= 363,720 × 0.02164 / 1000 = \textbf{7.87 V}.
+= 1.732 × 600 × 350 × (0.01247 + 0.00720) / 1000\\
+= 363,720 × 0.01967 / 1000 = \textbf{7.15 V}.
 
-Percent: 7.87 / 208 × 100 = \textbf{3.78\%}.
+Percent: 7.15 / 208 × 100 = \textbf{3.44\%}.
 
 This exceeds the 3\% recommendation. Options:\\
 1. Increase to four conductors per phase: R\textsubscript{eff} =
-0.0437/4, V\textsubscript{drop} ≈ 5.90 V = \textbf{2.84\%}
-(acceptable).\\
+0.044/4, X\textsubscript{eff} = 0.041/4, V\textsubscript{drop} ≈ 5.36 V
+= \textbf{2.58\%} (acceptable).\\
 2. Upsize to 350 kcmil per parallel set: lower R and similar result.\\
-3. Accept 3.78\% if the branch circuit drop is minimal (total ≤ 5\%).
+3. Accept 3.44\% if the branch circuit drop is minimal (total ≤ 5\%).
 
 \subsection{Problem 14.7.4}\label{problem-14.7.4}
 
@@ -32787,17 +32822,18 @@ R\textsubscript{max} = V\textsubscript{drop} × 1000 / (2 × I × L) = 7.2
 × 1000 / (2 × 30 × 100) = 7,200 / 6,000 = \textbf{1.20 Ω/1000 ft}.
 
 From Chapter 9, Table 9 (PVC conduit):\\
-- 10 AWG: R = 1.21 Ω/1000 ft. V\textsubscript{drop} = 2 × 30 × 100 ×
-1.21/1000 = 7.26 V = 3.03\% (marginal).\\
-- 8 AWG: R = 0.764 Ω/1000 ft. V\textsubscript{drop} = 2 × 30 × 100 ×
-0.764/1000 = 4.58 V = \textbf{1.91\%} (meets 3\%).
+- 10 AWG: R = 1.2 Ω/1000 ft. V\textsubscript{drop} = 2 × 30 × 100 ×
+1.2/1000 = 7.20 V = 3.00\% (exactly at the limit, no margin; and 10 AWG
+at 35 A fails the 37.5 A ampacity requirement anyway).\\
+- 8 AWG: R = 0.78 Ω/1000 ft. V\textsubscript{drop} = 2 × 30 × 100 ×
+0.78/1000 = 4.68 V = \textbf{1.95\%} (meets 3\%).
 
 The \textbf{8 AWG copper} satisfies both ampacity (50 A ≥ 37.5 A) and
-voltage drop (1.91\% \textless{} 3\%).
+voltage drop (1.95\% \textless{} 3\%).
 
 However, if the run were 200 feet: V\textsubscript{drop} = 2 × 30 × 200
-× 0.764/1000 = 9.17 V = 3.82\% (exceeds 3\%). Would need 6 AWG (R =
-0.491): V\textsubscript{drop} = 5.89 V = \textbf{2.46\%}.
+× 0.78/1000 = 9.36 V = 3.90\% (exceeds 3\%). Would need 6 AWG (R =
+0.49): V\textsubscript{drop} = 5.88 V = \textbf{2.45\%}.
 
 \subsection{Problem 14.7.5}\label{problem-14.7.5}
 
@@ -32815,7 +32851,7 @@ minimum service size.
 \textbf{Laundry:} 1,500 VA.\\
 Total general: 5,400 + 3,000 + 1,500 = \textbf{9,900 VA}.
 
-Table 220.42 demand factors:\\
+Table 220.45 demand factors:\\
 First 3,000 VA at 100\% = 3,000 VA.\\
 Remaining 6,900 VA at 35\% = 2,415 VA.\\
 Net general = 3,000 + 2,415 = \textbf{5,415 VA}.
@@ -32833,7 +32869,10 @@ is larger = \textbf{5,000 VA}.
 \textbf{Heating/cooling (220.60):} Use the larger load (they don't
 operate simultaneously).\\
 Electric furnace: 15,000 VA \textgreater{} heat pump: 3,500 VA.\\
-Use heating: \textbf{15,000 VA}.
+Use heating: \textbf{15,000 VA}. (If the heat pump runs together with
+the backup strip heat, the two are coincident and should be added:
+15,000 + 3,500 VA. This example treats the strips as a stand-alone
+furnace.)
 
 Total demand: 5,415 + 8,000 + 5,000 + 4,000 + 15,000 = \textbf{37,415
 VA}.
@@ -32844,19 +32883,22 @@ I = 37,415 / 240 = \textbf{155.9 A}.
 Minimum service per 230.79: at least 100 A. For 155.9 A, select
 \textbf{200 A} service.
 
-Service entrance conductors: From Table 310.16 at 75°C:\\
-- 2/0 AWG copper = 175 A (insufficient for 200 A OCPD).\\
-- 4/0 AWG copper = 230 A (sufficient).
+Service entrance conductors: for a dwelling service supplying the entire
+load, 310.12 permits conductors rated at 83\% of the service rating:
+0.83 × 200 = 166 A.\\
+- 2/0 AWG copper = 175 A at 75°C (sufficient under 310.12).\\
+- Without the 310.12 allowance, 3/0 AWG copper (200 A) would be
+required.
 
-Use \textbf{4/0 AWG copper} service entrance conductors with \textbf{200
-A} main breaker.
+Use \textbf{2/0 AWG copper} service entrance conductors with a
+\textbf{200 A} main breaker.
 
 \subsection{Problem 14.7.6}\label{problem-14.7.6}
 
 \textbf{Given:} A 277 V, single-phase lighting circuit supplies 20 A at
 0.98 power factor (LED lighting with power factor correction). The run
-is 250 feet in EMT conduit using 10 AWG copper (R = 1.18 Ω/1000 ft, X =
-0.044 Ω/1000 ft).
+is 250 feet in EMT conduit using 10 AWG copper (R = 1.2 Ω/1000 ft, X =
+0.063 Ω/1000 ft, Chapter 9, Table 9, steel raceway).
 
 \textbf{Find:} The voltage drop and whether it meets the 3\% branch
 circuit recommendation.
@@ -32865,21 +32907,22 @@ circuit recommendation.
 cos(θ) = 0.98, sin(θ) = 0.199.
 
 V\textsubscript{drop} = 2 × I × L × (R cos(θ) + X sin(θ)) / 1000\\
-= 2 × 20 × 250 × (1.18 × 0.98 + 0.044 × 0.199) / 1000\\
-= 10,000 × (1.1564 + 0.00876) / 1000\\
-= 10,000 × 1.165 / 1000 = \textbf{11.65 V}.
+= 2 × 20 × 250 × (1.2 × 0.98 + 0.063 × 0.199) / 1000\\
+= 10,000 × (1.176 + 0.01254) / 1000\\
+= 10,000 × 1.1885 / 1000 = \textbf{11.89 V}.
 
-Percent: 11.65 / 277 × 100 = \textbf{4.21\%} (exceeds 3\%).
+Percent: 11.89 / 277 × 100 = \textbf{4.29\%} (exceeds 3\%).
 
 To meet 3\%: V\textsubscript{drop(max)} = 0.03 × 277 = 8.31 V.\\
 R\textsubscript{max} = 8.31 × 1000 / (2 × 20 × 250 × 0.98) = 8,310 /
 9,800 = 0.848 Ω/1000 ft.
 
-From Table 9: 8 AWG = 0.743 Ω/1000 ft.\\
-V\textsubscript{drop} = 2 × 20 × 250 × (0.743 × 0.98 + 0.044 × 0.199) /
-1000 = 10,000 × 0.737 / 1000 = \textbf{7.37 V} = 2.66\%.
+From Table 9 (steel raceway): 8 AWG: R = 0.78, X = 0.065 Ω/1000 ft.\\
+V\textsubscript{drop} = 2 × 20 × 250 × (0.78 × 0.98 + 0.065 × 0.199) /
+1000 = 10,000 × 0.7773 / 1000 = \textbf{7.77 V} = 2.81\%.
 
-Upgrade to \textbf{8 AWG copper} for compliance.
+Upgrade to \textbf{8 AWG copper} to meet the 3\% recommendation (an
+Informational Note, not an enforceable requirement).
 
 \subsection{Problem 14.7.7}\label{problem-14.7.7}
 
@@ -32894,29 +32937,33 @@ method.
 \textbf{Solution:}\\
 Per 220.82(B):\\
 \textbf{General loads} (everything except heating and cooling):\\
-Total connected = 45 kVA. Subtract HVAC: 45 - 7 - 12 = \textbf{26 kVA}
+Total connected = 45 kVA. Subtract HVAC: 45 − 7 − 12 = \textbf{26 kVA}
 of general loads.\\
 First 10 kVA at 100\% = 10,000 VA.\\
 Remainder (16 kVA) at 40\% = 6,400 VA.\\
 General demand = 10,000 + 6,400 = \textbf{16,400 VA}.
 
-\textbf{Heating/cooling per 220.60:} use the larger.\\
-Furnace 12,000 VA \textgreater{} A/C 7,000 VA.
+\textbf{Heating/cooling per 220.82(C):} take the largest of the six
+selections. Central electric space heating counts at \textbf{65\%} (the
+100\% selection applies only to thermal-storage or continuously
+operating heat):\\
+- A/C at 100\%: 7,000 VA.\\
+- Central electric furnace at 65\%: 0.65 × 12,000 = 7,800 VA.
 
-Per 220.82(C): heating and cooling loads at 100\% of the largest:\\
-HVAC demand = \textbf{12,000 VA}.
+HVAC demand = \textbf{7,800 VA} (heating governs).
 
-Total demand: 16,400 + 12,000 = \textbf{28,400 VA}.
+Total demand: 16,400 + 7,800 = \textbf{24,200 VA}.
 
-Service current: I = 28,400 / 240 = \textbf{118.3 A}.
+Service current: I = 24,200 / 240 = \textbf{100.8 A}.
 
-Minimum service: \textbf{150 A} (next common size above 118.3 A, and
-exceeds the 100 A minimum per 230.79).
+Minimum service: just above the 100 A minimum per 230.79, so the next
+common size, \textbf{150 A}, is selected (a 125 A service would also
+satisfy the calculation).
 
 Service entrance conductors: 1/0 AWG copper = 150 A at 75°C (matches 150
 A service).
 
-Note: The optional method yields a lower demand (28.4 kVA) than the
+Note: The optional method yields a lower demand (24.2 kVA) than the
 standard method would for this dwelling, because the 40\% factor on
 general loads above 10 kVA is more aggressive than the standard method's
 combination of demand factors.
@@ -32944,24 +32991,24 @@ fire pump starting, and the recommended generator size.
 Lighting: 15 kW.\\
 Exit signs: 3 kW.\\
 Fire alarm: 5 kW.\\
-Fire pump running: P = √3 × 480 × 40 × 0.85 = 28.2 kW.
+Fire pump running: P = √3 × 480 × 40 × 0.85 = 28.3 kW.
 
-Total running load: 15 + 3 + 5 + 28.2 = \textbf{51.2 kW}.
+Total running load: 15 + 3 + 5 + 28.3 = \textbf{51.3 kW}.
 
 \textbf{Fire pump starting analysis:}\\
-Fire pump starting kVA = √3 × 480 × 240 / 1000 = \textbf{199.7 kVA} (at
+Fire pump starting kVA = √3 × 480 × 240 / 1000 = \textbf{199.5 kVA} (at
 \textasciitilde0.30 PF starting = 59.9 kW).
 
-Running load without fire pump: 51.2 - 28.2 = 23.0 kW.\\
+Running load without fire pump: 51.3 − 28.3 = 23.0 kW.\\
 Total kW during fire pump start: 23.0 + 59.9 = 82.9 kW.
 
-Total kVA during start: 23.0/1.0 + 199.7 = 23.0 + 199.7 = \textbf{222.7
+Total kVA during start: 23.0/1.0 + 199.5 = 23.0 + 199.5 = \textbf{222.5
 kVA} (at mixed PF).
 
 \textbf{Generator selection:}\\
-Continuous rating must exceed running load: 51.2 kW / 0.8 PF = 64.0 kVA
+Continuous rating must exceed running load: 51.3 kW / 0.8 PF = 64.1 kVA
 minimum continuous.\\
-Motor starting capability must handle 222.7 kVA transient with voltage
+Motor starting capability must handle 222.5 kVA transient with voltage
 dip ≤ 10\%.
 
 Select a \textbf{75 kW / 94 kVA} standby-rated generator with motor
@@ -32984,38 +33031,34 @@ sequenced: cooling starts first, then IT loads are transferred.
 motor starting.
 
 \textbf{Solution:}\\
-\textbf{Step 1 -- First motor start (no other load):}\\
-Motor 1 starting kVA = √3 × 480 × 240 / 1000 = 199.7 kVA.\\
-Motor 1 starting kW = 199.7 × 0.30 = 59.9 kW.
+\textbf{Step 1 --- First motor start (no other load):}\\
+Motor 1 starting kVA = √3 × 480 × 240 / 1000 = 199.5 kVA.\\
+Motor 1 starting kW = 199.5 × 0.30 = 59.9 kW.
 
-\textbf{Step 2 -- Second motor start (Motor 1 running):}\\
-Motor 1 running: P = √3 × 480 × 40 × 0.85 = 28.2 kW, S = 28.2/0.85 =
-33.2 kVA.\\
-Motor 2 starting: 199.7 kVA.\\
-Total Step 2: 33.2 + 199.7 = \textbf{232.9 kVA} (peak demand during
+\textbf{Step 2 --- Second motor start (Motor 1 running):}\\
+Motor 1 running: P = √3 × 480 × 40 × 0.85 = 28.3 kW, S = 28.3/0.85 =
+33.3 kVA.\\
+Motor 2 starting: 199.5 kVA.\\
+Total Step 2: 33.3 + 199.5 = \textbf{232.8 kVA} (peak demand during
 motor 2 start).\\
-kW: 28.2 + 59.9 = 88.1 kW.
+kW: 28.3 + 59.9 = 88.2 kW.
 
-\textbf{Step 3 -- Both motors running + IT load transfer:}\\
-Both motors running: 2 × 28.2 = 56.4 kW.\\
-Other cooling: 80 - 56.4 = 23.6 kW.\\
+\textbf{Step 3 --- Both motors running + IT load transfer:}\\
+Both motors running: 2 × 28.3 = 56.5 kW.\\
+Other cooling: 80 − 56.5 = 23.5 kW.\\
 IT load: 400 kW.\\
-Total running: 56.4 + 23.6 + 400 = \textbf{480 kW}.\\
-Total kVA: 56.4/0.85 + 23.6/0.85 + 400/0.90 = 66.4 + 27.8 + 444.4 =
-\textbf{538.6 kVA}.
+Total running: 56.5 + 23.5 + 400 = \textbf{480 kW}.\\
+Total kVA: 80/0.85 + 400/0.90 = 94.1 + 444.4 = \textbf{538.6 kVA}.
 
 \textbf{Generator selection:}\\
 Continuous: 480 kW at mixed PF, requiring 538.6 kVA.\\
-Motor starting: 232.9 kVA transient (this is less than the continuous
+Motor starting: 232.8 kVA transient (this is less than the continuous
 kVA, so continuous governs).
 
-At 0.8 PF rating: 538.6 kVA × 0.8 = 430.9 kW (insufficient if generator
-is 0.8 PF rated).\\
-Need a generator rated at \textbf{500 kW / 625 kVA} (at 0.8 PF) to cover
-the 480 kW / 538.6 kVA steady-state with 4\% margin.
-
-Alternatively, with load management that sheds some IT load during motor
-starting: a \textbf{500 kW} generator is adequate.
+The generator must meet both the kW and the kVA requirement. A generator
+rated at 0.8 PF has kVA = kW / 0.8, so a \textbf{500 kW / 625 kVA} unit
+covers the 480 kW (4\% kW margin) and the 538.6 kVA (16\% kVA margin)
+steady-state load. The next size down would not cover 480 kW.
 
 \subsection{Problem 14.8.3}\label{problem-14.8.3}
 
@@ -33041,7 +33084,7 @@ Article 700 requirement with \textbf{3.0 seconds of margin}.
 
 Maximum allowable engine start time:\\
 t\textsubscript{start(max)} = 10 - t\textsubscript{detect} -
-t\textsubscript{transfer} = 10 - 1.5 - 0.5 = \textbf{8.0 seconds}.
+t\textsubscript{transfer} = 10 − 1.5 − 0.5 = \textbf{8.0 seconds}.
 
 However, NFPA 110 for Type 10 emergency systems (healthcare) actually
 requires the generator to accept load within 10 seconds, which is
@@ -33052,7 +33095,7 @@ speed and voltage AND the ATS must complete the transfer within the
 For legally required standby (Article 701): the restoration time is
 \textbf{60 seconds}, providing much more margin.
 
-Per 700.5(B), the ATS must be \textbf{automatic} and electrically
+Per 700.5(A), the ATS must be \textbf{automatic} and electrically
 operated, mechanically held. Manual transfer is not permitted for
 emergency systems.
 
@@ -33103,10 +33146,10 @@ trips only the nearest device, not the generator main breaker.
 \subsection{Problem 14.8.5}\label{problem-14.8.5}
 
 \textbf{Given:} A standby generator for a nursing home must run for 96
-hours per NFPA 110 (Type 10, Class 96). The generator is rated 150 kW
-diesel with a fuel consumption rate of 11.2 gallons per hour at full
-load and 6.5 gallons per hour at 50\% load. The expected average load is
-60\% of rating.
+hours per NFPA 110 (Type 10, Class X --- 96 hours). The generator is
+rated 150 kW diesel with a fuel consumption rate of 11.2 gallons per
+hour at full load and 6.5 gallons per hour at 50\% load. The expected
+average load is 60\% of rating.
 
 \textbf{Find:} The minimum fuel tank size at full load and at the
 expected average load. Also estimate the fuel consumption at 60\% load
@@ -33116,24 +33159,21 @@ by linear interpolation.
 \textbf{Fuel consumption at 60\% load} (linear interpolation between
 50\% and 100\%):\\
 At 50\%: 6.5 gal/hr. At 100\%: 11.2 gal/hr.\\
-Slope: (11.2 - 6.5) / (100 - 50) = 4.7 / 50 = 0.094 gal/hr per \%
+Slope: (11.2 − 6.5) / (100 − 50) = 4.7 / 50 = 0.094 gal/hr per \%
 load.\\
-At 60\%: 6.5 + 0.094 × (60 - 50) = 6.5 + 0.94 = \textbf{7.44 gal/hr}.
+At 60\%: 6.5 + 0.094 × (60 − 50) = 6.5 + 0.94 = \textbf{7.44 gal/hr}.
 
 \textbf{Minimum tank at full load (worst case):}\\
 V\textsubscript{tank} = 11.2 × 96 = \textbf{1,075 gallons}.
 
-\textbf{Minimum tank at expected 60\% average load:}\\
-V\textsubscript{tank} = 7.44 × 96 = \textbf{714 gallons}.
+\textbf{Tank at expected 60\% average load (for comparison only):}\\
+V\textsubscript{tank} = 7.44 × 96 = 714 gallons.
 
-Per NFPA 110, the fuel supply must be sufficient for the class duration
-at the expected load. Using the expected load calculation: minimum
-\textbf{714 gallons}.
-
-However, prudent engineering practice sizes for full load to account for
-unexpected load additions during an extended outage. A
-\textbf{1,100-gallon} fuel tank provides the required capacity at full
-load with margin.
+NFPA 110 defines the Class as the minimum run time at the generator's
+\textbf{rated load}, so the required minimum is the full-load figure:
+\textbf{1,075 gallons}. The 714-gallon expected-load figure does not
+satisfy NFPA 110. A \textbf{1,100-gallon} fuel tank provides the
+required capacity at full load with margin.
 
 The tank must include fuel level monitoring per NFPA 110 Section 7.9,
 and fuel quality maintenance (fuel polishing or stabilizer additives) is
