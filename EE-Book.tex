@@ -3,6 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 \documentclass[
+  american,
   11pt,
 ]{report}
 \usepackage{xcolor}
@@ -91,6 +92,18 @@
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off]{babel}
+\else
+\usepackage[bidi=default,shorthands=off]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{STIX Two Text}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -234,6 +247,7 @@
 \hypersetup{
   pdftitle={Electrical Engineering Reference},
   pdfauthor={Stephen B. Johnson},
+  pdflang={en-US},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -26783,20 +26797,20 @@ performance requirements for attenuation, NEXT, and return loss.
 \begin{examplebox}
 
 \textbf{Example 15.2.2:} A 100 m Cat 6A UTP cable has a maximum
-attenuation of 32.8 dB at 500 MHz. A signal is transmitted at 0 dBm at
-500 MHz. Calculate (a) the received signal power in dBm and (b) the
-received power in milliwatts.
+attenuation of 45.3 dB at 500 MHz (TIA-568.2-D cable limit). A signal is
+transmitted at 0 dBm at 500 MHz. Calculate (a) the received signal power
+in dBm and (b) the received power in milliwatts.
 
 \textbf{Solution:}
 
 (a) Received power in dBm:\\
-P\textsubscript{rx} = P\textsubscript{tx} − Attenuation = 0 − 32.8 =
-\textbf{−32.8 dBm}
+P\textsubscript{rx} = P\textsubscript{tx} − Attenuation = 0 − 45.3 =
+\textbf{−45.3 dBm}
 
 (b) Convert to milliwatts:\\
-P\textsubscript{rx} = 10\textsuperscript{(−32.8/10)} =
-10\textsuperscript{−3.28} = 5.25 × 10⁻⁴ mW = \textbf{0.000525 mW = 0.525
-μW}
+P\textsubscript{rx} = 10\textsuperscript{(−45.3/10)} =
+10\textsuperscript{−4.53} = 2.95 × 10⁻⁵ mW = \textbf{0.0000295 mW = 29.5
+nW}
 
 \end{examplebox}
 
@@ -26897,7 +26911,12 @@ cabling, independent of the patch cords used.
 permanent link adapter. The tester reports: insertion loss = 18.2 dB at
 500 MHz (limit: 28.1 dB), NEXT = 42.8 dB at 500 MHz (limit: 33.1 dB),
 and return loss = 14.5 dB at 500 MHz (limit: 12.0 dB). Determine whether
-each parameter passes and calculate the headroom (margin) for each.
+each parameter passes and calculate the headroom (margin) for each. (The
+limits in this example are illustrative, chosen to exercise the
+pass/fail arithmetic; they are not TIA-568.2-D values. For reference,
+TIA-568.2-D Category 6A insertion-loss limits are 45.3 dB/100 m for
+cable at 500 MHz (31.1 dB at 250 MHz), 49.3 dB for a 100 m channel at
+500 MHz, and about 43.6 dB for a 90 m permanent link near 500 MHz.)
 
 \textbf{Solution:}\\
 Insertion loss: 18.2 dB measured vs.~28.1 dB limit. Since lower
@@ -27063,24 +27082,37 @@ monitoring (DOM) for real-time power and temperature readings.
 \begin{examplebox}
 
 \textbf{Example 15.3.4:} An SFP+ transceiver for 10GBASE-LR has a
-minimum transmit power of −1 dBm and a receiver sensitivity of −14.4 dBm
-at BER = 10⁻¹². Calculate the total optical power budget available for
-fiber attenuation, connector losses, and splice losses.
+minimum average launch power of −8.2 dBm and a receiver sensitivity of
+−14.4 dBm (IEEE 802.3 Clause 52) at BER = 10⁻¹². The planned link is 8
+km of single-mode fiber at 1310 nm (0.35 dB/km) with two connectors (0.5
+dB each) and a 2 dB system margin. Calculate (a) the total optical power
+budget, (b) the total link loss, (c) the remaining margin, and (d)
+whether the link closes.
 
-\textbf{Solution:}\\
-Power budget = P\textsubscript{tx,min} −
+\textbf{Solution:}
+
+(a) Power budget = P\textsubscript{tx,min} −
 P\textsubscript{rx,sensitivity}\\
-Power budget = (−1) − (−14.4) = \textbf{13.4 dB}
+Power budget = (−8.2) − (−14.4) = \textbf{6.2 dB}
 
-This 13.4 dB budget must cover all losses in the link:\\
-- Fiber attenuation (0.35 dB/km at 1310 nm × distance)\\
-- Connector losses (0.3--0.5 dB each)\\
-- Splice losses (0.1 dB each for fusion splices)\\
-- System margin (typically 1--3 dB)
+The 6.2 dB figure matches the channel insertion loss that IEEE 802.3
+Table 52-14 allots to a 10 km 10GBASE-LR link (fiber plus connection and
+splice allowance). The 9.4 dB ``power budget'' in that table is
+OMA-based and also covers 3.2 dB of transmitter and dispersion
+penalties.
 
-At 0.35 dB/km with two connectors (1 dB) and 2 dB margin: max distance =
-(13.4 − 1 − 2) / 0.35 = 29.7 km. The 10GBASE-LR standard specifies a
-maximum reach of 10 km, providing substantial margin.
+(b) Total link loss:\\
+Fiber: 0.35 × 8 = 2.80 dB\\
+Connectors: 2 × 0.5 = 1.00 dB\\
+Total loss = 2.80 + 1.00 = \textbf{3.80 dB}
+
+(c) Remaining margin = Budget − Total loss − System margin = 6.2 − 3.80
+− 2.0 = \textbf{0.40 dB}
+
+(d) Since 0.40 dB \textgreater{} 0, the link \textbf{closes}. At 0.35
+dB/km with two connectors (1 dB) and 2 dB design margin, the worst-case
+reach is (6.2 − 1 − 2) / 0.35 = \textbf{9.1 km}; the 8 km design
+therefore sits under that limit with 1.1 km of distance headroom.
 
 \end{examplebox}
 
@@ -27162,12 +27194,13 @@ with an associated insertion loss, and a fiber break or open end appears
 as a large reflection spike followed by noise floor. The OTDR calculates
 distance using d = (c × t) / (2 × n), where t is the round-trip time of
 the reflected pulse, n is the group refractive index of the fiber
-(typically 1.4677 for SMF at 1550 nm), and the factor of 2 accounts for
-the round trip. Key OTDR specifications include dynamic range (maximum
-measurable fiber loss, typically 25--45 dB), dead zone (minimum distance
-after a reflection before the next event can be detected --- event dead
-zone of 0.8--3 m and attenuation dead zone of 5--20 m), and pulse width
-(shorter pulses give better spatial resolution but less dynamic range).
+(typically 1.4677 at 1310 nm and 1.4682 at 1550 nm for G.652 SMF), and
+the factor of 2 accounts for the round trip. Key OTDR specifications
+include dynamic range (maximum measurable fiber loss, typically 25--45
+dB), dead zone (minimum distance after a reflection before the next
+event can be detected --- event dead zone of 0.8--3 m and attenuation
+dead zone of 5--20 m), and pulse width (shorter pulses give better
+spatial resolution but less dynamic range).
 
 Common fiber faults and their OTDR signatures:
 
@@ -27209,7 +27242,7 @@ Double reflection artifact \\
 
 \textbf{Example 15.3.6:} An OTDR with a pulse width of 100 ns is used to
 test a 25 km single-mode fiber span at 1550 nm (group refractive index n
-= 1.4677). The trace shows the fiber launch at 0 m, a fusion splice at
+= 1.4682). The trace shows the fiber launch at 0 m, a fusion splice at
 8.2 km with 0.05 dB loss, a connector at 15.6 km with 0.40 dB loss, and
 the fiber end at 25.0 km. The fiber attenuation slope is 0.21 dB/km.
 Calculate (a) the spatial resolution (pulse length in the fiber), (b)
@@ -27219,9 +27252,9 @@ optical power at the far end if the launch power is 0 dBm.
 \textbf{Solution:}
 
 (a) Spatial resolution (one-way pulse length in fiber):\\
-v\textsubscript{fiber} = c / n = 3.0 × 10⁸ / 1.4677 = 2.044 × 10⁸ m/s\\
-Pulse length = v\textsubscript{fiber} × pulse width = 2.044 × 10⁸ × 100
-× 10⁻⁹ = 20.44 m\\
+v\textsubscript{fiber} = c / n = 3.0 × 10⁸ / 1.4682 = 2.043 × 10⁸ m/s\\
+Pulse length = v\textsubscript{fiber} × pulse width = 2.043 × 10⁸ × 100
+× 10⁻⁹ = 20.43 m\\
 Spatial resolution ≈ \textbf{20.4 m} (events closer than this cannot be
 individually resolved)
 
@@ -27320,9 +27353,9 @@ gain of 20 dB and a noise figure of 5.5 dB. The input signal power per
 channel is −2 dBm and the span loss between amplifiers equals the EDFA
 gain (20 dB). Calculate the OSNR at the receiver in a 0.1 nm reference
 bandwidth. Use the approximation: OSNR ≈ P\textsubscript{in} − NF − 10
-log₁₀(N) + 58 dBm (where N is the number of amplifiers and 58 dBm
-accounts for the noise bandwidth constant hν × Δν for 0.1 nm at 1550
-nm).
+log₁₀(N) + 58 dB (where N is the number of amplifiers and the 58 dB
+term, −10 log₁₀(hν × Δν / 1 mW), accounts for the noise bandwidth
+constant hν × Δν for 0.1 nm at 1550 nm).
 
 \textbf{Solution:}\\
 OSNR = P\textsubscript{in} − NF − 10 log₁₀(N) + 58\\
@@ -27597,11 +27630,10 @@ Designated ports: on each link segment, the switch closer to the root
 places its port in the designated (forwarding) role. S1's ports facing
 S2 and S4 are both designated. S2's port facing S3 is designated (S2 is
 closer to root than S3).\\
-The remaining port --- \textbf{S3's port facing S4} (or equivalently
-S4's port facing S3) --- has no role and is placed in the
-\textbf{alternate (blocking) state}. Specifically, S4's port facing S3
-becomes designated (S4 has cost 4 vs S3's cost 8 from that segment), so
-\textbf{S3's port facing S4 is alternate/blocking}.\\
+The remaining port --- \textbf{S3's port facing S4} --- has no role and
+is placed in the \textbf{alternate (blocking) state}. Specifically, S4's
+port facing S3 becomes designated (S4 has cost 4 vs S3's cost 8 from
+that segment), so \textbf{S3's port facing S4 is alternate/blocking}.\\
 The active tree is: S1↔S2↔S3 and S1↔S4, with the S3↔S4 link blocked. If
 the S1↔S2 link fails, RSTP promotes S3's alternate port to root port
 within 1--3 seconds, restoring connectivity through S3↔S4↔S1.
@@ -27883,11 +27915,12 @@ manageable. An ISP that owns the contiguous block 198.51.100.0 through
 (198.51.100.0/22) to its upstream providers, reducing four routing table
 entries to one. Aggregation requires contiguous, power-of-two-aligned
 address blocks: the four /24s must start on a /22 boundary (the first
-two bits of the third octet must be the same across all four networks).
-More generally, 2\textsuperscript{k} contiguous /n networks aggregate
-into one /(n − k) route. Without CIDR aggregation, the global BGP
-routing table --- currently exceeding 950,000 IPv4 prefixes --- would be
-many times larger and would exceed the memory capacity of most routers.
+six bits of the third octet must be the same across all four networks;
+only the last two bits vary). More generally, 2\textsuperscript{k}
+contiguous /n networks aggregate into one /(n − k) route. Without CIDR
+aggregation, the global BGP routing table --- currently exceeding
+950,000 IPv4 prefixes --- would be many times larger and would exceed
+the memory capacity of most routers.
 
 \begin{examplebox}
 
@@ -27940,7 +27973,7 @@ bit = 0) and the odd address (host bit = 1) are both assigned to router
 interfaces, and hosts process packets addressed to either one. For an
 ISP with 2,000 point-to-point inter-router links, switching from /30 to
 /31 reduces address consumption from 8,000 addresses to 4,000 --- a
-savings of an entire /19 block.
+savings of nearly an entire /20 block (4,096 addresses).
 
 \textbf{eBGP peering links} --- sessions between two autonomous systems
 (ASes) at Internet Exchange Points (IXPs) or over private interconnects
@@ -28528,15 +28561,15 @@ maximum PHY data rate for each.
 
 \textbf{Solution:}\\
 \textbf{Wi-Fi 5 (802.11ac):}\\
-Bits per subcarrier = log₂(256) × (5/6) = 8 × 0.8333 = 6.667 coded
+Bits per subcarrier = log₂(256) × (5/6) = 8 × 0.8333 = 6.667 information
 bits\\
 Symbol rate = 1 / (3.2 + 0.8) μs = 1 / 4.0 μs = 250,000 symbols/s\\
 Data rate = 234 × 6.667 × 250,000 = \textbf{390.0 Mbps}\\
 Spectral efficiency = 390 / 80 = 4.88 bps/Hz
 
 \textbf{Wi-Fi 6 (802.11ax):}\\
-Bits per subcarrier = log₂(1024) × (5/6) = 10 × 0.8333 = 8.333 coded
-bits\\
+Bits per subcarrier = log₂(1024) × (5/6) = 10 × 0.8333 = 8.333
+information bits\\
 Symbol rate = 1 / (12.8 + 0.8) μs = 1 / 13.6 μs = 73,529 symbols/s\\
 Data rate = 980 × 8.333 × 73,529 = \textbf{600.5 Mbps}\\
 Spectral efficiency = 600.5 / 80 = 7.51 bps/Hz
@@ -29191,11 +29224,11 @@ retransmissions, and congestion. The Shannon-Hartley theorem establishes
 the theoretical maximum channel capacity: C = B × log₂(1 + SNR), where B
 is the bandwidth in Hz and SNR is the linear signal-to-noise ratio. For
 practical systems, the spectral efficiency (bps/Hz) depends on the
-modulation scheme and coding rate: 10GBASE-T achieves approximately 2.5
-bps/Hz across its effective bandwidth, while 100G coherent optics using
-DP-16QAM achieve approximately 4 bps/Hz. Network utilization should
-typically be kept below 70--80\% of capacity to avoid excessive queuing
-delays and packet loss.
+modulation scheme and coding rate: 10GBASE-T carries about 5 bps/Hz per
+pair (2,500 Mbps per pair in a 500 MHz band; see Problem 15.10.5), while
+200G coherent optics using DP-16QAM achieve approximately 4 bps/Hz in a
+50 GHz channel. Network utilization should typically be kept below
+70--80\% of capacity to avoid excessive queuing delays and packet loss.
 
 \begin{examplebox}
 

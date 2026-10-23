@@ -3,6 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 \documentclass[
+  american,
 ]{report}
 \usepackage{xcolor}
 \usepackage[inner=1.25in,outer=0.85in,top=1in,bottom=1in]{geometry}
@@ -40,6 +41,18 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off]{babel}
+\else
+\usepackage[bidi=default,shorthands=off]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{STIX Two Text}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -182,6 +195,7 @@
 \hypersetup{
   pdftitle={Electrical Engineering Reference --- Figures Companion},
   pdfauthor={Stephen B. Johnson},
+  pdflang={en-US},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},

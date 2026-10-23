@@ -3,6 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 \documentclass[
+  american,
   11pt,
 ]{report}
 \usepackage{xcolor}
@@ -91,6 +92,18 @@
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off]{babel}
+\else
+\usepackage[bidi=default,shorthands=off]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{STIX Two Text}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -234,6 +247,7 @@
 \hypersetup{
   pdftitle={Electrical Engineering Reference --- Problem Sets},
   pdfauthor={Stephen B. Johnson},
+  pdflang={en-US},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -33346,9 +33360,9 @@ UDP: 8 bytes, IP: 20 bytes, Ethernet header: 14 bytes, FCS: 4 bytes,
 Preamble/SFD: 8 bytes, IFG: 12 bytes\\
 Total on-wire = 800 + 8 + 20 + 14 + 4 + 8 + 12 = 866 bytes = 6,928 bits
 
-Frames per second = 10 × 10⁹ / 6,928 = \textbf{1,443,420 fps}
+Frames per second = 10 × 10⁹ / 6,928 = \textbf{1,443,418 fps}
 
-(b) Goodput = 1,443,420 × 800 × 8 = 9,227,891,156 bps = \textbf{9.23
+(b) Goodput = 1,443,418 × 800 × 8 = 9,237,875,200 bps = \textbf{9.24
 Gbps}
 
 \section{15.2 Physical Media:
@@ -33431,7 +33445,8 @@ Verification: the estimate of 7.16 dB/100 m at 500 MHz falls between 3.2
 
 \textbf{Given:} A Cat 6A cable is tested at 500 MHz with the following
 results: NEXT = 39.9 dB, FEXT = 29.5 dB, and insertion loss = 28.1 dB.
-The minimum ACR requirement is 3 dB.
+The minimum ACR requirement is 3 dB. (Values are illustrative, as for a
+short link; they are not TIA-568.2-D limits.)
 
 \textbf{Find:} (a) The near-end ACR, (b) the far-end ACR (ACRF),
 accounting for the cable attenuation on the FEXT path, and (c) whether
@@ -33444,9 +33459,8 @@ dB}
 
 (b) ACRF = FEXT − Insertion Loss = 29.5 − 28.1 = \textbf{1.4 dB}
 
-Note: FEXT is measured at the far end and already accounts for cable
-attenuation on the interfering signal, so ACRF directly compares far-end
-crosstalk to far-end signal level.
+Note: ACRF (formerly ELFEXT) is defined as FEXT − insertion loss: it
+compares the far-end crosstalk with the attenuated far-end signal level.
 
 (c) Near-end ACR = 11.8 dB \textgreater{} 3 dB → \textbf{PASS}\\
 Far-end ACRF = 1.4 dB \textless{} 3 dB → \textbf{FAIL}
@@ -33463,7 +33477,7 @@ the following test results at 250 MHz:
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lll@{}}
 \toprule\noalign{}
-Parameter & Measured & TIA-568 Limit \\
+Parameter & Measured & Limit (illustrative) \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -33475,6 +33489,12 @@ Return loss & 15.8 dB & 14.0 dB \\
 Propagation delay & 498 ns & 555 ns \\
 \end{longtable}
 }
+
+The limits in this table are illustrative and are not TIA-568.2-D
+values; for reference, TIA-568.2-D Category 6A insertion-loss limits are
+45.3 dB/100 m for cable at 500 MHz (31.1 dB at 250 MHz), 49.3 dB for a
+100 m channel at 500 MHz, and about 43.6 dB for a 90 m permanent link
+near 500 MHz.
 
 \textbf{Find:} (a) The pass/fail status and headroom (margin) for each
 parameter, (b) which parameter has the least headroom, and (c) the
@@ -33506,7 +33526,7 @@ As a fraction of c: v\textsubscript{p}/c = 1.907 × 10⁸ / (3.0 × 10⁸) =
 
 \textbf{Given:} A network engineer must choose between Cat 5e (100 MHz
 bandwidth, max attenuation 22 dB at 100 MHz per 100 m) and Cat 6A (500
-MHz bandwidth, max attenuation 32.8 dB at 500 MHz per 100 m) for a 70 m
+MHz bandwidth, max attenuation 45.3 dB at 500 MHz per 100 m) for a 70 m
 horizontal run that will carry 10GBASE-T traffic. 10GBASE-T requires Cat
 6A or better and uses frequencies up to 500 MHz.
 
@@ -33519,7 +33539,7 @@ frequency.
 
 (a) Cat 5e at 100 MHz: 22.0 × (70/100) = \textbf{15.4 dB}
 
-(b) Cat 6A at 500 MHz: 32.8 × (70/100) = \textbf{22.96 dB}
+(b) Cat 6A at 500 MHz: 45.3 × (70/100) = \textbf{31.71 dB}
 
 (c) Bandwidth-distance products:\\
 Cat 5e: 100 MHz × 100 m = \textbf{10,000 MHz·m = 10 GHz·m}\\
@@ -33806,7 +33826,7 @@ channel is −3 dBm. The span loss between amplifiers equals the EDFA
 gain.
 
 \textbf{Find:} (a) The OSNR at the receiver using OSNR ≈
-P\textsubscript{in} − NF − 10 log₁₀(N) + 58 dBm, (b) whether the system
+P\textsubscript{in} − NF − 10 log₁₀(N) + 58 dB, (b) whether the system
 can support 200 Gbps DP-16QAM coherent detection (required OSNR ≈ 18
 dB), and (c) the maximum number of amplifiers before OSNR drops below 18
 dB.
@@ -33877,7 +33897,8 @@ amplifiers, (c) the span loss, and (d) the OSNR at the far end.
 the system is in gain equilibrium).
 
 (d) OSNR = P\textsubscript{in} − NF − 10 log₁₀(N) + 58\\
-N = 100 (total amplifiers including booster)\\
+N = 100 (one amplifier per span: the 99 inline amplifiers plus the
+receiver pre-amplifier)\\
 = 0 − 4.5 − 10 log₁₀(100) + 58\\
 = 0 − 4.5 − 20.0 + 58 = \textbf{33.5 dB}
 
@@ -34100,9 +34121,9 @@ rate.
 
 (c) Max frame rate = 1 × 10⁹ / 672 = \textbf{1,488,095 fps}
 
-(d) Payload throughput = 1,488,095 × 46 × 8 = 547,738,095 bps = 547.7
+(d) Payload throughput = 1,488,095 × 46 × 8 = 547,618,960 bps = 547.6
 Mbps\\
-Percentage of line rate = 547.7 / 1,000 = \textbf{54.8\%}
+Percentage of line rate = 547.6 / 1,000 = \textbf{54.8\%}
 
 At minimum frame size, Ethernet achieves less than 55\% efficiency. This
 is why small-packet forwarding is the most demanding test for
@@ -34190,7 +34211,7 @@ Full: 2001:0db8:cafe:0001:A683:E7FF:FE2F:001B
 
 \subsection{Problem 15.6.3}\label{problem-15.6.3}
 
-\textbf{Given:} A network has two paths from router R1 to destination
+\textbf{Given:} A network has three paths from router R1 to destination
 prefix 10.20.0.0/16:\\
 - Path A: OSPF route, cost 150 (AD = 110)\\
 - Path B: iBGP route, AS path length 2, local preference 200 (AD =
@@ -34391,11 +34412,13 @@ breakdown:\\
 Actually: 1,200 + 12 + 8 + 20 + 14 + 4 = 1,258 bytes.\\
 With preamble (8) and IFG (12): 1,278 bytes on wire.
 
-Per camera bandwidth = 416.7 × 1,278 × 8 = 4,259,200 bps = 4.26 Mbps\\
-Total 16 cameras = 16 × 4.26 = \textbf{68.1 Mbps}
+Per camera bandwidth = (4 × 10⁶ / 9,600) × 1,278 × 8 = 4,260,000 bps =
+4.26 Mbps\\
+Total 16 cameras = 16 × 4.26 = \textbf{68.16 Mbps}
 
-(d) Overhead per packet = 1,258 − 1,200 = 58 bytes.\\
-Percentage = (68.1 − 64) / 68.1 = 4.1 / 68.1 = \textbf{6.0\%}
+(d) Overhead per packet on the wire = 1,278 − 1,200 = 78 bytes (58 bytes
+of headers and FCS plus 20 bytes of preamble/SFD and IFG).\\
+Percentage = 78 / 1,278 = (68.16 − 64) / 68.16 = \textbf{6.1\%}
 
 The overhead is modest for these large video packets compared to the
 22\%+ overhead seen with small VoIP packets.
@@ -34511,8 +34534,9 @@ delay)\\
 Total page load ≈ \textbf{60 ms} (all requests sent immediately in the
 first flight)
 
-QUIC 0-RTT saves 120 ms compared to HTTP/2, a \textbf{67\% reduction} in
-connection overhead.
+QUIC 0-RTT saves 120 ms compared to HTTP/2: it removes the handshake
+overhead entirely and cuts time to first byte by \textbf{67\%} (180 ms →
+60 ms).
 
 \subsection{Problem 15.7.6}\label{problem-15.7.6}
 
@@ -34557,8 +34581,8 @@ and link budgets, and wireless security.
 
 \textbf{Given:} A Wi-Fi 7 (802.11be) access point operates on a 320 MHz
 channel in the 6 GHz band using 4096-QAM with a 5/6 coding rate. The
-OFDM parameters are: 3,984 data subcarriers, 12.8 μs symbol duration,
-and 0.8 μs guard interval. The device uses 2 spatial streams.
+OFDM parameters are: 3,920 data subcarriers (4 × 980), 12.8 μs symbol
+duration, and 0.8 μs guard interval. The device uses 2 spatial streams.
 
 \textbf{Find:} (a) The bits per subcarrier per symbol, (b) the symbol
 rate, (c) the PHY data rate for a single spatial stream, and (d) the PHY
@@ -34572,13 +34596,13 @@ data rate with 2 spatial streams.
 (b) Symbol rate = 1 / (12.8 + 0.8) μs = 1 / 13.6 μs = \textbf{73,529
 symbols/s}
 
-(c) Single stream rate = 3,984 × 10.0 × 73,529 = 2,929,395,360 bps =
-\textbf{2,929.4 Mbps ≈ 2.93 Gbps}
+(c) Single stream rate = 3,920 × 10.0 / (13.6 × 10⁻⁶) = 2,882,352,941
+bps = \textbf{2,882.4 Mbps ≈ 2.88 Gbps}
 
-(d) With 2 spatial streams: 2 × 2,929.4 = \textbf{5,858.8 Mbps ≈ 5.86
+(d) With 2 spatial streams: 2 × 2,882.35 = \textbf{5,764.7 Mbps ≈ 5.76
 Gbps}
 
-The spectral efficiency = 5,858.8 / 320 = 18.3 bps/Hz, demonstrating the
+The spectral efficiency = 5,764.7 / 320 = 18.0 bps/Hz, demonstrating the
 efficiency gains of 4096-QAM and dense subcarrier spacing in Wi-Fi 7.
 
 \subsection{Problem 15.8.2}\label{problem-15.8.2}
@@ -34716,8 +34740,8 @@ d = 10\textsuperscript{2.25} = \textbf{177.8 m}
 
 With this indoor propagation model, the AP can serve MCS5 clients up to
 approximately 178 m down a warehouse aisle. In practice, a 10 dB fade
-margin is typically added, reducing the reliable range to approximately
-100 m.
+margin is typically added, reducing the reliable range to
+10\textsuperscript{(53/28)} ≈ 78 m.
 
 \section{15.9 Network
 Infrastructure}\label{chapter-15-section-15.9-network-infrastructure}
@@ -34786,7 +34810,8 @@ Total all 8 interfaces = 8 × 148,809,524 = \textbf{1,190.5 Mpps}
 
 (d) Current Internet IPv4 table ≈ 950,000 prefixes. With 20\% growth
 margin: 1,140,000 entries × 80 = 91.2 MB.\\
-Minimum TCAM = \textbf{96 MB} (to hold 1.2M routes at 80 bytes each).
+Minimum TCAM = \textbf{91.2 MB} for today's table plus 20\% growth; the
+96 MB used by the router's 1.2M routes already exceeds this.
 
 \subsection{Problem 15.9.3}\label{problem-15.9.3}
 
@@ -34817,8 +34842,8 @@ Total panels = 5 × 5 floors = \textbf{25 patch panels}
 ports, 24 spare)\\
 Total switches = 3 × 5 = \textbf{15 access switches}
 
-(e) Backbone fiber = 5 IDFs × 1 cable × 12 strands × average 40 m = 5 ×
-40 = 200 m of 12-strand fiber.\\
+(e) Backbone fiber = 5 IDFs × 1 cable × average 40 m = 200 m of
+12-strand cable (200 × 12 = 2,400 strand-metres).\\
 Total = \textbf{5 runs of 12-strand OM4} (40 m average per run, actual
 lengths vary by floor).
 
@@ -34976,8 +35001,8 @@ Gbps.
 
 (a) Propagation delay:\\
 v\textsubscript{fiber} = c/n = 3.0 × 10⁸ / 1.468 = 2.044 × 10⁸ m/s\\
-t\textsubscript{prop} = 2,000,000 / (2.044 × 10⁸) = \textbf{9,785 μs =
-9.785 ms}
+t\textsubscript{prop} = 2,000,000 / (2.0436 × 10⁸) = \textbf{9,787 μs =
+9.787 ms}
 
 (b) Serialization delay:\\
 t\textsubscript{serial} = (1,500 × 8) / (100 × 10⁹) = 12,000 / 10¹¹ =
@@ -34985,7 +35010,7 @@ t\textsubscript{serial} = (1,500 × 8) / (100 × 10⁹) = 12,000 / 10¹¹ =
 
 (c) Total one-way latency:\\
 Processing delay = 5 × 75 = 375 μs\\
-t\textsubscript{total} = 9,785 + 0.12 + 375 = \textbf{10,160 μs ≈ 10.16
+t\textsubscript{total} = 9,787 + 0.12 + 375 = \textbf{10,162 μs ≈ 10.16
 ms}
 
 (d) Round-trip time:\\
@@ -35174,7 +35199,7 @@ Each node has a noise generation limit of 0.01 UI peak-to-peak jitter at
 2.048 MHz.
 
 \textbf{Find:} (a) The PRC frequency accuracy in Hz at 2.048 MHz, (b)
-the maximum wander accumulation through 10 nodes, (c) the time interval
+the maximum jitter accumulation through 10 nodes, (c) the time interval
 error (TIE) accumulated over 1 second per node, and (d) whether the
 chain meets the ±4.6 ppm end-to-end requirement.
 
@@ -35183,7 +35208,7 @@ chain meets the ±4.6 ppm end-to-end requirement.
 (a) PRC frequency accuracy:\\
 Δf = 2.048 × 10⁶ × 1 × 10⁻¹¹ = \textbf{2.048 × 10⁻⁵ Hz = 0.0205 mHz}
 
-(b) SyncE wander accumulates as the square root of the number of nodes
+(b) SyncE jitter accumulates as the square root of the number of nodes
 for uncorrelated noise:\\
 Total jitter ≈ 0.01 × √10 = 0.01 × 3.162 = \textbf{0.032 UI}
 peak-to-peak
@@ -35206,8 +35231,8 @@ dBm per channel. Fiber attenuation is 0.20 dB/km, and connector losses
 total 2.0 dB.
 
 \textbf{Find:} (a) The total link loss, (b) the received power, (c) the
-required OSNR for DP-16QAM at BER = 4 × 10⁻² (approximately 16 dB), and
-(d) the OSNR margin.
+400ZR pre-FEC BER threshold and required OSNR, and (d) the
+received-power margin.
 
 \textbf{Solution:}
 
@@ -35219,18 +35244,21 @@ Total = \textbf{18.0 dB}
 (b) Received power:\\
 P\textsubscript{rx} = +1 − 18.0 = \textbf{−17.0 dBm}
 
-(c) Required OSNR = \textbf{16 dB} (for DP-16QAM at soft-decision FEC
-threshold with implementation penalty)
+(c) The OIF 400ZR IA uses a concatenated FEC (C-FEC,
+\textasciitilde14.8\% overhead) that corrects a pre-FEC BER of
+\textbf{1.25 × 10⁻²} to a post-FEC BER of 10⁻¹⁵, and specifies a
+receiver OSNR tolerance of \textbf{26 dB} (0.1 nm reference bandwidth)
+for amplified links.
 
-(d) OSNR at receiver (unamplified link, using receiver noise as limiting
-factor):\\
-For a coherent receiver with integrated LO, the OSNR is determined by
-the received signal power relative to the receiver noise. With
-P\textsubscript{rx} = −17 dBm and typical coherent receiver sensitivity
-of −22 dBm at required OSNR:
+(d) This link has no optical amplifier, so it is limited by received
+power (receiver thermal and shot noise), not by ASE-limited OSNR; the 26
+dB OSNR figure applies to amplified links. The relevant check is a power
+margin against receiver sensitivity. Using an illustrative unamplified
+coherent receiver sensitivity of −22 dBm (consult the module datasheet
+for the actual value):
 
-Margin = P\textsubscript{rx} − P\textsubscript{sensitivity} = −17 −
-(−22) = \textbf{5 dB margin}
+Power margin = P\textsubscript{rx} − P\textsubscript{sensitivity} = −17
+− (−22) = \textbf{5 dB margin}
 
 This provides adequate margin for connector aging, splice repairs, and
 temperature variations.
