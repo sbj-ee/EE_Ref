@@ -35008,7 +35008,8 @@ The resistance is R = Re\{Z\} = 47 Ω and the reactance is X = Im\{Z\} =
 22 Ω (inductive, since positive).\\
 The magnitude is \textbar Z\textbar{} = √(47² + 22²) = √(2209 + 484) =
 √2693 = 51.89 Ω.\\
-The angle is θ = arctan(22/47) = arctan(0.4681) = 25.08°.\\
+The angle is θ = atan2(22, 47) = arctan(22/47) = arctan(0.4681) =
+25.08°.\\
 So Z = 51.89∠25.08° Ω.
 
 \end{examplebox}
@@ -35072,13 +35073,17 @@ Forms}\label{a.3-polar-and-exponential-forms}
 
 A complex number can be expressed in polar form as Z =
 \textbar Z\textbar∠θ, where \textbar Z\textbar{} = √(a² + b²) is the
-magnitude and θ = arctan(b/a) is the angle (phase) measured from the
-positive real axis. When computing θ, care must be taken with the
-quadrant: if a \textless{} 0, the angle must be adjusted by adding 180°
-(or π radians). Multiplication in polar form is straightforward: Z₁ × Z₂
-= \textbar Z₁\textbar\textbar Z₂\textbar∠(θ₁ + θ₂), and division is Z₁ /
-Z₂ = (\textbar Z₁\textbar/\textbar Z₂\textbar)∠(θ₁ − θ₂). Polar form is
-the preferred representation for expressing AC voltages, currents, and
+magnitude and θ is the angle (phase) measured from the positive real
+axis. θ = atan2(b, a), the four-quadrant arctangent, with result in
+(−180°, 180°{]}. Note the argument order: imaginary part first, then
+real part. By hand, θ = arctan(b/a) when a \textgreater{} 0. When a
+\textless{} 0, add 180° if b ≥ 0 or subtract 180° if b \textless{} 0.
+When a = 0, θ = +90° if b \textgreater{} 0 and −90° if b \textless{} 0.
+The angle is undefined for Z = 0. Multiplication in polar form is
+straightforward: Z₁ × Z₂ = \textbar Z₁\textbar\textbar Z₂\textbar∠(θ₁ +
+θ₂), and division is Z₁ / Z₂ =
+(\textbar Z₁\textbar/\textbar Z₂\textbar)∠(θ₁ − θ₂). Polar form is the
+preferred representation for expressing AC voltages, currents, and
 impedances because it directly displays the magnitude and phase shift.
 
 \begin{examplebox}
@@ -35088,9 +35093,9 @@ the result in degrees.
 
 \textbf{Solution:}\\
 Magnitude: \textbar Z\textbar{} = √((−3)² + 4²) = √(9 + 16) = √25 = 5.\\
-The reference angle is arctan(4/3) = 53.13°.\\
-Since the real part is negative and the imaginary part is positive, Z
-lies in the second quadrant, so θ = 180° − 53.13° = 126.87°.\\
+Angle: θ = atan2(4, −3) = 126.87° (second quadrant).\\
+Cross-check by hand: a \textless{} 0 and b ≥ 0, so θ = arctan(4/(−3)) +
+180° = −53.13° + 180° = 126.87°.\\
 Therefore Z = 5∠126.87°.
 
 \end{examplebox}
@@ -35131,7 +35136,7 @@ e\textsuperscript{jπ/3}.\\
 Converting to rectangular: Z = 10(cos 60° + j sin 60°) = 10(0.5 +
 j0.866) = 5 + j8.66.\\
 Verification: \textbar Z\textbar{} = √(5² + 8.66²) = √(25 + 75) = √100 =
-10 and θ = arctan(8.66/5) = arctan(1.732) = 60°.\\
+10 and θ = atan2(8.66, 5) = arctan(8.66/5) = arctan(1.732) = 60°.\\
 The result matches the original polar form.
 
 \end{examplebox}
@@ -35141,13 +35146,15 @@ Forms}\label{a.3.3-conversion-between-forms}
 
 Converting between rectangular and polar forms is a routine operation in
 AC analysis. Rectangular to polar: given Z = a + jb, the magnitude is
-\textbar Z\textbar{} = √(a² + b²) and the angle is θ = atan2(b, a),
-where the atan2 function correctly handles all four quadrants. Polar to
-rectangular: given Z = \textbar Z\textbar∠θ, the real part is a =
-\textbar Z\textbar{} cos(θ) and the imaginary part is b =
-\textbar Z\textbar{} sin(θ). Engineers frequently switch between forms
-during a single analysis: using polar form for multiplication/division
-steps and rectangular form for addition/subtraction steps.
+\textbar Z\textbar{} = √(a² + b²) and the angle is θ = atan2(b, a), the
+four-quadrant arctangent with argument order (y, x) = (imaginary part,
+real part) and result in (−180°, 180°{]}; by hand, apply the quadrant
+rule given in Section A.3.1. Polar to rectangular: given Z =
+\textbar Z\textbar∠θ, the real part is a = \textbar Z\textbar{} cos(θ)
+and the imaginary part is b = \textbar Z\textbar{} sin(θ). Engineers
+frequently switch between forms during a single analysis: using polar
+form for multiplication/division steps and rectangular form for
+addition/subtraction steps.
 
 \begin{examplebox}
 
@@ -35163,7 +35170,7 @@ Total: Z\textsubscript{total} = (14.14 + 12.99) + j(14.14 − 7.5) = 27.13
 + j6.64 Ω.\\
 Converting back to polar: \textbar Z\textsubscript{total}\textbar{} =
 √(27.13² + 6.64²) = √(736.0 + 44.1) = √780.1 = 27.93 Ω.\\
-θ = arctan(6.64 / 27.13) = 13.76°.\\
+θ = atan2(6.64, 27.13) = arctan(6.64/27.13) = 13.76°.\\
 Therefore Z\textsubscript{total} = 27.93∠13.76° Ω.
 
 \end{examplebox}
@@ -35253,7 +35260,7 @@ Convert to rectangular: V₁ = 100 + j0 V, V₂ = 0 + j60 V.\\
 Total: V\textsubscript{total} = 100 + j60 V.\\
 Magnitude: \textbar V\textsubscript{total}\textbar{} = √(100² + 60²) =
 √(10,000 + 3,600) = √13,600 = 116.6 V.\\
-Angle: θ = arctan(60/100) = 30.96°.\\
+Angle: θ = atan2(60, 100) = arctan(60/100) = 30.96°.\\
 So V\textsubscript{total} = 116.6∠30.96° V.\\
 Note that the combined voltage (116.6 V) is less than the arithmetic sum
 (100 + 60 = 160 V) because the sources are 90° out of phase.
@@ -35382,7 +35389,7 @@ Z\textsubscript{C} = −j/(ωC) = −j/(376.99 × 100 × 10⁻⁶) = −j26.53 �
 Z\textsubscript{total} = 20 − j26.53 Ω.\\
 \textbar Z\textsubscript{total}\textbar{} = √(20² + 26.53²) = √(400 +
 703.84) = √1103.8 = 33.22 Ω.\\
-θ = arctan(−26.53/20) = −52.99°.\\
+θ = atan2(−26.53, 20) = arctan(−26.53/20) = −52.99°.\\
 Current: I = V\textsubscript{s} / Z\textsubscript{total} = 120∠0° /
 33.22∠−52.99° = 3.61∠52.99° A\textsubscript{rms} (current leads voltage,
 confirming capacitive circuit).\\
