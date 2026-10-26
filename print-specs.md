@@ -152,8 +152,8 @@ is a decision still to make; the options, in order of preference:
 - **Crop marks** — verified by rasterising sampled pages of each press file at
   72 dpi and counting ink in the slug at all four trim corners. 40 random pages
   of the reference volume and 30 of the problem companion: no page missing a
-  mark. This check is worth repeating after any change to the preamble, because
-  the marks are fragile in a specific way — see the note in `impose-print.tex`.
+  mark. This check is worth repeating after any change to the imposition pass
+  (`impose-print.typ`; Typst since the switch from XeLaTeX).
 - **Figures** — minimum 445 dpi at the placed size, median 699 dpi.
 - **Page sizes** — press files are 504 × 720 pt (7 × 10 in) with the 6 × 9 trim
   centred; screen files remain 612 × 792 pt (US Letter).
