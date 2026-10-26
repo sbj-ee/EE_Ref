@@ -38104,10 +38104,10 @@ PRF = 200 × 10³ × 3.33 × 10⁻⁷ × 750 = \textbf{50 W}
 
 (e) The pulse energy (66.7 mJ) may be insufficient for detection at 200
 km depending on target RCS. Using pulse compression (Section 17.2.3), a
-20 μs pulse with 10 MHz bandwidth would provide the same 50 m resolution
-with pulse energy of 200 × 10³ × 20 × 10⁻⁶ = 4 J --- \textbf{60× more
-energy} while maintaining resolution, making long-range detection
-practical.
+20 μs chirp with 3 MHz bandwidth (c/2B = 50 m) would provide the same 50
+m resolution with pulse energy of 200 × 10³ × 20 × 10⁻⁶ = 4 J ---
+\textbf{60× more energy} while maintaining resolution, making long-range
+detection practical.
 
 \subsection{Problem 17.2.3}\label{problem-17.2.3}
 
@@ -38400,8 +38400,10 @@ cells in the sliding window.
 (b) Threshold = 10 log₁₀(11.23) = \textbf{10.5 dB} above the estimated
 noise floor
 
-(c) CFAR loss ≈ 10 log₁₀(1 + 2/N) = 10 log₁₀(1 + 2/24) = 10
-log₁₀(1.0833) = \textbf{0.35 dB}
+(c) CFAR loss, comparing against the known-noise threshold T =
+−ln(P\textsubscript{fa}) = −ln(10⁻⁴) = 9.21 (as in Example 17.3.2): CFAR
+loss = 10 log₁₀(11.23 / 9.21) = \textbf{0.86 dB}. (The large-N
+approximation 10 log₁₀(1 + 2/N) = 0.35 dB understates it here.)
 
 (d) Total cells = 1 (CUT) + 6 (guard cells) + 24 (reference cells) =
 \textbf{31 range cells}
@@ -38422,13 +38424,16 @@ qualitatively why OS-CFAR is preferred in multi-target environments.
 − 1) = 32 × ((10⁻⁶)\textsuperscript{−1/32} − 1) = 32 ×
 (10\textsuperscript{6/32} − 1)
 
-10\textsuperscript{6/32} = 10\textsuperscript{0.1875} = 1.539
+10\textsuperscript{6/32} = 10\textsuperscript{0.1875} = 1.5399
 
-α\textsubscript{CA} = 32 × (1.539 − 1) = 32 × 0.539 = \textbf{17.25}
+α\textsubscript{CA} = 32 × (1.5399 − 1) = 32 × 0.5399 = \textbf{17.28}
 
-(b) Threshold = 10 log₁₀(17.25) = \textbf{12.4 dB}
+(b) Threshold = 10 log₁₀(17.28) = \textbf{12.4 dB}
 
-(c) CFAR loss = 10 log₁₀(1 + 2/32) = 10 log₁₀(1.0625) = \textbf{0.26 dB}
+(c) CFAR loss, comparing against the known-noise threshold T = −ln(10⁻⁶)
+= 13.82 (as in Example 17.3.2): CFAR loss = 10 log₁₀(17.28 / 13.82) =
+\textbf{0.97 dB}. (The large-N approximation 10 log₁₀(1 + 2/32) = 0.26
+dB understates it here.)
 
 (d) \textbf{OS-CFAR ranks the reference cells by power and uses the k-th
 ordered value}, making it robust against interfering targets in the
@@ -38536,7 +38541,8 @@ In range: σ\textsubscript{pred,R} = √(75² + (σ\textsubscript{vR} × 4)²)
 (c) For 2D Gaussian, 95\% probability corresponds to a gate radius of
 \textasciitilde2.45σ (chi-squared with 2 DOF, p = 0.95):
 
-Range gate: 2.45 × 75 = \textbf{184 m}
+Range gate: 2.45 × 106 = \textbf{260 m} (using the predicted range
+uncertainty, as for cross-range)
 
 Cross-range gate: 2.45 × 987 = \textbf{2,418 m}
 
@@ -38846,14 +38852,15 @@ R\textsubscript{max} = (3.514 × 10¹³ / (1.918 ×
 
 Range ratio = 2,000 / 367 = 5.45
 
-SNR must increase by 5.45⁴ = 882 (29.5 dB)
+SNR must increase by (2,000 / 368.0)⁴ = 873 (29.4 dB), using the
+unrounded R\textsubscript{max} = 368.0 km
 
-For coherent integration: N = 882 → \textbf{N = 882 pulses}
+For coherent integration: N = 873 → \textbf{N = 873 pulses}
 
-At PRF = 10 kHz, this requires a dwell time of 88.2 ms. Coherent
+At PRF = 10 kHz, this requires a dwell time of 87.3 ms. Coherent
 integration gains the full factor N because the pulses are summed in
 phase; non-coherent integration would gain only about √N and would need
-N ≈ 882² pulses for the same result, which is why long-range
+N ≈ 873² pulses for the same result, which is why long-range
 surveillance radars go to the expense of phase coherence.
 
 \subsection{Problem 17.4.8}\label{problem-17.4.8}
