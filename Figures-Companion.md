@@ -524,7 +524,7 @@ Each entry follows the same figure format used in the chapters: a numbered capti
 **Figure C15.3:** Installing Fiber-Optic Cabling for Rural Broadband (USDA Rural Development, 2024)
 
 ![Installing Fiber-Optic Cabling for Rural Broadband (USDA Rural Development, 2024)](images-companion/ch15_fiber.jpg)
-*Source: [Fiber-optic cabling installed as part of USDA Rural Development's work in rural Utah.jpg](https://commons.wikimedia.org/wiki/File:Fiber-optic_cabling_is_installed_as_part_of_USDA_Rural_Development%27s_work_in_rural_Utah_with_high-speed_internet_access_on_29_February_2024_-_12.jpg), Wikimedia Commons — public domain (USDA work).*
+*Source: [Fiber-optic cabling installed as part of USDA Rural Development's work in rural Utah.jpg](https://commons.wikimedia.org/wiki/File:Fiber-optic_cabling_is_installed_as_part_of_USDA_Rural_Development%E2%80%99s_work_in_rural_Utah_with_high-speed_internet_access_on_29_February_2024_-_12.jpg), Wikimedia Commons — public domain (USDA work).*
 
 <a id="fig-c15-5"></a>
 **Figure C15.5:** RJ45 (8P8C) Connector Used for Ethernet Twisted-Pair Cabling

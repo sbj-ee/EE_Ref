@@ -34,7 +34,7 @@ def _(mo):
 
         A quarter-wave stack of TiO₂/SiO₂ layers achieves extremely high
         reflectivity. With n_H/n_L = 2.30/1.46 = 1.575, only 8 pairs
-        give 99.72% and 15 pairs give 99.9996%.
+        give 99.72% and 15 pairs give 99.9995%.
         """
     )
     return
