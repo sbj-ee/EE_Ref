@@ -183,7 +183,7 @@ def _(mo):
         A $1,000,000 solar carport with expected $160,000/year savings over
         15 years at 8% MARR. The NPV is highly sensitive to annual savings —
         a ±20% variation swings the NPV from $96k to $643k. The breakeven
-        savings is about $116,826/year.
+        savings is about $116,829/year.
         """
     )
     return
@@ -198,7 +198,7 @@ def _(np, plt):
     npv = -initial_cost + savings * PA_factor
 
     # Breakeven
-    breakeven = initial_cost / PA_factor  # $116,826
+    breakeven = initial_cost / PA_factor  # $116,829
 
     # Example points
     s_low, s_base, s_high = 128_000, 160_000, 192_000
