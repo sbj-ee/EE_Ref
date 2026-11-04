@@ -185,7 +185,7 @@ def _(mo):
 
         atan2 correctly handles the four axis cases where arctan(b/a) would
         encounter division by zero or ambiguity. These correspond to pure
-        resistance (0°), pure inductance (+90°), pure negative resistance (±180°),
+        resistance (0°), pure inductance (+90°), pure negative resistance (+180°),
         and pure capacitance (−90°) in impedance analysis.
         """
     )
@@ -197,7 +197,7 @@ def _(np, plt):
     axis_points = [
         (1, 0, "Pure R: 0°", "blue"),
         (0, 1, "Pure L: +90°", "red"),
-        (-1, 0, "−R: ±180°", "green"),
+        (-1, 0, "−R: +180°", "green"),
         (0, -1, "Pure C: −90°", "orange"),
     ]
 
