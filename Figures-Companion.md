@@ -678,4 +678,4 @@ Each entry follows the same figure format used in the chapters: a numbered capti
 
 ## Appendix F: Matrix Operations
 
-## Appendix G: TCLab Control Lab
+## Appendix G: Op-Amp Circuit Collection
