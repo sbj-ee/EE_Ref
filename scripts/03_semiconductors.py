@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.19.4"
+__generated_with = "0.25.2"
 app = marimo.App()
 
 
@@ -9,40 +9,35 @@ def _():
     import marimo as mo
     import numpy as np
     import matplotlib.pyplot as plt
+
     return mo, np, plt
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        """
-        # Chapter 3: Semiconductors — Example Visualizations
+    mo.md("""
+    # Chapter 3: Semiconductors — Example Visualizations
 
-        Interactive graphs for selected topics from Chapter 3, covering
-        energy band diagrams, PN junction I-V characteristics, and
-        MOSFET output and transfer characteristics.
-        """
-    )
+    Interactive graphs for selected topics from Chapter 3, covering
+    energy band diagrams, PN junction I-V characteristics, and
+    MOSFET output and transfer characteristics.
+    """)
     return
 
 
-# --- 3.1.1 Energy Band Diagram ---
-
 @app.cell
 def _(mo):
-    mo.md(
-        """
-        ## 3.1.1 Energy Band Diagram — Conductor, Semiconductor, Insulator
+    mo.md("""
+    ## 3.1.1 Energy Band Diagram — Conductor, Semiconductor, Insulator
 
-        The electrical behavior of a solid is determined by its energy band
-        structure. In a conductor, the valence and conduction bands overlap,
-        providing abundant free carriers. In a semiconductor like silicon,
-        a small bandgap (~1.12 eV) allows thermal excitation of electrons
-        into the conduction band. In an insulator like SiO2, the bandgap
-        is so large (~9 eV) that virtually no electrons reach the conduction
-        band at room temperature.
-        """
-    )
+    The electrical behavior of a solid is determined by its energy band
+    structure. In a conductor, the valence and conduction bands overlap,
+    providing abundant free carriers. In a semiconductor like silicon,
+    a small bandgap (~1.12 eV) allows thermal excitation of electrons
+    into the conduction band. In an insulator like SiO2, the bandgap
+    is so large (~9 eV) that virtually no electrons reach the conduction
+    band at room temperature.
+    """)
     return
 
 
@@ -132,24 +127,20 @@ def _(plt):
     return
 
 
-# --- 3.3 PN Junction I-V Curve ---
-
 @app.cell
 def _(mo):
-    mo.md(
-        """
-        ## 3.3 PN Junction I-V Curve — Shockley Diode Equation
+    mo.md("""
+    ## 3.3 PN Junction I-V Curve — Shockley Diode Equation
 
-        The current through a PN junction diode follows the Shockley equation:
-        I = I_S * (e^(V / (n * V_T)) - 1), where I_S is the reverse saturation
-        current, n is the ideality factor, and V_T = kT/q ~ 25.85 mV at 300 K.
-        An ideal diode has n = 1 (diffusion current dominates), while n = 2
-        represents significant recombination current. The left plot uses a
-        linear scale showing the exponential rise and knee voltage (~0.7 V);
-        the right plot uses a log scale to reveal the exponential region as
-        a straight line.
-        """
-    )
+    The current through a PN junction diode follows the Shockley equation:
+    I = I_S * (e^(V / (n * V_T)) - 1), where I_S is the reverse saturation
+    current, n is the ideality factor, and V_T = kT/q ~ 25.85 mV at 300 K.
+    An ideal diode has n = 1 (diffusion current dominates), while n = 2
+    represents significant recombination current. The left plot uses a
+    linear scale showing the exponential rise and knee voltage (~0.7 V);
+    the right plot uses a log scale to reveal the exponential region as
+    a straight line.
+    """)
     return
 
 
@@ -248,23 +239,19 @@ def _(np, plt):
     return
 
 
-# --- 3.4 MOSFET Characteristics ---
-
 @app.cell
 def _(mo):
-    mo.md(
-        """
-        ## 3.5.2 MOSFET I-V Characteristics
+    mo.md("""
+    ## 3.5.2 MOSFET I-V Characteristics
 
-        An N-channel enhancement MOSFET with threshold voltage V_th = 1 V
-        and transconductance parameter k_n = 1 mA/V^2. The left plot shows
-        output characteristics (I_DS vs V_DS) for several gate voltages,
-        with the parabolic boundary V_DS = V_GS - V_th separating the
-        linear (triode) and saturation regions. The right plot shows the
-        transfer characteristic (I_DS vs V_GS) at V_DS = 5 V, illustrating
-        the square-law relationship I_D = (k_n/2)(V_GS - V_th)^2.
-        """
-    )
+    An N-channel enhancement MOSFET with threshold voltage V_th = 1 V
+    and transconductance parameter k_n = 1 mA/V^2. The left plot shows
+    output characteristics (I_DS vs V_DS) for several gate voltages,
+    with the parabolic boundary V_DS = V_GS - V_th separating the
+    linear (triode) and saturation regions. The right plot shows the
+    transfer characteristic (I_DS vs V_GS) at V_DS = 5 V, illustrating
+    the square-law relationship I_D = (k_n/2)(V_GS - V_th)^2.
+    """)
     return
 
 
