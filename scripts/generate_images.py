@@ -25,14 +25,132 @@ def save(fig, name):
 # ============================================================
 print("Chapter 1: Power Engineering")
 
+import matplotlib.patches as _c1p
+
+# --- Drawing helpers for the Chapter 1 circuit and block diagrams ---
+_C1_LW = 1.6
+
+
+def _c1_wire(ax, pts, color="black", lw=_C1_LW, ls="-"):
+    xs, ys = zip(*pts)
+    ax.plot(xs, ys, color=color, linewidth=lw, linestyle=ls,
+            solid_capstyle="round")
+
+
+def _c1_resistor(ax, x0, x1, y, color="black", n=6, h=0.12):
+    """Horizontal zigzag resistor from x0 to x1 at height y."""
+    lead = (x1 - x0) * 0.15
+    xs = [x0, x0 + lead]
+    ys = [y, y]
+    step = (x1 - x0 - 2 * lead) / (2 * n)
+    for k in range(2 * n):
+        xs.append(x0 + lead + step * (k + 1))
+        ys.append(y + (h if k % 2 == 0 else -h) if k < 2 * n - 1 else y)
+    xs.append(x1)
+    ys.append(y)
+    ax.plot(xs, ys, color=color, linewidth=_C1_LW)
+
+
+def _c1_inductor(ax, x0, x1, y, color="black", n=4, r=None):
+    """Horizontal inductor (semicircular loops) from x0 to x1."""
+    lead = (x1 - x0) * 0.12
+    w = (x1 - x0 - 2 * lead) / n
+    r = w / 2 if r is None else r
+    _c1_wire(ax, [(x0, y), (x0 + lead, y)], color)
+    for k in range(n):
+        cx = x0 + lead + w * (k + 0.5)
+        th = np.linspace(np.pi, 0, 30)
+        ax.plot(cx + (w / 2) * np.cos(th), y + r * np.sin(th),
+                color=color, linewidth=_C1_LW)
+    _c1_wire(ax, [(x1 - lead, y), (x1, y)], color)
+
+
+def _c1_vcoil(ax, x, y0, y1, color="black", n=4, side=1):
+    """Vertical winding (loops) from y0 to y1 at x."""
+    h = (y1 - y0) / n
+    for k in range(n):
+        cy = y0 + h * (k + 0.5)
+        th = np.linspace(-np.pi / 2, np.pi / 2, 30)
+        ax.plot(x + side * (abs(h) / 2) * np.cos(th),
+                cy + (h / 2) * np.sin(th), color=color, linewidth=_C1_LW)
+
+
+def _c1_vcap(ax, x, y_top, y_bot, color="black", gap=0.07, w=0.18):
+    """Vertical capacitor between y_top and y_bot centred at x."""
+    ym = (y_top + y_bot) / 2
+    _c1_wire(ax, [(x, y_top), (x, ym + gap / 2)], color)
+    _c1_wire(ax, [(x, y_bot), (x, ym - gap / 2)], color)
+    _c1_wire(ax, [(x - w, ym + gap / 2), (x + w, ym + gap / 2)], color,
+             lw=2.2)
+    _c1_wire(ax, [(x - w, ym - gap / 2), (x + w, ym - gap / 2)], color,
+             lw=2.2)
+
+
+def _c1_ground(ax, x, y, s=0.15, color="black"):
+    for k, f in enumerate([1.0, 0.65, 0.3]):
+        _c1_wire(ax, [(x - s * f, y - k * 0.06), (x + s * f, y - k * 0.06)],
+                 color)
+
+
+def _c1_terminal(ax, x, y, color="black"):
+    ax.plot(x, y, "o", markersize=6, markerfacecolor="white",
+            markeredgecolor=color, zorder=5)
+
+
+def _c1_dot(ax, x, y, color="black"):
+    ax.plot(x, y, "o", markersize=5, color=color, zorder=5)
+
+
+def _c1_breaker(ax, x, y, s=0.16, color="black", fc="white", lw=_C1_LW):
+    ax.add_patch(_c1p.Rectangle((x - s / 2, y - s / 2), s, s,
+                                facecolor=fc, edgecolor=color,
+                                linewidth=lw, zorder=4))
+
+
+def _c1_box(ax, x, y, w, h, text, fc="#DDEEFF", ec="#2266CC", fs=10,
+            weight="normal", tc="black"):
+    ax.add_patch(_c1p.FancyBboxPatch((x - w / 2, y - h / 2), w, h,
+                                     boxstyle="round,pad=0.02",
+                                     facecolor=fc, edgecolor=ec,
+                                     linewidth=1.5, zorder=3))
+    ax.text(x, y, text, ha="center", va="center", fontsize=fs,
+            fontweight=weight, color=tc, zorder=4)
+
+
+def _c1_arrow(ax, p0, p1, color="black", lw=1.8, style="-|>", ms=12):
+    ax.annotate("", xy=p1, xytext=p0,
+                arrowprops=dict(arrowstyle=style, color=color, linewidth=lw,
+                                mutation_scale=ms, shrinkA=0, shrinkB=0))
+
+
+def _c1_phasor(ax, z0, z1, color, label=None, lw=2.2, off=(0, 0),
+               fs=10, ha="center", va="center"):
+    _c1_arrow(ax, (z0.real, z0.imag), (z1.real, z1.imag), color=color,
+              lw=lw, ms=14)
+    if label:
+        zm = (z0 + z1) / 2
+        ax.text(zm.real + off[0], zm.imag + off[1], label, color=color,
+                fontsize=fs, ha=ha, va=va, fontweight="bold")
+
+
+def _c1_blank(ax):
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+
 # --- 1.1 U.S. Electricity Generation by Source ---
+# EIA Electric Power Annual 2025 (released Oct 21, 2026), Tables 3.1.A and
+# 3.1.B, 2025 annual totals, utility-scale facilities, million kWh. These are
+# exactly the values in the Chapter 1 table. Petroleum = liquids + coke;
+# Biomass - Waste = landfill gas + biogenic MSW + other waste biomass;
+# Solar = utility-scale PV + solar thermal (small-scale PV excluded).
 sources = [
     "Natural Gas",
     "Coal",
     "Nuclear",
     "Wind",
     "Conv. Hydro",
-    "Solar",
+    "Solar (utility-scale)",
     "Biomass — Wood",
     "Petroleum",
     "Biomass — Waste",
@@ -41,18 +159,18 @@ sources = [
     "Pumped Storage",
 ]
 values = np.array([
-    1_579_190,
-    897_999,
-    779_645,
-    380_300,
-    251_585,
-    163_550,
-    36_463,
-    19_173,
-    17_790,
-    15_975,
-    11_397,
-    -5_112,
+    1_811_004,
+    734_928,
+    785_304,
+    461_577,
+    241_303,
+    300_303,
+    31_179,
+    19_245,
+    14_113,
+    15_628,
+    9_528,
+    -5_362,
 ])
 
 colors = [
@@ -82,7 +200,8 @@ bars = ax.barh(range(len(sorted_sources)), sorted_values / 1000,
 ax.set_yticks(range(len(sorted_sources)))
 ax.set_yticklabels(sorted_sources, fontsize=9)
 ax.set_xlabel("Net Generation (TWh)")
-ax.set_title("Y2022 U.S. Electricity Net Generation by Source")
+ax.set_title("2025 U.S. Electricity Net Generation by Source "
+             "(utility-scale; EIA Electric Power Annual)")
 ax.grid(True, axis="x", alpha=0.3)
 
 for i, (val, bar) in enumerate(zip(sorted_values, bars)):
@@ -102,48 +221,597 @@ legend_elements = [
 ]
 ax.legend(handles=legend_elements, loc="lower right", fontsize=9)
 
-ax.set_xlim(-100, 1750)
+ax.set_xlim(-100, 2000)
 fig.tight_layout()
 save(fig, "ch01_energy_mix.png")
 
-# --- 1.3.6 Power Factor Correction ---
+# --- 1.2.1.1 Short-line model and Example 1.2.1.1 phasor diagram ---
+# Z = 60 km x (0.15 + j0.40) = 9.0 + j24.0 ohm; V_R = 69,000 V at 0 deg;
+# I_R = 144.93 A at -31.79 deg (0.85 lagging).
+Z_sl = complex(9.0, 24.0)
+V_R = 69_000.0
+I_R = 10e6 / V_R * np.exp(-1j * np.arccos(0.85))
+V_S = V_R + I_R * Z_sl
+
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(13, 5.4),
+                                 gridspec_kw={"width_ratios": [1, 1]})
+_c1_blank(ax_a)
+_c1_terminal(ax_a, 0, 1)
+_c1_terminal(ax_a, 0, 0)
+_c1_terminal(ax_a, 6, 1)
+_c1_terminal(ax_a, 6, 0)
+_c1_wire(ax_a, [(0, 1), (1, 1)])
+_c1_resistor(ax_a, 1, 2.8, 1)
+_c1_inductor(ax_a, 2.8, 4.8, 1)
+_c1_wire(ax_a, [(4.8, 1), (6, 1)])
+_c1_wire(ax_a, [(0, 0), (6, 0)])
+_c1_arrow(ax_a, (0.25, 1.25), (0.85, 1.25), color="#CC4444")
+ax_a.text(0.55, 1.38, "I = I$_R$", color="#CC4444", ha="center", fontsize=10)
+ax_a.text(1.9, 1.33, "R = 9.0 Ω", ha="center", fontsize=10)
+ax_a.text(3.8, 1.43, "jX$_L$ = j24.0 Ω", ha="center", fontsize=10)
+ax_a.text(-0.25, 0.5, "V$_S$", ha="right", va="center", fontsize=12,
+          color="#2266CC", fontweight="bold")
+ax_a.text(6.25, 0.5, "V$_R$", ha="left", va="center", fontsize=12,
+          color="#33AA33", fontweight="bold")
+ax_a.text(0, 0.62, "+\n\n−", ha="center", va="center", fontsize=11)
+ax_a.text(6, 0.62, "+\n\n−", ha="center", va="center", fontsize=11)
+ax_a.text(3, -0.45, "Sending end            Short line (< 80 km): series Z only"
+          "            Receiving end", ha="center", fontsize=9, color="dimgray")
+ax_a.text(3, -0.85, "Z = 60 km × (0.15 + j0.40) Ω/km = 9.0 + j24.0 Ω;   "
+          "V$_S$ = V$_R$ + I$_R$Z", ha="center", fontsize=10)
+ax_a.set_xlim(-0.9, 6.9)
+ax_a.set_ylim(-1.1, 1.8)
+ax_a.set_title("(a) Short-line series model")
+
+# Phasor diagram: the I_R Z drop is magnified 10x so it is visible next to
+# V_R; every label carries the true (unscaled) value.
+k = 10.0
+o = 0j
+vr = complex(V_R, 0) / 1000
+ir_drop = I_R * Z_sl.real / 1000 * k
+ix_drop = I_R * 1j * Z_sl.imag / 1000 * k
+vs_draw = vr + ir_drop + ix_drop
+_c1_phasor(ax_b, o, vr, "#33AA33")
+ax_b.text(vr.real * 0.55, 1.2, f"V$_R$ = {V_R:,.0f}∠0° V", color="#33AA33",
+          ha="center", fontsize=10, fontweight="bold")
+_c1_phasor(ax_b, vr, vr + ir_drop, "#E68A00")
+ax_b.text((vr + ir_drop).real + 1.0, (vr + ir_drop).imag - 1.0,
+          f"I$_R$R = {abs(I_R) * Z_sl.real:,.0f} V", color="#E68A00",
+          fontsize=9, fontweight="bold", va="top")
+_c1_phasor(ax_b, vr + ir_drop, vs_draw, "#992299")
+ax_b.text((vr + ir_drop + ix_drop / 2).real + 1.5,
+          (vr + ir_drop + ix_drop / 2).imag,
+          f"jI$_R$X$_L$ = {abs(I_R) * Z_sl.imag:,.0f} V\n"
+          f"(|I$_R$Z| = {abs(I_R * Z_sl):,.1f} V)", color="#992299",
+          fontsize=9, fontweight="bold", va="center")
+_c1_phasor(ax_b, o, vs_draw, "#2266CC")
+ax_b.text(vs_draw.real * 0.42, vs_draw.imag * 0.42 + 3.5,
+          f"V$_S$ = {abs(V_S):,.1f}∠{np.degrees(np.angle(V_S)):.2f}° V",
+          color="#2266CC", fontsize=10, fontweight="bold", ha="center",
+          rotation=np.degrees(np.arctan2(vs_draw.imag, vs_draw.real)))
+ir_draw = I_R / abs(I_R) * 30
+_c1_phasor(ax_b, o, ir_draw, "#CC4444")
+ax_b.text(ir_draw.real + 1.5, ir_draw.imag,
+          f"I$_R$ = {abs(I_R):.2f}∠{np.degrees(np.angle(I_R)):.2f}° A",
+          color="#CC4444", fontsize=10, fontweight="bold", va="center")
+th = np.linspace(np.angle(I_R), 0, 30)
+ax_b.plot(12 * np.cos(th), 12 * np.sin(th), "k-", linewidth=0.8)
+ax_b.text(13.5, -4.5, "θ = 31.79°", fontsize=9)
+ax_b.set_xlim(-3, 125)
+ax_b.set_ylim(-26, 30)
+ax_b.set_aspect("equal")
+ax_b.axis("off")
+ax_b.set_title("(b) Example 1.2.1.1 phasors (I$_R$Z drop drawn at 10× scale)")
+ax_b.text(60, -24, f"VR% = ({abs(V_S):,.1f} − 69,000) / 69,000 × 100 = "
+          f"{(abs(V_S) - V_R) / V_R * 100:.2f}%", ha="center", fontsize=10)
+fig.tight_layout()
+save(fig, "ch01_short_line_phasor.png")
+
+# --- 1.2.1.2 Nominal pi and T equivalent circuits (Example 1.2.1.2) ---
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(13, 4.4))
+for ax, kind in ((ax_a, "pi"), (ax_b, "T")):
+    _c1_blank(ax)
+    for x in (0, 7):
+        _c1_terminal(ax, x, 2)
+        _c1_terminal(ax, x, 0)
+    _c1_wire(ax, [(0, 0), (7, 0)])
+    if kind == "pi":
+        _c1_wire(ax, [(0, 2), (2.2, 2)])
+        _c1_resistor(ax, 2.2, 3.5, 2)
+        _c1_inductor(ax, 3.5, 4.8, 2)
+        _c1_wire(ax, [(4.8, 2), (7, 2)])
+        ax.text(3.5, 2.45, "Z = 10 + j90 Ω", ha="center", fontsize=10)
+        for x, dx, ha in ((1.2, 0.3, "left"), (5.8, -0.3, "right")):
+            _c1_dot(ax, x, 2)
+            _c1_dot(ax, x, 0)
+            _c1_vcap(ax, x, 2, 0)
+            ax.text(x + dx, 1.0, "Y/2 =\nj3.4 × 10⁻⁴ S", ha=ha,
+                    va="center", fontsize=9)
+        ax.set_title("(a) Nominal π: half the shunt admittance at each end")
+        ax.text(3.5, -0.75, "A = D = 1 + YZ/2 = 0.9694∠0.20°    B = Z = "
+                "90.55∠83.66° Ω\nC = Y(1 + YZ/4) ≈ 6.696 × 10⁻⁴∠90.1° S",
+                ha="center", va="top", fontsize=10)
+    else:
+        _c1_wire(ax, [(0, 2), (0.5, 2)])
+        _c1_resistor(ax, 0.5, 1.6, 2)
+        _c1_inductor(ax, 1.6, 2.9, 2)
+        _c1_wire(ax, [(2.9, 2), (4.1, 2)])
+        _c1_resistor(ax, 4.1, 5.2, 2)
+        _c1_inductor(ax, 5.2, 6.5, 2)
+        _c1_wire(ax, [(6.5, 2), (7, 2)])
+        ax.text(1.7, 2.45, "Z/2 = 5 + j45 Ω", ha="center", fontsize=10)
+        ax.text(5.3, 2.45, "Z/2 = 5 + j45 Ω", ha="center", fontsize=10)
+        _c1_dot(ax, 3.5, 2)
+        _c1_dot(ax, 3.5, 0)
+        _c1_vcap(ax, 3.5, 2, 0)
+        ax.text(3.8, 1.0, "Y = j6.8 × 10⁻⁴ S", ha="left", va="center",
+                fontsize=9)
+        ax.set_title("(b) Nominal T: all shunt admittance at the midpoint")
+        ax.text(3.5, -0.75, "Same line: z = 0.05 + j0.45 Ω/km, "
+                "y = j3.4 × 10⁻⁶ S/km, 200 km\n(Example 1.2.1.2 uses the π model)",
+                ha="center", va="top", fontsize=10)
+    ax.text(-0.3, 1.0, "V$_S$", ha="right", va="center", fontsize=12,
+            color="#2266CC", fontweight="bold")
+    ax.text(7.3, 1.0, "V$_R$", ha="left", va="center", fontsize=12,
+            color="#33AA33", fontweight="bold")
+    ax.set_xlim(-1, 8)
+    ax.set_ylim(-1.9, 2.9)
+fig.tight_layout()
+save(fig, "ch01_pi_t_models.png")
+
+# --- 1.2.2 Cable charging current vs length (Example 1.2.2) ---
+f_c, C_km, V_ll, I_rate = 60, 0.23e-6, 230_000, 800
+V_ln = V_ll / np.sqrt(3)
+I_per_km = 2 * np.pi * f_c * C_km * V_ln            # 11.52 A/km
+L_crit = I_rate / I_per_km                          # 69.4 km
+L = np.linspace(0, L_crit, 400)
+I_ch = I_per_km * L
+I_ld = np.sqrt(np.maximum(I_rate**2 - I_ch**2, 0))
+cap_red = (1 - I_ld / I_rate) * 100
+
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(13, 5))
+ax_a.plot(L, I_ch, color="#CC4444", linewidth=2,
+          label="Charging current I$_{ch}$ = 2πfCV$_{LN}$")
+ax_a.plot(L, I_ld, color="#2266CC", linewidth=2,
+          label="Remaining load ampacity √(800² − I$_{ch}$²)")
+ax_a.axhline(I_rate, color="gray", linestyle="--", linewidth=1)
+ax_a.text(2, I_rate + 15, "Cable ampacity 800 A", fontsize=9, color="gray")
+for Lm in (25, 50):
+    ic = I_per_km * Lm
+    il = np.sqrt(I_rate**2 - ic**2)
+    ax_a.plot([Lm, Lm], [ic, il], "ko", markersize=6, zorder=5)
+    ax_a.axvline(Lm, color="black", linestyle=":", linewidth=0.8)
+    ax_a.annotate(f"{Lm} km: I$_{{ch}}$ = {ic:.0f} A", xy=(Lm, ic),
+                  xytext=(Lm - 1.5, ic + 45), fontsize=9, color="#CC4444",
+                  ha="right")
+    ax_a.annotate(f"I$_{{load}}$ = {il:.0f} A", xy=(Lm, il),
+                  xytext=(Lm + 1.5, il - 55), fontsize=9, color="#2266CC")
+ax_a.axvline(L_crit, color="#CC4444", linestyle="--", linewidth=1)
+ax_a.text(L_crit + 0.8, 250, f"{L_crit:.1f} km:\ncharging\nuses all\n800 A",
+          ha="left", fontsize=9, color="#CC4444")
+ax_a.set_xlabel("Cable length (km)")
+ax_a.set_ylabel("Current per phase (A)")
+ax_a.set_title("230 kV XLPE cable, C = 0.23 μF/km: currents vs length")
+ax_a.legend(fontsize=9, loc="lower left")
+ax_a.grid(True, alpha=0.3)
+ax_a.set_xlim(0, 80)
+ax_a.set_ylim(0, 900)
+
+ax_b.plot(L, cap_red, color="#E68A00", linewidth=2)
+for Lm in (25, 50):
+    ic = I_per_km * Lm
+    red = (1 - np.sqrt(I_rate**2 - ic**2) / I_rate) * 100
+    ax_b.plot(Lm, red, "ko", markersize=6, zorder=5)
+    ax_b.annotate(f"{Lm} km: {red:.0f}% reduction", xy=(Lm, red),
+                  xytext=(Lm - 22, red + 12), fontsize=10,
+                  arrowprops=dict(arrowstyle="->", color="black"))
+ax_b.set_xlabel("Cable length (km)")
+ax_b.set_ylabel("Transfer capacity lost to charging (%)")
+ax_b.set_title("Capacity reduction vs length (319 MVA at 800 A)")
+ax_b.grid(True, alpha=0.3)
+ax_b.set_xlim(0, 75)
+ax_b.set_ylim(0, 105)
+fig.tight_layout()
+save(fig, "ch01_cable_charging.png")
+
+# --- 1.3.1.2 Autotransformer winding currents (Example 1.3.1.2) ---
+S_auto, V1_at, V2_at = 100e6, 230e3, 115e3
+I_src = S_auto / V1_at          # 434.8 A (series winding)
+I_lod = S_auto / V2_at          # 869.6 A
+I_com = I_lod - I_src           # 434.8 A (common winding)
+
+fig, ax = plt.subplots(figsize=(9, 6.2))
+_c1_blank(ax)
+xw = 3.0
+_c1_terminal(ax, 0, 6)
+_c1_terminal(ax, 0, 0)
+_c1_terminal(ax, 7, 3)
+_c1_terminal(ax, 7, 0)
+_c1_wire(ax, [(0, 6), (xw, 6), (xw, 5.6)])
+_c1_vcoil(ax, xw, 5.6, 3.4, color="#CC4444", n=4)
+_c1_wire(ax, [(xw, 3.4), (xw, 3.0)])
+_c1_dot(ax, xw, 3.0)
+_c1_wire(ax, [(xw, 3.0), (7, 3.0)])
+_c1_wire(ax, [(xw, 3.0), (xw, 2.6)])
+_c1_vcoil(ax, xw, 2.6, 0.4, color="#2266CC", n=4)
+_c1_wire(ax, [(xw, 0.4), (xw, 0)])
+_c1_dot(ax, xw, 0)
+_c1_wire(ax, [(0, 0), (7, 0)])
+_c1_ground(ax, xw, -0.25)
+_c1_wire(ax, [(xw, 0), (xw, -0.25)])
+# winding labels
+ax.text(xw + 0.75, 4.5, f"Series winding\n(HV terminal → tap)\n"
+        f"I$_{{series}}$ = I$_{{source}}$ = {I_src:.1f} A",
+        color="#CC4444", fontsize=10, va="center")
+ax.text(xw + 0.75, 1.5, f"Common winding\n(tap → neutral)\n"
+        f"I$_{{common}}$ = I$_{{load}}$ − I$_{{source}}$ = {I_com:.1f} A",
+        color="#2266CC", fontsize=10, va="center")
+# current arrows
+_c1_arrow(ax, (0.6, 6.25), (2.2, 6.25), color="#CC4444")
+ax.text(1.4, 6.45, f"I$_{{source}}$ = {I_src:.1f} A", color="#CC4444",
+        ha="center", fontsize=10)
+_c1_arrow(ax, (4.8, 3.25), (6.4, 3.25), color="#33AA33")
+ax.text(5.6, 3.45, f"I$_{{load}}$ = {I_lod:.1f} A", color="#33AA33",
+        ha="center", fontsize=10)
+_c1_arrow(ax, (xw - 0.45, 2.5), (xw - 0.45, 0.6), color="#2266CC")
+ax.text(-0.3, 3.0, "V₁ = 230 kV", ha="right", va="center", fontsize=11,
+        fontweight="bold")
+ax.text(7.3, 1.5, "V₂ = 115 kV\nload", ha="left", va="center", fontsize=11,
+        fontweight="bold")
+ax.text(xw - 0.2, 3.2, "tap", ha="right", fontsize=9, color="dimgray")
+ax.text(3.5, -1.0, "S$_{auto}$ = 100 MVA, a = 2:1;   S$_{transformed}$ = "
+        "100 × (1 − 1/2) = 50 MVA;   power advantage = 2.0",
+        ha="center", fontsize=10)
+ax.set_xlim(-2.2, 9.2)
+ax.set_ylim(-1.4, 7.0)
+ax.set_title("Single-phase autotransformer winding currents (Example 1.3.1.2)")
+fig.tight_layout()
+save(fig, "ch01_autotransformer.png")
+
+# --- 1.3.1.4 Line-drop-compensator phasor diagram (Example 1.3.1.4) ---
+I_sec = 3.75 * np.exp(-1j * np.arccos(0.90))      # 3.375 - j1.635 A
+R_ldc, X_ldc = 3.0, 9.0
+V_ir = I_sec * R_ldc
+V_ix = I_sec * 1j * X_ldc
+V_drop = V_ir + V_ix                              # 24.84 + j25.47 V
+V_lc = 120.0
+
+fig, ax = plt.subplots(figsize=(11, 5.6))
+o = 0j
+_c1_phasor(ax, o, V_lc + 0j, "#33AA33")
+ax.text(60, -4, "V$_{load\\ center}$ = 120∠0° V (120 V base)",
+        color="#33AA33", ha="center", fontsize=10, fontweight="bold")
+_c1_phasor(ax, V_lc + 0j, V_lc + V_ir, "#E68A00")
+ax.text((V_lc + V_ir / 2).real + 0.5, (V_lc + V_ir / 2).imag - 3.5,
+        f"I·R = {abs(V_ir):.2f} V", color="#E68A00", fontsize=9,
+        fontweight="bold")
+_c1_phasor(ax, V_lc + V_ir, V_lc + V_drop, "#992299")
+ax.text((V_lc + V_ir + V_ix / 2).real - 15, (V_lc + V_ir + V_ix / 2).imag,
+        f"jI·X = {abs(V_ix):.2f} V", color="#992299", fontsize=9,
+        fontweight="bold")
+v_reg = V_lc + V_drop
+_c1_phasor(ax, o, v_reg, "#2266CC")
+ax.text(v_reg.real * 0.5 - 6, v_reg.imag * 0.5 + 4,
+        f"|V$_{{lc}}$ + V$_{{drop}}$| = {abs(v_reg):.1f} V", color="#2266CC",
+        fontsize=10, fontweight="bold", ha="center")
+# projections of V_drop
+_c1_wire(ax, [(v_reg.real, v_reg.imag), (v_reg.real, 0)], color="gray",
+         lw=1, ls="--")
+_c1_arrow(ax, (V_lc, -9), (v_reg.real, -9), color="#CC4444", style="<|-|>")
+ax.text((V_lc + v_reg.real) / 2, -13.5,
+        f"Re(V$_{{drop}}$) = {V_drop.real:.2f} V = boost", color="#CC4444",
+        ha="center", fontsize=10, fontweight="bold")
+_c1_arrow(ax, (v_reg.real + 4, 0), (v_reg.real + 4, v_reg.imag),
+          color="dimgray", style="<|-|>")
+ax.text(v_reg.real + 5.5, v_reg.imag / 2,
+        f"Im(V$_{{drop}}$) = {V_drop.imag:.2f} V\n(quadrature: rotates,\n"
+        "changes magnitude\nonly to 2nd order)", color="dimgray", fontsize=9,
+        va="center")
+i_draw = I_sec / abs(I_sec) * 40
+_c1_phasor(ax, o, i_draw, "#CC4444", lw=1.8)
+ax.text(i_draw.real + 1, i_draw.imag - 3,
+        "I$_{sec}$ = 3.75∠−25.84° A", color="#CC4444", fontsize=9)
+ax.text(2, 30, f"V$_{{drop}}$ = I$_{{sec}}$(R + jX) = (3.375 − j1.635)(3.0 + j9.0)"
+        f"\n          = {V_drop.real:.2f} + j{V_drop.imag:.2f} V   "
+        f"(|V$_{{drop}}$| = {abs(V_drop):.1f} V)\n"
+        f"V$_{{reg}}$ = 120 + {V_drop.real:.2f} = {V_lc + V_drop.real:.2f} V → "
+        f"{(V_lc + V_drop.real) / 120 * 7200:,.0f} V primary",
+        fontsize=10, va="top")
+ax.set_xlim(-5, 185)
+ax.set_ylim(-26, 34)
+ax.set_aspect("equal")
+ax.axis("off")
+ax.set_title("Line-drop compensator phasors at 150 A, 0.90 PF lagging "
+             "(Example 1.3.1.4)")
+fig.tight_layout()
+save(fig, "ch01_ldc_phasor.png")
+
+# --- 1.3.1.7 Substation bus arrangements ---
+fig, axs = plt.subplots(2, 2, figsize=(13, 9.5))
+BUS = dict(color="#2266CC", lw=4)
+
+
+def _c1_line_out(ax, x, y, label=None, down=True):
+    y2 = y - 0.5 if down else y + 0.5
+    _c1_wire(ax, [(x, y), (x, y2)])
+    _c1_arrow(ax, (x, y2), (x, y2 - 0.25 if down else y2 + 0.25))
+    if label:
+        ax.text(x, y2 - 0.4 if down else y2 + 0.4, label, ha="center",
+                va="top" if down else "bottom", fontsize=9)
+
+
+# (a) single bus
+ax = axs[0, 0]
+_c1_blank(ax)
+_c1_wire(ax, [(0, 3), (6, 3)], color=BUS["color"], lw=BUS["lw"])
+ax.text(6.1, 3, "Bus", va="center", fontsize=9, color="#2266CC")
+_c1_wire(ax, [(3, 3), (3, 4.2)])
+_c1_breaker(ax, 3, 3.7)
+ax.text(3.25, 4.2, "Source / transformer", fontsize=9, va="bottom")
+for i, x in enumerate([1, 2.33, 3.67, 5]):
+    _c1_wire(ax, [(x, 3), (x, 1.8)])
+    _c1_breaker(ax, x, 2.4)
+    _c1_line_out(ax, x, 1.8, f"Line {i + 1}")
+ax.text(3, 0.2, "One breaker per circuit; a bus fault or bus\nmaintenance "
+        "takes every circuit out", ha="center", fontsize=9, va="top")
+ax.set_xlim(-0.5, 7)
+ax.set_ylim(-0.8, 4.8)
+ax.set_title("(a) Single bus")
+
+# (b) main and transfer
+ax = axs[0, 1]
+_c1_blank(ax)
+_c1_wire(ax, [(0, 3.5), (6, 3.5)], color=BUS["color"], lw=BUS["lw"])
+_c1_wire(ax, [(0, 1.2), (6, 1.2)], color="#E68A00", lw=BUS["lw"])
+ax.text(6.1, 3.5, "Main bus", va="center", fontsize=9, color="#2266CC")
+ax.text(6.1, 1.2, "Transfer bus", va="center", fontsize=9, color="#E68A00")
+for i, x in enumerate([1.3, 2.8, 4.3]):
+    _c1_wire(ax, [(x, 3.5), (x, 2.1)])
+    _c1_breaker(ax, x, 2.8)
+    _c1_dot(ax, x, 2.1)
+    _c1_wire(ax, [(x, 2.1), (x + 0.6, 2.1)])
+    _c1_arrow(ax, (x + 0.6, 2.1), (x + 0.85, 2.1))
+    ax.text(x + 0.9, 2.1, f"Line {i + 1}", va="center", fontsize=9)
+    _c1_wire(ax, [(x, 2.1), (x, 1.2)], ls="--")
+_c1_wire(ax, [(0.4, 3.5), (0.4, 1.2)])
+_c1_breaker(ax, 0.4, 2.35, fc="#FFE4B5")
+ax.text(0.55, 2.35, "tie", fontsize=8, va="center")
+ax.text(3, 0.6, "Dashed = normally open bypass switch: any line breaker can\n"
+        "be maintained while the tie breaker protects that line",
+        ha="center", fontsize=9, va="top")
+ax.set_xlim(-0.5, 7.4)
+ax.set_ylim(-0.6, 4.3)
+ax.set_title("(b) Main and transfer bus")
+
+# (c) ring bus
+ax = axs[1, 0]
+_c1_blank(ax)
+cx, cy, rr = 3, 2.2, 1.5
+th = np.linspace(0, 2 * np.pi, 200)
+ax.plot(cx + rr * np.cos(th), cy + rr * np.sin(th), color="#2266CC",
+        linewidth=3)
+for k in range(4):
+    a = np.pi / 4 + k * np.pi / 2
+    _c1_breaker(ax, cx + rr * np.cos(a), cy + rr * np.sin(a), s=0.24)
+    b = k * np.pi / 2
+    x0, y0 = cx + rr * np.cos(b), cy + rr * np.sin(b)
+    x1, y1 = cx + (rr + 0.7) * np.cos(b), cy + (rr + 0.7) * np.sin(b)
+    _c1_dot(ax, x0, y0)
+    _c1_wire(ax, [(x0, y0), (x1, y1)])
+    ax.text(cx + (rr + 1.05) * np.cos(b), cy + (rr + 1.05) * np.sin(b),
+            f"Line {k + 1}", ha="center", va="center", fontsize=9)
+ax.text(3, -0.75, "Each circuit sits between two breakers; one breaker can\n"
+        "be opened for maintenance without losing any circuit",
+        ha="center", fontsize=9, va="top")
+ax.set_xlim(0, 6)
+ax.set_ylim(-1.6, 5.2)
+ax.set_title("(c) Ring bus (four breakers, four circuits)")
+
+# (d) breaker-and-a-half, three bays (Example 1.3.1.7)
+ax = axs[1, 1]
+_c1_blank(ax)
+_c1_wire(ax, [(0.3, 4.4), (6.0, 4.4)], color="#2266CC", lw=BUS["lw"])
+_c1_wire(ax, [(0.3, 0.4), (6.0, 0.4)], color="#2266CC", lw=BUS["lw"])
+ax.text(6.1, 4.4, "Bus 1", va="center", fontsize=9, color="#2266CC")
+ax.text(6.1, 0.4, "Bus 2", va="center", fontsize=9, color="#2266CC")
+circ = 1
+for bay, x in enumerate([1.2, 3.1, 5.0]):
+    _c1_wire(ax, [(x, 4.4), (x, 0.4)])
+    for j, yb in enumerate([3.7, 2.4, 1.1]):
+        failed = (bay == 1 and j == 0)
+        _c1_breaker(ax, x, yb, s=0.26,
+                    fc="#FFCCCC" if failed else "white",
+                    color="#CC4444" if failed else "black",
+                    lw=2.2 if failed else _C1_LW)
+        if failed:
+            ax.plot([x - 0.2, x + 0.2], [yb - 0.2, yb + 0.2], color="#CC4444",
+                    linewidth=2)
+            ax.text(x - 0.25, yb, "out", color="#CC4444", ha="right",
+                    va="center", fontsize=8, fontweight="bold")
+    for yn in (3.05, 1.75):
+        _c1_dot(ax, x, yn)
+        _c1_wire(ax, [(x, yn), (x + 0.55, yn)])
+        _c1_arrow(ax, (x + 0.55, yn), (x + 0.8, yn))
+        ax.text(x + 0.85, yn, f"C{circ}", va="center", fontsize=9)
+        circ += 1
+    ax.text(x, -0.05, f"Bay {bay + 1}", ha="center", va="top", fontsize=9)
+ax.text(3.1, -0.55, "9 breakers, 6 circuits: 1.5 breakers per circuit. With "
+        "the red breaker out, C3 is fed\nfrom Bus 2 through the middle "
+        "breaker and C4 directly from Bus 2: no circuit is lost,\nbut C3 and "
+        "C4 each run on a single path", ha="center", va="top", fontsize=9)
+ax.set_xlim(0, 7)
+ax.set_ylim(-1.5, 4.9)
+ax.set_title("(d) Breaker-and-a-half (Example 1.3.1.7: three bays)")
+fig.tight_layout()
+save(fig, "ch01_bus_arrangements.png")
+
+# --- 1.3.4 Wye and delta connections and phasors ---
+fig, axs = plt.subplots(2, 2, figsize=(12, 10.5))
+abc_col = {"A": "#CC4444", "B": "#33AA33", "C": "#2266CC"}
+ang = {"A": 90, "B": -30, "C": 210}
+
+# (a) wye connection
+ax = axs[0, 0]
+_c1_blank(ax)
+n0 = np.array([0.0, 0.0])
+for ph in "ABC":
+    u = np.array([np.cos(np.radians(ang[ph])), np.sin(np.radians(ang[ph]))])
+    p0, p1 = n0 + 0.25 * u, n0 + 1.45 * u
+    _c1_wire(ax, [tuple(n0), tuple(p0)])
+    seg = np.linspace(0, 1, 120)
+    perp = np.array([-u[1], u[0]])
+    pts = p0[None, :] + (p1 - p0)[None, :] * seg[:, None] + \
+        0.09 * np.sin(seg * 8 * np.pi)[:, None] * perp[None, :]
+    ax.plot(pts[:, 0], pts[:, 1], color=abc_col[ph], linewidth=_C1_LW)
+    p2 = n0 + 2.1 * u
+    _c1_wire(ax, [tuple(p1), tuple(p2)])
+    _c1_terminal(ax, *p2)
+    ax.text(*(n0 + 2.4 * u), ph, ha="center", va="center", fontsize=12,
+            fontweight="bold", color=abc_col[ph])
+_c1_dot(ax, 0, 0)
+_c1_wire(ax, [(0, 0), (0, -0.9)], ls="--")
+_c1_ground(ax, 0, -0.9)
+ax.text(0.15, -0.55, "N", fontsize=11, fontweight="bold")
+ax.text(0, -1.75, "V$_{LL}$ = √3 V$_{LN}$,  I$_L$ = I$_{phase}$\n"
+        "Ex 1.3.4.1: 480Y/277 V, I$_L$ = 200.5 A, I$_N$ = 0 (balanced)",
+        ha="center", va="top", fontsize=10)
+ax.set_xlim(-2.8, 2.8)
+ax.set_ylim(-2.8, 2.7)
+ax.set_title("(a) Wye (star) connection")
+
+# (b) wye phasors: V_AN, V_BN, V_CN = 277 V; V_AB = 480 V leading V_AN by 30
+ax = axs[0, 1]
+_c1_blank(ax)
+s = 1 / 277
+V = {ph: 277 * np.exp(1j * np.radians(ang[ph])) for ph in "ABC"}
+for ph in "ABC":
+    _c1_phasor(ax, 0j, V[ph] * s, abc_col[ph])
+    ax.text((V[ph] * s * 1.12).real, (V[ph] * s * 1.12).imag,
+            f"V$_{{{ph}N}}$", ha="center", va="center", fontsize=11,
+            color=abc_col[ph], fontweight="bold")
+V_AB = V["A"] - V["B"]
+_c1_phasor(ax, V["B"] * s, V["A"] * s, "black", lw=1.8)
+_c1_phasor(ax, 0j, V_AB * s, "#992299", lw=2.4)
+ax.text((V_AB * s).real * 1.08 + 0.15, (V_AB * s).imag * 1.08,
+        f"V$_{{AB}}$ = V$_{{AN}}$ − V$_{{BN}}$\n= {abs(V_AB):.0f}∠"
+        f"{np.degrees(np.angle(V_AB)) - 90:+.0f}° rel. V$_{{AN}}$",
+        color="#992299", fontsize=10, ha="left", va="bottom")
+th = np.linspace(np.radians(90), np.radians(120), 20)
+ax.plot(0.45 * np.cos(th), 0.45 * np.sin(th), "k-", linewidth=0.8)
+ax.text(-0.22, 0.58, "30°", fontsize=9, ha="center")
+ax.text(0, -1.55, "|V$_{AB}$| = √3 × 277 = 480 V; V$_{LL}$ leads V$_{LN}$ "
+        "by 30°", ha="center", va="top", fontsize=10)
+ax.set_xlim(-2.0, 2.4)
+ax.set_ylim(-2.0, 2.1)
+ax.set_title("(b) Wye voltage phasors")
+
+# (c) delta connection
+ax = axs[1, 0]
+_c1_blank(ax)
+P = {ph: 1.4 * np.array([np.cos(np.radians(ang[ph])),
+                          np.sin(np.radians(ang[ph]))]) for ph in "ABC"}
+pairs = [("A", "B"), ("B", "C"), ("C", "A")]
+wcol = ["#E68A00", "#558833", "#992299"]
+for (p, q), c in zip(pairs, wcol):
+    a_, b_ = P[p], P[q]
+    d = b_ - a_
+    perp = np.array([-d[1], d[0]]) / np.linalg.norm(d)
+    seg = np.linspace(0.2, 0.8, 120)
+    pts = a_[None, :] + d[None, :] * seg[:, None] + \
+        0.08 * np.sin((seg - 0.2) / 0.6 * 8 * np.pi)[:, None] * perp[None, :]
+    _c1_wire(ax, [tuple(a_), tuple(a_ + 0.2 * d)])
+    _c1_wire(ax, [tuple(a_ + 0.8 * d), tuple(b_)])
+    ax.plot(pts[:, 0], pts[:, 1], color=c, linewidth=_C1_LW)
+for ph in "ABC":
+    _c1_dot(ax, *P[ph])
+    u = P[ph] / np.linalg.norm(P[ph])
+    _c1_wire(ax, [tuple(P[ph]), tuple(P[ph] + 0.8 * u)])
+    _c1_terminal(ax, *(P[ph] + 0.8 * u))
+    ax.text(*(P[ph] + 1.1 * u), ph, ha="center", va="center", fontsize=12,
+            fontweight="bold", color=abc_col[ph])
+ax.text(0, -1.75, "V$_{LL}$ = V$_{phase}$,  I$_L$ = √3 I$_{phase}$; no neutral\n"
+        "Ex 1.3.4.2: 480 V motor, I$_L$ = 80 A, I$_{phase}$ = 46.2 A",
+        ha="center", va="top", fontsize=10)
+ax.set_xlim(-2.8, 2.8)
+ax.set_ylim(-2.8, 2.7)
+ax.set_title("(c) Delta (Δ) connection")
+
+# (d) delta current phasors: I_A = I_AB - I_CA, lags I_AB by 30 deg
+ax = axs[1, 1]
+_c1_blank(ax)
+Iph = 80 / np.sqrt(3)
+s = 1 / 46.2
+Iab = Iph * np.exp(1j * np.radians(90))
+Ibc = Iph * np.exp(1j * np.radians(-30))
+Ica = Iph * np.exp(1j * np.radians(210))
+for z, lab, c in ((Iab, "I$_{AB}$", "#E68A00"), (Ibc, "I$_{BC}$", "#558833"),
+                  (Ica, "I$_{CA}$", "#992299")):
+    _c1_phasor(ax, 0j, z * s, c)
+    ax.text((z * s * 1.15).real, (z * s * 1.15).imag, lab, color=c,
+            ha="center", va="center", fontsize=11, fontweight="bold")
+Ia = Iab - Ica
+_c1_phasor(ax, 0j, -Ica * s, "#992299", lw=1.2)
+_c1_phasor(ax, -Ica * s, (Iab - Ica) * s, "#E68A00", lw=1.2)
+_c1_phasor(ax, 0j, Ia * s, "#CC4444", lw=2.6)
+ax.text((Ia * s).real + 0.1, (Ia * s).imag + 0.12,
+        f"I$_A$ = I$_{{AB}}$ − I$_{{CA}}$\n= {abs(Ia):.1f} A, lags I$_{{AB}}$ "
+        "by 30°", color="#CC4444", fontsize=10, ha="left")
+ax.text(0, -1.55, f"|I$_{{AB}}$| = 80/√3 = {Iph:.1f} A;  |I$_A$| = √3 × "
+        f"{Iph:.1f} = {abs(Ia):.0f} A", ha="center", va="top", fontsize=10)
+ax.set_xlim(-2.0, 2.6)
+ax.set_ylim(-2.0, 2.4)
+ax.set_title("(d) Delta current phasors")
+fig.tight_layout()
+save(fig, "ch01_wye_delta.png")
+
+# --- 1.3.6 Power Factor Correction (Example 1.3.6) ---
 P_load = 500  # kW
+pf1, pf2 = 0.72, 0.95
+th1, th2 = np.arccos(pf1), np.arccos(pf2)
+Q1 = P_load * np.tan(th1)   # 481.9 kVAR
+Q2 = P_load * np.tan(th2)   # 164.3 kVAR
+Qc = Q1 - Q2                # 317.6 kVAR
+S1, S2 = P_load / pf1, P_load / pf2
 
-pf_example = 0.85
-theta_ex = np.arccos(pf_example)
-S_ex = P_load / pf_example  # kVA
-Q_ex = P_load * np.tan(theta_ex)  # kVAR
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(12, 5.4))
 
-fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(12, 5))
-
-# Draw power triangle
+# Lagging Q drawn upward (positive), matching the sign used in the text.
 ax_a.annotate("", xy=(P_load, 0), xytext=(0, 0),
               arrowprops=dict(arrowstyle="->", color="blue", linewidth=2))
-ax_a.annotate("", xy=(P_load, -Q_ex), xytext=(P_load, 0),
-              arrowprops=dict(arrowstyle="->", color="red", linewidth=2))
-ax_a.annotate("", xy=(P_load, -Q_ex), xytext=(0, 0),
+ax_a.annotate("", xy=(P_load, Q1), xytext=(0, 0),
               arrowprops=dict(arrowstyle="->", color="green", linewidth=2))
+ax_a.annotate("", xy=(P_load, Q2), xytext=(0, 0),
+              arrowprops=dict(arrowstyle="->", color="#2E8B57", linewidth=2,
+                              linestyle="--"))
+ax_a.annotate("", xy=(P_load, Q2), xytext=(P_load, Q1),
+              arrowprops=dict(arrowstyle="->", color="red", linewidth=2))
+ax_a.plot([P_load, P_load], [0, Q2], color="gray", linewidth=1.2)
 
-ax_a.text(P_load / 2, 15, f"P = {P_load} kW", ha="center", fontsize=11,
+ax_a.text(P_load / 2, -28, f"P = {P_load} kW", ha="center", fontsize=11,
           color="blue", fontweight="bold")
-ax_a.text(P_load + 15, -Q_ex / 2, f"Q = {Q_ex:.0f}\nkVAR", ha="left",
-          fontsize=10, color="red", fontweight="bold")
-ax_a.text(P_load / 2 - 40, -Q_ex / 2 - 20,
-          f"S = {S_ex:.0f} kVA", ha="center", fontsize=10,
+ax_a.text(P_load + 12, (Q1 + Q2) / 2, f"Q$_C$ = {Qc:.1f}\nkVAR\n(capacitor)",
+          ha="left", va="center", fontsize=10, color="red", fontweight="bold")
+ax_a.text(P_load + 12, Q1, f"Q₁ = {Q1:.1f} kVAR", ha="left", va="center",
+          fontsize=9, color="green")
+ax_a.text(P_load + 12, Q2 / 2, f"Q₂ = {Q2:.1f} kVAR", ha="left",
+          va="center", fontsize=9, color="#2E8B57")
+ax_a.text(P_load * 0.42 - 40, Q1 * 0.42 + 30,
+          f"S₁ = {S1:.1f} kVA\n(PF {pf1})", ha="center", fontsize=10,
           color="green", fontweight="bold")
+ax_a.text(330, 150, f"S₂ = {S2:.1f} kVA\n(PF {pf2})", ha="center",
+          fontsize=10, color="#2E8B57", fontweight="bold")
+for thx, r, xy, lab in ((th1, 80, (62, 82), f"θ₁ = {np.degrees(th1):.2f}°"),
+                        (th2, 160, (168, 18), f"θ₂ = {np.degrees(th2):.2f}°")):
+    arc = np.linspace(0, thx, 30)
+    ax_a.plot(r * np.cos(arc), r * np.sin(arc), "k-", linewidth=1)
+    ax_a.text(xy[0], xy[1], lab, fontsize=9)
 
-arc_angles = np.linspace(0, -theta_ex, 30)
-arc_r = 80
-ax_a.plot(arc_r * np.cos(arc_angles), arc_r * np.sin(arc_angles), "k-",
-          linewidth=1)
-ax_a.text(90, -25, f"\u03b8 = {np.degrees(theta_ex):.1f}\u00b0", fontsize=9)
-
-ax_a.set_xlim(-50, P_load + 100)
-ax_a.set_ylim(-Q_ex - 50, 60)
+ax_a.set_xlim(-50, P_load + 210)
+ax_a.set_ylim(-60, Q1 + 60)
 ax_a.set_aspect("equal")
-ax_a.set_title(f"Power Triangle at PF = {pf_example}")
+ax_a.set_title(f"Power Triangle, PF {pf1} → {pf2} (Example 1.3.6)")
 ax_a.set_xlabel("Real Power (kW)")
-ax_a.set_ylabel("Reactive Power (kVAR)")
+ax_a.set_ylabel("Reactive Power (kVAR, lagging positive)")
 ax_a.grid(True, alpha=0.3)
 ax_a.axhline(y=0, color="black", linewidth=0.5)
 ax_a.axvline(x=0, color="black", linewidth=0.5)
@@ -173,57 +841,393 @@ ax_b.set_xlim(0.68, 1.02)
 fig.tight_layout()
 save(fig, "ch01_power_factor.png")
 
-# --- 1.5.1 Harmonics and THD ---
+# --- 1.4.3 Relay A/B time-current coordination (Example 1.4.3) ---
+
+
+def _c1_mi(I, pickup, tds):
+    M = I / pickup
+    return (0.0515 / (M**0.02 - 1) + 0.114) * tds
+
+
+I_f = 4000
+tB = _c1_mi(I_f, 400, 1.5)                       # 1.81 s
+tds_req = (tB + 0.3) / _c1_mi(I_f, 600, 1.0)     # 1.46
+fig, ax = plt.subplots(figsize=(10, 6.5))
+Ib = np.logspace(np.log10(400 * 1.15), np.log10(20000), 400)
+Ia_ = np.logspace(np.log10(600 * 1.15), np.log10(20000), 400)
+ax.loglog(Ib, _c1_mi(Ib, 400, 1.5), color="#2266CC", linewidth=2,
+          label="Relay B (downstream): pickup 400 A, TDS 1.5")
+ax.loglog(Ia_, _c1_mi(Ia_, 600, tds_req), color="#CC4444", linewidth=2,
+          label=f"Relay A (upstream): pickup 600 A, TDS {tds_req:.2f} (required)")
+ax.loglog(Ia_, _c1_mi(Ia_, 600, 1.5), color="#CC4444", linewidth=1.3,
+          linestyle="--", label="Relay A at the selected standard TDS 1.5")
+ax.axvline(I_f, color="black", linestyle=":", linewidth=1)
+ax.plot(I_f, tB, "o", color="#2266CC", markersize=8, zorder=5)
+ax.plot(I_f, tB + 0.3, "o", color="#CC4444", markersize=8, zorder=5)
+ax.annotate("", xy=(I_f * 1.07, tB + 0.3), xytext=(I_f * 1.07, tB),
+            arrowprops=dict(arrowstyle="<|-|>", color="black", linewidth=1.3))
+ax.annotate("CTI = 0.3 s", xy=(I_f * 1.08, (tB * (tB + 0.3)) ** 0.5),
+            xytext=(I_f * 1.6, 3.6), fontsize=11, fontweight="bold",
+            arrowprops=dict(arrowstyle="->", color="black"))
+ax.annotate(f"t$_B$ = {tB:.2f} s", xy=(I_f, tB), xytext=(I_f * 0.45, 1.2),
+            color="#2266CC", fontsize=10,
+            arrowprops=dict(arrowstyle="->", color="#2266CC"))
+ax.annotate(f"t$_A$ = {tB + 0.3:.2f} s", xy=(I_f, tB + 0.3),
+            xytext=(I_f * 0.6, 4.5), color="#CC4444", fontsize=10,
+            arrowprops=dict(arrowstyle="->", color="#CC4444"))
+ax.text(I_f * 1.03, 0.32, "Maximum fault\n4,000 A", fontsize=9)
+ax.set_xlabel("Current (A)")
+ax.set_ylabel("Operating time (s)")
+ax.set_title("IEEE Moderately Inverse coordination of Relays A and B "
+             "(Example 1.4.3)")
+ax.set_xlim(400, 20000)
+ax.set_ylim(0.3, 100)
+ax.grid(True, which="both", alpha=0.3)
+ax.legend(fontsize=9, loc="upper right")
+fig.tight_layout()
+save(fig, "ch01_tcc_coordination.png")
+
+# --- 1.4.4 Sequence-network connections for SLG and LL faults ---
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(13, 6.2),
+                                 gridspec_kw={"width_ratios": [1, 1.15]})
+
+
+def _c1_seqnet(ax, x, y, name, zlab, src=True, w=2.6, h=1.0):
+    """A sequence network drawn as a box with a source (positive only)."""
+    ax.add_patch(_c1p.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02",
+                                     facecolor="#F4F8FF", edgecolor="#2266CC",
+                                     linewidth=1.4))
+    txt = f"{name}\n{zlab}" + ("\nsource 1.0∠0° pu" if src else "")
+    ax.text(x + w / 2, y + h / 2, txt, ha="center", va="center", fontsize=9)
+    return (x, y + h / 2), (x + w, y + h / 2)
+
+
+# (a) SLG: Z1, Z2, Z0 + 3Zg in series
+_c1_blank(ax_a)
+nets = [("Positive (1)", "Z₁ = j0.15 pu", True),
+        ("Negative (2)", "Z₂ = j0.15 pu", False),
+        ("Zero (0)", "Z₀ + 3Z$_g$ = j0.05 + j0.30 pu", False)]
+ys = [4.4, 2.6, 0.8]
+for (n, z, s_), yy in zip(nets, ys):
+    _c1_seqnet(ax_a, 1.0, yy, n, z, src=s_, w=3.2, h=1.1)
+# series loop: right side of each box chained, left sides chained (F to N)
+for yy, lab in zip(ys, ("F₁", "F₂", "F₀")):
+    ax_a.text(4.3, yy + 0.85, lab, fontsize=9)
+    ax_a.text(0.65, yy + 0.85, lab.replace("F", "N"), fontsize=9)
+_c1_wire(ax_a, [(4.2, 5.2), (4.8, 5.2), (4.8, 2.9), (4.2, 2.9)])
+_c1_wire(ax_a, [(1.0, 3.2), (0.4, 3.2), (0.4, 1.6), (1.0, 1.6)])
+_c1_wire(ax_a, [(4.2, 1.1), (4.8, 1.1), (4.8, 0.3), (0.0, 0.3), (0.0, 5.2),
+                (1.0, 5.2)])
+_c1_arrow(ax_a, (4.8, 4.6), (4.8, 3.9), color="#CC4444")
+ax_a.text(5.0, 4.25, "I₁ = I₂ = I₀", color="#CC4444", fontsize=10,
+          va="center")
+ax_a.text(2.6, -0.1, "I₀ = I₁ = I₂ = 1.0 / j(0.15 + 0.15 + 0.05 + 0.30)\n"
+          "= 1.0 / j0.65 = −j1.538 pu;   I$_a$ = 3I₁ = −j4.615 pu\n"
+          "= 4.615 × 4,184 A = 19,309 A (Example 1.4.4)",
+          ha="center", va="top", fontsize=10)
+ax_a.set_xlim(-0.5, 7.0)
+ax_a.set_ylim(-1.5, 6.0)
+ax_a.set_title("(a) Single line-to-ground fault: networks in series")
+
+# (b) LL: positive and negative in parallel (opposed), zero open
+_c1_blank(ax_b)
+_c1_seqnet(ax_b, 0.6, 3.6, "Positive (1)", "Z₁ = j0.15 pu", True, w=2.8,
+           h=1.1)
+_c1_seqnet(ax_b, 4.4, 3.6, "Negative (2)", "Z₂ = j0.15 pu", False, w=2.8,
+           h=1.1)
+_c1_seqnet(ax_b, 2.5, 0.8, "Zero (0)", "not connected", False, w=2.8, h=1.0)
+_c1_wire(ax_b, [(2.0, 4.7), (2.0, 5.4), (5.8, 5.4), (5.8, 4.7)])
+ax_b.text(2.1, 4.85, "F₁", fontsize=9)
+ax_b.text(5.9, 4.85, "F₂", fontsize=9)
+_c1_wire(ax_b, [(2.0, 3.6), (2.0, 3.0), (5.8, 3.0), (5.8, 3.6)])
+ax_b.text(2.1, 3.3, "N₁", fontsize=9)
+ax_b.text(5.9, 3.3, "N₂", fontsize=9)
+_c1_arrow(ax_b, (3.2, 5.4), (4.6, 5.4), color="#CC4444")
+ax_b.text(3.9, 5.6, "I₁ = −I₂", color="#CC4444", ha="center", fontsize=10)
+ax_b.text(3.9, 0.35, "Same generator, phase b–c fault:\n"
+          "I₁ = −I₂ = 1.0 / (Z₁ + Z₂) = 1.0 / j0.30 = −j3.333 pu\n"
+          "|I$_b$| = |I$_c$| = √3 × 3.333 = 5.774 pu",
+          ha="center", va="top", fontsize=10)
+ax_b.set_xlim(0, 8)
+ax_b.set_ylim(-1.5, 6.0)
+ax_b.set_title("(b) Line-to-line fault: positive and negative in parallel")
+fig.tight_layout()
+save(fig, "ch01_sequence_networks.png")
+
+# --- 1.5.1 Harmonics and THD: 6-pulse VFD spectrum of Example 1.5.1 ---
 f0 = 60  # fundamental frequency (Hz)
-t = np.linspace(0, 2 / f0, 1000)  # two full cycles
+t = np.linspace(0, 2 / f0, 2000)  # two full cycles
 
+harmonics = [1, 5, 7, 11, 13, 17, 19]
+magnitudes = [100.0, 20.0, 14.0, 9.0, 7.7, 5.9, 5.3]   # % of fundamental
+# Typical 6-pulse sign pattern (-, -, +, +, -, -) for 5, 7, 11, 13, 17, 19.
+signs = [1, -1, -1, 1, 1, -1, -1]
+distorted = sum(sg * m / 100 * np.sin(2 * np.pi * h * f0 * t)
+                for h, m, sg in zip(harmonics, magnitudes, signs))
 fundamental = np.sin(2 * np.pi * f0 * t)
-h3 = 0.20 * np.sin(2 * np.pi * 3 * f0 * t)
-h5 = 0.15 * np.sin(2 * np.pi * 5 * f0 * t)
-h7 = 0.10 * np.sin(2 * np.pi * 7 * f0 * t)
 
-distorted = fundamental + h3 + h5 + h7
-
-thd = np.sqrt(0.20**2 + 0.15**2 + 0.10**2) * 100  # percent
+thd = np.sqrt(sum(m**2 for m in magnitudes[1:]))   # 28.27 -> 28.3%
 
 fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(13, 5))
 
 ax_a.plot(t * 1000, fundamental, "b-", linewidth=1.5, alpha=0.6,
           label="Fundamental (60 Hz)")
 ax_a.plot(t * 1000, distorted, "r-", linewidth=2,
-          label="Distorted Waveform")
+          label="6-pulse VFD current")
 ax_a.set_xlabel("Time (ms)")
 ax_a.set_ylabel("Amplitude (per-unit)")
-ax_a.set_title("Fundamental vs Distorted Waveform")
+ax_a.set_title("Fundamental vs Distorted Current (Example 1.5.1)")
 ax_a.legend(fontsize=9, loc="upper right")
 ax_a.grid(True, alpha=0.3)
 ax_a.set_xlim(0, 2 / f0 * 1000)
+ax_a.set_ylim(-1.6, 1.8)
 
-harmonics = [1, 3, 5, 7]
-magnitudes = [100.0, 20.0, 15.0, 10.0]
-bar_colors = ["#2266CC", "#CC4444", "#CC4444", "#CC4444"]
-labels = ["1st\n(60 Hz)", "3rd\n(180 Hz)", "5th\n(300 Hz)", "7th\n(420 Hz)"]
+bar_colors = ["#2266CC"] + ["#CC4444"] * 6
+labels = [f"{h}{'st' if h == 1 else 'th'}\n({h * f0} Hz)" for h in harmonics]
 
 bars = ax_b.bar(labels, magnitudes, color=bar_colors, edgecolor="white",
                 width=0.6)
 
 for bar, mag in zip(bars, magnitudes):
     ax_b.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1.5,
-              f"{mag:.0f}%", ha="center", fontsize=10, fontweight="bold")
+              f"{mag:g}%", ha="center", fontsize=10, fontweight="bold")
 
-ax_b.text(0.95, 0.92, f"THD = {thd:.1f}%",
+ax_b.text(0.95, 0.92, f"THD = {thd:.1f}%\n(6k ± 1 only; no triplens)",
           transform=ax_b.transAxes, fontsize=12, fontweight="bold",
           ha="right", va="top",
           bbox=dict(boxstyle="round,pad=0.4", facecolor="lightyellow",
                     edgecolor="gray", alpha=0.9))
 
 ax_b.set_ylabel("Magnitude (% of Fundamental)")
-ax_b.set_title("Harmonic Spectrum")
+ax_b.set_title("Harmonic Spectrum: 6-Pulse VFD")
 ax_b.grid(True, axis="y", alpha=0.3)
+ax_b.tick_params(axis="x", labelsize=8)
 ax_b.set_ylim(0, 115)
 
 fig.tight_layout()
 save(fig, "ch01_harmonics_thd.png")
+
+# --- 1.5.2 ITIC curve with the Example 1.5.2 sag ---
+fig, ax = plt.subplots(figsize=(10.5, 6.5))
+# Lower (undervoltage) boundary, per the text: 0% to 20 ms, 70% to 0.5 s,
+# 80% to 10 s, 90% steady state.
+low_t = [1e-4, 0.02, 0.02, 0.5, 0.5, 10, 10, 1000]
+low_v = [0, 0, 70, 70, 80, 80, 90, 90]
+# Upper (overvoltage) boundary of the ITI (CBEMA) curve.
+up_t = [1e-4, 1e-3, 3e-3, 3e-3, 0.02, 0.02, 0.5, 0.5, 1000]
+up_v = [500, 200, 140, 140, 140, 120, 120, 110, 110]
+ax.semilogx(low_t, low_v, color="#2266CC", linewidth=2.2,
+            label="Lower boundary (ride-through)")
+ax.semilogx(up_t, up_v, color="#CC4444", linewidth=2.2,
+            label="Upper boundary")
+ax.fill_between(low_t, low_v, 0, color="#2266CC", alpha=0.08, step=None)
+ax.text(60, 40, "No-damage region\n(equipment may drop out)", ha="center",
+        fontsize=10, color="#2266CC")
+ax.text(5e-3, 300, "Prohibited region", ha="center", fontsize=10,
+        color="#CC4444")
+ax.text(1.0, 100, "No-interruption region", ha="center", fontsize=11,
+        color="#33AA33", fontweight="bold")
+ax.plot(0.2, 65, "kD", markersize=9, zorder=5)
+ax.annotate("Example 1.5.2:\n65% for 200 ms\n(below the lower curve)",
+            xy=(0.2, 65), xytext=(0.6, 12), fontsize=10,
+            arrowprops=dict(arrowstyle="->", color="black"))
+for tt, vv, lab in ((0.02, 0, "20 ms (≈ 1.2 cycles)"),
+                    (0.5, 70, "70% to 0.5 s"), (10, 80, "80% to 10 s")):
+    ax.text(tt * 1.15, vv + 5, lab, fontsize=8, color="#2266CC")
+ax.axhline(100, color="gray", linewidth=0.8, linestyle=":")
+ax.set_xlabel("Duration of event (s)")
+ax.set_ylabel("Voltage (% of nominal)")
+ax.set_title("ITI (CBEMA) curve with the Example 1.5.2 sag")
+ax.set_xlim(1e-4, 1000)
+ax.set_ylim(0, 520)
+ax.grid(True, which="both", alpha=0.3)
+ax.legend(fontsize=9, loc="upper right")
+fig.tight_layout()
+save(fig, "ch01_itic_curve.png")
+
+# --- 1.6.1 Monopolar and bipolar HVDC links (Example 1.6.1) ---
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(12, 8.6))
+
+
+def _c1_station(ax, x, y, label, fc):
+    _c1_box(ax, x, y, 1.9, 0.9, label, fc=fc, ec="#333333", fs=9)
+
+
+for ax in (ax_a, ax_b):
+    _c1_blank(ax)
+
+# (a) monopolar with ground/sea return
+_c1_box(ax_a, 0.6, 1.5, 1.0, 0.7, "AC\nsystem 1", fc="#EEEEEE", ec="gray",
+        fs=9)
+_c1_box(ax_a, 11.4, 1.5, 1.0, 0.7, "AC\nsystem 2", fc="#EEEEEE", ec="gray",
+        fs=9)
+_c1_station(ax_a, 2.6, 1.5, "Rectifier\n(AC → DC)", "#FFE4CC")
+_c1_station(ax_a, 9.4, 1.5, "Inverter\n(DC → AC)", "#DDEEFF")
+_c1_wire(ax_a, [(1.1, 1.5), (1.65, 1.5)])
+_c1_wire(ax_a, [(10.35, 1.5), (10.9, 1.5)])
+_c1_wire(ax_a, [(2.6, 1.95), (2.6, 2.6), (9.4, 2.6), (9.4, 1.95)],
+         color="#CC4444", lw=2.5)
+ax_a.text(6, 2.75, "Single HV conductor (+V$_{dc}$)", ha="center",
+          color="#CC4444", fontsize=10)
+_c1_arrow(ax_a, (5.2, 2.6), (6.8, 2.6), color="#CC4444")
+_c1_wire(ax_a, [(2.6, 1.05), (2.6, 0.5)])
+_c1_wire(ax_a, [(9.4, 1.05), (9.4, 0.5)])
+_c1_ground(ax_a, 2.6, 0.5)
+_c1_ground(ax_a, 9.4, 0.5)
+_c1_wire(ax_a, [(2.9, 0.3), (9.1, 0.3)], color="#8B5A2B", lw=1.5, ls="--")
+ax_a.text(6, 0.0, "Return through earth or sea (electrodes)", ha="center",
+          color="#8B5A2B", fontsize=10)
+ax_a.set_xlim(0, 12)
+ax_a.set_ylim(-0.4, 3.2)
+ax_a.set_title("(a) Monopolar link: one conductor, ground or sea return")
+
+# (b) bipolar, Example 1.6.1 numbers
+_c1_box(ax_b, 0.6, 2.0, 1.0, 0.8, "AC\nsystem 1", fc="#EEEEEE", ec="gray",
+        fs=9)
+_c1_box(ax_b, 11.4, 2.0, 1.0, 0.8, "AC\nsystem 2", fc="#EEEEEE", ec="gray",
+        fs=9)
+for yy, pol, col in ((3.1, "+", "#CC4444"), (0.9, "−", "#2266CC")):
+    _c1_station(ax_b, 2.6, yy, f"Rectifier\npole {pol}", "#FFE4CC")
+    _c1_station(ax_b, 9.4, yy, f"Inverter\npole {pol}", "#DDEEFF")
+    _c1_wire(ax_b, [(1.1, 2.0), (1.4, 2.0), (1.4, yy), (1.65, yy)])
+    _c1_wire(ax_b, [(10.9, 2.0), (10.6, 2.0), (10.6, yy), (10.35, yy)])
+_c1_wire(ax_b, [(2.6, 3.55), (2.6, 4.2), (9.4, 4.2), (9.4, 3.55)],
+         color="#CC4444", lw=2.5)
+ax_b.text(6, 4.35, "+500 kV pole conductor, 1,500 km, R = 18 Ω",
+          ha="center", color="#CC4444", fontsize=10)
+_c1_arrow(ax_b, (5.2, 4.2), (6.8, 4.2), color="#CC4444")
+ax_b.text(6, 3.85, "I$_{dc}$ = 1,500 MW / 500 kV = 3,000 A", ha="center",
+          fontsize=9, color="#CC4444")
+_c1_wire(ax_b, [(2.6, 0.45), (2.6, -0.2), (9.4, -0.2), (9.4, 0.45)],
+         color="#2266CC", lw=2.5)
+ax_b.text(6, -0.55, "−500 kV pole conductor, 1,500 km, R = 18 Ω",
+          ha="center", color="#2266CC", fontsize=10)
+_c1_arrow(ax_b, (6.8, -0.2), (5.2, -0.2), color="#2266CC")
+_c1_wire(ax_b, [(2.6, 2.65), (2.6, 1.35)])
+_c1_wire(ax_b, [(9.4, 2.65), (9.4, 1.35)])
+_c1_dot(ax_b, 2.6, 2.0)
+_c1_dot(ax_b, 9.4, 2.0)
+_c1_wire(ax_b, [(2.6, 2.0), (9.4, 2.0)], color="#8B5A2B", lw=1.3, ls="--")
+ax_b.text(6, 2.15, "Neutral / metallic or ground return (carries only the "
+          "pole imbalance)", ha="center", fontsize=9, color="#8B5A2B")
+ax_b.text(6, 1.2, "Example 1.6.1: 3,000 MW at ±500 kV\nlosses = 2 × 3,000² "
+          "× 18 Ω = 324 MW (10.8%)", ha="center", va="center", fontsize=9)
+ax_b.set_xlim(0, 12)
+ax_b.set_ylim(-1.0, 4.8)
+ax_b.set_title("(b) Bipolar link: two poles at ±V$_{dc}$; either pole can run "
+               "alone")
+fig.tight_layout()
+save(fig, "ch01_hvdc_configs.png")
+
+# --- 1.6.2 12-pulse LCC bridge (Example 1.6.2) ---
+fig, ax = plt.subplots(figsize=(12, 7))
+_c1_blank(ax)
+_c1_box(ax, 0.8, 3.0, 1.2, 1.0, "AC bus\n(3-phase)", fc="#EEEEEE",
+        ec="gray", fs=9)
+for yy, conn, ph in ((4.6, "Y–Y", "0°"), (1.4, "Y–Δ", "30°")):
+    _c1_wire(ax, [(1.4, 3.0), (2.0, 3.0), (2.0, yy), (2.6, yy)])
+    ax.add_patch(_c1p.Circle((2.95, yy), 0.35, facecolor="white",
+                             edgecolor="black", linewidth=1.5))
+    ax.add_patch(_c1p.Circle((3.45, yy), 0.35, facecolor="white",
+                             edgecolor="black", linewidth=1.5))
+    ax.text(3.2, yy + 0.55, f"{conn} transformer\n(phase shift {ph})",
+            ha="center", va="bottom", fontsize=9)
+    _c1_wire(ax, [(3.8, yy), (4.6, yy)])
+    # 6-pulse bridge: draw six thyristor symbols as a block with valves
+    bx, by, bw, bh = 4.6, yy - 0.9, 2.6, 1.8
+    ax.add_patch(_c1p.FancyBboxPatch((bx, by), bw, bh,
+                                     boxstyle="round,pad=0.02",
+                                     facecolor="#FFF6E5", edgecolor="#E68A00",
+                                     linewidth=1.5))
+    for i in range(3):
+        xv = bx + 0.45 + i * 0.85
+        for yv, d in ((by + bh * 0.72, 1), (by + bh * 0.28, 1)):
+            tri = _c1p.Polygon([[xv - 0.15, yv - 0.12 * d],
+                                [xv + 0.15, yv - 0.12 * d],
+                                [xv, yv + 0.12 * d]],
+                               closed=True, facecolor="#E68A00",
+                               edgecolor="black", linewidth=0.8)
+            ax.add_patch(tri)
+            ax.plot([xv - 0.15, xv + 0.15], [yv + 0.12 * d] * 2, "k-",
+                    linewidth=1)
+    ax.text(bx + bw / 2, by + bh / 2, "6-pulse bridge", ha="center",
+            va="center", fontsize=9, fontweight="bold")
+# DC side: bridges in series
+_c1_wire(ax, [(7.2, 5.2), (8.6, 5.2), (8.6, 5.9), (10.2, 5.9)],
+         color="#CC4444", lw=2.2)
+_c1_wire(ax, [(7.2, 4.0), (8.0, 4.0), (8.0, 2.0), (7.2, 2.0)], lw=2.0)
+_c1_dot(ax, 8.0, 3.0)
+_c1_wire(ax, [(7.2, 0.8), (8.6, 0.8), (8.6, 0.1), (10.2, 0.1)],
+         color="#2266CC", lw=2.2)
+ax.text(10.3, 5.9, "+ DC line", va="center", fontsize=10, color="#CC4444")
+ax.text(10.3, 0.1, "− (or neutral)", va="center", fontsize=10,
+        color="#2266CC")
+ax.text(8.15, 3.0, "series\nconnection", va="center", fontsize=8)
+ax.annotate("", xy=(9.6, 5.75), xytext=(9.6, 3.1),
+            arrowprops=dict(arrowstyle="<|-|>", color="black"))
+ax.text(9.75, 4.4, "V$_d$ = 312.4 kV", fontsize=10, va="center")
+ax.annotate("", xy=(9.6, 2.9), xytext=(9.6, 0.25),
+            arrowprops=dict(arrowstyle="<|-|>", color="black"))
+ax.text(9.75, 1.6, "V$_d$ = 312.4 kV", fontsize=10, va="center")
+ax.annotate("", xy=(11.9, 5.75), xytext=(11.9, 0.25),
+            arrowprops=dict(arrowstyle="<|-|>", color="#992299", linewidth=1.6))
+ax.text(11.75, 3.0, "V$_{dc}$ =\n624.8 kV", fontsize=10, va="center",
+        ha="right", color="#992299", fontweight="bold")
+ax.text(6.0, -0.75, "V$_d$ = V$_{d0}$(cos α + cos(α + μ))/2 = 350 × (cos 15° + "
+        "cos 35°)/2 = 312.4 kV per bridge;\nthe 30° shift between bridges "
+        "cancels the 5th and 7th harmonics (12-pulse: h = 12k ± 1 on the AC "
+        "side)", ha="center", va="top", fontsize=10)
+ax.set_xlim(0, 12.4)
+ax.set_ylim(-1.7, 6.6)
+ax.set_title("12-pulse LCC rectifier: two 6-pulse bridges in series "
+             "(Example 1.6.2, α = 15°, μ = 20°)")
+fig.tight_layout()
+save(fig, "ch01_twelve_pulse.png")
+
+# --- 1.8.1 SCADA four-layer architecture ---
+fig, ax = plt.subplots(figsize=(12, 8))
+_c1_blank(ax)
+layers = [
+    (6.6, "4  Master station (control center)",
+     "SCADA servers (dual, hot standby) · historian database · HMI "
+     "displays · EMS: state estimation, AGC, economic dispatch",
+     "#DDEEFF", "#2266CC"),
+    (4.7, "3  Communications network",
+     "Fiber · microwave · cellular backup;  DNP3 (North America), "
+     "IEC 60870-5-101/104 (international);  scan 2–10 s",
+     "#E8F5E8", "#33AA33"),
+    (2.8, "2  RTUs / IEDs / substation automation controllers",
+     "Digitize and aggregate field data;  IEC 61850 GOOSE peer-to-peer "
+     "between IEDs inside the substation (< 4 ms)",
+     "#FFF0DD", "#E68A00"),
+    (0.9, "1  Field instrumentation",
+     "CTs · VTs · transducers · breaker status contacts · temperature "
+     "sensors · tap-position indicators",
+     "#F5E6F5", "#992299"),
+]
+for yy, title, body, fc, ec in layers:
+    ax.add_patch(_c1p.FancyBboxPatch((0.4, yy - 0.65), 9.2, 1.3,
+                                     boxstyle="round,pad=0.03",
+                                     facecolor=fc, edgecolor=ec,
+                                     linewidth=1.8))
+    ax.text(0.7, yy + 0.3, title, fontsize=11, fontweight="bold",
+            va="center", color=ec)
+    ax.text(0.7, yy - 0.22, body, fontsize=9, va="center")
+for y0, y1 in ((1.55, 2.15), (3.45, 4.05), (5.35, 5.95)):
+    _c1_arrow(ax, (10.1, y0), (10.1, y1), color="#333333")
+    _c1_arrow(ax, (10.6, y1), (10.6, y0), color="#CC4444")
+ax.text(10.1, 7.55, "Measurements\n(up)", ha="center", fontsize=8,
+        color="#333333")
+ax.text(10.95, 7.55, "Commands\n(down)", ha="center", fontsize=8,
+        color="#CC4444")
+ax.text(5.0, -0.2, "Example 1.8.1: 120 RTUs × (80 analog + 60 digital) = "
+        "16,800 points; 4 s scan → 94.3 kbps, 30 RTUs/s",
+        ha="center", va="top", fontsize=10)
+ax.set_xlim(0, 11.6)
+ax.set_ylim(-0.7, 8.1)
+ax.set_title("Four-layer SCADA architecture (§1.8.1)")
+fig.tight_layout()
+save(fig, "ch01_scada_layers.png")
 
 
 # ============================================================
