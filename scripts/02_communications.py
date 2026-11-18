@@ -31,44 +31,45 @@ def _(mo):
     ## 2.1.1 Amplitude Modulation (AM)
 
     A 1 MHz carrier is modulated by a 1 kHz message signal with modulation
-    index m = 0.8. The top three subplots show the carrier, message, and
-    resulting AM waveform with its envelope. The bottom subplot shows the
-    frequency spectrum with the carrier peak at 1 MHz and symmetric
-    sidebands at f_c +/- f_m.
+    index m = 0.75 (as in Example 2.1.1). The top three subplots show the
+    carrier, message, and resulting AM waveform with its envelope; the AM
+    waveform panel draws the carrier at an illustrative 25 kHz so that its
+    cycles are visible over the 2 ms window. The bottom subplot shows the
+    frequency spectrum: the carrier line at 1 MHz (A_c = 1.0) and the two
+    sidebands at f_c +/- f_m, each m * A_c / 2 = 0.375, symmetric about f_c.
+    The FFT length puts all three tones exactly on bin centres, so the line
+    heights are exact.
     """)
     return
 
 
 @app.cell
 def _(np, plt):
-    # Parameters
+    # Parameters match Example 2.1.1 (m = 0.75); 1 V carrier, 1 kHz tone.
     fc = 1e6       # carrier frequency: 1 MHz
     fm = 1e3       # message frequency: 1 kHz
-    m_idx = 0.8    # modulation index
+    m_idx = 0.75   # modulation index (Example 2.1.1)
     Ac = 1.0       # carrier amplitude
 
-    # Time vector: show 2 cycles of the message signal (2 ms)
-    # Sample at 10x carrier frequency for smooth rendering, but limit points
-    # We only need to resolve the envelope, so sample at ~50 kHz for display
-    # and compute the AM math analytically
-    t_duration = 2e-3  # 2 ms = 2 message cycles
-    fs_display = 200e3  # 200 kHz display sample rate (fast enough for envelope)
-    t = np.linspace(0, t_duration, int(fs_display * t_duration), endpoint=False)
-
-    # Signals
-    carrier = Ac * np.cos(2 * np.pi * fc * t)
+    t_duration = 2e-3
+    t = np.linspace(0, t_duration, 4000, endpoint=False)
     message = m_idx * Ac * np.cos(2 * np.pi * fm * t)
-    am_signal = (Ac + message) * np.cos(2 * np.pi * fc * t)
-    envelope_upper = Ac + message
-    envelope_lower = -(Ac + message)
 
-    # For the carrier subplot, show a zoomed-in portion (first 10 us)
     t_zoom = np.linspace(0, 10e-6, 2000, endpoint=False)
     carrier_zoom = Ac * np.cos(2 * np.pi * fc * t_zoom)
 
-    # Frequency spectrum via FFT
-    N_fft = 2**18  # enough resolution
-    fs_fft = 10e6  # 10 MHz sample rate for FFT
+    # AM waveform panel: a 1 MHz carrier would put 2,000 cycles in the 2 ms view
+    # and fill the panel solid, so this panel alone uses an illustrative 25 kHz
+    # carrier, sampled at 2 MHz (80 samples per carrier cycle).
+    fc_show = 25e3
+    t_am = np.arange(0, t_duration, 1 / 2e6)
+    env_am = Ac * (1 + m_idx * np.cos(2 * np.pi * fm * t_am))
+    am_show = env_am * np.cos(2 * np.pi * fc_show * t_am)
+
+    # Spectrum: fs = 10 MHz and N = 10^6 give 10 Hz bins, so f_c and f_c +/- f_m
+    # fall exactly on bin centres (no scalloping, no leakage, no window needed).
+    N_fft = 1_000_000
+    fs_fft = 10e6
     t_fft = np.arange(N_fft) / fs_fft
     am_fft_signal = (Ac + m_idx * Ac * np.cos(2 * np.pi * fm * t_fft)) * np.cos(2 * np.pi * fc * t_fft)
     spectrum = np.abs(np.fft.rfft(am_fft_signal)) / N_fft * 2
@@ -76,15 +77,13 @@ def _(np, plt):
 
     fig1, axes = plt.subplots(4, 1, figsize=(12, 10))
 
-    # Carrier (zoomed to show individual cycles)
     axes[0].plot(t_zoom * 1e6, carrier_zoom, "b-", linewidth=0.8)
     axes[0].set_ylabel("Amplitude (V)")
     axes[0].set_title("Carrier Signal (f_c = 1 MHz)")
-    axes[0].set_xlabel("Time (us)")
+    axes[0].set_xlabel("Time (µs)")
     axes[0].set_xlim(0, 10)
     axes[0].grid(True, alpha=0.3)
 
-    # Message signal
     axes[1].plot(t * 1e3, message, "g-", linewidth=2)
     axes[1].set_ylabel("Amplitude (V)")
     axes[1].set_title(f"Message Signal (f_m = 1 kHz, m = {m_idx})")
@@ -92,43 +91,43 @@ def _(np, plt):
     axes[1].set_xlim(0, t_duration * 1e3)
     axes[1].grid(True, alpha=0.3)
 
-    # AM signal with envelope
-    axes[2].plot(t * 1e3, am_signal, "b-", linewidth=0.3, alpha=0.6, label="AM signal")
-    axes[2].plot(t * 1e3, envelope_upper, "r--", linewidth=2, label="Envelope")
-    axes[2].plot(t * 1e3, envelope_lower, "r--", linewidth=2)
+    axes[2].plot(t_am * 1e3, am_show, "b-", linewidth=0.7, label="AM signal")
+    axes[2].plot(t_am * 1e3, env_am, "r--", linewidth=2, label="Envelope")
+    axes[2].plot(t_am * 1e3, -env_am, "r--", linewidth=2)
     axes[2].set_ylabel("Amplitude (V)")
-    axes[2].set_title("AM Waveform with Envelope")
+    axes[2].set_title("AM Waveform with Envelope (carrier drawn at an illustrative "
+                      "25 kHz so its cycles are visible; m = 0.75)")
     axes[2].set_xlabel("Time (ms)")
     axes[2].set_xlim(0, t_duration * 1e3)
+    axes[2].set_ylim(-2.0, 2.0)
     axes[2].legend(fontsize=9, loc="upper right")
     axes[2].grid(True, alpha=0.3)
 
-    # Frequency spectrum
-    # Focus on region around carrier
-    mask = (freqs >= 0.990e6) & (freqs <= 1.010e6)
+    mask = (freqs >= 0.995e6) & (freqs <= 1.005e6)
     axes[3].plot(freqs[mask] / 1e6, spectrum[mask], "b-", linewidth=1.5)
-    axes[3].set_ylabel("Magnitude")
+    axes[3].set_ylabel("Magnitude (V)")
     axes[3].set_xlabel("Frequency (MHz)")
-    axes[3].set_title("AM Frequency Spectrum")
+    axes[3].set_title("AM Frequency Spectrum (carrier A_c = 1.0, each sideband "
+                      "m·A_c/2 = 0.375, symmetric about f_c)")
+    axes[3].set_ylim(0, 1.25)
     axes[3].grid(True, alpha=0.3)
 
-    # Annotate carrier and sidebands
     carrier_idx = np.argmin(np.abs(freqs - fc))
     lsb_idx = np.argmin(np.abs(freqs - (fc - fm)))
     usb_idx = np.argmin(np.abs(freqs - (fc + fm)))
-    axes[3].annotate(f"Carrier\n{fc/1e6:.3f} MHz",
+    axes[3].annotate(f"Carrier {fc/1e6:.3f} MHz\n{spectrum[carrier_idx]:.3f} V",
                      xy=(fc / 1e6, spectrum[carrier_idx]),
-                     xytext=(fc / 1e6 + 0.003, spectrum[carrier_idx] * 0.9),
+                     xytext=(fc / 1e6 + 0.0008, 1.02),
                      fontsize=9, color="blue",
                      arrowprops=dict(arrowstyle="->", color="blue"))
-    axes[3].annotate(f"LSB\n{(fc-fm)/1e6:.3f} MHz",
+    axes[3].annotate(f"LSB {(fc-fm)/1e6:.3f} MHz\n{spectrum[lsb_idx]:.3f} V",
                      xy=((fc - fm) / 1e6, spectrum[lsb_idx]),
-                     xytext=((fc - fm) / 1e6 - 0.005, spectrum[lsb_idx] * 1.3),
+                     xytext=((fc - fm) / 1e6 - 0.0032, 0.62),
                      fontsize=9, color="red",
                      arrowprops=dict(arrowstyle="->", color="red"))
-    axes[3].annotate(f"USB\n{(fc+fm)/1e6:.3f} MHz",
+    axes[3].annotate(f"USB {(fc+fm)/1e6:.3f} MHz\n{spectrum[usb_idx]:.3f} V",
                      xy=((fc + fm) / 1e6, spectrum[usb_idx]),
-                     xytext=((fc + fm) / 1e6 + 0.002, spectrum[usb_idx] * 1.3),
+                     xytext=((fc + fm) / 1e6 + 0.0008, 0.62),
                      fontsize=9, color="red",
                      arrowprops=dict(arrowstyle="->", color="red"))
 
@@ -149,7 +148,8 @@ def _(mo):
     modulation as the 0/90/180/270 set, and not to be confused with offset
     QPSK, which staggers the Q arm in time), 8-PSK places 8
     points on the unit circle, and 16-QAM arranges 16 points in a 4x4 grid
-    with varying amplitude and phase.
+    with varying amplitude and phase on three amplitude rings, Gray coded
+    (the first two bits follow I and the last two follow Q).
     """)
     return
 
@@ -238,15 +238,22 @@ def _(np, plt):
     qam_i_pts = np.array(qam_i_pts)
     qam_q_pts = np.array(qam_q_pts)
     ax.plot(qam_i_pts, qam_q_pts, **marker_kwargs)
-    # Draw circles at the two amplitude levels
+    # Gray labels: 2-bit Gray sequence 00, 01, 11, 10 for -3, -1, +1, +3 on
+    # each axis (I bits first, then Q bits), so adjacent points differ in 1 bit.
+    qam_gray = {-3: "00", -1: "01", 1: "11", 3: "10"}
+    for _qi, _qq in zip(qam_i_pts, qam_q_pts):
+        ax.annotate(qam_gray[_qi] + qam_gray[_qq], (_qi, _qq),
+                    textcoords="offset points", xytext=(0, 11), ha="center",
+                    fontsize=8, fontweight="bold")
+    # Draw circles at the three amplitude levels: sqrt(2), sqrt(10), sqrt(18)
     for r in [np.sqrt(2), np.sqrt(10), np.sqrt(18)]:
         ax.add_patch(plt.Circle((0, 0), r, fill=False, edgecolor="gray",
-                                linestyle=":", linewidth=0.5, alpha=0.4))
-    ax.set_title("16-QAM (4 bits/symbol)", fontsize=12)
+                                linestyle="--", linewidth=1, alpha=0.5))
+    ax.set_title("16-QAM (4 bits/symbol, Gray coded)", fontsize=12)
     ax.set_xlabel("In-Phase (I)")
     ax.set_ylabel("Quadrature (Q)")
-    ax.set_xlim(-4.5, 4.5)
-    ax.set_ylim(-4.5, 4.5)
+    ax.set_xlim(-4.6, 4.6)
+    ax.set_ylim(-4.6, 4.6)
     ax.set_aspect("equal")
     ax.axhline(0, color="black", linewidth=0.5)
     ax.axvline(0, color="black", linewidth=0.5)
@@ -265,9 +272,12 @@ def _(mo):
 
     The Shannon-Hartley theorem gives the maximum data rate for a noisy
     channel: C = B * log2(1 + SNR). The first subplot shows capacity vs
-    SNR for three bandwidths (1 MHz, 10 MHz, 100 MHz). The second subplot
-    shows spectral efficiency C/B vs SNR, which is independent of bandwidth
-    and approaches the Shannon limit at Eb/N0 = -1.59 dB.
+    SNR for three bandwidths (1 MHz, 10 MHz, 100 MHz) on a log axis. The
+    second subplot shows spectral efficiency C/B vs SNR, which is independent
+    of bandwidth; the squares mark the Shannon-minimum SNR (2^eta - 1) for
+    eta = 1...8 bits/s/Hz and the triangles mark where uncoded BPSK...256-QAM
+    need to operate for BER = 1e-5, showing the gap that coding must close.
+    The -1.59 dB limit bounds Eb/N0, not SNR, so it is stated as a note.
     """)
     return
 
@@ -286,14 +296,15 @@ def _(np, plt):
     # --- Subplot 1: Channel Capacity vs SNR ---
     for bw, _label, color in zip(bandwidths, bw_labels, bw_colors):
         capacity = bw * np.log2(1 + snr_linear)
-        ax_cap.plot(snr_db, capacity / 1e6, linewidth=2, color=color, label=f"B = {_label}")
+        ax_cap.semilogy(snr_db, capacity / 1e6, linewidth=2, color=color, label=f"B = {_label}")
 
     ax_cap.set_xlabel("SNR (dB)")
-    ax_cap.set_ylabel("Channel Capacity (Mbps)")
+    ax_cap.set_ylabel("Channel Capacity (Mbps, log scale)")
     ax_cap.set_title("Shannon Channel Capacity: C = B * log2(1 + SNR)")
-    ax_cap.legend(fontsize=10)
-    ax_cap.grid(True, alpha=0.3)
+    ax_cap.legend(fontsize=10, loc="lower right")
+    ax_cap.grid(True, which="both", alpha=0.3)
     ax_cap.set_xlim(-10, 40)
+    ax_cap.set_ylim(0.1, 2000)
 
     # Annotate a specific point
     snr_example = 20  # dB
@@ -302,7 +313,7 @@ def _(np, plt):
     ax_cap.plot(snr_example, cap_10mhz / 1e6, "ko", markersize=8, zorder=5)
     ax_cap.annotate(f"SNR = 20 dB, B = 10 MHz\nC = {cap_10mhz/1e6:.1f} Mbps",
                     xy=(snr_example, cap_10mhz / 1e6),
-                    xytext=(snr_example + 5, cap_10mhz / 1e6 + 50),
+                    xytext=(snr_example + 3, 8),
                     fontsize=9,
                     arrowprops=dict(arrowstyle="->", color="black"),
                     bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8))
@@ -325,24 +336,36 @@ def _(np, plt):
                 va="top", ha="left",
                 bbox=dict(boxstyle="round,pad=0.35", facecolor="lightyellow", alpha=0.85))
 
-    # Mark common modulation scheme efficiencies
+    # Squares: the Shannon-minimum SNR = 2^eta - 1 for eta = 1...8 bits/s/Hz (on
+    # the bound). Triangles: where uncoded BPSK...256-QAM actually need to operate
+    # for BER = 1e-5 (SNR = Eb/N0 + 10 log10(eta), Eb/N0 from the Section 2.3.5
+    # table), showing the gap that coding has to close.
     mod_schemes = [
-        ("BPSK", 1.0),
-        ("QPSK", 2.0),
-        ("16-QAM", 4.0),
-        ("64-QAM", 6.0),
-        ("256-QAM", 8.0),
+        ("BPSK", 1.0, 9.6),
+        ("QPSK", 2.0, 9.6),
+        ("16-QAM", 4.0, 13.4),
+        ("64-QAM", 6.0, 17.8),
+        ("256-QAM", 8.0, 22.5),
     ]
-    for name, eff in mod_schemes:
+    for k, (name, eff, ebn0_db) in enumerate(mod_schemes):
         snr_required = 10 * np.log10(2 ** eff - 1)
-        ax_eff.plot(snr_required, eff, "s", markersize=8, color="darkgreen", zorder=5)
+        snr_uncoded = ebn0_db + 10 * np.log10(eff)
+        ax_eff.plot(snr_required, eff, "s", markersize=8, color="darkgreen", zorder=5,
+                    label="Shannon-minimum SNR for η = 1…8" if k == 0 else None)
+        ax_eff.plot(snr_uncoded, eff, "^", markersize=9, color="#CC4444", zorder=5,
+                    label="Uncoded, BER = 10⁻⁵ (§2.3.5 table)" if k == 0 else None)
+        ax_eff.plot([snr_required, snr_uncoded], [eff, eff], ":", color="gray",
+                    linewidth=1, zorder=4)
         ax_eff.annotate(name, (snr_required, eff), textcoords="offset points",
-                        xytext=(8, 3), fontsize=9, color="darkgreen")
+                        xytext=(-8, 3), ha="right", fontsize=9, color="darkgreen")
+        ax_eff.annotate(f"{snr_uncoded - snr_required:.1f} dB gap",
+                        (snr_uncoded, eff), textcoords="offset points",
+                        xytext=(8, -3), fontsize=8, color="#CC4444")
 
     ax_eff.set_xlabel("SNR (dB)")
     ax_eff.set_ylabel("Spectral Efficiency (bits/s/Hz)")
     ax_eff.set_title("Spectral Efficiency vs SNR with Shannon Bound")
-    ax_eff.legend(fontsize=10, loc="upper left")
+    ax_eff.legend(fontsize=9, loc="lower right")
     ax_eff.grid(True, alpha=0.3)
     ax_eff.set_xlim(-10, 40)
     ax_eff.set_ylim(0, 14)

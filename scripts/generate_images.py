@@ -1235,26 +1235,48 @@ save(fig, "ch01_scada_layers.png")
 # ============================================================
 print("Chapter 2: Communications Engineering")
 
+import math as _c2m
+
+_c2_erfc = np.vectorize(_c2m.erfc)
+_c2_trapz = getattr(np, "trapezoid", None) or np.trapz
+
+
+def _c2_Q(x):
+    """Gaussian tail probability Q(x) (numpy has no erfc)."""
+    return 0.5 * _c2_erfc(np.asarray(x, dtype=float) / np.sqrt(2))
+
+
+def _c2_besselj(n, x, npts=4001):
+    """J_n(x) from Bessel's integral (1/pi) * int_0^pi cos(n t - x sin t) dt."""
+    tau = np.linspace(0, np.pi, npts)
+    return _c2_trapz(np.cos(n * tau - x * np.sin(tau)), tau) / np.pi
+
+
 # --- 2.1.1 AM Modulation ---
+# Parameters match Example 2.1.1 (m = 0.75); 1 V carrier, 1 kHz tone.
 fc = 1e6       # carrier frequency: 1 MHz
 fm = 1e3       # message frequency: 1 kHz
-m_idx = 0.8    # modulation index
+m_idx = 0.75   # modulation index (Example 2.1.1)
 Ac = 1.0       # carrier amplitude
 
 t_duration = 2e-3
-fs_display = 200e3
-t = np.linspace(0, t_duration, int(fs_display * t_duration), endpoint=False)
-
-carrier = Ac * np.cos(2 * np.pi * fc * t)
+t = np.linspace(0, t_duration, 4000, endpoint=False)
 message = m_idx * Ac * np.cos(2 * np.pi * fm * t)
-am_signal = (Ac + message) * np.cos(2 * np.pi * fc * t)
-envelope_upper = Ac + message
-envelope_lower = -(Ac + message)
 
 t_zoom = np.linspace(0, 10e-6, 2000, endpoint=False)
 carrier_zoom = Ac * np.cos(2 * np.pi * fc * t_zoom)
 
-N_fft = 2**18
+# AM waveform panel: a 1 MHz carrier would put 2,000 cycles in the 2 ms view
+# and fill the panel solid, so this panel alone uses an illustrative 25 kHz
+# carrier, sampled at 2 MHz (80 samples per carrier cycle).
+fc_show = 25e3
+t_am = np.arange(0, t_duration, 1 / 2e6)
+env_am = Ac * (1 + m_idx * np.cos(2 * np.pi * fm * t_am))
+am_show = env_am * np.cos(2 * np.pi * fc_show * t_am)
+
+# Spectrum: fs = 10 MHz and N = 10^6 give 10 Hz bins, so f_c and f_c +/- f_m
+# fall exactly on bin centres (no scalloping, no leakage, no window needed).
+N_fft = 1_000_000
 fs_fft = 10e6
 t_fft = np.arange(N_fft) / fs_fft
 am_fft_signal = (Ac + m_idx * Ac * np.cos(2 * np.pi * fm * t_fft)) * np.cos(2 * np.pi * fc * t_fft)
@@ -1266,7 +1288,7 @@ fig, axes = plt.subplots(4, 1, figsize=(12, 10))
 axes[0].plot(t_zoom * 1e6, carrier_zoom, "b-", linewidth=0.8)
 axes[0].set_ylabel("Amplitude (V)")
 axes[0].set_title("Carrier Signal (f_c = 1 MHz)")
-axes[0].set_xlabel("Time (us)")
+axes[0].set_xlabel("Time (µs)")
 axes[0].set_xlim(0, 10)
 axes[0].grid(True, alpha=0.3)
 
@@ -1277,39 +1299,43 @@ axes[1].set_xlabel("Time (ms)")
 axes[1].set_xlim(0, t_duration * 1e3)
 axes[1].grid(True, alpha=0.3)
 
-axes[2].plot(t * 1e3, am_signal, "b-", linewidth=0.3, alpha=0.6, label="AM signal")
-axes[2].plot(t * 1e3, envelope_upper, "r--", linewidth=2, label="Envelope")
-axes[2].plot(t * 1e3, envelope_lower, "r--", linewidth=2)
+axes[2].plot(t_am * 1e3, am_show, "b-", linewidth=0.7, label="AM signal")
+axes[2].plot(t_am * 1e3, env_am, "r--", linewidth=2, label="Envelope")
+axes[2].plot(t_am * 1e3, -env_am, "r--", linewidth=2)
 axes[2].set_ylabel("Amplitude (V)")
-axes[2].set_title("AM Waveform with Envelope")
+axes[2].set_title("AM Waveform with Envelope (carrier drawn at an illustrative "
+                  "25 kHz so its cycles are visible; m = 0.75)")
 axes[2].set_xlabel("Time (ms)")
 axes[2].set_xlim(0, t_duration * 1e3)
+axes[2].set_ylim(-2.0, 2.0)
 axes[2].legend(fontsize=9, loc="upper right")
 axes[2].grid(True, alpha=0.3)
 
-mask = (freqs >= 0.990e6) & (freqs <= 1.010e6)
+mask = (freqs >= 0.995e6) & (freqs <= 1.005e6)
 axes[3].plot(freqs[mask] / 1e6, spectrum[mask], "b-", linewidth=1.5)
-axes[3].set_ylabel("Magnitude")
+axes[3].set_ylabel("Magnitude (V)")
 axes[3].set_xlabel("Frequency (MHz)")
-axes[3].set_title("AM Frequency Spectrum")
+axes[3].set_title("AM Frequency Spectrum (carrier A_c = 1.0, each sideband "
+                  "m·A_c/2 = 0.375, symmetric about f_c)")
+axes[3].set_ylim(0, 1.25)
 axes[3].grid(True, alpha=0.3)
 
 carrier_idx = np.argmin(np.abs(freqs - fc))
 lsb_idx = np.argmin(np.abs(freqs - (fc - fm)))
 usb_idx = np.argmin(np.abs(freqs - (fc + fm)))
-axes[3].annotate(f"Carrier\n{fc/1e6:.3f} MHz",
+axes[3].annotate(f"Carrier {fc/1e6:.3f} MHz\n{spectrum[carrier_idx]:.3f} V",
                  xy=(fc / 1e6, spectrum[carrier_idx]),
-                 xytext=(fc / 1e6 + 0.003, spectrum[carrier_idx] * 0.9),
+                 xytext=(fc / 1e6 + 0.0008, 1.02),
                  fontsize=9, color="blue",
                  arrowprops=dict(arrowstyle="->", color="blue"))
-axes[3].annotate(f"LSB\n{(fc-fm)/1e6:.3f} MHz",
+axes[3].annotate(f"LSB {(fc-fm)/1e6:.3f} MHz\n{spectrum[lsb_idx]:.3f} V",
                  xy=((fc - fm) / 1e6, spectrum[lsb_idx]),
-                 xytext=((fc - fm) / 1e6 - 0.005, spectrum[lsb_idx] * 1.3),
+                 xytext=((fc - fm) / 1e6 - 0.0032, 0.62),
                  fontsize=9, color="red",
                  arrowprops=dict(arrowstyle="->", color="red"))
-axes[3].annotate(f"USB\n{(fc+fm)/1e6:.3f} MHz",
+axes[3].annotate(f"USB {(fc+fm)/1e6:.3f} MHz\n{spectrum[usb_idx]:.3f} V",
                  xy=((fc + fm) / 1e6, spectrum[usb_idx]),
-                 xytext=((fc + fm) / 1e6 + 0.002, spectrum[usb_idx] * 1.3),
+                 xytext=((fc + fm) / 1e6 + 0.0008, 0.62),
                  fontsize=9, color="red",
                  arrowprops=dict(arrowstyle="->", color="red"))
 
@@ -1387,9 +1413,12 @@ ax.axhline(0, color="black", linewidth=0.5)
 ax.axvline(0, color="black", linewidth=0.5)
 ax.grid(True, alpha=0.3)
 
-# 16-QAM
+# 16-QAM, Gray coded: the first two bits follow I and the last two follow Q,
+# each axis using the 2-bit Gray sequence 00, 01, 11, 10 for -3, -1, +1, +3,
+# so horizontally or vertically adjacent points differ in exactly one bit.
 ax = axes[1, 1]
 qam_vals = np.array([-3, -1, 1, 3])
+qam_gray = {-3: "00", -1: "01", 1: "11", 3: "10"}
 qam_i_pts = []
 qam_q_pts = []
 for qi in qam_vals:
@@ -1399,14 +1428,18 @@ for qi in qam_vals:
 qam_i_pts = np.array(qam_i_pts)
 qam_q_pts = np.array(qam_q_pts)
 ax.plot(qam_i_pts, qam_q_pts, **marker_kwargs)
+for qi, qq in zip(qam_i_pts, qam_q_pts):
+    ax.annotate(qam_gray[qi] + qam_gray[qq], (qi, qq), textcoords="offset points",
+                xytext=(0, 11), ha="center", fontsize=8, fontweight="bold")
+# The 16 points lie on three amplitude rings: sqrt(2), sqrt(10), sqrt(18).
 for r in [np.sqrt(2), np.sqrt(10), np.sqrt(18)]:
     ax.add_patch(plt.Circle((0, 0), r, fill=False, edgecolor="gray",
-                            linestyle=":", linewidth=0.5, alpha=0.4))
-ax.set_title("16-QAM (4 bits/symbol)", fontsize=12)
+                            linestyle="--", linewidth=1, alpha=0.5))
+ax.set_title("16-QAM (4 bits/symbol, Gray coded)", fontsize=12)
 ax.set_xlabel("In-Phase (I)")
 ax.set_ylabel("Quadrature (Q)")
-ax.set_xlim(-4.5, 4.5)
-ax.set_ylim(-4.5, 4.5)
+ax.set_xlim(-4.6, 4.6)
+ax.set_ylim(-4.6, 4.6)
 ax.set_aspect("equal")
 ax.axhline(0, color="black", linewidth=0.5)
 ax.axvline(0, color="black", linewidth=0.5)
@@ -1428,14 +1461,15 @@ fig, (ax_cap, ax_eff) = plt.subplots(2, 1, figsize=(12, 9))
 
 for bw, label, color in zip(bandwidths, bw_labels, bw_colors):
     capacity = bw * np.log2(1 + snr_linear)
-    ax_cap.plot(snr_db, capacity / 1e6, linewidth=2, color=color, label=f"B = {label}")
+    ax_cap.semilogy(snr_db, capacity / 1e6, linewidth=2, color=color, label=f"B = {label}")
 
 ax_cap.set_xlabel("SNR (dB)")
-ax_cap.set_ylabel("Channel Capacity (Mbps)")
+ax_cap.set_ylabel("Channel Capacity (Mbps, log scale)")
 ax_cap.set_title("Shannon Channel Capacity: C = B * log2(1 + SNR)")
-ax_cap.legend(fontsize=10)
-ax_cap.grid(True, alpha=0.3)
+ax_cap.legend(fontsize=10, loc="lower right")
+ax_cap.grid(True, which="both", alpha=0.3)
 ax_cap.set_xlim(-10, 40)
+ax_cap.set_ylim(0.1, 2000)
 
 snr_example = 20
 snr_lin_ex = 10 ** (snr_example / 10)
@@ -1443,7 +1477,7 @@ cap_10mhz = 10e6 * np.log2(1 + snr_lin_ex)
 ax_cap.plot(snr_example, cap_10mhz / 1e6, "ko", markersize=8, zorder=5)
 ax_cap.annotate(f"SNR = 20 dB, B = 10 MHz\nC = {cap_10mhz/1e6:.1f} Mbps",
                 xy=(snr_example, cap_10mhz / 1e6),
-                xytext=(snr_example + 5, cap_10mhz / 1e6 + 50),
+                xytext=(snr_example + 3, 8),
                 fontsize=9,
                 arrowprops=dict(arrowstyle="->", color="black"),
                 bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8))
@@ -1464,29 +1498,775 @@ ax_eff.text(0.02, 0.97,
             va="top", ha="left",
             bbox=dict(boxstyle="round,pad=0.35", facecolor="lightyellow", alpha=0.85))
 
+# Squares: the Shannon-minimum SNR = 2^eta - 1 for eta = 1...8 bits/s/Hz (on
+# the bound). Triangles: where uncoded BPSK...256-QAM actually need to operate
+# for BER = 1e-5 (SNR = Eb/N0 + 10 log10(eta), Eb/N0 from the Section 2.3.5
+# table), showing the gap that coding has to close.
 mod_schemes = [
-    ("BPSK", 1.0),
-    ("QPSK", 2.0),
-    ("16-QAM", 4.0),
-    ("64-QAM", 6.0),
-    ("256-QAM", 8.0),
+    ("BPSK", 1.0, 9.6),
+    ("QPSK", 2.0, 9.6),
+    ("16-QAM", 4.0, 13.4),
+    ("64-QAM", 6.0, 17.8),
+    ("256-QAM", 8.0, 22.5),
 ]
-for name, eff in mod_schemes:
+for k, (name, eff, ebn0_db) in enumerate(mod_schemes):
     snr_required = 10 * np.log10(2 ** eff - 1)
-    ax_eff.plot(snr_required, eff, "s", markersize=8, color="darkgreen", zorder=5)
+    snr_uncoded = ebn0_db + 10 * np.log10(eff)
+    ax_eff.plot(snr_required, eff, "s", markersize=8, color="darkgreen", zorder=5,
+                label="Shannon-minimum SNR for η = 1…8" if k == 0 else None)
+    ax_eff.plot(snr_uncoded, eff, "^", markersize=9, color="#CC4444", zorder=5,
+                label="Uncoded, BER = 10⁻⁵ (§2.3.5 table)" if k == 0 else None)
+    ax_eff.plot([snr_required, snr_uncoded], [eff, eff], ":", color="gray",
+                linewidth=1, zorder=4)
     ax_eff.annotate(name, (snr_required, eff), textcoords="offset points",
-                    xytext=(8, 3), fontsize=9, color="darkgreen")
+                    xytext=(-8, 3), ha="right", fontsize=9, color="darkgreen")
+    ax_eff.annotate(f"{snr_uncoded - snr_required:.1f} dB gap",
+                    (snr_uncoded, eff), textcoords="offset points",
+                    xytext=(8, -3), fontsize=8, color="#CC4444")
 
 ax_eff.set_xlabel("SNR (dB)")
 ax_eff.set_ylabel("Spectral Efficiency (bits/s/Hz)")
 ax_eff.set_title("Spectral Efficiency vs SNR with Shannon Bound")
-ax_eff.legend(fontsize=10, loc="upper left")
+ax_eff.legend(fontsize=9, loc="lower right")
 ax_eff.grid(True, alpha=0.3)
 ax_eff.set_xlim(-10, 40)
 ax_eff.set_ylim(0, 14)
 
 fig.tight_layout()
 save(fig, "ch02_shannon_capacity.png")
+
+# --- 2.1.1a Envelope detector (diode + RC) and recovered envelope ---
+# Illustrative 20 kHz carrier, 1 kHz tone, m = 0.75. RC = 0.1 ms satisfies
+# 1/f_c (0.05 ms) << RC <= sqrt(1 - m^2)/(2 pi f_m m) = 0.14 ms (no diagonal
+# clipping) for this tone.
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(14, 4.8),
+                                 gridspec_kw=dict(width_ratios=[1, 1.35]))
+_c1_blank(ax_a)
+# AM source
+ax_a.add_patch(plt.Circle((0.6, 1.0), 0.42, fill=False, edgecolor="black",
+                          linewidth=_C1_LW))
+ax_a.text(0.6, 1.0, "AM\nin", ha="center", va="center", fontsize=9)
+_c1_wire(ax_a, [(0.6, 1.42), (0.6, 2.2), (1.6, 2.2)])
+_c1_wire(ax_a, [(0.6, 0.58), (0.6, 0.0), (6.6, 0.0)])
+# diode (triangle pointing right + bar)
+ax_a.add_patch(_c1p.Polygon([[1.6, 1.95], [1.6, 2.45], [2.1, 2.2]],
+                            closed=True, facecolor="white", edgecolor="black",
+                            linewidth=_C1_LW))
+_c1_wire(ax_a, [(2.1, 1.95), (2.1, 2.45)], lw=2.2)
+ax_a.text(1.85, 2.65, "D", ha="center", fontsize=11, fontweight="bold")
+_c1_wire(ax_a, [(2.1, 2.2), (6.6, 2.2)])
+# shunt C and R
+_c1_dot(ax_a, 3.2, 2.2)
+_c1_dot(ax_a, 3.2, 0.0)
+_c1_vcap(ax_a, 3.2, 2.2, 0.0)
+ax_a.text(3.5, 1.1, "C\n10 nF", ha="left", va="center", fontsize=10)
+_c1_dot(ax_a, 4.8, 2.2)
+_c1_dot(ax_a, 4.8, 0.0)
+_c1_wire(ax_a, [(4.8, 2.2), (4.8, 1.75)])
+_c1_wire(ax_a, [(4.8, 0.0), (4.8, 0.45)])
+ax_a.add_patch(_c1p.Rectangle((4.62, 0.45), 0.36, 1.3, facecolor="white",
+                              edgecolor="black", linewidth=_C1_LW))
+ax_a.text(5.1, 1.1, "R\n10 kΩ", ha="left", va="center", fontsize=10)
+_c1_terminal(ax_a, 6.6, 2.2)
+_c1_terminal(ax_a, 6.6, 0.0)
+ax_a.text(6.8, 1.1, "v$_{out}$ ≈\nenvelope", ha="left", va="center",
+          fontsize=10, color="#CC4444", fontweight="bold")
+_c1_ground(ax_a, 3.2, -0.05)
+ax_a.text(3.6, -0.75, "RC = 0.1 ms:  1/f$_c$ ≪ RC ≤ √(1 − m²)/(2πf$_m$m)",
+          ha="center", fontsize=10)
+ax_a.set_xlim(-0.1, 8.2)
+ax_a.set_ylim(-1.1, 3.0)
+ax_a.set_title("(a) Diode envelope detector")
+
+fc_ed, fm_ed, m_ed, RC_ed = 20e3, 1e3, 0.75, 1e-4
+dt_ed = 1 / 4e6
+t_ed = np.arange(0, 2e-3, dt_ed)
+env_ed = 1 + m_ed * np.cos(2 * np.pi * fm_ed * t_ed)
+v_in = env_ed * np.cos(2 * np.pi * fc_ed * t_ed)
+v_out = np.empty_like(v_in)
+v = 0.0
+decay = np.exp(-dt_ed / RC_ed)
+for k, vi in enumerate(v_in):
+    v = max(vi, v * decay)   # ideal diode charges C; R discharges it
+    v_out[k] = v
+ax_b.plot(t_ed * 1e3, v_in, color="#2266CC", linewidth=0.6, alpha=0.8,
+          label="AM input (illustrative f$_c$ = 20 kHz)")
+ax_b.plot(t_ed * 1e3, env_ed, "--", color="gray", linewidth=1.5,
+          label="Ideal envelope 1 + m cos(2πf$_m$t)")
+ax_b.plot(t_ed * 1e3, v_out, color="#CC4444", linewidth=1.8,
+          label="Detector output (ripple exaggerated by the low\nillustrative f$_c$; tiny at a real 1 MHz carrier)")
+ax_b.set_xlabel("Time (ms)")
+ax_b.set_ylabel("Voltage (V)")
+ax_b.set_xlim(0, 2)
+ax_b.set_ylim(-2.0, 2.2)
+ax_b.legend(fontsize=9, loc="lower right")
+ax_b.grid(True, alpha=0.3)
+ax_b.set_title("(b) Input and recovered envelope, m = 0.75")
+fig.tight_layout()
+save(fig, "ch02_envelope_detector.png")
+
+# --- 2.1.1b DSB-FC / DSB-SC / SSB spectra (message band W) ---
+fig, axs = plt.subplots(1, 3, figsize=(14, 4.2), sharey=True)
+W = 1.0  # message bandwidth (normalised)
+
+
+def _c2_band(ax, f0, f1, h0, h1, color, label=None):
+    ax.fill([f0, f0, f1, f1], [0, h0, h1, 0], color=color, alpha=0.45,
+            edgecolor=color, linewidth=1.5, label=label)
+
+
+for ax, kind in zip(axs, ("DSB-FC", "DSB-SC", "SSB (USB)")):
+    if kind != "SSB (USB)":
+        _c2_band(ax, -W, 0, 0.5, 0.15, "#CC4444", "LSB")
+    _c2_band(ax, 0, W, 0.15, 0.5, "#2266CC", "USB")
+    if kind == "DSB-FC":
+        ax.annotate("", xy=(0, 1.0), xytext=(0, 0),
+                    arrowprops=dict(arrowstyle="-|>", color="black", lw=2.2))
+        ax.text(0.06, 1.0, "carrier", fontsize=9, va="top")
+    lo = 0 if kind == "SSB (USB)" else -W
+    ax.annotate("", xy=(lo, -0.12), xytext=(W, -0.12),
+                arrowprops=dict(arrowstyle="<->", color="black", lw=1.2))
+    ax.text((lo + W) / 2, -0.2,
+            "B = W" if kind == "SSB (USB)" else "B = 2W",
+            ha="center", va="top", fontsize=10)
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_xlim(-1.5, 1.5)
+    ax.set_ylim(-0.35, 1.15)
+    ax.set_xticks([-W, 0, W])
+    ax.set_xticklabels(["f$_c$ − W", "f$_c$", "f$_c$ + W"])
+    ax.set_yticks([])
+    ax.grid(True, axis="x", alpha=0.3)
+axs[0].set_title("DSB-FC (standard AM)\nenvelope detection; at m = 1 the "
+                 "sidebands hold 1/3 of the power", fontsize=10)
+axs[1].set_title("DSB-SC\ncarrier removed: all power in the sidebands;\n"
+                 "coherent detection required", fontsize=10)
+axs[2].set_title("SSB (upper sideband shown)\nhalf the bandwidth; "
+                 "coherent (product) detection", fontsize=10)
+axs[0].legend(fontsize=9, loc="upper left")
+fig.tight_layout()
+save(fig, "ch02_am_variants.png")
+
+# --- 2.1.2 FM line spectrum for beta = 5 (Example 2.1.2) ---
+beta_fm, fm_fm = 5.0, 15.0   # kHz
+n_fm = np.arange(-10, 11)
+Jn = np.array([_c2_besselj(abs(n), beta_fm) * ((-1.0) ** abs(int(n)) if n < 0 else 1.0)
+               for n in n_fm])
+fig, ax = plt.subplots(figsize=(12, 5))
+sig = np.abs(Jn) >= 0.01
+ax.vlines(n_fm[sig] * fm_fm, 0, np.abs(Jn[sig]), color="#2266CC", linewidth=3,
+          label="|J$_n$(5)| ≥ 0.01 (significant, |n| ≤ 8)")
+ax.vlines(n_fm[~sig] * fm_fm, 0, np.abs(Jn[~sig]), color="gray", linewidth=3,
+          label="|J$_n$(5)| < 0.01")
+ax.plot(n_fm * fm_fm, np.abs(Jn), "o", color="black", markersize=3)
+# power share inside each band: J0^2 + 2*sum(Jn^2), n = 1..N (sum over all n is 1)
+_p_carson = 100 * np.sum(Jn[np.abs(n_fm) <= 6] ** 2)   # |n| fm <= 90 kHz
+_p_one = 100 * np.sum(Jn[np.abs(n_fm) <= 8] ** 2)      # |n| fm <= 120 kHz
+for half, color, txt in ((90, "#E68A00", f"Carson: 2(Δf + f$_m$) = 180 kHz, "
+                                          f"{_p_carson:.1f}% of power (|n| ≤ 6)"),
+                         (120, "#CC4444", f"1% rule: 2 × 8 × 15 = 240 kHz, "
+                                          f"{_p_one:.2f}% of power (|n| ≤ 8)")):
+    ax.axvline(-half, color=color, linestyle="--", linewidth=1.5)
+    ax.axvline(half, color=color, linestyle="--", linewidth=1.5)
+    yy = 0.47 if half == 90 else 0.40
+    ax.annotate("", xy=(-half, yy), xytext=(half, yy),
+                arrowprops=dict(arrowstyle="<->", color=color, lw=1.4))
+    ax.text(0, yy + 0.01, txt, ha="center", va="bottom", fontsize=9,
+            color=color, bbox=dict(facecolor="white", edgecolor="none",
+                                   alpha=0.85, pad=1))
+ax.set_xlabel("Offset from carrier, f − f$_c$ (kHz)   [lines every f$_m$ = 15 kHz]")
+ax.set_ylabel("|J$_n$(β)|  (relative amplitude)")
+ax.set_title("FM line spectrum, β = Δf/f$_m$ = 75/15 = 5 (Example 2.1.2); "
+             "|J₀(5)| = 0.18: most power sits in the sidebands")
+ax.set_xlim(-165, 165)
+ax.set_ylim(0, 0.6)
+ax.set_xticks(np.arange(-150, 151, 30))
+ax.legend(fontsize=9, loc="upper right")
+ax.grid(True, alpha=0.3)
+fig.tight_layout()
+save(fig, "ch02_fm_bessel.png")
+
+# --- 2.1.2a 75 us pre-emphasis and de-emphasis (P2.1.4) ---
+tau_pe = 75e-6
+f_corner = 1 / (2 * np.pi * tau_pe)          # 2,122 Hz
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(14, 4.8),
+                                 gridspec_kw=dict(width_ratios=[1, 1.2]))
+_c1_blank(ax_a)
+# pre-emphasis: R1 || C in series, R2 shunt (upper row)
+y = 3.0
+_c1_terminal(ax_a, 0, y)
+_c1_terminal(ax_a, 0, y - 1.4)
+_c1_wire(ax_a, [(0, y), (0.8, y)])
+_c1_wire(ax_a, [(0.8, y + 0.35), (0.8, y - 0.35)])
+_c1_wire(ax_a, [(0.8, y + 0.35), (1.1, y + 0.35)])
+_c1_resistor(ax_a, 1.1, 2.3, y + 0.35)
+_c1_wire(ax_a, [(2.3, y + 0.35), (2.6, y + 0.35)])
+_c1_wire(ax_a, [(0.8, y - 0.35), (1.55, y - 0.35)])
+_c1_wire(ax_a, [(1.55, y - 0.15), (1.55, y - 0.55)], lw=2.2)
+_c1_wire(ax_a, [(1.85, y - 0.15), (1.85, y - 0.55)], lw=2.2)
+_c1_wire(ax_a, [(1.85, y - 0.35), (2.6, y - 0.35)])
+_c1_wire(ax_a, [(2.6, y + 0.35), (2.6, y - 0.35)])
+_c1_wire(ax_a, [(2.6, y), (4.0, y)])
+ax_a.text(1.7, y + 0.62, "R₁ = 75 kΩ", ha="center", fontsize=9)
+ax_a.text(1.7, y - 0.95, "C = 1 nF", ha="center", fontsize=9)
+_c1_dot(ax_a, 3.3, y)
+_c1_wire(ax_a, [(3.3, y), (3.3, y - 0.2)])
+ax_a.add_patch(_c1p.Rectangle((3.17, y - 1.15), 0.26, 0.95, facecolor="white",
+                              edgecolor="black", linewidth=_C1_LW))
+_c1_wire(ax_a, [(3.3, y - 1.15), (3.3, y - 1.4)])
+ax_a.text(3.55, y - 0.68, "R₂ = 3.3 kΩ", ha="left", fontsize=9)
+_c1_wire(ax_a, [(0, y - 1.4), (4.0, y - 1.4)])
+_c1_terminal(ax_a, 4.0, y)
+_c1_terminal(ax_a, 4.0, y - 1.4)
+ax_a.text(4.3, y - 0.7, "Pre-emphasis (transmitter)\nτ = R₁C = 75 µs\nzero at 2.12 kHz",
+          ha="left", va="center", fontsize=10, color="#CC4444")
+# de-emphasis: series R, shunt C (lower row)
+y = 0.6
+_c1_terminal(ax_a, 0, y)
+_c1_terminal(ax_a, 0, y - 1.4)
+_c1_wire(ax_a, [(0, y), (0.6, y)])
+_c1_resistor(ax_a, 0.6, 2.0, y)
+_c1_wire(ax_a, [(2.0, y), (4.0, y)])
+ax_a.text(1.3, y + 0.3, "R = 7.5 kΩ", ha="center", fontsize=9)
+_c1_dot(ax_a, 2.9, y)
+_c1_dot(ax_a, 2.9, y - 1.4)
+_c1_vcap(ax_a, 2.9, y, y - 1.4)
+ax_a.text(3.15, y - 0.7, "C = 10 nF", ha="left", va="center", fontsize=9)
+_c1_wire(ax_a, [(0, y - 1.4), (4.0, y - 1.4)])
+_c1_terminal(ax_a, 4.0, y)
+_c1_terminal(ax_a, 4.0, y - 1.4)
+ax_a.text(4.3, y - 0.7, "De-emphasis (receiver)\nτ = RC = 75 µs\npole at 2.12 kHz",
+          ha="left", va="center", fontsize=10, color="#2266CC")
+ax_a.set_xlim(-0.3, 7.3)
+ax_a.set_ylim(-1.1, 4.0)
+ax_a.set_title("(a) 75 µs RC networks (North American FM)")
+
+f_pe = np.logspace(1, np.log10(30e3), 400)
+H_pre = 10 * np.log10(1 + (f_pe / f_corner) ** 2)
+ax_b.semilogx(f_pe, H_pre, color="#CC4444", linewidth=2,
+              label="Pre-emphasis |1 + jf/f$_c$|")
+ax_b.semilogx(f_pe, -H_pre, color="#2266CC", linewidth=2,
+              label="De-emphasis |1/(1 + jf/f$_c$)|")
+ax_b.semilogx(f_pe, 0 * f_pe, color="#33AA33", linewidth=2, linestyle="--",
+              label="Cascade: flat overall response")
+ax_b.axvline(f_corner, color="gray", linestyle=":", linewidth=1)
+ax_b.text(f_corner * 1.08, -19, "f$_c$ = 1/(2πτ)\n= 2.12 kHz", fontsize=9,
+          color="gray")
+b15 = 10 * np.log10(1 + (15e3 / f_corner) ** 2)
+ax_b.plot(15e3, b15, "o", color="#CC4444")
+ax_b.annotate(f"+{b15:.1f} dB at 15 kHz", xy=(15e3, b15),
+              xytext=(1.6e3, 15), fontsize=9, color="#CC4444",
+              arrowprops=dict(arrowstyle="->", color="#CC4444"))
+ax_b.plot(15e3, -b15, "o", color="#2266CC")
+ax_b.set_xlabel("Frequency (Hz)")
+ax_b.set_ylabel("Gain (dB)")
+ax_b.set_xlim(10, 30e3)
+ax_b.set_ylim(-22, 22)
+ax_b.legend(fontsize=9, loc="upper left")
+ax_b.grid(True, which="both", alpha=0.3)
+ax_b.set_title("(b) Bode magnitude (P2.1.4)")
+fig.tight_layout()
+save(fig, "ch02_preemphasis.png")
+
+# --- 2.2.2 Sampling, folding and aliasing (Example 2.2.2) ---
+fs_a = 44.1   # kHz
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(12, 8),
+                                 gridspec_kw=dict(height_ratios=[1.15, 1]))
+ax_a.fill_between([0.02, 18], 0, 1, color="#2266CC", alpha=0.35,
+                  label="Audio band 20 Hz – 18 kHz")
+ax_a.fill_between([fs_a - 18, fs_a - 0.02], 0, 1, facecolor="#2266CC", alpha=0.12,
+                  hatch="//", edgecolor="#2266CC",
+                  label="Image of the band about f$_s$ (f$_s$ − f)")
+ax_a.fill_between([18, fs_a / 2], 0, 1, color="#33AA33", alpha=0.25,
+                  label="Guard band 4.05 kHz (anti-alias filter roll-off)")
+ax_a.axvline(fs_a / 2, color="black", linestyle="--", linewidth=1.5)
+ax_a.text(fs_a / 2 - 0.4, 1.62, "f$_s$/2 = 22.05 kHz\n(folding frequency)",
+          ha="right", va="center", fontsize=9)
+ax_a.axvline(fs_a, color="gray", linestyle=":", linewidth=1.5)
+ax_a.text(fs_a + 0.4, 1.1, "f$_s$ = 44.1 kHz", ha="left", va="center", fontsize=9,
+          color="gray")
+ax_a.vlines(25, 0, 1.15, color="#CC4444", linewidth=3)
+ax_a.text(25.4, 1.1, "25 kHz tone\n(unfiltered)", fontsize=9, color="#CC4444",
+          va="top")
+ax_a.vlines(fs_a - 25, 0, 1.15, color="#CC4444", linewidth=3, linestyle=":")
+ax_a.annotate("", xy=(fs_a - 25 + 0.2, 1.2), xytext=(25 - 0.2, 1.2),
+              arrowprops=dict(arrowstyle="-|>", color="#CC4444", lw=1.6,
+                              connectionstyle="arc3,rad=0.5"))
+ax_a.text(fs_a - 25 - 0.4, 0.55, "alias at\n44.1 − 25 =\n19.1 kHz", ha="right",
+          fontsize=9, color="#CC4444")
+ax_a.vlines(20, 0, 0.7, color="#E68A00", linewidth=3)
+ax_a.annotate("20 kHz: below f$_s$/2, no alias", xy=(20, 0.35),
+              xytext=(27, 0.3), fontsize=8, color="#E68A00",
+              arrowprops=dict(arrowstyle="->", color="#E68A00"),
+              bbox=dict(facecolor="white", edgecolor="none", alpha=0.9, pad=1))
+ax_a.set_xlim(0, 50)
+ax_a.set_ylim(0, 2.05)
+ax_a.set_yticks([])
+ax_a.set_xlabel("Frequency (kHz)")
+ax_a.set_title("(a) Spectrum after sampling at 44.1 kHz: components above "
+               "f$_s$/2 fold back into 0 – f$_s$/2")
+ax_a.legend(fontsize=8, loc="upper right")
+ax_a.grid(True, axis="x", alpha=0.3)
+
+t_c = np.linspace(0, 0.3, 3000)   # ms
+n_s = np.arange(0, 0.3 * fs_a + 1)
+t_s = n_s / fs_a
+ax_b.plot(t_c, np.cos(2 * np.pi * 25 * t_c), color="#CC4444", linewidth=1,
+          alpha=0.8, label="25 kHz input")
+ax_b.plot(t_c, np.cos(2 * np.pi * (fs_a - 25) * t_c), color="#2266CC",
+          linewidth=1.8, linestyle="--", label="19.1 kHz alias (same samples)")
+ax_b.plot(t_s, np.cos(2 * np.pi * 25 * t_s), "ko", markersize=5,
+          label="Samples every 1/44.1 kHz = 22.7 µs")
+ax_b.set_xlim(0, 0.3)
+ax_b.set_xlabel("Time (ms)")
+ax_b.set_ylabel("Amplitude")
+ax_b.set_title("(b) Time domain: the 25 kHz and 19.1 kHz cosines pass "
+               "through identical sample values")
+ax_b.legend(fontsize=8, loc="lower right", ncol=3)
+ax_b.grid(True, alpha=0.3)
+fig.tight_layout()
+save(fig, "ch02_aliasing.png")
+
+# --- 2.2.3 Uniform quantizer staircase, error, and mu-law curve ---
+fig, axs = plt.subplots(1, 3, figsize=(15, 4.8))
+Nq = 3
+Dq = 2 / 2 ** Nq
+x_q = np.linspace(-1, 1, 2001)
+q_q = np.clip(Dq * (np.floor(x_q / Dq) + 0.5), -1 + Dq / 2, 1 - Dq / 2)
+axs[0].plot(x_q, x_q, color="gray", linestyle="--", linewidth=1,
+            label="Ideal (no quantization)")
+axs[0].plot(x_q, q_q, color="#2266CC", linewidth=2,
+            label=f"{Nq}-bit mid-rise quantizer ({2 ** Nq} levels)")
+axs[0].set_xlabel("Input x (V)")
+axs[0].set_ylabel("Output level (V)")
+axs[0].set_title(f"(a) Uniform staircase, ±1 V, Δ = 2/2³ = {Dq} V")
+axs[0].legend(fontsize=8, loc="upper left")
+axs[0].grid(True, alpha=0.3)
+axs[0].set_aspect("equal")
+
+axs[1].plot(x_q, q_q - x_q, color="#CC4444", linewidth=1.5)
+axs[1].axhline(Dq / 2, color="gray", linestyle=":", linewidth=1)
+axs[1].axhline(-Dq / 2, color="gray", linestyle=":", linewidth=1)
+axs[1].text(-0.98, Dq / 2 + 0.01, "+Δ/2", fontsize=9, color="gray")
+axs[1].text(-0.98, -Dq / 2 - 0.035, "−Δ/2", fontsize=9, color="gray")
+axs[1].set_ylim(-0.2, 0.2)
+axs[1].set_xlabel("Input x (V)")
+axs[1].set_ylabel("Error q(x) − x (V)")
+axs[1].set_title("(b) Error sawtooth: uniform in ±Δ/2,\n"
+                 "noise power Δ²/12 → SQNR ≈ 6.02N + 1.76 dB")
+axs[1].grid(True, alpha=0.3)
+
+mu = 255
+xm = np.linspace(-1, 1, 1001)
+F_mu = np.sign(xm) * np.log1p(mu * np.abs(xm)) / np.log1p(mu)
+axs[2].plot(xm, xm, color="gray", linestyle="--", linewidth=1,
+            label="Uniform (no companding)")
+axs[2].plot(xm, F_mu, color="#992299", linewidth=2,
+            label="μ-law, μ = 255 (North America, Japan)")
+for lev in np.linspace(-1, 1, 17):
+    xin = np.sign(lev) * np.expm1(abs(lev) * np.log1p(mu)) / mu
+    axs[2].plot([xin, xin], [-1.05, lev], color="#992299", alpha=0.25,
+                linewidth=0.7)
+axs[2].set_xlabel("Normalized input x")
+axs[2].set_ylabel("Compressed output F(x)")
+axs[2].set_title("(c) μ-law compressor F(x) = sgn(x)·ln(1 + μ|x|)/ln(1 + μ)\n"
+                 "(faint lines: 16 equal output steps → fine input steps near 0)")
+axs[2].legend(fontsize=8, loc="lower right")
+axs[2].set_ylim(-1.05, 1.05)
+axs[2].grid(True, alpha=0.3)
+fig.tight_layout()
+save(fig, "ch02_quantization.png")
+
+# --- 2.3.1 OOK / BFSK / BPSK timing diagram ---
+bits = [1, 0, 1, 1, 0, 1, 0, 0]
+Tb = 1.0
+spb = 400
+t_b = np.arange(len(bits) * spb) / spb * Tb
+b_t = np.repeat(bits, spb)
+fc_t = 3.0                      # carrier cycles per bit (illustrative)
+f1_t, f2_t = 4.0, 2.0           # BFSK mark/space cycles per bit
+fig, axs = plt.subplots(4, 1, figsize=(12, 8), sharex=True)
+axs[0].step(np.append(t_b[::spb], len(bits) * Tb),
+            np.append(bits, bits[-1]), where="post", color="black", linewidth=2)
+for k, b in enumerate(bits):
+    axs[0].text(k * Tb + Tb / 2, 1.15, str(b), ha="center", fontsize=12,
+                fontweight="bold")
+axs[0].set_ylim(-0.2, 1.5)
+axs[0].set_ylabel("Data")
+axs[0].set_yticks([0, 1])
+axs[0].set_title("One bit sequence (1 0 1 1 0 1 0 0) on three binary carriers")
+ook = b_t * np.cos(2 * np.pi * fc_t * t_b)
+axs[1].plot(t_b, ook, color="#2266CC", linewidth=1.2)
+axs[1].set_ylabel("OOK\n(ASK)")
+phase = 2 * np.pi * np.cumsum(np.where(b_t == 1, f1_t, f2_t)) / spb
+axs[2].plot(t_b, np.cos(phase), color="#33AA33", linewidth=1.2)
+axs[2].set_ylabel("BFSK")
+axs[2].text(len(bits) * Tb + 0.05, 0, "1 → f₁ (4 cycles/bit)\n0 → f₂ (2 cycles/bit)\n"
+            "continuous phase", fontsize=8, va="center")
+bpsk = np.where(b_t == 1, 1, -1) * np.cos(2 * np.pi * fc_t * t_b)
+axs[3].plot(t_b, bpsk, color="#CC4444", linewidth=1.2)
+axs[3].set_ylabel("BPSK")
+axs[3].text(len(bits) * Tb + 0.05, 0, "1 → 0°\n0 → 180°", fontsize=8,
+            va="center")
+axs[1].text(len(bits) * Tb + 0.05, 0, "1 → carrier on\n0 → carrier off",
+            fontsize=8, va="center")
+for ax in axs:
+    for k in range(len(bits) + 1):
+        ax.axvline(k * Tb, color="gray", linestyle=":", linewidth=0.8)
+    ax.grid(True, axis="y", alpha=0.3)
+for ax in axs[1:]:
+    ax.set_ylim(-1.3, 1.3)
+axs[3].set_xlabel("Time (bit periods T$_b$)")
+axs[3].set_xlim(0, len(bits) * Tb)
+fig.tight_layout()
+save(fig, "ch02_ook_fsk_psk.png")
+
+# --- 2.3.5 BER vs Eb/N0 (Example 2.3.5) ---
+ebn0_db = np.linspace(0, 26, 521)
+g = 10 ** (ebn0_db / 10)
+fig, ax = plt.subplots(figsize=(11, 7))
+ax.semilogy(ebn0_db, _c2_Q(np.sqrt(2 * g)), color="#2266CC", linewidth=2.2,
+            label="BPSK and QPSK: Q(√(2E$_b$/N₀))")
+qam_cols = {16: "#E68A00", 64: "#33AA33", 256: "#992299"}
+for M, col in qam_cols.items():
+    kb = np.log2(M)
+    ber = (4 / kb) * (1 - 1 / np.sqrt(M)) * _c2_Q(np.sqrt(3 * kb * g / (M - 1)))
+    ax.semilogy(ebn0_db, ber, color=col, linewidth=2.2,
+                label=f"{M}-QAM (Gray, nearest-neighbour approx.)")
+ax.axhline(1e-5, color="black", linestyle="--", linewidth=1.2)
+ax.text(0.3, 1.4e-5, "Target BER = 10⁻⁵", fontsize=9)
+for x_req, col in ((9.6, "#2266CC"), (13.4, "#E68A00"), (17.8, "#33AA33"),
+                   (22.5, "#992299")):
+    ax.plot(x_req, 1e-5, "o", color=col, markersize=7, zorder=5)
+    ax.text(x_req, 4e-6, f"{x_req} dB", ha="center", va="top", fontsize=8,
+            color=col)
+ax.axvline(12, color="#CC4444", linestyle=":", linewidth=1.5)
+ax.text(12.15, 3e-1, "Example 2.3.5:\nE$_b$/N₀ = 12 dB", fontsize=9,
+        color="#CC4444", va="top")
+ax.plot(12, 9.0e-9, "s", color="#2266CC", markersize=8, zorder=6)
+ax.annotate("BPSK/QPSK 9.0 × 10⁻⁹ (meets)", xy=(12, 9.0e-9),
+            xytext=(13.5, 2e-9), fontsize=9, color="#2266CC",
+            arrowprops=dict(arrowstyle="->", color="#2266CC"))
+ax.plot(12, 1.39e-4, "s", color="#E68A00", markersize=8, zorder=6)
+ax.annotate("16-QAM 1.39 × 10⁻⁴ (fails)", xy=(12, 1.39e-4),
+            xytext=(3.2, 3e-5), fontsize=9, color="#E68A00",
+            arrowprops=dict(arrowstyle="->", color="#E68A00"))
+ax.set_xlim(0, 26)
+ax.set_ylim(1e-10, 1)
+ax.set_xlabel("E$_b$/N₀ (dB)")
+ax.set_ylabel("Bit error rate")
+ax.set_title("BER vs E$_b$/N₀ for coherent detection in AWGN (§2.3.5 table and Example 2.3.5)")
+ax.legend(fontsize=9, loc="lower left")
+ax.grid(True, which="both", alpha=0.3)
+fig.tight_layout()
+save(fig, "ch02_ber_curves.png")
+
+# --- 2.3.6 MIMO channel and SVD eigen-channels (Example 2.3.6) ---
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(15, 5.6))
+_c1_blank(ax_a)
+tx_y = [3.0, 2.0, 1.0, 0.0]
+for k, yy in enumerate(tx_y):
+    ax_a.plot([1.0, 1.0, 0.8, 1.2, 1.0], [yy, yy + 0.25, yy + 0.5, yy + 0.5, yy + 0.25],
+              color="#2266CC", linewidth=_C1_LW)
+    ax_a.plot([5.0, 5.0, 4.8, 5.2, 5.0], [yy, yy + 0.25, yy + 0.5, yy + 0.5, yy + 0.25],
+              color="#33AA33", linewidth=_C1_LW)
+    _c1_wire(ax_a, [(0.3, yy), (1.0, yy)], color="#2266CC")
+    _c1_wire(ax_a, [(5.0, yy), (5.7, yy)], color="#33AA33")
+    ax_a.text(0.2, yy, f"x{chr(0x2081 + k)}", ha="right", va="center", fontsize=11,
+              color="#2266CC")
+    ax_a.text(5.8, yy, f"y{chr(0x2081 + k)}", ha="left", va="center", fontsize=11,
+              color="#33AA33")
+for yt in tx_y:
+    for yr in tx_y:
+        ax_a.plot([1.0, 5.0], [yt + 0.5, yr + 0.5], color="gray",
+                  linewidth=0.8, alpha=0.6)
+ax_a.text(3.0, 3.85, "h$_{ij}$: 16 paths in a rich-scattering channel",
+          ha="center", fontsize=10, color="gray")
+ax_a.text(3.0, -0.8, "y = Hx + n,   H = UΣV$^H$  (4 × 4, full rank)",
+          ha="center", fontsize=12, fontweight="bold")
+ax_a.text(1.0, 4.2, "N$_t$ = 4", ha="center", fontsize=10, color="#2266CC")
+ax_a.text(5.0, 4.2, "N$_r$ = 4", ha="center", fontsize=10, color="#33AA33")
+ax_a.set_xlim(-0.6, 6.6)
+ax_a.set_ylim(-1.3, 4.6)
+ax_a.set_title("(a) Physical 4 × 4 MIMO channel")
+
+_c1_blank(ax_b)
+_c1_box(ax_b, 1.0, 1.75, 1.3, 3.9, "Precode\nx = Vs", fc="#DDEEFF", ec="#2266CC")
+_c1_box(ax_b, 3.0, 1.75, 1.5, 3.9, "Channel\nH = UΣV$^H$", fc="#F2F2F2",
+        ec="#666666")
+_c1_box(ax_b, 5.0, 1.75, 1.3, 3.9, "Combine\nr = U$^H$y", fc="#E8F5E8", ec="#33AA33")
+_c1_arrow(ax_b, (1.65, 1.75), (2.25, 1.75))
+_c1_arrow(ax_b, (3.75, 1.75), (4.35, 1.75))
+for k, yy in enumerate([3.2, 2.2, 1.2, 0.2]):
+    _c1_arrow(ax_b, (-0.4, yy), (0.35, yy), color="#2266CC", lw=1.4, ms=10)
+    ax_b.text(-0.5, yy, f"s{chr(0x2081 + k)}", ha="right", va="center",
+              fontsize=10, color="#2266CC")
+y_eq = [3.2, 2.2, 1.2, 0.2]
+sig_lab = ["σ₁", "σ₂", "σ₃", "σ₄"]
+for k, yy in enumerate(y_eq):
+    _c1_arrow(ax_b, (5.65, yy), (6.4, yy), color="#33AA33", lw=1.4, ms=10)
+    ax_b.text(7.6, yy, f"r{chr(0x2081 + k)} = {sig_lab[k]}·s{chr(0x2081 + k)} + n{chr(0x2081 + k)}",
+              ha="left", va="center", fontsize=10)
+    ax_b.add_patch(plt.Circle((7.0, yy), 0.28, facecolor="white",
+                              edgecolor="black", linewidth=1.2, zorder=4))
+    ax_b.text(7.0, yy, "×" + sig_lab[k], ha="center", va="center", fontsize=8,
+              zorder=5)
+    _c1_wire(ax_b, [(6.4, yy), (6.72, yy)])
+    _c1_wire(ax_b, [(7.28, yy), (7.55, yy)])
+ax_b.text(4.6, -0.75, "SVD turns H into min(N$_t$, N$_r$) = 4 parallel, "
+          "non-interfering eigen-channels\nC = Σ log₂(1 + σ$_i$² P$_i$/N₀); "
+          "Example 2.3.6: 4 streams × 433.3 Mbps = 1,733 Mbps",
+          ha="center", va="top", fontsize=10)
+ax_b.set_xlim(-1.2, 10.6)
+ax_b.set_ylim(-1.7, 4.2)
+ax_b.set_title("(b) Equivalent parallel eigen-channels")
+fig.tight_layout()
+save(fig, "ch02_mimo_svd.png")
+
+# --- 2.5.1 OFDM subcarriers and cyclic prefix (Example 2.5.1) ---
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(12, 8.2))
+df_o = 312.5                       # kHz
+f_o = np.linspace(-4.5 * df_o, 4.5 * df_o, 3000)
+cols_o = ["#2266CC", "#CC4444", "#33AA33", "#E68A00", "#992299", "#1B9E9E",
+          "#8C564B"]
+for k, c in zip(range(-3, 4), cols_o):
+    ax_a.plot(f_o / 1e3, np.sinc((f_o - k * df_o) / df_o), color=c, linewidth=1.8)
+    ax_a.plot(k * df_o / 1e3, 1, "o", color=c, markersize=5)
+ax_a.axhline(0, color="black", linewidth=0.8)
+for k in range(-3, 4):
+    ax_a.axvline(k * df_o / 1e3, color="gray", linestyle=":", linewidth=0.8)
+ax_a.annotate("", xy=(0, 1.12), xytext=(df_o / 1e3, 1.12),
+              arrowprops=dict(arrowstyle="<->", color="black", lw=1.2))
+ax_a.text(df_o / 2e3, 1.15, "Δf = 312.5 kHz", ha="center", va="bottom",
+          fontsize=10)
+ax_a.text(-1.4, 0.75, "Each subcarrier peaks where\nevery other one is zero:\n"
+          "orthogonal, no guard bands", fontsize=9,
+          bbox=dict(facecolor="white", edgecolor="gray", alpha=0.9))
+ax_a.set_xlim(-1.45, 1.45)
+ax_a.set_ylim(-0.3, 1.32)
+ax_a.set_xlabel("Frequency offset (MHz)")
+ax_a.set_ylabel("Amplitude")
+ax_a.set_title("(a) Overlapping sinc spectra of 7 of the 64 subcarriers "
+               "(802.11a, Example 2.5.1)")
+ax_a.grid(True, alpha=0.3)
+
+rng = np.random.default_rng(7)
+Tu, Tg = 3.2, 0.8                  # us
+t_u = np.linspace(0, Tu, 641)
+ks = np.arange(1, 9)
+amps = rng.normal(size=ks.size) + 1j * rng.normal(size=ks.size)
+sym = np.real(sum(a * np.exp(2j * np.pi * k * t_u / Tu) for a, k in zip(amps, ks)))
+sym /= np.max(np.abs(sym))
+n_g = int(round(Tg / Tu * (t_u.size - 1)))
+cp = sym[-n_g - 1:]
+t_cp = np.linspace(0, Tg, cp.size)
+ax_b.axvspan(0, Tg, color="#E68A00", alpha=0.2)
+ax_b.axvspan(Tu, Tu + Tg, facecolor="#E68A00", alpha=0.12, hatch="//",
+             edgecolor="#E68A00")
+ax_b.plot(t_cp, cp, color="#E68A00", linewidth=2, label="Cyclic prefix (copy)")
+ax_b.plot(Tg + t_u, sym, color="#2266CC", linewidth=1.6,
+          label="Useful symbol T = 1/Δf = 3.2 µs")
+ax_b.annotate("", xy=(Tg / 2, 1.15), xytext=(Tu + Tg / 2, 1.15),
+              arrowprops=dict(arrowstyle="-|>", color="#E68A00", lw=1.6,
+                              connectionstyle="arc3,rad=0.1"))
+ax_b.text((Tu + Tg) / 2, 1.98, "last 0.8 µs copied to the front", ha="center",
+          fontsize=9, color="#E68A00")
+for x0, x1, lab in ((0, Tg, "T$_g$ = 0.8 µs"), (Tg, Tg + Tu, "T = 3.2 µs"),
+                    (0, Tg + Tu, "T$_{total}$ = 4.0 µs")):
+    yy = -1.35 if lab != "T$_{total}$ = 4.0 µs" else -1.75
+    ax_b.annotate("", xy=(x0, yy), xytext=(x1, yy),
+                  arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+    ax_b.text((x0 + x1) / 2, yy - 0.06, lab, ha="center", va="top", fontsize=9)
+ax_b.set_xlim(-0.1, 4.1)
+ax_b.set_ylim(-2.15, 2.6)
+ax_b.set_yticks([])
+ax_b.set_xlabel("Time (µs)")
+ax_b.set_title("(b) One OFDM symbol: a multipath echo shorter than T$_g$ "
+               "falls inside the prefix and causes no ISI")
+ax_b.legend(fontsize=9, loc="upper right")
+ax_b.grid(True, axis="x", alpha=0.3)
+fig.tight_layout()
+save(fig, "ch02_ofdm.png")
+
+# --- 2.5.2 T1 and STS-1 frame structures (Example 2.5.2) ---
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(13, 8.5),
+                                 gridspec_kw=dict(height_ratios=[0.8, 1.6]))
+_c1_blank(ax_a)
+ax_a.set_aspect("auto")
+ax_a.add_patch(_c1p.Rectangle((0, 0), 1, 1, facecolor="#FFF0DD",
+                              edgecolor="#E68A00", linewidth=1.5))
+ax_a.text(0.5, 0.5, "F", ha="center", va="center", fontsize=10,
+          fontweight="bold")
+for s in range(24):
+    x0 = 1 + s * 8
+    ax_a.add_patch(_c1p.Rectangle((x0, 0), 8, 1,
+                                  facecolor="#DDEEFF" if s % 2 == 0 else "#C7DDF5",
+                                  edgecolor="#2266CC", linewidth=1))
+    ax_a.text(x0 + 4, 0.5, f"{s + 1}", ha="center", va="center", fontsize=8)
+ax_a.annotate("", xy=(0, 1.35), xytext=(193, 1.35),
+              arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+ax_a.text(96.5, 1.45, "193 bits = 1 framing bit + 24 time slots × 8 bits;  "
+          "125 µs (8,000 frames/s)  →  193 × 8,000 = 1.544 Mbps",
+          ha="center", va="bottom", fontsize=10)
+ax_a.text(5, -0.35, "each slot = one DS-0 sample (8 bits × 8,000/s = 64 kbps)",
+          ha="left", va="top", fontsize=9)
+ax_a.set_xlim(-2, 195)
+ax_a.set_ylim(-0.9, 2.1)
+ax_a.set_title("(a) DS-1 (T1) frame")
+
+_c1_blank(ax_b)
+ax_b.set_aspect("auto")
+for r in range(9):
+    yy = 8 - r
+    fc_toh = "#FFF0DD" if r < 3 else "#FBE3C4"
+    ax_b.add_patch(_c1p.Rectangle((0, yy), 3, 1, facecolor=fc_toh,
+                                  edgecolor="#E68A00", linewidth=0.8))
+    ax_b.add_patch(_c1p.Rectangle((3, yy), 1, 1, facecolor="#F5E6F5",
+                                  edgecolor="#992299", linewidth=0.8))
+    ax_b.add_patch(_c1p.Rectangle((4, yy), 86, 1, facecolor="#E8F5E8",
+                                  edgecolor="#33AA33", linewidth=0.8))
+for c in range(5, 90, 1):
+    ax_b.plot([c, c], [0, 9], color="#33AA33", linewidth=0.2, alpha=0.5)
+ax_b.text(1.5, 7.5, "Section\nOH\n(rows\n1–3)", ha="center", va="center",
+          fontsize=7)
+ax_b.text(1.5, 3.0, "Line OH\n(rows 4–9)", ha="center", va="center", fontsize=7)
+ax_b.text(3.5, 4.5, "Path OH", ha="center", va="center", fontsize=7,
+          rotation=90)
+ax_b.text(47, 4.5, "Synchronous payload envelope (SPE): 87 columns × 9 rows "
+          "= 783 bytes\n(1 path-overhead column + 86 payload columns; carries "
+          "28 VT1.5s = 28 DS-1s)",
+          ha="center", va="center", fontsize=10,
+          bbox=dict(facecolor="white", edgecolor="#33AA33", alpha=0.9))
+ax_b.annotate("", xy=(0, 9.4), xytext=(3, 9.4),
+              arrowprops=dict(arrowstyle="<->", color="#E68A00", lw=1.1))
+ax_b.text(1.5, 9.55, "TOH: 3 columns\n= 27 bytes/frame", ha="left", va="bottom",
+          fontsize=8, color="#E68A00")
+ax_b.annotate("", xy=(0, 11.0), xytext=(90, 11.0),
+              arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+ax_b.text(45, 11.1, "90 columns × 9 rows = 810 bytes, sent row by row every "
+          "125 µs  →  810 × 8 × 8,000 = 51.84 Mbps", ha="center",
+          va="bottom", fontsize=10)
+ax_b.annotate("", xy=(-1.2, 0), xytext=(-1.2, 9),
+              arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+ax_b.text(-1.6, 4.5, "9 rows", ha="right", va="center", fontsize=9,
+          rotation=90)
+ax_b.text(45, -0.4, "Payload capacity (810 − 27) × 8 × 8,000 = 50.112 Mbps;  "
+          "OC-48 = 48 × 51.84 = 2,488.32 Mbps (Example 2.5.2)",
+          ha="center", va="top", fontsize=10)
+ax_b.set_xlim(-3.5, 91)
+ax_b.set_ylim(-1.4, 12.4)
+ax_b.set_title("(b) SONET STS-1 frame")
+fig.tight_layout()
+save(fig, "ch02_tdm_frames.png")
+
+# --- 2.5.4 OFDMA resource grid (Example 2.5.4) ---
+fig, ax = plt.subplots(figsize=(12, 7))
+n_sym, n_rb = 14, 50
+user_rb = [("User A: 30 RBs, 64-QAM 3/4 → 17.82 Mbps", 30, "#2266CC"),
+           ("User B: 15 RBs, 16-QAM 1/2 → 3.96 Mbps", 15, "#33AA33"),
+           ("User C: 5 RBs, QPSK 1/3 → 0.44 Mbps", 5, "#E68A00")]
+ax.add_patch(_c1p.Rectangle((0, 0), 3, n_rb, facecolor="#DDDDDD",
+                            edgecolor="gray", hatch="xx", linewidth=0.8,
+                            label="Control + reference (3 of 14 symbols)"))
+rb0 = 0
+for lab, nrb, col in user_rb:
+    ax.add_patch(_c1p.Rectangle((3, rb0), n_sym - 3, nrb, facecolor=col,
+                                alpha=0.55, edgecolor=col, linewidth=1.2,
+                                label=lab))
+    ax.text(3 + (n_sym - 3) / 2, rb0 + nrb / 2,
+            f"{lab.split(':')[0]}\n{nrb} RBs × 12 = {nrb * 12} subcarriers",
+            ha="center", va="center", fontsize=10, fontweight="bold")
+    rb0 += nrb
+for s in range(n_sym + 1):
+    ax.axvline(s, color="white", linewidth=0.6)
+for r in range(n_rb + 1):
+    ax.axhline(r, color="white", linewidth=0.4)
+ax.axvline(7, color="black", linewidth=1.2, linestyle="--")
+ax.text(3.5, n_rb + 0.6, "slot 1 (0.5 ms)", ha="center", fontsize=9)
+ax.text(10.5, n_rb + 0.6, "slot 2 (0.5 ms)", ha="center", fontsize=9)
+ax.set_xlim(0, n_sym)
+ax.set_ylim(0, n_rb + 2.2)
+ax.set_xticks(np.arange(0, n_sym + 1, 1))
+ax.set_yticks(np.arange(0, n_rb + 1, 5))
+ax.set_xlabel("Time: OFDM symbols in one 1 ms subframe (11 carry data)")
+ax.set_ylabel("Frequency: resource blocks (12 × 15 kHz = 180 kHz each)")
+ax.set_title("LTE OFDMA resource grid, 10 MHz = 50 RBs = 600 subcarriers "
+             "(Example 2.5.4: total 22.22 Mbps)")
+ax.legend(fontsize=9, loc="upper left", bbox_to_anchor=(1.01, 1.0))
+fig.tight_layout()
+save(fig, "ch02_ofdma_grid.png")
+
+# --- 2.7.3 Receiver cascade and link-budget level diagrams (Ex 2.7.2-2.7.3) ---
+fig, (ax_a, ax_b) = plt.subplots(1, 2, figsize=(15, 6))
+# Linear F and G as rounded in Example 2.7.2: LNA 1.413 / 100, cable 2.0 / 0.5,
+# mixer 6.31.
+stages_ok = [("LNA", 1.413, 100.0), ("Cable", 2.0, 0.5), ("Mixer", 6.31, 1.0)]
+stages_bad = [("Cable", 2.0, 0.5), ("LNA", 1.413, 100.0), ("Mixer", 6.31, 1.0)]
+
+
+def _c2_cascade(stages):
+    F_tot, G_cum, out = 0.0, 1.0, []
+    for k, (_, F, G) in enumerate(stages):
+        F_tot = F if k == 0 else F_tot + (F - 1) / G_cum
+        G_cum *= G
+        out.append(10 * np.log10(F_tot))
+    return out
+
+
+for stages, col, lab in ((stages_ok, "#33AA33", "LNA first (Example 2.7.2)"),
+                         (stages_bad, "#CC4444", "Cable first (part d)")):
+    nf_c = _c2_cascade(stages)
+    xs = np.arange(1, len(stages) + 1)
+    ax_a.plot(xs, nf_c, "-o", color=col, linewidth=2.2, markersize=8,
+              label=lab)
+    for x, v, (nm, _, _) in zip(xs, nf_c, stages):
+        ax_a.text(x, v + 0.15, f"+ {nm}\n{v:.2f} dB", ha="center",
+                  va="bottom", fontsize=9, color=col)
+ax_a.set_xlim(0.5, 3.5)
+ax_a.set_ylim(0, 6)
+ax_a.set_xticks([1, 2, 3])
+ax_a.set_xticklabels(["after stage 1", "after stage 2", "after stage 3"])
+ax_a.set_ylabel("Cumulative noise figure (dB, Friis)")
+ax_a.set_title("(a) Example 2.7.2: cumulative NF along the chain\n"
+               "1.84 dB (T$_e$ = 153 K) vs 4.67 dB (T$_e$ = 560 K)")
+ax_a.legend(fontsize=9, loc="upper left")
+ax_a.grid(True, alpha=0.3)
+
+lv = [("Satellite\nEIRP", 52.0), ("After free-space\nloss −205.5 dB", 52.0 - 205.5),
+      ("After 60 cm dish\n+36.0 dBi = C", 52.0 - 205.5 + 36.0)]
+xs = np.arange(len(lv))
+ys = [v for _, v in lv]
+ax_b.plot(xs, ys, "-o", color="#2266CC", linewidth=2.2, markersize=8,
+          label="Carrier power C")
+for x, (nm, v) in zip(xs, lv):
+    below = x == 1
+    ax_b.text(x, v - 7 if below else v + 7, f"{nm}\n{v:.1f} dBW", ha="center",
+              va="top" if below else "bottom", fontsize=9)
+N_dbw = -228.6 + 10 * np.log10(150) + 10 * np.log10(27e6)
+ax_b.axhline(N_dbw, color="#CC4444", linestyle="--", linewidth=1.5,
+             label=f"Noise N = k + 10 log T + 10 log B = {N_dbw:.1f} dBW")
+ax_b.axhline(N_dbw + 5.5, color="#E68A00", linestyle=":", linewidth=1.5,
+             label="Threshold: N + 5.5 dB (DVB-S2 QPSK 3/4)")
+xc = 2.25
+ax_b.annotate("", xy=(xc, ys[-1]), xytext=(xc, N_dbw),
+              arrowprops=dict(arrowstyle="<->", color="black", lw=1.2))
+ax_b.text(xc, N_dbw - 4, f"C/N = {ys[-1] - N_dbw:.1f} dB", fontsize=10,
+          ha="center", va="top")
+xm2 = xc + 0.45
+ax_b.annotate("", xy=(xm2, ys[-1]), xytext=(xm2, N_dbw + 5.5),
+              arrowprops=dict(arrowstyle="<->", color="#E68A00", lw=1.2))
+ax_b.text(xm2 + 0.05, ys[-1] + 12, "rain\nmargin\n9.5 dB", fontsize=9,
+          ha="left", va="center", color="#E68A00")
+ax_b.set_xlim(-0.4, 3.35)
+ax_b.set_ylim(-205, 90)
+ax_b.set_xticks(xs)
+ax_b.set_xticklabels(["transmit", "path", "receive"])
+ax_b.set_ylabel("Level (dBW)")
+ax_b.set_title("(b) Example 2.7.3: Ku-band downlink level diagram\n"
+               "(G/T = 14.2 dB/K, 27 MHz transponder)")
+ax_b.legend(fontsize=8, loc="upper right")
+ax_b.grid(True, alpha=0.3)
+fig.tight_layout()
+save(fig, "ch02_link_budget.png")
 
 
 # ============================================================
