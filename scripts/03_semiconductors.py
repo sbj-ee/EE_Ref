@@ -47,13 +47,13 @@ def _(plt):
 
     materials = [
         ("Conductor\n(Copper)", 0, True),
-        ("Semiconductor\n(Silicon, Eg = 1.12 eV)", 1.12, False),
-        ("Insulator\n(SiO\u2082, Eg \u2248 9 eV)", 9.0, False),
+        ("Semiconductor\n(Silicon, $E_g$ = 1.12 eV)", 1.12, False),
+        ("Insulator\n(SiO\u2082, $E_g$ \u2248 9 eV)", 9.0, False),
     ]
 
     for ax, (title, eg, overlap) in zip(axes, materials):
         ax.set_xlim(0, 10)
-        ax.set_ylim(-2, 14)
+        ax.set_ylim(-2, 16)  # insulator CB top is 15
         ax.set_xticks([])
         ax.set_yticks([])
         ax.set_ylabel("Energy (eV)", fontsize=10) if ax == axes[0] else None
@@ -78,7 +78,7 @@ def _(plt):
             # Fermi level
             ax.axhline(y=5.25, xmin=0.1, xmax=0.9, color="black",
                         linestyle="--", linewidth=1.2)
-            ax.text(9.2, 5.25, "E\u1da0", fontsize=9, va="center")
+            ax.text(9.2, 5.25, r"$E_F$", fontsize=10, va="center")
         else:
             # Valence band (filled)
             vb_top = 4.0
@@ -104,7 +104,7 @@ def _(plt):
                         xytext=(mid_x + 3, vb_top),
                         arrowprops=dict(arrowstyle="<->", color="#cc3333",
                                         linewidth=1.5))
-            gap_label = f"E\u2091 = {eg} eV" if eg < 5 else f"E\u2091 \u2248 {eg:.0f} eV"
+            gap_label = (r"$E_g$" + f" = {eg} eV") if eg < 5 else (r"$E_g$" + f" \u2248 {eg:.0f} eV")
             ax.text(mid_x + 3.2, (vb_top + cb_bottom) / 2, gap_label,
                     fontsize=9, va="center", ha="left", color="#cc3333",
                     fontweight="bold")
@@ -161,8 +161,8 @@ def _(np, plt):
     I_n2_full = I_S * (np.exp(V_full / (2 * V_T)) - 1)
 
     # Clip for display
-    I_n1_clip = np.clip(I_n1_full, -1e-10, 0.1)
-    I_n2_clip = np.clip(I_n2_full, -1e-10, 0.1)
+    I_n1_clip = np.clip(I_n1_full, -1e-10, 1.0)  # exits the 100 mA top, no flat
+    I_n2_clip = np.clip(I_n2_full, -1e-10, 1.0)
 
     fig2, (ax2a, ax2b) = plt.subplots(1, 2, figsize=(13, 5))
 
@@ -170,7 +170,7 @@ def _(np, plt):
     ax2a.plot(V_full * 1000, I_n1_clip * 1000, "b-", linewidth=2,
               label="n = 1 (ideal)")
     ax2a.plot(V_full * 1000, I_n2_clip * 1000, "r--", linewidth=2,
-              label="n = 2 (recombination)")
+              label="n = 2 (\u2248 0 here: 0.27 \u03bcA at 0.85 V; see log panel)")
     ax2a.axhline(y=0, color="black", linewidth=0.5)
     ax2a.axvline(x=0, color="black", linewidth=0.5)
 
@@ -181,14 +181,14 @@ def _(np, plt):
     ax2a.plot(knee_v, knee_i, "ko", markersize=8, zorder=5)
     ax2a.annotate(f"Knee \u2248 0.7 V\n({knee_i:.1f} mA)",
                   xy=(knee_v, knee_i),
-                  xytext=(450, knee_i * 0.85),
+                  xytext=(-250, 45), ha="center",
                   fontsize=9, color="black",
                   arrowprops=dict(arrowstyle="->", color="black"),
                   bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow",
                             alpha=0.8))
 
     # Mark reverse saturation
-    ax2a.annotate(f"I\u209b \u2248 {I_S:.0e} A\n(leakage)",
+    ax2a.annotate(r"$I_S$" + f" \u2248 {I_S:.0e} A\n(leakage)",
                   xy=(-1500, -I_S * 1000),
                   xytext=(-1500, 20),
                   fontsize=9, color="gray",
@@ -277,13 +277,13 @@ def _(np, plt):
             0.5 * k_n * (v_gs - V_th)**2
         )
         ax3a.plot(V_DS, I_D * 1000, color=color, linewidth=2,
-                  label=f"V\u0047\u0053 = {v_gs:.0f} V")
+                  label=rf"$V_{{GS}}$ = {v_gs:.0f} V")
 
     # Parabolic boundary: V_DS = V_GS - V_th, I_D = k_n/2 * V_DS^2
     v_ds_boundary = np.linspace(0, max(V_GS_values) - V_th, 200)
     i_boundary = 0.5 * k_n * v_ds_boundary**2
     ax3a.plot(v_ds_boundary, i_boundary * 1000, "k--", linewidth=1.5,
-              alpha=0.6, label="V\u1d30\u209b = V\u1d33\u209b \u2212 V\u209c\u2095")
+              alpha=0.6, label=r"$V_{DS} = V_{GS} - V_{th}$")
 
     # Region labels
     ax3a.text(1.0, 7.0, "Linear\n(Triode)", fontsize=9, ha="center",
@@ -291,8 +291,8 @@ def _(np, plt):
     ax3a.text(5.5, 7.0, "Saturation", fontsize=9, ha="center",
               style="italic", color="gray")
 
-    ax3a.set_xlabel("V\u1d30\u209b (V)", fontsize=10)
-    ax3a.set_ylabel("I\u1d30 (mA)", fontsize=10)
+    ax3a.set_xlabel(r"$V_{DS}$ (V)", fontsize=10)
+    ax3a.set_ylabel(r"$I_D$ (mA)", fontsize=10)
     ax3a.set_title("MOSFET Output Characteristics", fontsize=11,
                     fontweight="bold")
     ax3a.legend(fontsize=9, loc="center right")
@@ -321,14 +321,14 @@ def _(np, plt):
     # Mark V_th
     ax3b.axvline(x=V_th, color="red", linestyle="--", linewidth=1.2,
                  alpha=0.7)
-    ax3b.annotate(f"V\u209c\u2095 = {V_th:.0f} V",
+    ax3b.annotate(rf"$V_{{th}}$ = {V_th:.0f} V",
                   xy=(V_th, 0.3),
-                  xytext=(V_th + 0.8, 1.5),
+                  xytext=(V_th + 0.25, 3.2),
                   fontsize=10, color="red", fontweight="bold",
                   arrowprops=dict(arrowstyle="->", color="red"))
 
     # Mark square-law relationship
-    ax3b.annotate("I\u1d30 = (k\u2099/2)(V\u1d33\u209b \u2212 V\u209c\u2095)\u00b2",
+    ax3b.annotate(r"$I_D = (k_n/2)(V_{GS} - V_{th})^2$",
                   xy=(3.5, 0.5 * k_n * (3.5 - V_th)**2 * 1000),
                   xytext=(1.5, 7.5),
                   fontsize=10, color="blue",
@@ -339,12 +339,12 @@ def _(np, plt):
     for v_gs in [2.0, 3.0, 4.0, 5.0]:
         i_d = 0.5 * k_n * (v_gs - V_th)**2 * 1000
         ax3b.plot(v_gs, i_d, "ko", markersize=5, zorder=5)
-        ax3b.text(v_gs + 0.1, i_d + 0.2, f"{i_d:.1f} mA", fontsize=8,
+        ax3b.text(v_gs - 0.12, i_d + 0.25, f"{i_d:.1f} mA", fontsize=8, ha="right",
                   color="black")
 
-    ax3b.set_xlabel("V\u1d33\u209b (V)", fontsize=10)
-    ax3b.set_ylabel("I\u1d30 (mA)", fontsize=10)
-    ax3b.set_title(f"MOSFET Transfer Characteristic (V\u1d30\u209b = {V_DS_fixed:.0f} V)",
+    ax3b.set_xlabel(r"$V_{GS}$ (V)", fontsize=10)
+    ax3b.set_ylabel(r"$I_D$ (mA)", fontsize=10)
+    ax3b.set_title(rf"MOSFET Transfer Characteristic ($V_{{DS}}$ = {V_DS_fixed:.0f} V)",
                     fontsize=11, fontweight="bold")
     ax3b.grid(True, alpha=0.3)
     ax3b.set_xlim(0, 6)
