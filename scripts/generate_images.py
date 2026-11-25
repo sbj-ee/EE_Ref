@@ -4596,13 +4596,13 @@ for zeta, color in zip([0.1, 0.3, 0.5], colors[:3]):
         ax_mag.plot(w_peak, peak_db, "o", color=color, markersize=6, zorder=5)
 
 ax_mag.set_ylabel("Magnitude (dB)")
-ax_mag.set_title(f"Bode Plot: Second-Order System (ωn = {wn:.0f} rad/s)")
+ax_mag.set_title(rf"Bode Plot: Second-Order System ($\omega_n$ = {wn:.0f} rad/s)")
 ax_mag.axhline(y=0, color="gray", linewidth=0.5, linestyle="--")
 ax_mag.axvline(x=wn, color="gray", linewidth=0.5, linestyle=":", alpha=0.5)
-ax_mag.text(wn * 1.05, -35, f"ωn = {wn:.0f}", fontsize=9, color="gray", va="top")
+ax_mag.text(wn * 1.05, -55, rf"$\omega_n$ = {wn:.0f}", fontsize=9, color="gray", va="top")
 ax_mag.legend(fontsize=9, loc="lower left")
 ax_mag.grid(True, alpha=0.3, which="both")
-ax_mag.set_ylim(-40, 25)
+ax_mag.set_ylim(-65, 25)
 
 ax_phase.set_xlabel("Frequency (rad/s)")
 ax_phase.set_ylabel("Phase (degrees)")
@@ -4610,7 +4610,6 @@ ax_phase.axhline(y=-90, color="gray", linewidth=0.5, linestyle="--")
 ax_phase.axhline(y=-180, color="gray", linewidth=0.5, linestyle="--")
 ax_phase.axvline(x=wn, color="gray", linewidth=0.5, linestyle=":", alpha=0.5)
 ax_phase.set_yticks([0, -45, -90, -135, -180])
-ax_phase.legend(fontsize=9, loc="lower left")
 ax_phase.grid(True, alpha=0.3, which="both")
 
 ax_mag.set_xscale("log")
@@ -4644,7 +4643,7 @@ for zeta, color in zip(zeta_step, colors_step):
 ax.axhline(y=1.02, color="gray", linewidth=1, linestyle="--", alpha=0.6)
 ax.axhline(y=0.98, color="gray", linewidth=1, linestyle="--", alpha=0.6)
 ax.fill_between(t, 0.98, 1.02, color="gray", alpha=0.08)
-ax.text(2.85, 1.035, "±2% band", fontsize=9, color="gray", ha="right")
+ax.text(2.95, 1.075, "±2% band", fontsize=9, color="gray", ha="right", va="bottom")
 ax.axhline(y=1.0, color="black", linewidth=0.5, linestyle=":")
 
 zeta_ann = 0.3
@@ -4654,7 +4653,7 @@ Mp = np.exp(-zeta_ann * np.pi / np.sqrt(1 - zeta_ann**2))
 y_peak = 1 + Mp
 
 ax.plot(t_peak, y_peak, "o", color="#ff7f0e", markersize=8, zorder=5)
-ax.annotate(f"Overshoot = {Mp*100:.1f}%\nt_p = {t_peak:.3f} s",
+ax.annotate(f"Overshoot = {Mp*100:.1f}%\n$t_p$ = {t_peak:.3f} s",
              xy=(t_peak, y_peak), xytext=(t_peak + 0.25, y_peak + 0.05),
              fontsize=9, color="#ff7f0e",
              arrowprops=dict(arrowstyle="->", color="#ff7f0e"),
@@ -4662,7 +4661,7 @@ ax.annotate(f"Overshoot = {Mp*100:.1f}%\nt_p = {t_peak:.3f} s",
 
 t_settle = 4 / (zeta_ann * wn_step)
 ax.axvline(x=t_settle, color="#ff7f0e", linewidth=1, linestyle=":", alpha=0.6)
-ax.annotate(f"t_s = {t_settle:.2f} s (ζ=0.3)",
+ax.annotate(f"$t_s$ = {t_settle:.2f} s (ζ = 0.3)",
              xy=(t_settle, 0.5), xytext=(t_settle + 0.15, 0.45),
              fontsize=9, color="#ff7f0e",
              arrowprops=dict(arrowstyle="->", color="#ff7f0e"),
@@ -4670,7 +4669,7 @@ ax.annotate(f"t_s = {t_settle:.2f} s (ζ=0.3)",
 
 ax.set_xlabel("Time (s)")
 ax.set_ylabel("Response c(t)")
-ax.set_title(f"Unit Step Response: Second-Order System (ωn = {wn_step:.0f} rad/s)")
+ax.set_title(rf"Unit Step Response: Second-Order System ($\omega_n$ = {wn_step:.0f} rad/s)")
 ax.legend(fontsize=9, loc="upper right")
 ax.grid(True, alpha=0.3)
 ax.set_xlim(0, 3)
@@ -4737,8 +4736,8 @@ ax.plot([], [], "b-", linewidth=2, label="Root locus")
 
 ax.set_xlabel("Real Axis (σ)")
 ax.set_ylabel("Imaginary Axis (jω)")
-ax.set_title("Root Locus: G(s) = K / [s(s+2)(s+5)]")
-ax.legend(fontsize=9, loc="upper left")
+ax.set_title("Root Locus: G(s) = K / [s(s+2)(s+5)] (Example 4.7.1 plant)")
+ax.legend(fontsize=9, loc="lower left")
 ax.grid(True, alpha=0.3)
 ax.set_xlim(-12, 6)
 ax.set_ylim(-9, 9)
@@ -4834,20 +4833,25 @@ _I_avg_g = (_I_active_g * _t_active_g + (_I_sleep_g / 1000) * _t_sleep_ms_g) / _
 _life_yr_g  = (_C_mAh_g / _I_avg_g) / 8760
 
 fig, (_ax_cur_g, _ax_life_g) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
-_ax_cur_g.semilogy(_T_wake_s_g, _I_avg_g, "b-", linewidth=2)
-_ax_cur_g.axhline(y=_I_sleep_g / 1000, color="green", linestyle="--", alpha=0.6,
-                  label=f"Sleep floor: {_I_sleep_g} μA")
+# Current axis in μA with plain tick labels, matching the μA annotations
+_ax_cur_g.semilogy(_T_wake_s_g, _I_avg_g * 1000, "b-", linewidth=2)
+_ax_cur_g.axhline(y=_I_sleep_g, color="green", linestyle="--", alpha=0.6,
+                  label=f"Sleep floor: {_I_sleep_g:.0f} μA")
 for _Tex_g, _ccol_g, _clbl_g in [(60, "red", "60 s"), (5, "orange", "5 s")]:
     _tsl_g = _Tex_g * 1000 - _t_active_g
     _Iex_g = (_I_active_g * _t_active_g + (_I_sleep_g / 1000) * _tsl_g) / (_Tex_g * 1000)
-    _ax_cur_g.plot(_Tex_g, _Iex_g, "o", color=_ccol_g, markersize=9, zorder=5)
+    _ax_cur_g.plot(_Tex_g, _Iex_g * 1000, "o", color=_ccol_g, markersize=9, zorder=5)
     _ax_cur_g.annotate(
-        f"T = {_Tex_g} s\nI_avg = {_Iex_g*1000:.0f} μA",
-        xy=(_Tex_g, _Iex_g), xytext=(_Tex_g + 30, _Iex_g * 3),
+        f"T = {_Tex_g} s\nI_avg = {_Iex_g*1000:.1f} μA",
+        xy=(_Tex_g, _Iex_g * 1000), xytext=(_Tex_g + 30, _Iex_g * 1000 * 2.2),
         fontsize=9, color=_ccol_g,
         arrowprops=dict(arrowstyle="->", color=_ccol_g),
     )
-_ax_cur_g.set_ylabel("Average Current (mA)", fontsize=10)
+_ax_cur_g.set_ylabel("Average Current (μA)", fontsize=10)
+_ax_cur_g.set_ylim(15, 1000)
+_ax_cur_g.set_yticks([20, 50, 100, 200, 500, 1000])
+_ax_cur_g.set_yticklabels(["20", "50", "100", "200", "500", "1000"])
+_ax_cur_g.minorticks_off()
 _ax_cur_g.set_title(
     "Battery-Powered Sensor: Average Current vs Wake Interval\n"
     f"(I_active = {_I_active_g} mA for {_t_active_g} ms, I_sleep = {_I_sleep_g} μA)",
@@ -4864,7 +4868,7 @@ for _Tex_g, _ccol_g, _clbl_g in [(60, "red", "60 s"), (5, "orange", "5 s")]:
     _ax_life_g.plot(_Tex_g, _lex_g, "o", color=_ccol_g, markersize=9, zorder=5)
     _ax_life_g.annotate(
         f"T = {_Tex_g} s\n{_lex_g:.2f} yr",
-        xy=(_Tex_g, _lex_g), xytext=(_Tex_g + 30, _lex_g * 1.5),
+        xy=(_Tex_g, _lex_g), xytext=(_Tex_g + 40, _lex_g * 0.55 + 0.2),
         fontsize=9, color=_ccol_g,
         arrowprops=dict(arrowstyle="->", color=_ccol_g),
     )
@@ -4874,7 +4878,7 @@ _ax_life_g.set_title(f"Battery Life vs Wake Interval (C = {_C_mAh_g} mAh)", font
 _ax_life_g.legend(fontsize=9)
 _ax_life_g.grid(True, alpha=0.3)
 _ax_life_g.set_xlim(0, 600)
-_ax_life_g.set_ylim(0)
+_ax_life_g.set_ylim(0, 6.5)
 fig.tight_layout()
 save(fig, "ch05_sleep_power.png")
 
@@ -4901,7 +4905,7 @@ _comm_ex_g = 1.0 - _f_compute_g - _idle_ex_g
 _I_ex_g    = _f_compute_g * _I_high_g + _comm_ex_g * _I_mid_g + _idle_ex_g * _I_stop_g
 _axc_g.plot(_idle_ex_g * 100, _I_ex_g, "bo", markersize=10, zorder=5)
 _axc_g.annotate(
-    f"Example §5.7.2\n70% idle → {_I_ex_g:.2f} mA\n(vs {_I_high_g:.0f} mA unoptimized)",
+    f"Example 5.7.2\n70% idle → {_I_ex_g:.2f} mA\n(vs {_I_high_g:.0f} mA unoptimized)",
     xy=(_idle_ex_g * 100, _I_ex_g),
     xytext=(_idle_ex_g * 100 - 35, _I_ex_g + 6),
     fontsize=9, color="blue",
@@ -4910,8 +4914,9 @@ _axc_g.annotate(
 _axc_g.set_ylabel("Average Current (mA)", fontsize=10)
 _axc_g.set_title(
     "IoT Device Average Current: Optimized vs Unoptimized\n"
-    "(I_compute = 30 mA @ 168 MHz, I_comm = 8 mA @ 48 MHz, I_idle = 20 μA Stop mode)",
-    fontsize=11,
+    "(compute fixed at 10% @ 168 MHz, 30 mA; communication = 90% − idle @ 48 MHz, 8 mA; "
+    "idle in Stop mode, 20 μA)",
+    fontsize=10,
 )
 _axc_g.legend(fontsize=9)
 _axc_g.grid(True, alpha=0.3)
@@ -4936,6 +4941,637 @@ _axs_g.set_xlim(0, 90)
 _axs_g.set_ylim(0, 100)
 fig.tight_layout()
 save(fig, "ch05_lowpower_opt.png")
+
+# --- 5.1.3 Clock tree: HSE -> PLL (M/N/P) -> SYSCLK -> AHB/APB (Example 5.1.3) ---
+fig, ax = plt.subplots(figsize=(14, 6.4))
+_c1_blank(ax)
+ax.set_aspect("auto")
+_c5_src = dict(fc="#FFF0DD", ec="#E68A00")
+_c5_pll = dict(fc="#DDEEFF", ec="#2266CC")
+_c5_bus = dict(fc="#E8F5E8", ec="#33AA33")
+_c5_tim = dict(fc="#F5E6F5", ec="#992299")
+_c5_off = dict(fc="#F2F2F2", ec="#999999", tc="#777777")
+_c5_y = 3.6
+_c1_box(ax, 0.9, _c5_y, 1.5, 0.95, "HSE crystal\n8 MHz", fs=10, weight="bold", **_c5_src)
+_c1_box(ax, 0.9, 1.5, 1.5, 0.8, "HSI RC\n16 MHz", fs=9, **_c5_off)
+_c1_box(ax, 3.2, _c5_y, 1.2, 0.95, "÷M\nM = 8", fs=10, **_c5_pll)
+_c1_box(ax, 5.5, _c5_y, 1.3, 0.95, "×N (VCO)\nN = 336", fs=10, **_c5_pll)
+_c1_box(ax, 7.8, _c5_y, 1.2, 0.95, "÷P\nP = 2", fs=10, **_c5_pll)
+_c1_box(ax, 7.8, 5.45, 1.2, 0.75, "÷Q\nQ = 7", fs=9, **_c5_off)
+ax.add_patch(_c1p.FancyBboxPatch((2.45, 2.95), 6.1, 1.3, boxstyle="round,pad=0.05",
+                                 facecolor="none", edgecolor="#2266CC",
+                                 linewidth=1.2, linestyle="--"))
+ax.text(4.3, 4.4, "Main PLL", ha="center", va="bottom", fontsize=10,
+        color="#2266CC", fontweight="bold")
+ax.add_patch(_c1p.Polygon([(9.3, 4.5), (9.8, 4.2), (9.8, 2.3), (9.3, 2.0)],
+                          closed=True, facecolor="#FFFBE6", edgecolor="#996600",
+                          linewidth=1.5, zorder=3))
+ax.text(9.55, 3.25, "SW\nmux", ha="center", va="center", fontsize=8.5, zorder=4)
+_c1_box(ax, 11.6, 3.25, 1.5, 0.95, "AHB ÷1\nHCLK", fs=10, **_c5_bus)
+_c1_box(ax, 14.0, 4.95, 1.45, 0.85, "APB1 ÷4\nPCLK1", fs=10, **_c5_bus)
+_c1_box(ax, 14.0, 1.55, 1.45, 0.85, "APB2 ÷2\nPCLK2", fs=10, **_c5_bus)
+_c1_box(ax, 16.1, 5.95, 1.45, 0.75, "APB1 timers\n×2", fs=9, **_c5_tim)
+_c1_box(ax, 16.1, 0.55, 1.45, 0.75, "APB2 timers\n×2", fs=9, **_c5_tim)
+_c1_arrow(ax, (1.65, _c5_y), (2.6, _c5_y))
+_c1_arrow(ax, (3.8, _c5_y), (4.85, _c5_y))
+_c1_arrow(ax, (6.15, _c5_y), (7.2, _c5_y))
+_c1_arrow(ax, (8.4, _c5_y), (9.3, _c5_y))
+_c1_wire(ax, [(6.6, _c5_y), (6.6, 5.45)], color="#999999", lw=1.2)
+_c1_arrow(ax, (6.6, 5.45), (7.2, 5.45), color="#999999", lw=1.2)
+_c1_arrow(ax, (8.4, 5.45), (9.0, 5.45), color="#999999", lw=1.2)
+ax.text(9.05, 5.45, " 48 MHz (USB OTG, SDIO, RNG)", ha="left", va="center",
+        fontsize=8.5, color="#777777")
+_c1_wire(ax, [(1.65, 1.5), (9.0, 1.5), (9.0, 2.5)], color="#999999", lw=1.2)
+_c1_arrow(ax, (9.0, 2.5), (9.3, 2.5), color="#999999", lw=1.2)
+_c1_arrow(ax, (9.8, 3.25), (10.85, 3.25))
+_c1_wire(ax, [(12.35, 3.25), (12.85, 3.25), (12.85, 4.95)])
+_c1_arrow(ax, (12.85, 4.95), (13.27, 4.95))
+_c1_wire(ax, [(12.85, 3.25), (12.85, 1.55)])
+_c1_arrow(ax, (12.85, 1.55), (13.27, 1.55))
+_c1_wire(ax, [(14.72, 4.95), (15.0, 4.95), (15.0, 5.95)])
+_c1_arrow(ax, (15.0, 5.95), (15.37, 5.95))
+_c1_wire(ax, [(14.72, 1.55), (15.0, 1.55), (15.0, 0.55)])
+_c1_arrow(ax, (15.0, 0.55), (15.37, 0.55))
+_c5_lbl = dict(ha="center", va="bottom", fontsize=9.5, fontweight="bold")
+ax.text(2.12, _c5_y + 0.1, "8 MHz", **_c5_lbl)
+ax.text(4.32, _c5_y + 0.1, "1 MHz", **_c5_lbl)
+ax.text(6.95, _c5_y + 0.1, "336 MHz", **_c5_lbl)
+ax.text(8.85, _c5_y + 0.1, "168", **_c5_lbl)
+ax.text(10.32, 3.35, "SYSCLK\n168 MHz", **_c5_lbl)
+_c5_lim = dict(ha="center", va="top", fontsize=8, color="#555555")
+ax.text(4.32, 2.75, "PLL input: limit 1–2 MHz ✓", **_c5_lim)
+ax.text(6.95, 2.75, "VCO: limit 100–432 MHz ✓", **_c5_lim)
+ax.text(10.32, 4.0, "(≤ 168 MHz ✓)", ha="center", va="bottom", fontsize=8, color="#555555")
+ax.text(11.6, 2.65, "168 MHz (CPU, DMA, memory,\nAHB peripherals)", **_c5_lim)
+ax.text(14.0, 4.45, "42 MHz (≤ 42 ✓)", **_c5_lim)
+ax.text(14.0, 1.05, "84 MHz (≤ 84 ✓)", **_c5_lim)
+ax.text(16.95, 5.95, "84 MHz", ha="left", va="center", fontsize=10,
+        fontweight="bold", color="#992299")
+ax.text(16.95, 0.55, "168 MHz", ha="left", va="center", fontsize=10,
+        fontweight="bold", color="#992299")
+ax.text(16.1, 6.45, "APB prescaler ≠ 1, so timer clock = 2 × PCLK\n(APB1 timers: 11.9 ns per tick)",
+        ha="center", va="bottom", fontsize=8, color="#992299")
+ax.text(0.1, 6.55, "f$_{SYSCLK}$ = (f$_{HSE}$ / M) × N / P = (8 / 8) × 336 / 2 = 168 MHz",
+        ha="left", va="center", fontsize=11)
+ax.text(0.9, 0.95, "(alternative SYSCLK\nsource, unused here)", ha="center",
+        va="top", fontsize=8, color="#777777")
+ax.set_xlim(0, 18.0)
+ax.set_ylim(-0.1, 7.0)
+ax.set_title("STM32F4 Clock Tree for Example 5.1.3: 8 MHz HSE → PLL → 168 MHz SYSCLK",
+             fontsize=12)
+fig.tight_layout()
+save(fig, "ch05_clock_tree.png")
+
+# --- 5.3.2 Timer counter sawtooth, compare value and PWM output (Example 5.3.2) ---
+_c5_t = np.arange(0, 3000)                 # μs, 1 μs per tick (72 MHz / 72)
+_c5_cnt = _c5_t % 1000                     # ARR = 999
+_c5_pwm = (_c5_cnt < 600).astype(float)    # PWM mode 1: high while CNT < CCR
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(12, 6.6), sharex=True,
+                                 gridspec_kw=dict(height_ratios=[1.6, 1]))
+ax_a.plot(_c5_t, _c5_cnt, color="#2266CC", linewidth=2, label="Counter CNT")
+ax_a.axhline(999, color="#AA2222", linestyle="--", linewidth=1.3,
+             label="ARR = 999 (period 1000 ticks)")
+ax_a.axhline(600, color="#E68A00", linestyle="-.", linewidth=1.6,
+             label="CCR = 600 (compare value)")
+for _k in range(3):
+    ax_a.plot(_k * 1000 + 600, 600, "o", color="#E68A00", markersize=7, zorder=5)
+ax_a.set_ylabel("Counter value (ticks)")
+ax_a.set_ylim(-60, 1250)
+ax_a.set_yticks([0, 200, 400, 600, 800, 999])
+ax_a.legend(fontsize=9, loc="upper right", ncol=3)
+ax_a.grid(True, alpha=0.3)
+ax_a.set_title("Timer PWM, Example 5.3.2: 72 MHz / 72 = 1 MHz tick, ARR = 999 → 1 kHz, "
+               "CCR = 600 → 60% duty", fontsize=11)
+ax_a.text(1300, 300, "counter resets to 0\nafter ARR (update event)",
+          fontsize=9, color="#2266CC", ha="left")
+ax_a.annotate("", xy=(1000, 120), xytext=(1290, 330),
+              arrowprops=dict(arrowstyle="->", color="#2266CC"))
+ax_b.plot(_c5_t, _c5_pwm, color="#228822", linewidth=2, drawstyle="steps-post")
+ax_b.fill_between(_c5_t, 0, _c5_pwm, step="post", alpha=0.12, color="#228822")
+ax_b.set_ylim(-0.35, 1.6)
+ax_b.set_yticks([0, 1])
+ax_b.set_yticklabels(["Low", "High"])
+ax_b.set_ylabel("PWM output")
+ax_b.grid(True, alpha=0.2, axis="x")
+for _x0, _x1, _txt in [(0, 600, "high 600 μs\n(CNT 0–599)"),
+                       (600, 1000, "low 400 μs\n(CNT 600–999)")]:
+    ax_b.annotate("", xy=(_x0, 1.22), xytext=(_x1, 1.22),
+                  arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+    ax_b.text((_x0 + _x1) / 2, 1.27, _txt, ha="center", va="bottom", fontsize=8.5)
+ax_b.annotate("", xy=(1000, -0.2), xytext=(2000, -0.2),
+              arrowprops=dict(arrowstyle="<->", color="#AA2222", lw=1.1))
+ax_b.text(1500, -0.15, "period 1 ms (1 kHz)", ha="center", va="bottom",
+          fontsize=9, color="#AA2222")
+for _k in range(4):
+    ax_a.axvline(_k * 1000, color="gray", linestyle=":", linewidth=0.8)
+    ax_b.axvline(_k * 1000, color="gray", linestyle=":", linewidth=0.8)
+ax_b.set_xlabel("Time (μs)")
+ax_b.set_xlim(0, 3000)
+fig.tight_layout()
+save(fig, "ch05_timer_pwm.png")
+
+
+def _c5_bitwave(ax, bits, y0=0.0, amp=1.0, color="#2266CC", lw=2.0, w=1.0,
+                x0=0.0, edge=0.06):
+    """Draw a digital trace from per-slot logic levels (with short slanted edges)."""
+    xs, ys = [x0], [y0 + amp * bits[0]]
+    for i, b in enumerate(bits):
+        if i > 0 and b != bits[i - 1]:
+            xs.append(x0 + i * w + edge)
+            ys.append(y0 + amp * b)
+        xs.append(x0 + (i + 1) * w)
+        ys.append(y0 + amp * b)
+    ax.plot(xs, ys, color=color, linewidth=lw, solid_joinstyle="miter")
+
+
+# --- 5.4.1 UART 8N1 frame (Example 5.4.1) ---
+_c5_byte = 0x41                              # 'A' = 0100 0001
+_c5_data = [(_c5_byte >> i) & 1 for i in range(8)]   # LSB first on the wire
+_c5_par = sum(_c5_data) % 2                  # even parity: 0 (two 1s)
+_c5_tb = 1e6 / 115200                        # 8.68 μs per bit
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(13, 6.8))
+for ax, bits, names, title, eff in [
+        (ax_a, [1, 1, 0] + _c5_data + [1, 1, 1],
+         ["idle", "idle", "Start"] + [f"D{i}" for i in range(8)] + ["Stop", "idle", "idle"],
+         "(a) 8N1: 1 start + 8 data + 1 stop = 10 bit times = 86.8 μs per byte",
+         "8 data bits / 10 bit times = 80% of the baud rate"),
+        (ax_b, [1, 1, 0] + _c5_data + [_c5_par, 1, 1, 1],
+         ["idle", "idle", "Start"] + [f"D{i}" for i in range(8)] + ["P", "Stop", "idle", "idle"],
+         "(b) 8E1: even parity adds a bit, 11 bit times = 95.5 μs per byte",
+         "8 data bits / 11 bit times = 72.7% of the baud rate")]:
+    _c1_blank(ax)
+    ax.set_aspect("auto")
+    n = len(bits)
+    _c5_bitwave(ax, bits, color="#2266CC", lw=2.2)
+    for i, (b, nm) in enumerate(zip(bits, names)):
+        if nm == "idle":
+            fc = "#F2F2F2"
+        elif nm in ("Start", "Stop"):
+            fc = "#FFF0DD"
+        elif nm == "P":
+            fc = "#F5E6F5"
+        else:
+            fc = "#DDEEFF"
+        ax.add_patch(_c1p.Rectangle((i, -0.75), 1, 0.45, facecolor=fc,
+                                    edgecolor="#999999", linewidth=0.8))
+        ax.text(i + 0.5, -0.525, nm, ha="center", va="center", fontsize=8.5)
+        if nm != "idle":
+            ax.text(i + 0.5, 1.12, str(b), ha="center", va="bottom", fontsize=10,
+                    fontweight="bold", color="#2266CC")
+        ax.plot([i, i], [-0.3, 1.05], color="gray", linestyle=":", linewidth=0.6)
+    ax.plot([n, n], [-0.3, 1.05], color="gray", linestyle=":", linewidth=0.6)
+    fs = 2
+    fe = names.index("Stop") + 1
+    ax.annotate("", xy=(fs, 1.55), xytext=(fe, 1.55),
+                arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+    ax.text((fs + fe) / 2, 1.62, eff, ha="center", va="bottom", fontsize=9.5)
+    ax.annotate("", xy=(3, -0.95), xytext=(11, -0.95),
+                arrowprops=dict(arrowstyle="<->", color="#2266CC", lw=1.0))
+    ax.text(7, -1.0, "0x41 ('A') = 0100 0001, sent LSB first (D0 … D7)",
+            ha="center", va="top", fontsize=9, color="#2266CC")
+    ax.text(-0.15, 1.0, "1 (mark)", ha="right", va="center", fontsize=8.5)
+    ax.text(-0.15, 0.0, "0 (space)", ha="right", va="center", fontsize=8.5)
+    ax.set_xlim(-1.6, 17.2)
+    ax.set_ylim(-1.45, 2.05)
+    ax.set_title(title, fontsize=11, loc="left")
+fig.suptitle(f"UART Frame at 115200 Baud (1 bit time = {_c5_tb:.2f} μs), "
+             "Example 5.4.1", fontsize=12)
+fig.tight_layout()
+save(fig, "ch05_uart_frame.png")
+
+# --- 5.4.3 I2C write-register-then-read-2-bytes from 0x48 (Example 5.4.3) ---
+def _c5_i2c_slots(fields):
+    """fields: list of (kind, bits, driver, label). Returns per-slot list."""
+    slots = []
+    for kind, bits, drv, lbl in fields:
+        if kind in ("S", "Sr", "P"):
+            slots.append((kind, None, "m", lbl))
+        else:
+            for b in bits:
+                slots.append(("bit", b, drv, lbl))
+    return slots
+
+
+def _c5_byte_bits(v):
+    return [(v >> (7 - i)) & 1 for i in range(8)]   # I2C sends MSB first
+
+
+_c5_wr = [("S", None, "m", "START"),
+          ("d", _c5_byte_bits(0x90), "m", "0x48 + W (0x90)"),
+          ("d", [0], "s", "ACK"),
+          ("d", _c5_byte_bits(0x00), "m", "register 0x00"),
+          ("d", [0], "s", "ACK")]
+_c5_rd = [("Sr", None, "m", "Sr"),
+          ("d", _c5_byte_bits(0x91), "m", "0x48 + R (0x91)"),
+          ("d", [0], "s", "ACK"),
+          ("d", _c5_byte_bits(0x19), "s", "data MSB (0x19)"),
+          ("d", [0], "m", "ACK"),
+          ("d", _c5_byte_bits(0x00), "s", "data LSB (0x00)"),
+          ("d", [1], "m", "NACK"),
+          ("P", None, "m", "STOP")]
+
+
+def _c5_draw_i2c(ax, fields, title, first_sda=1, first_scl=1):
+    slots = _c5_i2c_slots(fields)
+    n = len(slots)
+    ys_scl, ys_sda = 2.2, 0.4
+    scl_x, scl_y, sda_x, sda_y = [0], [first_scl], [0], [first_sda]
+    prev = first_sda
+    for i, (kind, b, drv, lbl) in enumerate(slots):
+        x = float(i)
+        if kind == "S":          # SDA falls while SCL is high
+            scl_x += [x + 0.85, x + 0.9, x + 1.0]; scl_y += [1, 0, 0]
+            sda_x += [x + 0.4, x + 0.45, x + 1.0]; sda_y += [1, 0, 0]
+            prev = 0
+        elif kind == "Sr":       # SDA released high during SCL low, then START
+            scl_x += [x + 0.25, x + 0.3, x + 0.85, x + 0.9, x + 1.0]
+            scl_y += [0, 1, 1, 0, 0]
+            sda_x += [x + 0.1, x + 0.15, x + 0.55, x + 0.6, x + 1.0]
+            sda_y += [prev, 1, 1, 0, 0]
+            prev = 0
+        elif kind == "P":        # SDA low, SCL rises, then SDA rises while SCL high
+            scl_x += [x + 0.25, x + 0.3, x + 1.0]; scl_y += [0, 1, 1]
+            sda_x += [x + 0.1, x + 0.15, x + 0.55, x + 0.6, x + 1.0]
+            sda_y += [prev, 0, 0, 1, 1]
+            prev = 1
+        else:                    # data bit: SDA changes while SCL low, sampled while high
+            scl_x += [x + 0.45, x + 0.5, x + 0.9, x + 0.95, x + 1.0]
+            scl_y += [0, 1, 1, 0, 0]
+            sda_x += [x + 0.1, x + 0.15, x + 1.0]
+            sda_y += [prev, b, b]
+            prev = b
+            col = "#2266CC" if drv == "m" else "#AA2222"
+            ax.add_patch(_c1p.Rectangle((x + 0.1, ys_sda - 0.15), 0.85, 1.3,
+                                        facecolor="#DDEEFF" if drv == "m" else "#FBE0E0",
+                                        edgecolor="none", alpha=0.6, zorder=0))
+            ax.text(x + 0.55, ys_sda + 1.22, str(b), ha="center", va="bottom",
+                    fontsize=8, color=col, fontweight="bold")
+    ax.plot(scl_x, [ys_scl + v for v in scl_y], color="black", linewidth=1.8)
+    ax.plot(sda_x, [ys_sda + v for v in sda_y], color="#228822", linewidth=1.8)
+    ax.text(-0.3, ys_scl + 0.5, "SCL", ha="right", va="center", fontsize=10,
+            fontweight="bold")
+    ax.text(-0.3, ys_sda + 0.5, "SDA", ha="right", va="center", fontsize=10,
+            fontweight="bold", color="#228822")
+    # field brackets
+    i = 0
+    for kind, bits, drv, lbl in fields:
+        w = 1 if bits is None else len(bits)
+        col = "#2266CC" if drv == "m" else "#AA2222"
+        ax.plot([i + 0.05, i + w - 0.05], [-0.15, -0.15], color=col, linewidth=2.5)
+        rot = 90 if w == 1 else 0
+        ax.text(i + w / 2, -0.3, lbl, ha="center", va="top", fontsize=8.5,
+                rotation=rot, color=col)
+        i += w
+    ax.set_xlim(-1.4, n + 0.3)
+    ax.set_ylim(-1.6, 3.6)
+    ax.set_title(title, fontsize=11, loc="left")
+    return n
+
+
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(14, 7.6),
+                                 gridspec_kw=dict(width_ratios=[1]))
+for ax in (ax_a, ax_b):
+    _c1_blank(ax)
+    ax.set_aspect("auto")
+_n_wr = _c5_draw_i2c(ax_a, _c5_wr, "(a) Write the register pointer: START + address/W + ACK + "
+                     "register + ACK = 19 bit periods")
+_n_rd = _c5_draw_i2c(ax_b, _c5_rd, "(b) Repeated START and read 2 bytes: Sr + address/R + ACK + "
+                     "2 × (data + ACK/NACK) + STOP = 29 bit periods", first_sda=0,
+                     first_scl=0)
+ax_a.set_xlim(-1.4, _n_rd + 0.3)
+ax_a.legend(handles=[Patch(facecolor="#DDEEFF", edgecolor="#2266CC",
+                           label="driven by master (MCU)"),
+                     Patch(facecolor="#FBE0E0", edgecolor="#AA2222",
+                           label="driven by slave (sensor at 0x48)")],
+            loc="center right", fontsize=9, frameon=True)
+ax_b.text(_n_rd / 2, -1.45, f"Total = {_n_wr} + {_n_rd} = {_n_wr + _n_rd} bit periods; "
+          f"at 400 kHz (2.5 μs each) = {(_n_wr + _n_rd) * 2.5:.0f} μs.  "
+          "Bytes are sent MSB first; data bytes 0x19 0x00 are example values.",
+          ha="center", va="center", fontsize=9.5)
+fig.suptitle("I2C Register Read of a 2-Byte Value from Address 0x48 (Fast Mode, 400 kHz), "
+             "Example 5.4.3", fontsize=12)
+fig.tight_layout()
+save(fig, "ch05_i2c_read.png")
+assert (_n_wr, _n_rd) == (19, 29)
+
+# --- 5.4.4 CAN 2.0A data frame fields and CANH/CANL levels (Example 5.4.4) ---
+_c5_fields = [("SOF", 1, "#FFF0DD", "#E68A00"), ("Identifier", 11, "#DDEEFF", "#2266CC"),
+              ("RTR", 1, "#DDEEFF", "#2266CC"), ("IDE", 1, "#F5E6F5", "#992299"),
+              ("r0", 1, "#F5E6F5", "#992299"), ("DLC", 4, "#F5E6F5", "#992299"),
+              ("Data field (8 bytes)", 64, "#E8F5E8", "#33AA33"),
+              ("CRC", 15, "#FFFBE6", "#996600"), ("CRC del", 1, "#F2F2F2", "#777777"),
+              ("ACK", 1, "#F2F2F2", "#777777"), ("ACK del", 1, "#F2F2F2", "#777777"),
+              ("EOF", 7, "#F2F2F2", "#777777"), ("IFS", 3, "#F2F2F2", "#777777")]
+assert sum(w for _, w, _, _ in _c5_fields) == 111
+fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(14, 8.2),
+                                 gridspec_kw=dict(height_ratios=[1.0, 1.25]))
+_c1_blank(ax_a)
+ax_a.set_aspect("auto")
+_c5_lblpos = {"SOF": (0.5, 1.3), "RTR": (10.0, 1.3), "IDE": (14.0, 1.75),
+              "r0": (17.5, 1.3), "DLC": (21.5, 1.75), "CRC del": (92.5, 1.3),
+              "ACK": (97.5, 1.75), "ACK del": (102.0, 1.3), "EOF": (106.5, 1.75),
+              "IFS": (110.5, 1.3)}
+_x = 0
+for _i, (nm, w, fc, ec) in enumerate(_c5_fields):
+    ax_a.add_patch(_c1p.Rectangle((_x, 0), w, 1, facecolor=fc, edgecolor=ec,
+                                  linewidth=1.2))
+    if w >= 11:
+        ax_a.text(_x + w / 2, 0.5, f"{nm}\n{w} bits", ha="center", va="center",
+                  fontsize=9.5)
+    else:
+        _lx, _yl = _c5_lblpos[nm]
+        ax_a.plot([_x + w / 2, _lx], [1.0, _yl - 0.03], color=ec, linewidth=0.8)
+        ax_a.text(_lx, _yl, f"{nm} {w}", ha="center", va="bottom",
+                  fontsize=8.5, color="black")
+    _x += w
+ax_a.annotate("", xy=(0, -0.35), xytext=(98, -0.35),
+              arrowprops=dict(arrowstyle="<->", color="#AA2222", lw=1.2))
+ax_a.text(49, -0.45, "bit-stuffed region: SOF through CRC = 1 + 11 + 1 + 6 + 64 + 15 = "
+          "98 bits;  worst case ⌊(34 + 8·8 − 1)/4⌋ = 24 stuff bits",
+          ha="center", va="top", fontsize=9.5, color="#AA2222")
+ax_a.annotate("", xy=(98, -0.35), xytext=(111, -0.35),
+              arrowprops=dict(arrowstyle="<->", color="#777777", lw=1.0))
+ax_a.text(104.5, -0.45, "fixed form,\nnot stuffed", ha="center", va="top",
+          fontsize=8.5, color="#777777")
+ax_a.text(55.5, -1.25, "111 bits unstuffed + 24 = 135 bits worst case  →  "
+          "500,000 / 135 = 3,704 frames/s × 64 data bits ≈ 237 kbps (47% of the bit rate)",
+          ha="center", va="top", fontsize=10, fontweight="bold")
+ax_a.text(14.0, 2.3, "control field (6 bits) = IDE + r0 + DLC", ha="left",
+          va="bottom", fontsize=8.5, color="#992299")
+ax_a.set_xlim(-1, 112)
+ax_a.set_ylim(-1.9, 2.75)
+ax_a.set_title("(a) CAN 2.0A (11-bit ID) data frame with 8 data bytes, field widths in bits",
+               fontsize=11, loc="left")
+
+# (b) bus levels for the start of a frame with ID 0x05A: SOF + four 0 ID bits = five
+# dominant bits, so the transmitter inserts a recessive stuff bit.
+_c5_id = [(0x05A >> (10 - i)) & 1 for i in range(11)]       # MSB first
+_c5_seq = [(1, "idle"), (1, "idle"), (0, "SOF")]
+_c5_run, _c5_last = 1, 0
+for _k, _b in enumerate(_c5_id):
+    _c5_seq.append((_b, f"ID{10 - _k}"))
+    _c5_run = _c5_run + 1 if _b == _c5_last else 1
+    _c5_last = _b
+    if _c5_run == 5:
+        _c5_seq.append((1 - _b, "stuff"))
+        _c5_last, _c5_run = 1 - _b, 1
+_c5_seq.append((0, "RTR"))
+_c5_lv = [b for b, _ in _c5_seq]
+_c5_canh = [2.5 if b else 3.5 for b in _c5_lv]
+_c5_canl = [2.5 if b else 1.5 for b in _c5_lv]
+_c5_x = np.arange(len(_c5_lv) + 1) * 2.0                       # 2 μs per bit at 500 kbps
+ax_b.step(_c5_x, _c5_canh + [_c5_canh[-1]], where="post", color="#AA2222",
+          linewidth=2, label="CANH")
+ax_b.step(_c5_x, _c5_canl + [_c5_canl[-1]], where="post", color="#2266CC",
+          linewidth=2, label="CANL")
+for _k, (_b, _nm) in enumerate(_c5_seq):
+    _xc = _c5_x[_k] + 1.0
+    ax_b.text(_xc, 4.05, "rec" if _b else "dom", ha="center", va="bottom",
+              fontsize=7.5, color="#555555")
+    _col = "#AA2222" if _nm == "stuff" else "black"
+    ax_b.text(_xc, 0.95, _nm, ha="center", va="top", fontsize=8, color=_col,
+              rotation=90, fontweight="bold" if _nm == "stuff" else "normal")
+    if _nm == "stuff":
+        ax_b.axvspan(_c5_x[_k], _c5_x[_k + 1], color="#FBE0E0", alpha=0.8, zorder=0)
+    ax_b.axvline(_c5_x[_k], color="gray", linestyle=":", linewidth=0.6)
+ax_b.text(_c5_x[-1] + 0.6, 3.5, "dominant (0):\nCANH 3.5 V, CANL 1.5 V\nV$_{diff}$ = 2 V",
+          ha="left", va="center", fontsize=9)
+ax_b.text(_c5_x[-1] + 0.6, 2.5, "recessive (1):\nCANH = CANL = 2.5 V\nV$_{diff}$ = 0 V",
+          ha="left", va="center", fontsize=9)
+ax_b.set_xlim(0, _c5_x[-1] + 9)
+ax_b.set_ylim(-0.05, 4.5)
+ax_b.set_yticks([1.5, 2.5, 3.5])
+ax_b.set_ylabel("Bus voltage (V)")
+ax_b.set_xlabel("Time (μs), 2 μs per bit at 500 kbps")
+ax_b.legend(loc="lower right", fontsize=9)
+ax_b.spines["top"].set_visible(False)
+ax_b.spines["right"].set_visible(False)
+ax_b.set_title("(b) CANH/CANL at the start of a frame with ID 0x05A: SOF plus four 0 bits "
+               "make five dominant bits, so a recessive stuff bit follows",
+               fontsize=11, loc="left")
+fig.suptitle("CAN Standard Frame and Differential Bus Levels, Example 5.4.4", fontsize=12)
+fig.tight_layout()
+save(fig, "ch05_can_frame.png")
+
+# --- 5.5 NVIC preemption and tail-chaining timeline (Problem 5.5.1 scenario) ---
+_c5_lvls = {"Thread (main)": 0, "SPI (pri 3)": 1, "ADC (pri 2)": 2,
+            "UART (pri 1)": 3, "Timer (pri 0)": 4}
+_c5_cols = {0: "#999999", 1: "#996600", 2: "#33AA33", 3: "#2266CC", 4: "#AA2222"}
+# (level, start, length, kind, label); kind: run / ovh
+_c5_seg = []
+_t = 0
+for lvl, n, kind, lbl in [(4, 12, "ovh", "stack\n12"), (4, 50, "run", "Timer ISR 50"),
+                          (3, 6, "ovh", "tail\n6"), (3, 80, "run", "UART ISR 80"),
+                          (2, 6, "ovh", "tail\n6"), (2, 120, "run", "ADC ISR 120"),
+                          (1, 12, "ovh", "unstack\n12"), (1, 40, "run", "SPI rest 40"),
+                          (0, 12, "ovh", "unstack\n12")]:
+    _c5_seg.append((lvl, _t, n, kind, lbl))
+    _t += n
+assert _t == 338
+fig, ax = plt.subplots(figsize=(13, 5.6))
+ax.barh(0, 28, left=-40, height=0.55, color="#DDDDDD", edgecolor="#999999")
+ax.text(-26, 0, "main", ha="center", va="center", fontsize=8.5)
+ax.barh(1, 12, left=-12, height=0.55, color="#FFF0DD", edgecolor="#996600")
+ax.text(-6, 1.4, "SPI ISR entered;\npreempted at its\nfirst instruction\n(worst case)", ha="center",
+        va="bottom", fontsize=8)
+for lvl, s, n, kind, lbl in _c5_seg:
+    c = _c5_cols[lvl]
+    if kind == "run":
+        ax.barh(lvl, n, left=s, height=0.55, color=c, alpha=0.85, edgecolor="black",
+                linewidth=0.8)
+        ax.text(s + n / 2, lvl, lbl, ha="center", va="center", fontsize=9,
+                color="white", fontweight="bold")
+    else:
+        ax.barh(lvl, n, left=s, height=0.55, color="white", edgecolor=c,
+                hatch="////", linewidth=1.0)
+        ax.text(s + n / 2, lvl + 0.36, lbl, ha="center", va="bottom", fontsize=7.5,
+                color=c)
+ax.barh(0, 30, left=338, height=0.55, color="#DDDDDD", edgecolor="#999999")
+ax.text(353, 0, "main", ha="center", va="center", fontsize=8.5)
+ax.axvline(0, color="black", linestyle="--", linewidth=1.0)
+ax.text(2, 4.95, "Timer, UART and ADC requests arrive together", ha="left",
+        va="bottom", fontsize=8.5)
+ax.axvline(338, color="black", linestyle="--", linewidth=1.0)
+ax.text(336, 4.6, "all done: 338 cycles\n= 4.69 μs at 72 MHz", ha="right",
+        va="bottom", fontsize=8.5)
+ax.set_yticks(list(_c5_lvls.values()))
+ax.set_yticklabels(list(_c5_lvls.keys()))
+ax.set_ylim(-0.6, 5.5)
+ax.set_xlim(-45, 375)
+ax.set_xlabel("CPU cycles from the simultaneous interrupt requests")
+ax.set_ylabel("Execution priority (higher = more urgent)")
+ax.grid(True, alpha=0.25, axis="x")
+ax.legend(handles=[Patch(facecolor="white", edgecolor="black", hatch="////",
+                         label="hardware stacking / tail-chain / unstacking"),
+                   Patch(facecolor="#777777", label="ISR code")],
+          loc="upper center", fontsize=8.5, ncol=2, bbox_to_anchor=(0.5, -0.17))
+ax.set_title("Cortex-M NVIC Preemption and Tail-Chaining: SPI ISR (lowest) Preempted by "
+             "Timer → UART → ADC", fontsize=11)
+fig.tight_layout()
+save(fig, "ch05_nvic_preemption.png")
+
+
+# --- 5.6 RTOS fixed-priority schedule (Example 5.6) and priority inversion ---
+def _c5_schedule(tasks, t_end, dt):
+    """Preemptive fixed-priority schedule; tasks = [(name, prio, period, wcet)]."""
+    rem = {n: 0.0 for n, *_ in tasks}
+    out = []
+    n_steps = int(round(t_end / dt))
+    for k in range(n_steps):
+        t = k * dt
+        for n, p, T, C in tasks:
+            if abs((t / T) - round(t / T)) < 1e-9:
+                rem[n] += C
+        ready = [(p, n) for n, p, T, C in tasks if rem[n] > 1e-9]
+        if ready:
+            p, n = max(ready)
+            rem[n] -= dt
+            out.append((t, n))
+        else:
+            out.append((t, "Idle"))
+    return out
+
+
+_c5_tasks = [("Control loop", 3, 1.0, 0.2), ("Sensor read", 2, 10.0, 0.5),
+             ("Display update", 1, 100.0, 5.0)]
+_c5_sched = _c5_schedule(_c5_tasks, 20.0, 0.01)
+_c5_rows = {"Control loop": 3, "Sensor read": 2, "Display update": 1, "Idle": 0}
+_c5_tcol = {"Control loop": "#AA2222", "Sensor read": "#2266CC",
+            "Display update": "#33AA33", "Idle": "#CCCCCC"}
+fig = plt.figure(figsize=(13, 9.4))
+_gs = fig.add_gridspec(3, 1, height_ratios=[1.6, 1, 1], hspace=0.7, top=0.91)
+ax_a = fig.add_subplot(_gs[0])
+_runs = []
+for t, n in _c5_sched:
+    if _runs and _runs[-1][0] == n and abs(_runs[-1][1] + _runs[-1][2] - t) < 1e-6:
+        _runs[-1][2] += 0.01
+    else:
+        _runs.append([n, t, 0.01])
+for n, s, w in _runs:
+    ax_a.barh(_c5_rows[n], w, left=s, height=0.6, color=_c5_tcol[n],
+              edgecolor="black" if n != "Idle" else "none", linewidth=0.5)
+_c5_done = max(s + w for n, s, w in _runs if n == "Display update")
+for _k in range(21):
+    ax_a.plot([_k, _k], [3.35, 3.55], color="#AA2222", linewidth=1)
+for _k in (0, 10, 20):
+    ax_a.annotate("", xy=(_k, 2.33), xytext=(_k, 2.65),
+                  arrowprops=dict(arrowstyle="->", color="#2266CC", lw=1.2))
+ax_a.annotate(f"display finishes at {_c5_done:.1f} ms after being preempted every 1 ms",
+              xy=(_c5_done, 1.0), xytext=(_c5_done + 0.8, 1.0), fontsize=8.5, va="center",
+              color="#33AA33", arrowprops=dict(arrowstyle="->", color="#33AA33"))
+ax_a.set_yticks(list(_c5_rows.values()))
+ax_a.set_yticklabels([f"{k} (pri {v})" if k != "Idle" else "Idle task"
+                      for k, v in _c5_rows.items()], fontsize=9)
+ax_a.set_xlim(0, 20)
+ax_a.set_ylim(-0.6, 3.9)
+ax_a.set_xticks(range(0, 21, 1))
+ax_a.set_xlabel("Time (ms)")
+ax_a.grid(True, alpha=0.25, axis="x")
+ax_a.set_title("(a) Example 5.6, first 20 ms with all tasks released at t = 0: control 200 μs every 1 ms, "
+               "sensor 500 μs every 10 ms,\ndisplay 5 ms every 100 ms;  U = 20% + 5% + 5% = 30%",
+               fontsize=10, loc="left")
+
+
+def _c5_inv_panel(ax, segs, title, note):
+    rows = {"Task A (pri 3)": 2, "Task B (pri 2)": 1, "Task C (pri 1)": 0}
+    cols = {"Task A (pri 3)": "#AA2222", "Task B (pri 2)": "#2266CC",
+            "Task C (pri 1)": "#996600"}
+    for task, s, w, txt, hatch in segs:
+        ax.barh(rows[task], w, left=s, height=0.6, color=cols[task] if not hatch else "white",
+                edgecolor=cols[task], hatch=hatch, linewidth=1.0, alpha=0.9)
+        if txt:
+            ax.text(s + w / 2, rows[task], txt, ha="center", va="center", fontsize=8.5,
+                    color="white" if not hatch else cols[task], fontweight="bold",
+                    bbox=None if not hatch else dict(facecolor="white", edgecolor="none",
+                                                     pad=1.5))
+    ax.set_yticks(list(rows.values()))
+    ax.set_yticklabels(list(rows.keys()), fontsize=9)
+    ax.set_xlim(-0.5, 15.5)
+    ax.set_ylim(-0.6, 2.7)
+    ax.grid(True, alpha=0.25, axis="x")
+    ax.set_xlabel("Time (ms)")
+    ax.set_title(title, fontsize=10, loc="left")
+    ax.text(15.3, 2.45, note, ha="right", va="center", fontsize=9, fontweight="bold")
+
+
+ax_b = fig.add_subplot(_gs[1])
+_c5_inv_panel(ax_b, [("Task C (pri 1)", -0.5, 0.5, "", None),
+                     ("Task A (pri 3)", 0.0, 12.0, "blocked on mutex held by C", "///"),
+                     ("Task B (pri 2)", 0.0, 10.0, "B runs 10 ms (does not use the mutex)", None),
+                     ("Task C (pri 1)", 10.0, 2.0, "CS 2 ms", None),
+                     ("Task A (pri 3)", 12.0, 1.0, "A", None)],
+              "(b) Priority inversion (Problem 5.6.2): C holds the mutex, A blocks, "
+              "B preempts C", "A waits 10 + 2 = 12 ms")
+ax_b.text(-0.25, 0.42, "C locks", ha="center", va="bottom", fontsize=7.5)
+ax_c = fig.add_subplot(_gs[2])
+_c5_inv_panel(ax_c, [("Task C (pri 1)", -0.5, 0.5, "", None),
+                     ("Task A (pri 3)", 0.0, 2.0, "blocked", "///"),
+                     ("Task C (pri 1)", 0.0, 2.0, "CS at pri 3", None),
+                     ("Task A (pri 3)", 2.0, 1.0, "A", None),
+                     ("Task B (pri 2)", 3.0, 10.0, "B runs 10 ms", None)],
+              "(c) Priority inheritance: C runs its critical section at A's priority, "
+              "so B cannot preempt it", "A waits only 2 ms")
+ax_c.text(-0.25, 0.42, "C locks", ha="center", va="bottom", fontsize=7.5)
+fig.suptitle("RTOS Fixed-Priority Preemptive Scheduling and Priority Inversion",
+             fontsize=12, y=0.975)
+save(fig, "ch05_rtos_gantt.png")
+
+# --- 5.8.2 Bootloader flash memory map (Example 5.8.2) ---
+_c5_map = [(0x0800_0000, 32, "Bootloader", "#FFF0DD", "#E68A00"),
+           (0x0800_8000, 240, "Slot A (application image)", "#DDEEFF", "#2266CC"),
+           (0x0804_4000, 240, "Slot B (update image)", "#E8F5E8", "#33AA33")]
+assert 0x0800_0000 + 32 * 1024 == 0x0800_8000
+assert 0x0800_8000 + 240 * 1024 == 0x0804_4000
+assert 0x0804_4000 + 240 * 1024 == 0x0808_0000
+fig, ax = plt.subplots(figsize=(11, 8.4))
+_c1_blank(ax)
+ax.set_aspect("auto")
+_y = 0
+for addr, kb, name, fc, ec in _c5_map:
+    ax.add_patch(_c1p.Rectangle((0, _y), 3.2, kb, facecolor=fc, edgecolor=ec,
+                                linewidth=1.6))
+    end = addr + kb * 1024 - 1
+    _rng = f"0x{addr >> 16:04X}_{addr & 0xFFFF:04X} – 0x{end >> 16:04X}_{end & 0xFFFF:04X}"
+    ax.text(1.6, _y + kb / 2, f"{name}, {kb} KB\n{_rng}" if kb < 100 else f"{name}\n{kb} KB\n{_rng}",
+            ha="center", va="center", fontsize=10.5 if kb > 100 else 9)
+    ax.text(-0.15, _y, f"0x{addr >> 16:04X}_{addr & 0xFFFF:04X}", ha="right",
+            va="center", fontsize=10, family="monospace")
+    ax.plot([-0.1, 0], [_y, _y], color="black", linewidth=1)
+    if kb > 100:
+        ax.add_patch(_c1p.Rectangle((0, _y), 3.2, 9, facecolor="white",
+                                    edgecolor=ec, linewidth=1.0, alpha=0.9))
+        ax.text(1.6, _y + 4.5, "vector table (initial SP, reset vector)", ha="center",
+                va="center", fontsize=8.5, color=ec)
+    _y += kb
+ax.text(-0.15, _y, "0x0808_0000", ha="right", va="center", fontsize=10,
+        family="monospace")
+ax.plot([-0.1, 0], [_y, _y], color="black", linewidth=1)
+ax.text(-0.15, _y + 12, "(end of 512 KB flash)", ha="right", va="center", fontsize=8.5,
+        color="#555555")
+ax.annotate("", xy=(3.55, 0), xytext=(3.55, 512),
+            arrowprops=dict(arrowstyle="<->", color="black", lw=1.1))
+ax.text(3.7, 256, "32 + 240 + 240 = 512 KB", ha="left", va="center", fontsize=10,
+        rotation=90)
+_c5_notes = [
+    (16, "① Reset: the core fetches SP and PC from 0x0800_0000\n"
+         "    (aliased at 0x0000_0000 when booting from main flash)"),
+    (60, "② Bootloader checks the slot headers and CRCs,\n"
+         "    sets VTOR to the chosen slot and jumps to it"),
+    (150, "③ The application runs from Slot A (max 240 KB);\n"
+          "    Example 5.8.2: a 200 KB image fits"),
+    (390, "④ An update is received into the inactive slot\n"
+          "    (200 KB at 11,520 B/s = 17.78 s), erased (2 s),\n"
+          "    programmed (4 s) and verified before switching,\n"
+          "    so a failed update never bricks the device"),
+]
+for yv, txt in _c5_notes:
+    ax.text(4.5, yv, txt, ha="left", va="center", fontsize=9.5)
+ax.set_xlim(-2.6, 10.2)
+ax.set_ylim(530, -20)
+ax.set_title("Bootloader with A/B Firmware Slots in 512 KB of Flash, Example 5.8.2\n"
+             "(heights to scale; addresses increase downward)", fontsize=12)
+fig.tight_layout()
+save(fig, "ch05_bootloader_map.png")
 
 
 # ============================================================

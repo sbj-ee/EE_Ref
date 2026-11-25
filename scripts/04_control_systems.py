@@ -31,7 +31,7 @@ def _(mo):
 def _(mo):
     mo.md(
         """
-        ## 4.5 Bode Plot — Second-Order System Frequency Response
+        ## Figure 4.8: Bode Plot — Second-Order System Frequency Response
 
         Bode magnitude and phase plots for H(s) = ωn² / (s² + 2ζωns + ωn²)
         with ωn = 10 rad/s. Underdamped systems (ζ < 0.707) exhibit a resonance
@@ -106,7 +106,7 @@ def _(np, plt):
 def _(mo):
     mo.md(
         """
-        ## 4.6 Step Response — Second-Order System
+        ## Figure 4.5: Step Response — Second-Order System
 
         Unit step response of H(s) = ωn² / (s² + 2ζωns + ωn²) with ωn = 10 rad/s
         for damping ratios from underdamped (ζ = 0.1) to overdamped (ζ = 2.0).
@@ -195,7 +195,7 @@ def _(np, plt):
 def _(mo):
     mo.md(
         """
-        ## 4.7 Root Locus — G(s) = K / [s(s+2)(s+5)]
+        ## Figure 4.7.2: Root Locus — G(s) = K / [s(s+2)(s+5)] (Example 4.7.1 plant)
 
         The root locus traces the closed-loop poles as gain K varies from 0 to 200.
         The characteristic equation is s³ + 7s² + 10s + K = 0. Three branches

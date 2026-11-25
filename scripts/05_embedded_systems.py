@@ -169,23 +169,28 @@ def _(np, plt):
 
     fig_pwr, (_ax_cur, _ax_life) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
-    _ax_cur.semilogy(_T_wake_s, _I_avg_mA, "b-", linewidth=2)
-    _ax_cur.axhline(y=_I_sleep_uA / 1000, color="green", linestyle="--", alpha=0.6,
-                    label=f"Sleep floor: {_I_sleep_uA} μA")
+    # Current axis in μA with plain tick labels, matching the μA annotations
+    _ax_cur.semilogy(_T_wake_s, _I_avg_mA * 1000, "b-", linewidth=2)
+    _ax_cur.axhline(y=_I_sleep_uA, color="green", linestyle="--", alpha=0.6,
+                    label=f"Sleep floor: {_I_sleep_uA:.0f} μA")
 
     for _Tex, _ccol, _clbl in [(60, "red", "60 s"), (5, "orange", "5 s")]:
         _tsl = _Tex * 1000 - _t_active_ms
         _Iex = (_I_active_mA * _t_active_ms
                 + (_I_sleep_uA / 1000) * _tsl) / (_Tex * 1000)
-        _ax_cur.plot(_Tex, _Iex, "o", color=_ccol, markersize=9, zorder=5)
+        _ax_cur.plot(_Tex, _Iex * 1000, "o", color=_ccol, markersize=9, zorder=5)
         _ax_cur.annotate(
-            f"T = {_Tex} s\nI_avg = {_Iex*1000:.0f} μA",
-            xy=(_Tex, _Iex), xytext=(_Tex + 30, _Iex * 3),
+            f"T = {_Tex} s\nI_avg = {_Iex*1000:.1f} μA",
+            xy=(_Tex, _Iex * 1000), xytext=(_Tex + 30, _Iex * 1000 * 2.2),
             fontsize=9, color=_ccol,
             arrowprops=dict(arrowstyle="->", color=_ccol),
         )
 
-    _ax_cur.set_ylabel("Average Current (mA)", fontsize=10)
+    _ax_cur.set_ylabel("Average Current (μA)", fontsize=10)
+    _ax_cur.set_ylim(15, 1000)
+    _ax_cur.set_yticks([20, 50, 100, 200, 500, 1000])
+    _ax_cur.set_yticklabels(["20", "50", "100", "200", "500", "1000"])
+    _ax_cur.minorticks_off()
     _ax_cur.set_title(
         "Battery-Powered Sensor: Average Current vs Wake Interval\n"
         f"(I_active = {_I_active_mA} mA for {_t_active_ms} ms, "
@@ -205,7 +210,7 @@ def _(np, plt):
         _ax_life.plot(_Tex, _lex, "o", color=_ccol, markersize=9, zorder=5)
         _ax_life.annotate(
             f"T = {_Tex} s\n{_lex:.2f} yr",
-            xy=(_Tex, _lex), xytext=(_Tex + 30, _lex * 1.5),
+            xy=(_Tex, _lex), xytext=(_Tex + 40, _lex * 0.55 + 0.2),
             fontsize=9, color=_ccol,
             arrowprops=dict(arrowstyle="->", color=_ccol),
         )
@@ -216,7 +221,7 @@ def _(np, plt):
     _ax_life.legend(fontsize=9)
     _ax_life.grid(True, alpha=0.3)
     _ax_life.set_xlim(0, 600)
-    _ax_life.set_ylim(0)
+    _ax_life.set_ylim(0, 6.5)
 
     fig_pwr.tight_layout()
     fig_pwr
@@ -272,7 +277,7 @@ def _(np, plt):
     _I_ex    = _f_compute * _I_high + _comm_ex * _I_mid + _idle_ex * _I_stop
     _axc.plot(_idle_ex * 100, _I_ex, "bo", markersize=10, zorder=5)
     _axc.annotate(
-        f"Example §5.7.2\n70% idle → {_I_ex:.2f} mA\n"
+        f"Example 5.7.2\n70% idle → {_I_ex:.2f} mA\n"
         f"(vs {_I_high:.0f} mA unoptimized)",
         xy=(_idle_ex * 100, _I_ex),
         xytext=(_idle_ex * 100 - 35, _I_ex + 6),
@@ -282,9 +287,9 @@ def _(np, plt):
     _axc.set_ylabel("Average Current (mA)", fontsize=10)
     _axc.set_title(
         "IoT Device Average Current: Optimized vs Unoptimized\n"
-        "(I_compute = 30 mA @ 168 MHz, I_comm = 8 mA @ 48 MHz, "
-        "I_idle = 20 μA Stop mode)",
-        fontsize=11,
+        "(compute fixed at 10% @ 168 MHz, 30 mA; communication = 90% − idle "
+        "@ 48 MHz, 8 mA; idle in Stop mode, 20 μA)",
+        fontsize=10,
     )
     _axc.legend(fontsize=9)
     _axc.grid(True, alpha=0.3)
