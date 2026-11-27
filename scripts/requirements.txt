@@ -1,3 +1,5 @@
 marimo
 numpy
 matplotlib
+schemdraw
+pillow

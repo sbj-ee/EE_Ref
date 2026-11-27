@@ -5617,8 +5617,8 @@ ax.set_xticklabels(col_labels, fontsize=10, fontweight="bold")
 ax.xaxis.set_ticks_position("top")
 ax.xaxis.set_label_position("top")
 
-ax.set_yticks(range(n_values))
-ax.set_yticklabels([f"  {i}" for i in range(n_values)], fontsize=9)
+# No y tick labels: the Decimal column already numbers the rows.
+ax.set_yticks([])
 
 for i in range(n_values + 1):
     ax.axhline(i - 0.5, color="gray", linewidth=0.5, alpha=0.5)
@@ -5705,7 +5705,7 @@ for idx, (label, t_sig, sig, color) in enumerate(signals):
     ax = axes[idx]
     if label == "CLK":
         ax.plot(t_sig, np.array(sig), color=color, linewidth=2)
-        ax.set_ylim(-0.2, 1.4)
+        ax.set_ylim(-0.2, 1.75)
     else:
         ax.step(t_sig, sig, where="post", color=color, linewidth=2)
         ax.set_ylim(-0.2, 1.4)
@@ -5717,18 +5717,19 @@ for idx, (label, t_sig, sig, color) in enumerate(signals):
     ax.fill_between(t_sig if label == "CLK" else t_cnt,
                      sig, 0, alpha=0.15, color=color, step=None if label == "CLK" else "post")
 
-ax_bottom = axes[3]
+# Count state (Q2 Q1 Q0) for each clock cycle, on the CLK row above the
+# waveform so it stays readable at print size.
 for i in range(n_cycles):
     val = i % 8
-    ax_bottom.text(i + 0.5, -0.1, f"{val:03b}", ha="center", va="top",
-                    fontsize=7, color="gray", fontstyle="italic")
+    axes[0].text(i + 0.5, 1.22, f"{val:03b}", ha="center", va="bottom",
+                 fontsize=10, color="black")
 
 axes[3].set_xlabel("Clock Cycle", fontsize=11)
 axes[3].set_xlim(0, n_cycles)
 axes[3].set_xticks(range(n_cycles + 1))
 
-axes[0].set_title("3-Bit Binary Counter Timing Diagram (16 Clock Cycles)",
-                    fontsize=13, fontweight="bold")
+axes[0].set_title("3-Bit Binary Counter Timing Diagram (16 Clock Cycles; "
+                  "count Q2 Q1 Q0 shown above CLK)", fontsize=13, fontweight="bold")
 fig.tight_layout()
 save(fig, "ch06_counter_timing.png")
 

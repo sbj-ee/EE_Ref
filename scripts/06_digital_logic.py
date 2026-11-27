@@ -92,8 +92,8 @@ def _(np, plt):
     ax1.xaxis.set_label_position("top")
 
     # Row labels
-    ax1.set_yticks(range(n_values))
-    ax1.set_yticklabels([f"  {_i}" for _i in range(n_values)], fontsize=9)
+    # No y tick labels: the Decimal column already numbers the rows.
+    ax1.set_yticks([])
 
     # Grid lines between cells
     for _i in range(n_values + 1):
@@ -188,13 +188,13 @@ def _(np, plt):
     return
 
 
-# --- 6.5.5 State Machine Timing ---
+# --- 6.5.3 Synchronous Counters: Counter Timing ---
 
 @app.cell
 def _(mo):
     mo.md(
         """
-        ## 6.5.5 State Machine Timing — 3-Bit Binary Counter
+        ## 6.5.3 Synchronous Counters — 3-Bit Binary Counter Timing (Figure 6.5.3)
 
         Timing diagram for a 3-bit synchronous binary counter cycling through
         states 000 → 001 → 010 → ... → 111 → 000 over 16 clock cycles. The
@@ -242,7 +242,7 @@ def _(np, plt):
         _ax = axes3[_idx]
         if label == "CLK":
             _ax.plot(t_sig, np.array(sig), color=color, linewidth=2)
-            _ax.set_ylim(-0.2, 1.4)
+            _ax.set_ylim(-0.2, 1.75)
         else:
             _ax.step(t_sig, sig, where="post", color=color, linewidth=2)
             _ax.set_ylim(-0.2, 1.4)
@@ -255,19 +255,18 @@ def _(np, plt):
         _ax.fill_between(t_sig if label == "CLK" else t,
                          sig, 0, alpha=0.15, color=color, step=None if label == "CLK" else "post")
 
-    # Add counter value annotations below Q2
-    ax_bottom = axes3[3]
+    # Count state (Q2 Q1 Q0) for each clock cycle, on the CLK row above the
+    # waveform so it stays readable at print size.
     for _i in range(n_cycles):
-        val = _i % 8
-        ax_bottom.text(_i + 0.5, -0.1, f"{val:03b}", ha="center", va="top",
-                        fontsize=7, color="gray", fontstyle="italic")
+        axes3[0].text(_i + 0.5, 1.22, f"{_i % 8:03b}", ha="center", va="bottom",
+                      fontsize=10, color="black")
 
     axes3[3].set_xlabel("Clock Cycle", fontsize=11)
     axes3[3].set_xlim(0, n_cycles)
     axes3[3].set_xticks(range(n_cycles + 1))
 
-    axes3[0].set_title("3-Bit Binary Counter Timing Diagram (16 Clock Cycles)",
-                         fontsize=13, fontweight="bold")
+    axes3[0].set_title("3-Bit Binary Counter Timing Diagram (16 Clock Cycles; "
+                       "count Q2 Q1 Q0 shown above CLK)", fontsize=13, fontweight="bold")
     fig3.tight_layout()
     fig3
     return
